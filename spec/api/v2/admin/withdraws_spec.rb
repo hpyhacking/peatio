@@ -155,7 +155,7 @@ describe API::V2::Admin::Withdraws, type: :request do
           beneficiary_json = API::V2::Entities::Beneficiary
                                .represent(withdraw.beneficiary)
                                .as_json
-                               .stringify_keys
+                               .deep_stringify_keys
 
           api_get "/api/v2/admin/withdraws/#{withdraw.id}", token: token
           expect(response_body['beneficiary']).to_not be_nil

@@ -7,6 +7,10 @@ class Beneficiary < ApplicationRecord
 
   extend Enumerize
 
+  include Vault::EncryptedModel
+
+  vault_lazy_decrypt!
+
   include AASM
   include AASM::Locking
 
@@ -21,6 +25,8 @@ class Beneficiary < ApplicationRecord
   INVALID_ADDRESS_SYMBOLS = /[\<\>\'\,\[\]\}\{\"\)\(\*\&\^\%\$\#\`\~\{\}\@]/.freeze
 
   # == Attributes ===========================================================
+
+  vault_attribute :data, serialize: :json, default: {}
 
   # == Extensions ===========================================================
 
@@ -72,17 +78,17 @@ class Beneficiary < ApplicationRecord
 
   # Validates that data contains address field which is required for coin.
   validate if: ->(b) { b.currency.present? && b.currency.coin? } do
-    errors.add(:data, 'address can\'t be blank') if data.blank? || data['address'].blank?
+    errors.add(:data, 'address can\'t be blank') if data.blank? || data.symbolize_keys[:address].blank?
   end
 
-    # Validates address field which is required for coin.
-    validate if: ->(b) { b.currency.present? && b.currency.coin? } do
-      errors.add(:data, 'invlalid address') if data.present? && data['address'].present? && data['address'].match?(INVALID_ADDRESS_SYMBOLS)
-    end
+  # Validates address field which is required for coin.
+  validate if: ->(b) { b.currency.present? && b.currency.coin? } do
+    errors.add(:data, 'invlalid address') if data.present? && data.symbolize_keys[:address].present? && data.symbolize_keys[:address].match?(INVALID_ADDRESS_SYMBOLS)
+  end
 
   # Validates that data contains full_name field which is required for fiat.
   validate if: ->(b) { b.currency.present? && b.currency.fiat? } do
-    errors.add(:data, 'full_name can\'t be blank') if data.blank? || data['full_name'].blank?
+    errors.add(:data, 'full_name can\'t be blank') if data.blank? || data.symbolize_keys[:full_name].blank?
   end
 
   # == Scopes ===============================================================
@@ -163,12 +169,12 @@ class Beneficiary < ApplicationRecord
 
   def coin_rid
     return unless currency.coin?
-    data['address']
+    data.symbolize_keys[:address]
   end
 
   def fiat_rid
     return unless currency.fiat?
-    "%s-%s-%08d" % [data['full_name'].downcase.split.join('-'), currency_id.downcase, id]
+    "%s-%s-%08d" % [data.symbolize_keys[:full_name].downcase.split.join('-'), currency_id.downcase, id]
   end
 end
 
