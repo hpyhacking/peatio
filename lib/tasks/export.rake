@@ -104,15 +104,17 @@ namespace :export do
     errors_count = 0
     begin
       CSV.open(args.export_path, 'w') do |csv|
-        csv << %w[uid currency_id address secret details]
+        csv << %w[uid wallet_name address secret details]
         PaymentAddress.find_each do |address|
-          csv << [address.account.member.uid, address.currency_id, address.address, address.secret, address.details]
+          wallet = Wallet.find(address.wallet_id)
+          # We save wallet name instead of id because id can change after export/import migration
+          csv << [address.member.uid, wallet.name, address.address, address.secret, address.details]
           count += 1
+        rescue StandardError => e
+          message = { error: e.message, uid: address.member.uid, wallet_name: address.wallet.name }
+          Rails.logger.error message
+          errors_count += 1
         end
-      rescue StandardError => e
-        message = { error: e.message, uid: address.account.member.uid, currency_id: address.currency_id }
-        Rails.logger.error message
-        errors_count += 1
       end
     end
     Kernel.puts "Exported #{count} addresses"

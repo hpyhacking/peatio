@@ -72,7 +72,7 @@ namespace :import do
     Kernel.puts "Errored #{errors_count}"
   end
 
-  desc 'Load addresses from csv file'
+  desc 'Load addresses from csv file. Export file from Peatio version >= 2.6.0'
   task :addresses, [:config_load_path] => [:environment] do |_, args|
     args.with_defaults(:config_load_path => 'exported_addresses.csv')
     csv_table = File.read(Rails.root.join(args[:config_load_path]))
@@ -82,9 +82,30 @@ namespace :import do
       row = row.to_h.compact.symbolize_keys!
       uid = row[:uid]
       member = Member.find_by_uid!(uid)
-      currency = Currency.find(row[:currency_id])
-      account = member.get_account(currency)
-      account.payment_addresses.create(currency: currency, address: row[:address], secret: row[:secret], details: row[:details])
+      wallet = Wallet.find_by(name: row[:wallet_name])
+      PaymentAddress.create(member_id: member.id, wallet_id: wallet.id, address: row[:address], secret: row[:secret], details: row[:details])
+      count += 1
+    rescue StandardError => e
+      message = { error: e.message, uid: row[:uid], currency_id: currency_id[:currency_id] }
+      Rails.logger.error message
+      errors_count += 1
+    end
+    Kernel.puts "Addresses created #{count}"
+    Kernel.puts "Errored #{errors_count}"
+  end
+
+  desc 'Load addresses from csv file. Export file from Peatio version < 2.6.0'
+  task :addresses_legacy, [:config_load_path] => [:environment] do |_, args|
+    args.with_defaults(:config_load_path => 'exported_addresses.csv')
+    csv_table = File.read(Rails.root.join(args[:config_load_path]))
+    count = 0
+    errors_count = 0
+    CSV.parse(csv_table, headers: true).each do |row|
+      row = row.to_h.compact.symbolize_keys!
+      uid = row[:uid]
+      member = Member.find_by_uid!(uid)
+      wallet = Wallet.deposit_wallet(row[:currency_id])
+      PaymentAddress.create(member_id: member.id, wallet_id: wallet.id, address: row[:address], secret: row[:secret], details: row[:details])
       count += 1
     rescue StandardError => e
       message = { error: e.message, uid: row[:uid], currency_id: currency_id[:currency_id] }
