@@ -48,6 +48,8 @@ steps:
     EVENT_API_RABBITMQ_HOST: rabbitmq
     REDIS_URL: redis://redis:6379
     RAILS_ENV: test
+    VAULT_ADDR: ''
+    VAULT_TOKEN: ''
   commands:
   - bin/init_config
   - gem install bundler:2.1.4
@@ -126,6 +128,7 @@ steps:
     RABBITMQ_HOST: rabbitmq
     EVENT_API_RABBITMQ_HOST: rabbitmq
     REDIS_URL: redis://redis:6379
+    VAULT_TOKEN: ''
   commands:
     - gem install bundler:2.1.4
     - bin/gendocs

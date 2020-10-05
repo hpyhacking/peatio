@@ -139,7 +139,7 @@ vault token create -policy=peatio-upstream-proxy -period=240h
 
 Set those variables according to your deployment:
 ```bash
-export VAULT_URL=http://127.0.0.1:8200
+export VAULT_ADDR=http://127.0.0.1:8200
 export VAULT_TOKEN=s.jyH1vmrOmkZ0FZZ0NZtgRenS
 export VAULT_APP_NAME=opendax
 ```
