@@ -53,9 +53,22 @@ class Trade < ApplicationRecord
       end
     end
 
-    def public_from_influx(market, limit = 100)
-      trades_query = 'SELECT id, price, amount, total, taker_type, market, created_at FROM trades WHERE market=%{market} ORDER BY desc LIMIT %{limit}'
-      Peatio::InfluxDB.client(keyshard: market).query trades_query, params: { market: market, limit: limit } do |_name, _tags, points|
+    def public_from_influx(market, limit = 100, options = {})
+      trades_query = ['SELECT id, price, amount, total, taker_type, market, created_at FROM trades WHERE market=%{market}']
+      trades_query << 'AND taker_type=%{type}' if options[:type].present?
+      trades_query << 'AND created_at>=%{start_time}' if options[:start_time].present?
+      trades_query << 'AND created_at<=%{end_time}' if options[:end_time].present?
+      trades_query << 'AND price=%{price_eq}' if options[:price_eq].present?
+      trades_query << 'AND price>=%{price_gt}' if options[:price_gt].present?
+      trades_query << 'AND price=%{price_lt}' if options[:price_lt].present?
+      trades_query << 'ORDER BY desc'
+
+      unless limit.to_i.zero?
+        trades_query << 'LIMIT %{limit}'
+        options.merge!(limit: limit)
+      end
+
+      Peatio::InfluxDB.client(keyshard: market).query trades_query.join(' '), params: options.merge(market: market) do |_name, _tags, points|
         return points.map(&:deep_symbolize_keys!)
       end
     end
