@@ -1,6 +1,6 @@
 GIT
   remote: http://github.com/rubykube/vault-rails
-  revision: b5e6570d1268fe0153b72200bbc58c5254d6c848
+  revision: 167283b25c34ba8a61ce2ad505f68dced3189f43
   specs:
     vault-rails (0.6.0)
       rails (>= 4.1)

@@ -170,7 +170,6 @@ module API
                    as: :currency_ids,
                    desc: -> { API::V2::Admin::Entities::Wallet.documentation[:currencies][:desc] }
           optional :settings, type: JSON,
-                              default: {},
                               desc: -> { 'Wallet settings' } do
             optional :uri,
                      values: { value: ->(v) { URI.parse(v).is_a?(URI::HTTP) || URI.parse(v).is_a?(URI::HTTPS) }, message: 'admin.wallet.invalid_uri_setting' },
