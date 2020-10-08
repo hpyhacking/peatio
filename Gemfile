@@ -33,7 +33,7 @@ gem 'faraday_middleware', '~> 0.13.1'
 gem 'faye', '~> 1.4'
 gem 'eventmachine', '~> 1.2'
 gem 'em-synchrony', '~> 1.0'
-gem 'jwt', '~> 2.1.0'
+gem 'jwt', '~> 2.2.0'
 gem 'email_validator', '~> 1.6.0'
 gem 'validate_url', '~> 1.0.4'
 gem 'god', '~> 0.13.7', require: false

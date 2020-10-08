@@ -28,11 +28,10 @@ services:
     - 6379
 
 steps:
-# Wait Services to be ready for taking connections.
-- name: wait-for-databases
+- name: wait-for-services
   image: jwilder/dockerize
   commands:
-  - dockerize -wait tcp://database:3306 -wait tcp://influxdb:8086 -wait tcp://rabbitmq:5672 -wait tcp://redis:6379 -timeout 3m
+  - dockerize -wait tcp://database:3306 -wait tcp://influxdb:8086 -wait tcp://rabbitmq:5672 -wait tcp://redis:6379 -timeout 1m
 
 - name: init-influxdb
   image: influxdb:1.7.8
