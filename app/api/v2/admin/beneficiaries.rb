@@ -8,8 +8,7 @@ module API
 
         namespace :beneficiaries do
           desc 'Get list of beneficiaries',
-               success: API::V2::Entities::Beneficiary
-
+               success: API::V2::Admin::Entities::Beneficiary
           params do
             use :uid
             use :ordering
@@ -42,16 +41,16 @@ module API
             search = Beneficiary.ransack(ransack_params)
             search.sorts = "#{params[:order_by]} #{params[:ordering]}"
 
-            present paginate(search.result), with: API::V2::Entities::Beneficiary
+            present paginate(search.result), with: API::V2::Admin::Entities::Beneficiary
           end
 
           desc 'Take an action on the beneficiary',
-               success: API::V2::Entities::Beneficiary
+               success: API::V2::Admin::Entities::Beneficiary
 
           params do
             requires :id,
                      type: Integer,
-                     desc: -> { API::V2::Entities::Beneficiary.documentation[:id][:desc] }
+                     desc: -> { API::V2::Admin::Entities::Beneficiary.documentation[:id][:desc] }
             requires :action,
                      type: String,
                      values: { value: -> { ::Beneficiary.aasm.events.map(&:name).map(&:to_s) }, message: 'admin.beneficiary.invalid_action' },
@@ -65,7 +64,7 @@ module API
 
             if beneficiary.public_send("may_#{params[:action]}?")
               beneficiary.public_send("#{params[:action]}!")
-              present beneficiary, with: API::V2::Entities::Beneficiary
+              present beneficiary, with: API::V2::Admin::Entities::Beneficiary
             else
               body errors: ["admin.beneficiary.cannot_#{params[:action]}"]
               status 422

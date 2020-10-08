@@ -165,6 +165,18 @@ class Beneficiary < ApplicationRecord
     update(pin: self.class.generate_pin, sent_at: Time.now)
   end
 
+  def masked_account_number
+    account_number = data.symbolize_keys[:account_number]
+
+    if data.present? && account_number.present?
+      account_number.sub(/(?<=\A.{2})(.*)(?=.{4}\z)/) { |match| '*' * match.length }
+    end
+  end
+
+  def masked_data
+    data.merge(account_number: masked_account_number).compact if data.present?
+  end
+
   private
 
   def coin_rid

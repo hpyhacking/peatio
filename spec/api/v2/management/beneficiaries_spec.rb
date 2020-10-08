@@ -78,6 +78,19 @@ describe API::V2::Management::Beneficiaries, type: :request do
         expect(response.status).to eq 200
         expect(response_body.all? { |b| b['currency'] == 'btc' }).to be_truthy
       end
+
+      context 'fiat currency' do
+        let!(:usd_beneficiary_for_member) { create(:beneficiary, currency: Currency.find('usd'), member: member) }
+
+        it do
+          beneficiary_data.merge!(currency: :usd)
+          request
+          expect(response.status).to eq 200
+          expect(response_body.all? { |b| b['currency'] == 'usd' }).to be_truthy
+          expect(usd_beneficiary_for_member.id).to eq response_body.first['id']
+          expect(usd_beneficiary_for_member.data[:account_number]).to eq response_body.first['data']['account_number']
+        end
+      end
     end
 
     context 'invalid state' do
@@ -310,6 +323,7 @@ describe API::V2::Management::Beneficiaries, type: :request do
               beneficiary_data[:data].except!(:address)
               request
               expect(response.status).to eq 201
+              expect(response_body['data']).to eq beneficiary_data[:data].with_indifferent_access
             end
           end
 
@@ -353,6 +367,7 @@ describe API::V2::Management::Beneficiaries, type: :request do
         expect(response.status).to eq 201
         id = response_body['id']
         expect(Beneficiary.find_by!(id: id).state).to eq 'active'
+        expect(Beneficiary.find_by!(id: id).data).to eq response_body['data']
       end
     end
   end

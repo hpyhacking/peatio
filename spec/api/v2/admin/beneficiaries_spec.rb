@@ -23,6 +23,10 @@ describe API::V2::Admin::Beneficiaries, type: :request do
     create_list(:beneficiary, 5)
   end
 
+  let!(:fiat_beneficiary) {
+    create(:beneficiary, state: :active, currency: Currency.find('usd'))
+  }
+
   describe 'GET /api/v2/admin/beneficiaries' do
     let(:url) { '/api/v2/admin/beneficiaries' }
 
@@ -58,20 +62,29 @@ describe API::V2::Admin::Beneficiaries, type: :request do
         expect(response_body.count).to eq(Beneficiary.where(state: ['pending', 'archived']).count)
       end
 
-      it 'by currency' do
-        api_get url, token: token, params: { currency: ['eth', 'btc'] }
+      context 'by currency' do
+        it 'by crypto currency' do
+          api_get url, token: token, params: { currency: ['eth', 'btc'] }
 
-        expect(response_body.count).to eq(Beneficiary.where(currency_id: ['eth', 'btc']).count)
+          expect(response_body.count).to eq(Beneficiary.where(currency_id: ['eth', 'btc']).count)
+        end
+
+        it 'by fiat currency' do
+          api_get url, token: token, params: { currency: 'usd' }
+
+          expect(response_body.count).to eq(Beneficiary.where(currency_id: 'usd').count)
+          expect(response_body.last['data']).to eq Beneficiary.where(currency_id: 'usd').last.data
+        end
       end
     end
 
     context 'actions' do
       let(:url) { '/api/v2/admin/beneficiaries/actions' }
-      let(:beneficiary) { Beneficiary.find_by(state: :active) }
 
       it 'by archived' do
-        api_post url, token: token, params: { action: 'archive', id: beneficiary.id }
+        api_post url, token: token, params: { action: 'archive', id: fiat_beneficiary.id }
 
+        expect(response_body['data']).to eq fiat_beneficiary.data.with_indifferent_access
         expect(response_body['state']).to eq('archived')
       end
     end

@@ -53,7 +53,9 @@ module API
                   'For crypto it\'s blockchain address.',
             type: JSON
           }
-        )
+        ) do |beneficiary|
+          beneficiary.currency.fiat? ? beneficiary.masked_data : beneficiary.data
+        end
 
         expose(
           :state,

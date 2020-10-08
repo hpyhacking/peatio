@@ -9,7 +9,7 @@ module API
 
           desc 'Get list of user beneficiaries' do
             @settings[:scope] = :read_beneficiaries
-            success API::V2::Entities::Beneficiary
+            success API::V2::Management::Entities::Beneficiary
           end
           params do
             requires :uid,
@@ -35,14 +35,14 @@ module API
               .available_to_member
               .tap { |q| q.where!(currency_id: params[:currency_id]) if params[:currency_id].present? }
               .tap {|q| q.where!(state: params[:state]) if params[:state].present? }
-              .yield_self { |b| present paginate(b), with: API::V2::Entities::Beneficiary }
+              .yield_self { |b| present paginate(b), with: API::V2::Management::Entities::Beneficiary }
 
             status 200
           end
 
           desc 'Create new beneficiary' do
             @settings[:scope] = :write_beneficiaries
-            success API::V2::Entities::Beneficiary
+            success API::V2::Management::Entities::Beneficiary
           end
           params do
             requires :currency,
@@ -99,7 +99,7 @@ module API
             present member
                       .beneficiaries
                       .create!(declared_params.except(:uid)),
-                    with: API::V2::Entities::Beneficiary
+                    with: API::V2::Management::Entities::Beneficiary
           rescue ActiveRecord::RecordInvalid => e
             report_exception(e)
             error!({ errors: ['management.beneficiary.failed_to_create'] }, 422)

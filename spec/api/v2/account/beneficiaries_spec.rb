@@ -129,6 +129,18 @@ describe API::V2::Account::Beneficiaries, 'GET /:id', type: :request do
     end
   end
 
+  context 'fiat beneficiary' do
+    let!(:fiat_beneficiary) { create(:beneficiary, currency: Currency.find('usd'), member: member) }
+    let(:endpoint) { "/api/v2/account/beneficiaries/#{fiat_beneficiary.id}" }
+
+    it do
+      api_get endpoint, token: token
+      expect(response.status).to eq 200
+      expect(response_body['id']).to eq fiat_beneficiary.id
+      expect(response_body['data']['account_number']).to eq fiat_beneficiary.masked_account_number
+    end
+  end
+
   context 'archived beneficiary' do
     let(:endpoint) { "/api/v2/account/beneficiaries/#{archived_beneficiary.id}" }
 
@@ -348,6 +360,7 @@ describe API::V2::Account::Beneficiaries, 'POST', type: :request do
           fiat_beneficiary_data[:data].delete(:address)
           api_post endpoint, params: fiat_beneficiary_data, token: token
           expect(response.status).to eq 201
+          expect(response_body['data']['account_number']).not_to eq fiat_beneficiary_data[:data][:account_number]
         end
       end
 
