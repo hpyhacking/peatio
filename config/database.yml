@@ -26,3 +26,6 @@ archive_db:
   <<: *default
   url: <%= ENV['ARCHIVE_DATABASE_URL'] %>
   database: <%= ENV.fetch('ARCHIVE_DATABASE_NAME', 'peatio_archive_db') %>
+  username: <%= ENV.fetch('ARCHIVE_DATABASE_USER', 'root') %>
+  password: <%= ENV['ARCHIVE_DATABASE_PASS'] %>
+  host: <%= ENV.fetch('ARCHIVE_DATABASE_HOST', '127.0.0.1') %>
