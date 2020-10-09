@@ -129,6 +129,16 @@ module API
             admin_authorize! :update, Adjustment
             adjustment = Adjustment.find(params[:id])
 
+            if adjustment.amount < 0
+              account_number_hash = ::Operations.split_account_number(account_number: adjustment.receiving_account_number)
+              member = Member.find_by(uid: account_number_hash[:member_uid])
+              balance = member.get_account(account_number_hash[:currency_id]).balance
+
+              if adjustment.amount.abs() > balance
+                error!({ errors: ['admin.adjustment.user_insufficient_balance'] }, 422)
+              end
+            end
+
             if adjustment.public_send("may_#{params[:action]}?")
               # TODO: Add behaviour in case of errors on action.
               adjustment.public_send("#{params[:action]}!", validator: current_user)

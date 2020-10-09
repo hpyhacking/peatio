@@ -291,6 +291,24 @@ describe API::V2::Admin::Adjustments, type: :request do
       expect(response).to include_api_error('admin.adjustment.cannot_perform_accept_action')
     end
 
+    it 'does not accept negative adjustment for sum bigger than member\'s balance' do
+      adjustment.update(amount: -10000000.0)
+
+      api_post '/api/v2/admin/adjustments/action', token: token, params: { id: adjustment.id, action: :accept }
+
+      expect(adjustment.reload.state).to eq('pending')
+      expect(response.code).to eq '422'
+      expect(response).to include_api_error('admin.adjustment.user_insufficient_balance')
+    end
+
+    it 'does not update member\'s balance if it is lower than negative adjustment' do
+      adjustment.update(amount: -10000000.0)
+
+      expect {
+        api_post '/api/v2/admin/adjustments/action', token: token, params: { id: adjustment.id, action: :accept }
+      }.not_to change { member.get_account(adjustment.currency).balance }
+    end
+
     context 'already accepted' do
       let!(:adjustment) { create(:adjustment, currency_id: 'btc', receiving_account_number: "btc-202-#{member.uid}").tap { |a| a.accept!(validator: member) } }
 
