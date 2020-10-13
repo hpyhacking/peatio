@@ -45,6 +45,16 @@ path "transit/encrypt/opendax_wallets_*" {
   capabilities = [ "create", "read", "update" ]
 }
 
+# Encrypt beneficiaries data
+path "transit/encrypt/opendax_beneficiaries_*" {
+  capabilities = [ "create", "read", "update" ]
+}
+
+# Decrypt beneficiaries data
+path "transit/decrypt/opendax_beneficiaries_*" {
+  capabilities = [ "create", "read", "update" ]
+}
+
 # Renew tokens
 path "auth/token/renew" {
   capabilities = [ "update" ]
