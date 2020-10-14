@@ -147,6 +147,17 @@ describe Currency do
     end
   end
 
+  context 'serialization' do
+    let!(:currency) { Currency.find(:ring) }
+
+    let(:options) { { "gas_price" => "standard", "erc20_contract_address" => "0x022e292b44b5a146f2e8ee36ff44d3dd863c915c", "gas_limit" => "100000" } }
+
+    it 'should serialize/deserialize options' do
+      currency.update(options: options)
+      expect(Currency.find(:ring).options).to eq options
+    end
+  end
+
   context 'validate max currency' do
     before { ENV['MAX_CURRENCIES'] = '6' }
     after  { ENV['MAX_CURRENCIES'] = nil }

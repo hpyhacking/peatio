@@ -287,7 +287,7 @@ describe Ethereum::Wallet do
           method: :personal_sendTransaction,
           params: [{
             from: deposit_wallet_eth.address.downcase,
-            to: trst.options.fetch(:erc20_contract_address),
+            to: trst.options.fetch('erc20_contract_address'),
             data: '0xa9059cbb0000000000000000000000006d6cabaa7232d7f45b143b445114f7e92350a2aa000000000000000000000000000000000000000000000000000000000010c8e0',
             gas: '0x15f90',
             gasPrice: gas_price_hex

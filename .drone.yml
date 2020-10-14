@@ -1,5 +1,6 @@
+---
 kind: pipeline
-name: default
+name: MySQL
 
 services:
 - name: database
@@ -27,18 +28,17 @@ services:
     - 6379
 
 steps:
-# Wait MySQL to be ready for taking connections.
-- name: wait-for-mysql
+# Wait Services to be ready for taking connections.
+- name: wait-for-databases
   image: jwilder/dockerize
   commands:
-  - dockerize -wait tcp://database:3306 -timeout 1m
+  - dockerize -wait tcp://database:3306 -wait tcp://influxdb:8086 -wait tcp://rabbitmq:5672 -wait tcp://redis:6379 -timeout 3m
 
 - name: init-influxdb
   image: influxdb:1.7.8
   commands:
   - cat db/influxdb.sql | influx -host influxdb
 
-# Initialize application. Install dependencies. Migrate database. Run rspec.
 - name: run-rspec
   image: ruby:2.6.5
   environment:
@@ -243,3 +243,66 @@ trigger:
 
 image_pull_secrets:
   - dockerconfigjson
+  
+---
+kind: pipeline
+name: MariaDB
+
+services:
+- name: mariadb
+  image: mariadb:10.3
+  ports:
+    - 3306
+  environment:
+    MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
+- name: influxdb
+  image: influxdb:1.7.8
+  ports:
+    - 8086
+  environment:
+    INFLUXDB_ADMIN_ENABLED: 'true'
+
+- name: rabbitmq
+  image: rabbitmq:3.7.6-management
+  ports:
+    - 5672
+
+- name: redis
+  image: redis:4.0
+  ports:
+    - 6379
+
+steps:
+- name: wait-for-services
+  image: jwilder/dockerize
+  commands:
+  - dockerize -wait tcp://mariadb:3306 -wait tcp://influxdb:8086 -wait tcp://rabbitmq:5672 -wait tcp://redis:6379 -timeout 1m
+
+- name: init-influxdb
+  image: influxdb:1.7.8
+  commands:
+  - cat db/influxdb.sql | influx -host influxdb
+
+- name: run-rspec
+  image: ruby:2.6.5
+  environment:
+    DATABASE_HOST: "mariadb"
+    DATABASE_SUPPORT_JSON: "false"
+    INFLUXDB_HOST: influxdb
+    RABBITMQ_HOST: rabbitmq
+    EVENT_API_RABBITMQ_HOST: rabbitmq
+    REDIS_URL: redis://redis:6379
+    RAILS_ENV: test
+    VAULT_ADDR: ''
+    VAULT_TOKEN: ''
+  commands:
+  - bin/init_config
+  - gem install bundler:2.1.4
+  - bundle install --jobs=$(nproc) --retry=3 --path vendor/bundle
+  - bundle exec rake db:create db:migrate
+  - LOG_LEVEL=warn bundle exec rspec
+
+trigger:
+  event:
+    - push
+

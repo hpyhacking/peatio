@@ -21,6 +21,9 @@ class Withdraw < ApplicationRecord
   include FeeChargeable
 
   extend Enumerize
+
+  serialize :error, JSON unless Rails.configuration.database_support_json
+
   TRANSFER_TYPES = { fiat: 100, crypto: 200 }
 
   belongs_to :currency, required: true

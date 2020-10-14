@@ -55,7 +55,7 @@ module API
             },
             options: {
               type: { value: JSON, message: 'admin.currency.non_json_options' },
-              default: 0.0,
+              default: {},
               desc: -> { API::V2::Admin::Entities::Currency.documentation[:options][:desc] }
             },
             visible: {

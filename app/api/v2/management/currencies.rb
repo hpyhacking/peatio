@@ -89,7 +89,7 @@ module API
                    desc: -> { API::V2::Management::Entities::Currency.documentation[:position][:desc] }
           optional :options,
                    type: { value: JSON, message: 'management.currency.non_json_options' },
-                   default: 0.0,
+                   default: {},
                    desc: -> { API::V2::Management::Entities::Currency.documentation[:options][:desc] }
           optional :visible,
                    type: { value: Boolean, message: 'management.currency.non_boolean_visible' },

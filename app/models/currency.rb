@@ -20,9 +20,19 @@ class Currency < ApplicationRecord
 
   # == Extensions ===========================================================
 
-  store :options, accessors: OPTIONS_ATTRIBUTES
+  serialize :options, JSON unless Rails.configuration.database_support_json
 
   include Helpers::ReorderPosition
+
+  OPTIONS_ATTRIBUTES.each do |attribute|
+    define_method attribute do
+      self.options[attribute.to_s]
+    end
+
+    define_method "#{attribute}=".to_sym do |value|
+      self.options = options.merge(attribute.to_s => value)
+    end
+  end
 
   # == Relationships ========================================================
 
@@ -80,7 +90,7 @@ class Currency < ApplicationRecord
 
   # == Callbacks ============================================================
 
-  before_create :initialize_defaults
+  after_initialize :initialize_defaults
   after_create do
     link_wallets
     insert_position(self)
