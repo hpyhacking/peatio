@@ -1,15 +1,13 @@
-# encoding: UTF-8
 # frozen_string_literal: true
 
 describe Peatio::InfluxDB do
   context 'host sharding' do
     before do
       Peatio::InfluxDB.instance_variable_set(:@clients, {})
-      ENV['INFLUXDB_HOST'] = 'inflxudb-0,inflxudb-1'
+      Peatio::InfluxDB.stubs(:config).returns({ host: %w[inflxudb-0 inflxudb-1] })
     end
 
     after do
-      ENV['INFLUXDB_HOST'] = 'influxdb'
       Peatio::InfluxDB.instance_variable_set(:@clients, {})
     end
 
