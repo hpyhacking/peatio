@@ -697,6 +697,27 @@ Get all deposits, result is paginated.
 | ---- | ----------- | ------ |
 | 200 | Get all deposits, result is paginated. | [ [Deposit](#deposit) ] |
 
+### /deposit_address
+
+#### GET
+##### Description:
+
+Returns deposit address for account you want to deposit to by currency and uid. The address may be blank because address generation process is still in progress. If this case you should try again later.
+
+##### Parameters
+
+| Name | Located in | Description | Required | Schema |
+| ---- | ---------- | ----------- | -------- | ---- |
+| currency | query | The account you want to deposit to. | Yes | string |
+| uid | query | Member UID. | Yes | string |
+| address_format | query | Address format legacy/cash | No | string |
+
+##### Responses
+
+| Code | Description | Schema |
+| ---- | ----------- | ------ |
+| 200 | Returns deposit address for account you want to deposit to by currency. The address may be blank because address generation process is still in progress. If this case you should try again later. | [Deposit](#deposit) |
+
 ### /withdraws/actions
 
 #### POST

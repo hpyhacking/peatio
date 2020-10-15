@@ -2521,6 +2521,63 @@
         "operationId": "getDeposits"
       }
     },
+    "/deposit_address": {
+      "get": {
+        "description": "Returns deposit address for account you want to deposit to by currency and uid. The address may be blank because address generation process is still in progress. If this case you should try again later.",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "uid",
+            "description": "Member UID.",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "query",
+            "name": "currency",
+            "description": "Deposit currency id.",
+            "type": "string",
+            "enum": [
+              "btc",
+              "eth",
+              "trst",
+              "usd",
+              "BTC",
+              "ETH",
+              "TRST",
+              "USD"
+            ],
+            "required": true
+          },
+          {
+            "in": "query",
+            "name": "address_format",
+            "description": "Address format legacy/cash",
+            "type": "string",
+            "enum": [
+              "legacy",
+              "cash"
+            ],
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns deposit address for account you want to deposit to by currency. The address may be blank because address generation process is still in progress. If this case you should try again later.",
+            "schema": {
+              "$ref": "#/definitions/Deposit"
+            }
+          }
+        },
+        "tags": [
+          "deposits"
+        ],
+        "operationId": "getDepositAddressCurrencyUID"
+      }
+    },
     "/withdraws/actions": {
       "post": {
         "description": "Take an action on the withdrawal.",

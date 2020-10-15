@@ -135,6 +135,45 @@ module API
             status 422
           end
         end
+
+        desc 'Returns deposit address for account you want to deposit to by currency and uid.',
+          success: API::V2::Admin::Entities::Deposit
+        params do
+          requires :uid,
+                   values: { value: -> (v) { Member.exists?(uid: v) }, message: 'admin.deposit.user_doesnt_exist' },
+                   desc: -> { API::V2::Admin::Entities::Deposit.documentation[:uid][:desc] }
+          requires :currency,
+                   values: { value: -> { Currency.codes }, message: 'admin.deposit.currency_doesnt_exist' },
+                   as: :currency_id,
+                   desc: -> { API::V2::Admin::Entities::Deposit.documentation[:currency][:desc] }
+          given :currency_id do
+            optional :address_format,
+                    type: String,
+                    values: { value: -> { %w[legacy cash] }, message: 'admin.deposit.invalid_address_format' },
+                    validate_currency_address_format: { value: true, prefix: 'admin.deposit' },
+                    desc: 'Address format legacy/cash'
+          end
+        end
+        post '/deposit_address' do
+          admin_authorize! :create, PaymentAddress
+
+          member   = Member.find_by!(uid: params[:uid])
+          currency = Currency.find_by!(id: params[:currency_id])
+          wallet   = Wallet.deposit_wallet(currency.id)
+
+          unless wallet.present?
+            error!({ errors: ['admin.deposit.wallet_not_found'] }, 422)
+          end
+
+          if currency.deposit_enabled
+            payment_address = member.payment_address(wallet.id)
+            present payment_address, with: API::V2::Entities::PaymentAddress, address_format: params[:address_format]
+            status 201
+          else
+            body errors: ["admin.deposit.deposit_disabled"]
+            status 422
+          end
+        end
       end
     end
   end

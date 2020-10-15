@@ -63,6 +63,7 @@ admin_permissions:
       - TradingFee
       - WithdrawLimit
       - Adjustment
+      - PaymentAddress
       - Deposit
       - Withdraw
   accountant:

@@ -76,6 +76,7 @@ describe AdminAbility do
       is_expected.to be_able_to(:manage, Market.new)
       is_expected.to be_able_to(:manage, Blockchain.new)
       is_expected.to be_able_to(:manage, Wallet.new)
+      is_expected.to be_able_to(:manage, PaymentAddress.new)
       is_expected.to be_able_to(:read, PaymentAddress.new)
       is_expected.to be_able_to(:read, Member.new)
       is_expected.to be_able_to(:update, Member.new)
@@ -83,7 +84,6 @@ describe AdminAbility do
       is_expected.to be_able_to(:update, Order.new)
       is_expected.to be_able_to(:read, Trade.new)
       is_expected.to be_able_to(:read, Account.new)
-      is_expected.not_to be_able_to(:update, PaymentAddress.new)
       is_expected.not_to be_able_to(:update, Trade.new)
       is_expected.not_to be_able_to(:update, Account.new)
     end
