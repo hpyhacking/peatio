@@ -16,6 +16,10 @@ module Peatio
       end.map { |r| r.transform_values! { |v| v.is_a?(BigDecimal) ? v.to_f : v } }.map(&:compact)
     end
 
+    def export_accounts
+      export('Operations::Account').map { |a| a.except('id') }
+    end
+
     def export_blockchains
       export('Blockchain').map { |b| b.except('id', 'currency_ids') }
     end

@@ -10,12 +10,27 @@ module Peatio
     end
 
     def load_all
+      load_accounts
       load_blockchains
       load_currencies
       load_wallets
       load_engines
       load_markets
       load_trading_fees
+    end
+
+    def load_accounts
+      return unless @data.include? 'accounts'
+
+      Kernel.puts 'Importing accounts'
+      ::Operations::Account.transaction do
+        @data['accounts'].each do |hash|
+          next if ::Operations::Account.exists?(code: hash.fetch('code'))
+
+          ::Operations::Account.create!(hash)
+          Kernel.puts "Created #{hash.fetch('code')} account"
+        end
+      end
     end
 
     def load_blockchains

@@ -126,6 +126,7 @@ namespace :export do
     args.with_defaults(export_path: 'export_configs.yaml')
     ex = Peatio::Export.new
     File.write(args.export_path, {
+      'accounts' => ex.export_accounts,
       'blockchains' => ex.export_blockchains,
       'currencies' => ex.export_currencies,
       'markets' => ex.export_markets,
