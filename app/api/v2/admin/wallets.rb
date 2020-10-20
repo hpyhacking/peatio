@@ -182,7 +182,6 @@ module API
           admin_authorize! :update, Wallet
           wallet = ::Wallet.find(params[:id])
 
-          params[:settings] = wallet.settings.merge(params[:settings]) if params[:settings]
           if wallet.update(declared(params, include_missing: false))
             present wallet, with: API::V2::Admin::Entities::Wallet
           else

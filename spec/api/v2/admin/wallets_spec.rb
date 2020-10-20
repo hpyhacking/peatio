@@ -250,7 +250,7 @@ describe API::V2::Admin::Wallets, type: :request do
 
       expect(response).to be_successful
       expect(result['currencies']).to eq ['btc']
-      expect(Wallet.first.settings['uri']).to eq 'http://127.0.0.1:8545'
+      expect(Wallet.first.settings['uri']).to eq nil
       expect(Wallet.first.settings['secret']).to eq 'new secret'
     end
 
