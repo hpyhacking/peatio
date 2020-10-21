@@ -619,5 +619,17 @@ describe Withdraw do
         expect(withdraw.errors.full_messages).to include('Withdraw 1 month limit exceeded')
       end
     end
+
+    context 'zero limits' do
+      before { WithdrawLimit.last.update!(limit_24_hour: 0, limit_1_month: 0) }
+
+      it { expect(withdraw.valid?).to be_truthy }
+    end
+
+    context 'there are no WLs in DB' do
+      before { WithdrawLimit.delete_all }
+
+      it { expect(withdraw.valid?).to be_truthy }
+    end
   end
 end

@@ -180,6 +180,11 @@ class Withdraw < ApplicationRecord
 
   def verify_limits
     limits = WithdrawLimit.for(kyc_level: member.level, group: member.group)
+
+    # If there are no limits in DB or current user withdraw limit
+    # has 0.0 for 24 hour and 1 mounth it will skip this checks
+    return if limits.limit_24_hour.zero? && limits.limit_1_month.zero?
+
     # Withdraw limits in USD and withdraw sum in currency.
     # Convert withdraw sums with price from the currency model.
     sum_24_hours, sum_1_month = Withdraw.sanitize_execute_sum_queries(member_id)
