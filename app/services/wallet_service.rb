@@ -114,6 +114,9 @@ class WalletService
   end
 
   def trigger_webhook_event(event)
+    currency = Currency.find(event[:coin])
+    @adapter.configure(wallet:   @wallet.to_wallet_api_settings,
+                       currency: currency.to_blockchain_api_settings)
     @adapter.trigger_webhook_event(event)
   end
 

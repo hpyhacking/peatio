@@ -47,7 +47,7 @@ module API
       def create_address(address_id, address, currency_id)
         Rails.logger.info { "Address detected: #{address}" }
 
-        payment_address = PaymentAddress.where(address: nil, currency_id: currency_id)
+        payment_address = PaymentAddress.where(address: nil, wallet: Wallet.deposit_wallet(transaction.currency_id))
                                         .find { |address| address.details['address_id'] == address_id }
 
         payment_address.update!(address: address) if payment_address.present?
@@ -55,7 +55,7 @@ module API
 
       def find_or_create_deposit!(transactions)
         transactions.map do |transaction|
-          payment_address = PaymentAddress.find_by(currency_id: transaction.currency_id, address: transaction.to_address)
+          payment_address = PaymentAddress.find_by(wallet: Wallet.deposit_wallet(transaction.currency_id), address: transaction.to_address)
           next if payment_address.blank?
 
           Rails.logger.info { "Deposit transaction detected: #{transaction.inspect}" }
@@ -67,7 +67,7 @@ module API
             ) do |d|
               d.address = transaction.to_address
               d.amount = transaction.amount
-              d.member = payment_address.account.member
+              d.member = payment_address.member
               d.block_number = transaction.block_number
             end
           # TODO: check if block number changed.
