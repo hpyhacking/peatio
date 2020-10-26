@@ -12,6 +12,10 @@ class Ability
       abilities['admin_permissions']
     end
 
+    def user_permissions
+      abilities['user_permissions']
+    end
+
     def roles
       abilities['roles']
     end

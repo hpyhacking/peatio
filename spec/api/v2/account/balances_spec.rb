@@ -187,6 +187,19 @@ describe API::V2::Account::Balances, type: :request do
         end
       end
     end
+
+    context 'unauthorized' do
+      before do
+        Ability.stubs(:user_permissions).returns([])
+      end
+
+      before { api_get '/api/v2/account/balances', {token: token, params: {limit: 2} } }
+
+      it 'renders unauthorized error' do
+        expect(response).to have_http_status 403
+        expect(response).to include_api_error('user.ability.not_permitted')
+      end
+    end
   end
 
   describe 'GET api/v2/account/balances/:currency' do
@@ -221,6 +234,19 @@ describe API::V2::Account::Balances, type: :request do
         expect(response).to have_http_status 422
       end
 
+    end
+
+    context 'unauthorized' do
+      before do
+        Ability.stubs(:user_permissions).returns([])
+      end
+
+      before { api_get '/api/v2/account/balances/eth', token: token }
+
+      it 'renders unauthorized error' do
+        expect(response).to have_http_status 403
+        expect(response).to include_api_error('user.ability.not_permitted')
+      end
     end
   end
 end

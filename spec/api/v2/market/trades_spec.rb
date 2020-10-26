@@ -185,5 +185,17 @@ describe API::V2::Market::Trades, type: :request do
       expect(result['order_id']).to eq btcusd_ask.id
       expect(result['fee_currency']).to eq 'usd'
     end
+
+    context 'unauthorized' do
+      before do
+        Ability.stubs(:user_permissions).returns([])
+      end
+
+      it 'renders unauthorized error' do
+        api_get '/api/v2/market/trades', params: { market: 'btcusd' }, token: token
+        expect(response).to have_http_status 403
+        expect(response).to include_api_error('user.ability.not_permitted')
+      end
+    end
   end
 end

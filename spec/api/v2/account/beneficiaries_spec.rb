@@ -93,6 +93,22 @@ describe API::V2::Account::Beneficiaries, 'GET', type: :request do
       expect(response_body.all? { |b| b['currency'] == 'btc' && b['state'] == 'active' }).to be_truthy
     end
   end
+
+  context 'unauthorized' do
+    before do
+      Ability.stubs(:user_permissions).returns([])
+    end
+
+    let!(:active_btc_beneficiaries_for_member) do
+      create_list(:beneficiary, 3, member: member, state: :active)
+    end
+
+    it 'renders unauthorized error' do
+      api_get endpoint, params: { currency: :btc, state: :active }, token: token
+      expect(response).to have_http_status 403
+      expect(response).to include_api_error('user.ability.not_permitted')
+    end
+  end
 end
 
 describe API::V2::Account::Beneficiaries, 'GET /:id', type: :request do
@@ -164,6 +180,25 @@ describe API::V2::Account::Beneficiaries, 'GET /:id', type: :request do
       expect(response.status).to eq 404
     end
   end
+
+  context 'unauthorized' do
+    before do
+      Ability.stubs(:user_permissions).returns([])
+    end
+
+    let(:endpoint) { "/api/v2/account/beneficiaries/#{pending_beneficiary.id}" }
+
+    let(:member2) { create(:member, :level_3) }
+
+    let!(:pending_beneficiary) { create(:beneficiary, member: member2) }
+
+    it 'renders unauthorized error' do
+      api_get endpoint, token: token
+
+      expect(response).to have_http_status 403
+      expect(response).to include_api_error('user.ability.not_permitted')
+    end
+  end
 end
 
 describe API::V2::Account::Beneficiaries, 'POST', type: :request do
@@ -195,6 +230,18 @@ describe API::V2::Account::Beneficiaries, 'POST', type: :request do
   end
 
   context 'invalid params' do
+    context 'unauthorized' do
+      before do
+        Ability.stubs(:user_permissions).returns([])
+      end
+
+      it 'renders unauthorized error' do
+        api_post endpoint, params: beneficiary_data.merge(description: Faker::String.random(120)), token: token
+        expect(response).to have_http_status 403
+        expect(response).to include_api_error('user.ability.not_permitted')
+      end
+    end
+
     context 'missing required params' do
       %i[currency name data].each do |rp|
         context rp do
@@ -424,6 +471,22 @@ describe API::V2::Account::Beneficiaries, 'PATCH /activate', type: :request do
         pin: pending_beneficiary.pin }
     end
 
+    context 'unauthorized' do
+      before do
+        Ability.stubs(:user_permissions).returns([])
+      end
+
+      let(:endpoint) do
+        "/api/v2/account/beneficiaries/#{pending_beneficiary.id}/activate"
+      end
+
+      it 'renders unauthorized error' do
+        api_patch endpoint, params: activation_data, token: token
+        expect(response).to have_http_status 403
+        expect(response).to include_api_error('user.ability.not_permitted')
+      end
+    end
+
     context 'id has invalid type' do
       let(:endpoint) do
         "/api/v2/account/beneficiaries/id/activate"
@@ -580,6 +643,22 @@ describe API::V2::Account::Beneficiaries, 'PATCH /resend_pin', type: :request do
         expect(response).to include_api_error('account.beneficiary.non_integer_id')
       end
     end
+
+    context 'unauthorized' do
+      before do
+        Ability.stubs(:user_permissions).returns([])
+      end
+
+      let(:endpoint) do
+        "/api/v2/account/beneficiaries/#{pending_beneficiary.id}/resend_pin"
+      end
+
+      it 'renders unauthorized error' do
+        api_patch endpoint, params: resend_data, token: token
+        expect(response).to have_http_status 403
+        expect(response).to include_api_error('user.ability.not_permitted')
+      end
+    end
   end
 
   context 'pending beneficiary' do
@@ -703,6 +782,22 @@ describe API::V2::Account::Beneficiaries, 'DELETE /:id', type: :request do
         api_delete endpoint, token: token
         expect(response.status).to eq 422
         expect(response).to include_api_error('account.beneficiary.non_integer_id')
+      end
+    end
+
+    context 'unauthorized' do
+      before do
+        Ability.stubs(:user_permissions).returns([])
+      end
+
+      let(:endpoint) do
+        "/api/v2/account/beneficiaries/#{pending_beneficiary.id}"
+      end
+
+      it 'renders unauthorized error' do
+        api_delete endpoint, token: token
+        expect(response).to have_http_status 403
+        expect(response).to include_api_error('user.ability.not_permitted')
       end
     end
   end

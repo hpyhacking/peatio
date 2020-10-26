@@ -11,6 +11,19 @@ describe API::V2::Account::Withdraws, type: :request do
     let!(:btc_withdraws) { create_list(:btc_withdraw, 20, :with_deposit_liability, member: member) }
     let!(:usd_withdraws) { create_list(:usd_withdraw, 20, :with_deposit_liability, member: member) }
 
+    context 'unauthorized' do
+      before do
+        Ability.stubs(:user_permissions).returns([])
+      end
+
+      it 'renders unauthorized error' do
+        api_get '/api/v2/account/withdraws', token: token
+
+        expect(response).to have_http_status 403
+        expect(response).to include_api_error('user.ability.not_permitted')
+      end
+    end
+
     it 'requires authentication' do
       get '/api/v2/account/withdraws'
       expect(response.code).to eq '401'
@@ -312,6 +325,19 @@ describe API::V2::Account::Withdraws, type: :request do
       expect(response).to have_http_status(422)
       expect(response).to include_api_error('account.withdraw.too_long_note')
     end
+
+    context 'unauthorized' do
+      before do
+        Ability.stubs(:user_permissions).returns([])
+      end
+
+      it 'renders unauthorized error' do
+        api_post '/api/v2/account/withdraws', params: data, token: token
+
+        expect(response).to have_http_status 403
+        expect(response).to include_api_error('user.ability.not_permitted')
+      end
+    end
   end
 
   describe 'GET /withdraws/sums' do
@@ -328,6 +354,19 @@ describe API::V2::Account::Withdraws, type: :request do
 
       expect(response_body.key?('last_24_hours')).to be_truthy
       expect(response_body.key?('last_1_month')).to be_truthy
+    end
+
+    context 'unauthorized' do
+      before do
+        Ability.stubs(:user_permissions).returns([])
+      end
+
+      it 'renders unauthorized error' do
+        api_get '/api/v2/account/withdraws/sums', token: token
+
+        expect(response).to have_http_status 403
+        expect(response).to include_api_error('user.ability.not_permitted')
+      end
     end
   end
 end

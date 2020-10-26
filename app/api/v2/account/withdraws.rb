@@ -35,6 +35,8 @@ module API
                    desc: 'Page number (defaults to 1).'
         end
         get '/withdraws' do
+          user_authorize! :read, Withdraw
+
           currency = Currency.find(params[:currency]) if params[:currency].present?
 
           current_user.withdraws.order(id: :desc)
@@ -46,6 +48,8 @@ module API
 
         desc 'Returns withdrawal sums for last 4 hours and 1 month'
         get '/withdraws/sums' do
+          user_authorize! :read, Withdraw
+
           sum_24_hours, sum_1_month = Withdraw.sanitize_execute_sum_queries(current_user.id)
 
           present({ last_24_hours: sum_24_hours, last_1_month: sum_1_month })
@@ -75,6 +79,8 @@ module API
                    desc: 'Optional metadata to be applied to the transaction. Used to tag transactions with memorable comments.'
         end
         post '/withdraws' do
+          user_authorize! :create, Withdraw
+
           withdraw_api_must_be_enabled!
 
           beneficiary = current_user

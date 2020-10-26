@@ -181,6 +181,18 @@ describe API::V2::Market::Orders, type: :request do
       expect(result.size).to eq 2
     end
 
+    context 'unauthorized' do
+      before do
+        Ability.stubs(:user_permissions).returns([])
+      end
+
+      it 'renders unauthorized error' do
+        api_get '/api/v2/market/orders', params: { time_from: 3.hours.ago.to_i }, token: token
+        expect(response).to have_http_status 403
+        expect(response).to include_api_error('user.ability.not_permitted')
+      end
+    end
+
     it 'denies access to unverified member' do
       api_get '/api/v2/market/orders', token: level_0_member_token
       expect(response.code).to eq '403'
@@ -220,6 +232,18 @@ describe API::V2::Market::Orders, type: :request do
       expect(result['trades'].first['side']).to eq 'buy'
     end
 
+    context 'unauthorized' do
+      before do
+        Ability.stubs(:user_permissions).returns([])
+      end
+
+      it 'renders unauthorized error' do
+        api_get "/api/v2/market/orders/#{order.id}", token: token
+        expect(response).to have_http_status 403
+        expect(response).to include_api_error('user.ability.not_permitted')
+      end
+    end
+
     it 'should get 404 error when order doesn\'t exist' do
         api_get '/api/v2/market/orders/1234', token: token
         expect(response.code).to eq '404'
@@ -254,6 +278,18 @@ describe API::V2::Market::Orders, type: :request do
         expect(response).to be_successful
         expect(JSON.parse(response.body)['id']).to eq OrderBid.last.id
       end.to change(OrderBid, :count).by(1)
+    end
+
+    context 'unauthorized' do
+      before do
+        Ability.stubs(:user_permissions).returns([])
+      end
+
+      it 'renders unauthorized error' do
+        api_post '/api/v2/market/orders', token: token, params: { market: 'btcusd', side: 'buy', volume: '12.13', price: '2014' }
+        expect(response).to have_http_status 403
+        expect(response).to include_api_error('user.ability.not_permitted')
+      end
     end
 
     it 'validates missing params' do
@@ -444,6 +480,18 @@ describe API::V2::Market::Orders, type: :request do
         expect(response.code).to eq '404'
         expect(response).to include_api_error('record.not_found')
       end
+
+      context 'unauthorized' do
+        before do
+          Ability.stubs(:user_permissions).returns([])
+        end
+
+        it 'renders unauthorized error' do
+          api_post "/api/v2/market/orders/#{order.uuid}/cancel", token: token
+          expect(response).to have_http_status 403
+          expect(response).to include_api_error('user.ability.not_permitted')
+        end
+      end
     end
   end
 
@@ -509,5 +557,16 @@ describe API::V2::Market::Orders, type: :request do
       end.not_to change(Order, :count)
     end
 
+    context 'unauthorized' do
+      before do
+        Ability.stubs(:user_permissions).returns([])
+      end
+
+      it 'renders unauthorized error' do
+        api_post '/api/v2/market/orders/cancel', token: token
+        expect(response).to have_http_status 403
+        expect(response).to include_api_error('user.ability.not_permitted')
+      end
+    end
   end
 end

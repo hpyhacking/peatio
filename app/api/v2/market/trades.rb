@@ -17,6 +17,8 @@ module API
           use :trade_filters
         end
         get '/trades' do
+          user_authorize! :read, Trade
+
           current_user
             .trades
             .order(order_param)

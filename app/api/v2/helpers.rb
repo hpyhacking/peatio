@@ -17,6 +17,18 @@ module API
         error!({ errors: ['admin.ability.not_permitted'] }, 403)
       end
 
+      def user_authorize!(action, model, attributes = {})
+        if attributes.present?
+          attributes.each do |k, _|
+            UserAbility.new(current_user).authorize!(action, model, k)
+          end
+        else
+          UserAbility.new(current_user).authorize!(action, model)
+        end
+      rescue StandardError
+        error!({ errors: ['user.ability.not_permitted'] }, 403)
+      end
+
       def authenticate!
         current_user || raise(Peatio::Auth::Error)
       end

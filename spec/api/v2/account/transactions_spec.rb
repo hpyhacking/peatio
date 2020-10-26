@@ -274,6 +274,19 @@ describe API::V2::Account::Transactions, type: :request do
         expect(response.code).to eq '422'
         expect(response).to include_api_error('account.transactions.invalid_limit')
       end
+
+      context 'unauthorized' do
+        before do
+          Ability.stubs(:user_permissions).returns([])
+        end
+
+        it 'renders unauthorized error' do
+          api_get '/api/v2/account/transactions', params: { limit: 1000 }, token: token
+
+          expect(response).to have_http_status 403
+          expect(response).to include_api_error('user.ability.not_permitted')
+        end
+      end
     end
   end
 end

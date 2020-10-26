@@ -152,3 +152,27 @@ admin_permissions:
       - TradingFee
       - WithdrawLimit
       - Wallet
+
+user_permissions:
+  member:
+    manage: all
+  superadmin:
+    manage: all
+  admin:
+    manage: all
+  accountant:
+    manage: all
+  compliance:
+    manage: all
+  manager:
+    manage: all
+  support:
+    manage: all
+  technical:
+    manage: all
+  broker:
+    manage: all
+  trader:
+    manage: all
+  maker:
+    manage: all

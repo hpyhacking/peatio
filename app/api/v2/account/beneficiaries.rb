@@ -27,6 +27,8 @@ module API
 
           end
           get do
+            user_authorize! :read, Beneficiary
+
             current_user
               .beneficiaries
               .available_to_member
@@ -50,6 +52,8 @@ module API
                      desc: 'Beneficiary Identifier in Database'
           end
           get ':id' do
+            user_authorize! :read, Beneficiary
+
             current_user
               .beneficiaries
               .available_to_member
@@ -81,6 +85,8 @@ module API
                      desc: 'Beneficiary data in JSON format'
           end
           post do
+            user_authorize! :create, Beneficiary
+
             declared_params = declared(params)
 
             currency = Currency.find_by!(id: params[:currency_id])
@@ -120,6 +126,8 @@ module API
                      desc: 'Beneficiary Identifier in Database'
           end
           patch ':id/resend_pin' do
+            user_authorize! :update, Beneficiary
+
             beneficiary = current_user
                               .beneficiaries
                               .available_to_member
@@ -151,6 +159,8 @@ module API
                      desc: 'Pin code for beneficiary activation'
           end
           patch ':id/activate' do
+            user_authorize! :update, Beneficiary
+
             beneficiary = current_user
                             .beneficiaries
                             .available_to_member
@@ -175,6 +185,8 @@ module API
                      desc: 'Beneficiary Identifier in Database'
           end
           delete ':id' do
+            user_authorize! :destroy, Beneficiary
+
             beneficiary = current_user
                             .beneficiaries
                             .available_to_member

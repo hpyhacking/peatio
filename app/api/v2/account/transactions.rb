@@ -66,6 +66,8 @@ module API
 
         end
         get "/transactions" do
+          user_authorize! :read, [Withdraw, Deposit]
+
           deposit_state = params[:deposit_state]&.split(/\W+/)&.join(',')
           withdraw_state = params[:withdraw_state]&.split(/\W+/)&.join(',')
 

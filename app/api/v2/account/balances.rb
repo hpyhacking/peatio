@@ -29,6 +29,8 @@ module API
           end
         end
         get '/balances' do
+          user_authorize! :read, Account
+
           search_params = params[:search]
                                 .slice(:currency_code, :currency_name)
                                 .transform_keys {|k| "#{k}_cont"}
@@ -53,6 +55,8 @@ module API
         end
 
         get '/balances/:currency' do
+          user_authorize! :read, Account
+
           present current_user.accounts.visible.find_by!(currency_id: params[:currency]),
                   with: API::V2::Entities::Account
         end

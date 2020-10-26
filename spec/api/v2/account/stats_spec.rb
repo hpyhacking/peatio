@@ -83,5 +83,17 @@ describe API::V2::Account::Stats, type: :request do
       end
     end
 
+    context 'unauthorized' do
+      before do
+        Ability.stubs(:user_permissions).returns([])
+      end
+
+      it 'renders unauthorized error' do
+        api_get '/api/v2/account/stats/pnl?pnl_currency=usd', token: token
+
+        expect(response).to have_http_status 403
+        expect(response).to include_api_error('user.ability.not_permitted')
+      end
+    end
   end
 end
