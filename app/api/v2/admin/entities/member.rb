@@ -65,9 +65,9 @@ module API
 
           expose(
             :beneficiaries,
-            using: API::V2::Entities::Beneficiary,
+            using: API::V2::Admin::Entities::Beneficiary,
             documentation: {
-              type: 'API::V2::Entities::Beneficiary',
+              type: 'API::V2::Admin::Entities::Beneficiary',
               is_array: true,
               desc: 'Member Beneficiary.'
             }

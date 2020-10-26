@@ -130,6 +130,33 @@ describe API::V2::Admin::Members, type: :request do
         expect(result['beneficiaries'][0]['currency']).to eq(member.beneficiaries[0].currency_id)
         expect(result['beneficiaries'][0]['data']['address']).to eq(member.beneficiaries[0].data['address'])
       end
+
+      context 'fiat beneficiary' do
+        let(:fiat) { Currency.find(:usd) }
+
+        let!(:beneficiary) { create(:beneficiary,
+                                    member: member,
+                                    currency: fiat,
+                                    state: :active,
+                                    data: generate(:fiat_beneficiary_data)) }
+
+        it 'returns user entities' do
+          api_get "/api/v2/admin/members/#{member.uid}", token: token
+          expect(response).to be_successful
+          result = JSON.parse(response.body)
+
+          expect(result['uid']).to eq(member.uid)
+          expect(result['email']).to eq(member.email)
+          expect(result['uid']).to eq(member.uid)
+          expect(result['group']).to eq(member.group)
+          expect(result['accounts'][0]['currency']).to eq(member.accounts[0].currency.id)
+          expect(result['accounts'][0]['balance']).to eq(member.accounts[0].balance.to_s)
+          expect(result['accounts'][0]['locked']).to eq(member.accounts[0].locked.to_s)
+          expect(result['beneficiaries'][0]['currency']).to eq(member.beneficiaries[0].currency_id)
+          expect(result['beneficiaries'][0]['data']['address']).to eq(member.beneficiaries[0].data['address'])
+          expect(result['beneficiaries'][0]['data']['account_number']).to eq(member.beneficiaries[0].data['account_number'])
+        end
+      end
     end
   end
 
