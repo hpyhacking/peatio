@@ -81,7 +81,7 @@ module API
                    type: String,
                    desc: -> { API::V2::Admin::Entities::Market.documentation[:id][:desc] }
         end
-        get '/markets/:id' do
+        get '/markets/:id', requirements: { id: /[\w\.\-]+/ } do
           admin_authorize! :read, ::Market
 
           present ::Market.find(params[:id]), with: API::V2::Admin::Entities::Market

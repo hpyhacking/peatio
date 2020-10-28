@@ -28,6 +28,22 @@ describe API::V2::Admin::Markets, type: :request do
       expect(result.pluck('position')).to eq Market.ordered.pluck(:position)
     end
 
+    context 'market name with dot' do
+      let!(:currency) { create(:currency, :xagm_cx) }
+      let!(:market) { create(:market, :xagm_cxusd) }
+
+      it 'returns information about specified market' do
+        api_get "/api/v2/admin/markets/#{market.id}", token: token
+
+        expect(response).to be_successful
+        result = JSON.parse(response.body)
+        expect(result.fetch('id')).to eq market.id
+        expect(result.fetch('base_unit')).to eq market.base_currency
+        expect(result.fetch('quote_unit')).to eq market.quote_currency
+        expect(result.fetch('data')).to eq market.data
+      end
+    end
+
     it 'returns error in case of invalid id' do
       api_get '/api/v2/admin/markets/120', token: token
 

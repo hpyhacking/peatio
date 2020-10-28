@@ -63,5 +63,17 @@ FactoryBot.define do
       position          { 5 }
       state             { :enabled }
     end
+
+    trait :xagm_cxusd do
+      id                { 'xagm.cxusd' }
+      base_currency     { 'xagm.cx' }
+      quote_currency    { 'usd' }
+      amount_precision  { 6 }
+      price_precision   { 4 }
+      min_price         { 0.01 }
+      min_amount        { 0.0001 }
+      position          { 4 }
+      state             { :enabled }
+    end
   end
 end

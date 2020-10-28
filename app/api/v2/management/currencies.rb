@@ -34,7 +34,7 @@ module API
         params do
           requires :code, type: String, desc: 'The currency code.'
         end
-        post '/currencies/:code' do
+        post '/currencies/:code', requirements: { code: /[\w\.\-]+/ } do
           present Currency.find_by!(params.slice(:code)), with: API::V2::Management::Entities::Currency
         end
 

@@ -82,7 +82,7 @@ module API
                      desc: 'Address format legacy/cash'
           end
         end
-        get '/deposit_address/:currency' do
+        get '/deposit_address/:currency', requirements: { currency: /[\w\.\-]+/ } do
           user_authorize! :read, PaymentAddress
 
           currency = Currency.find(params[:currency])

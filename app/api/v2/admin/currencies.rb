@@ -128,7 +128,7 @@ module API
                    values: { value: -> { Currency.codes(bothcase: true) }, message: 'admin.currency.doesnt_exist'},
                    desc: -> { API::V2::Admin::Entities::Currency.documentation[:code][:desc] }
         end
-        get '/currencies/:code' do
+        get '/currencies/:code', requirements: { code: /[\w\.\-]+/ } do
           admin_authorize! :read, Currency
 
           present Currency.find(params[:code]), with: API::V2::Admin::Entities::Currency

@@ -201,6 +201,16 @@ describe API::V2::Account::Deposits, type: :request do
           api_get "/api/v2/account/deposit_address/#{currency}", token: token
           expect(response.body).to eq '{"currencies":["eth"],"address":null,"state":"pending"}'
         end
+
+        context 'currency code with dot' do
+          let!(:currency) { create(:currency, :xagm_cx) }
+
+          it 'returns information about specified deposit address' do
+            api_get "/api/v2/account/deposit_address/#{currency.code}", token: token
+            expect(response).to have_http_status 200
+            expect(response.body).to eq '{"currencies":["eth","xagm.cx"],"address":"2n2wnxrdo4oengp498xgngcbru29mychogr","state":"active"}'
+          end
+        end
       end
     end
 

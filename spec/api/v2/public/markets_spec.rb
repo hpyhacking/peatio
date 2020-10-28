@@ -190,6 +190,20 @@ describe API::V2::Public::Markets, type: :request do
       expect(result['bids'].size).to eq 5
     end
 
+    context 'market name with dot' do
+      let!(:currency) { create(:currency, :xagm_cx) }
+      let!(:market) { create(:market, :xagm_cxusd) }
+
+      it 'returns information about specified market' do
+        get "/api/v2/public/markets/#{market.id}/order-book"
+        expect(response).to be_successful
+
+        result = JSON.parse(response.body)
+        expect(result['asks'].size).to eq 0
+        expect(result['bids'].size).to eq 0
+      end
+    end
+
     it 'returns limited asks and bids' do
       get "/api/v2/public/markets/#{market}/order-book", params: { asks_limit: 1, bids_limit: 1 }
       expect(response).to be_successful
@@ -239,6 +253,20 @@ describe API::V2::Public::Markets, type: :request do
         result = JSON.parse(response.body)
         expect(result['asks']).to eq asks
         expect(result['bids']).to eq bids
+      end
+    end
+
+    context 'market name with dot' do
+      let!(:currency) { create(:currency, :xagm_cx) }
+      let!(:market) { create(:market, :xagm_cxusd) }
+
+      it 'returns information about specified market' do
+        get "/api/v2/public/markets/#{market.id}/depth"
+        expect(response).to be_successful
+
+        result = JSON.parse(response.body)
+        expect(result['asks'].size).to eq 0
+        expect(result['bids'].size).to eq 0
       end
     end
 
@@ -569,6 +597,17 @@ describe API::V2::Public::Markets, type: :request do
         expect(response).to be_successful
         expect(JSON.parse(response.body)['ticker']).to include(expected_ticker)
       end
+
+      context 'market name with dot' do
+        let!(:currency) { create(:currency, :xagm_cx) }
+        let!(:market) { create(:market, :xagm_cxusd) }
+
+        it 'returns information about specified market' do
+          get "/api/v2/public/markets/#{market.id}/tickers"
+          expect(response).to be_successful
+          expect(JSON.parse(response.body)['ticker']).to include(expected_ticker)
+        end
+      end
     end
 
     context 'single trade was executed' do
@@ -664,6 +703,17 @@ describe API::V2::Public::Markets, type: :request do
 
       expect(response).to be_successful
       expect(JSON.parse(response.body).size).to eq 2
+    end
+
+    context 'market name with dot' do
+      let!(:currency) { create(:currency, :xagm_cx) }
+      let!(:market) { create(:market, :xagm_cxusd) }
+
+      it 'returns information about specified market' do
+        get "/api/v2/public/markets/#{market.id}/trades"
+        expect(response).to be_successful
+        expect(JSON.parse(response.body).size).to eq 0
+      end
     end
 
     it 'returns 1 trade' do

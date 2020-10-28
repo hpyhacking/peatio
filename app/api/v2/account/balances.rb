@@ -53,8 +53,7 @@ module API
                    values: { value: -> { Currency.visible.pluck(:id) }, message: 'account.currency.doesnt_exist' },
                    desc: 'The currency code.'
         end
-
-        get '/balances/:currency' do
+        get '/balances/:currency', requirements: { currency: /[\w\.\-]+/ }  do
           user_authorize! :read, Account
 
           present current_user.accounts.visible.find_by!(currency_id: params[:currency]),

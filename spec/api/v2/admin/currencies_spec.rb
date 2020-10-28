@@ -38,6 +38,17 @@ describe API::V2::Admin::Currencies, type: :request do
       end
     end
 
+    context 'currency code with dot' do
+      let!(:currency) { create(:currency, :xagm_cx) }
+
+      it 'returns information about specified currency' do
+        api_get "/api/v2/admin/currencies/#{currency.code}", token: token
+
+        result = JSON.parse(response.body)
+        expect(result.fetch('code')).to eq currency.code
+      end
+    end
+
     it 'returns correct keys for coin' do
       api_get "/api/v2/admin/currencies/#{coin.code}", token: token
       expect(response).to be_successful

@@ -212,6 +212,19 @@ describe API::V2::Account::Balances, type: :request do
       expect(result).to match response_body
     end
 
+    context 'currency code with dot' do
+      let!(:currency) { create(:currency, :xagm_cx) }
+      let!(:account) { ::Account.create(currency_id: 'xagm.cx', member_id: member.id)}
+
+      it 'returns current user balance by currency' do
+        api_get "/api/v2/account/balances/#{currency.code}", token: token
+
+        expect(response).to have_http_status 200
+        result = JSON.parse(response.body)
+        expect(result['currency']).to eq currency.code
+      end
+    end
+
     context 'invalid currency' do
 
       before { api_get '/api/v2/account/balances/somecoin', token: token }

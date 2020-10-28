@@ -23,6 +23,15 @@ describe API::V2::Management::Currencies, type: :request do
       request
       expect(JSON.parse(response.body).fetch('id')).to eq currency.code
     end
+
+    context 'currency code with dot' do
+      let!(:currency) { create(:currency, :xagm_cx) }
+
+      it 'returns currency by code' do
+        request
+        expect(JSON.parse(response.body).fetch('id')).to eq currency.code
+      end
+    end
   end
 
   describe 'update currency' do

@@ -86,7 +86,7 @@ module API
                      default: 20,
                      desc: 'Limit the number of returned buy orders. Default to 20.'
           end
-          get ":market/order-book" do
+          get ":market/order-book", requirements: { market: /[\w\.\-]+/ } do
             asks = OrderAsk.active.with_market(params[:market]).matching_rule.limit(params[:asks_limit])
             bids = OrderBid.active.with_market(params[:market]).matching_rule.limit(params[:bids_limit])
             book = OrderBook.new asks, bids
@@ -116,7 +116,7 @@ module API
                      default: 'desc',
                      desc: "If set, returned trades will be sorted in specific order, default to 'desc'."
           end
-          get ":market/trades" do
+          get ":market/trades", requirements: { market: /[\w\.\-]+/ } do
             present Trade.public_from_influx(params[:market], params[:limit]), with: API::V2::Entities::PublicTrade
           end
 
@@ -132,7 +132,7 @@ module API
                      default: 300,
                      desc: 'Limit the number of returned price levels. Default to 300.'
           end
-          get ":market/depth" do
+          get ":market/depth", requirements: { market: /[\w\.\-]+/ } do
             asks = OrderAsk.get_depth(params[:market])[0, params[:limit]]
             bids = OrderBid.get_depth(params[:market])[0, params[:limit]]
             { timestamp: Time.now.to_i, asks: asks, bids: bids }
@@ -163,7 +163,7 @@ module API
                      default: 30,
                      desc: "Limit the number of returned data points default to 30. Ignored if time_from and time_to are given."
           end
-          get ":market/k-line" do
+          get ":market/k-line", requirements: { market: /[\w\.\-]+/ } do
             KLineService[params[:market], params[:period]]
               .get_ohlc(params.slice(:limit, :time_from, :time_to).merge(offset: true))
           end
@@ -186,7 +186,7 @@ module API
                      values: { value: -> { ::Market.active.ids }, message: 'public.market.doesnt_exist' },
                      desc: -> { V2::Entities::Market.documentation[:id] }
           end
-          get "/:market/tickers/" do
+          get "/:market/tickers/", requirements: { market: /[\w\.\-]+/ } do
             present format_ticker(TickersService[params[:market]].ticker),
                     with: API::V2::Entities::Ticker
           end

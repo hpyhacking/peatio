@@ -17,7 +17,7 @@ module API
                    values: { value: -> { Currency.visible.codes(bothcase: true) }, message: 'public.currency.doesnt_exist'},
                    desc: -> { API::V2::Entities::Currency.documentation[:id][:desc] }
         end
-        get '/currencies/:id' do
+        get '/currencies/:id', requirements: { id: /[\w\.\-]+/ } do
           present Currency.find(params[:id]), with: API::V2::Entities::Currency
         end
 

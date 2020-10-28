@@ -102,5 +102,20 @@ FactoryBot.define do
       position            { 7 }
       options             { {} }
     end
+
+    trait :xagm_cx do
+      blockchain_key      { 'eth-rinkeby' }
+      code                { 'xagm.cx' }
+      name                { 'XAGm.cx' }
+      type                { 'coin' }
+      parent_id           { 'eth' }
+      base_factor         { 1_000_000 }
+      withdraw_limit_24h  { 100 }
+      withdraw_limit_72h  { 1000 }
+      withdraw_fee        { 0.02 }
+      position            { 8 }
+      visible             { true }
+      options             { {} }
+    end
   end
 end

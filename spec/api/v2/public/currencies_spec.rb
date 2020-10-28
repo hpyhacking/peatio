@@ -23,6 +23,17 @@ describe API::V2::Public::Currencies, type: :request do
       expect(result.fetch('id')).to eq coin.id
     end
 
+    context 'currency code with dot' do
+      let!(:currency) { create(:currency, :xagm_cx) }
+
+      it 'returns information about specified currency' do
+        get "/api/v2/public/currencies/#{currency.id}"
+
+        result = JSON.parse(response.body)
+        expect(result.fetch('id')).to eq currency.id
+      end
+    end
+
     it 'returns correct keys for fiat' do
       get "/api/v2/public/currencies/#{fiat.id}"
       expect(response).to be_successful
