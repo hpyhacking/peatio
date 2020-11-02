@@ -24,7 +24,7 @@ and extend it using other microservices such as [Barong](https://www.github.com/
 
 ## Mission
 
-Our mission is to build an open-source crypto currency exchange with a high performance trading engine and incomparable security. We are moving toward dev/ops best practices of running an enterprise grade exchange.
+Our mission is to build an open-source [crypto exchange software](https://www.openware.com) with a high performance trading engine and incomparable security. We are moving toward dev/ops best practices of running an enterprise grade exchange.
 
 We provide webinar or on site training for installing, configuring and administration best practices of Peatio.
 Feel free to contact us for joining the next training session: [Openware.com](https://www.openware.com)
@@ -33,7 +33,7 @@ Help is greatly appreciated, feel free to submit pull-requests or open issues.
 
 ## Things You Should Know
 
-**RUNNING AN EXCHANGE IS HARD.**
+**RUNNING A CRYPTO CURRENCY EXCHANGE IS HARD.**
 
 This repository is not a turn key solution and will require engineering and design of security process by your company, with or without our assistance. This repository is one component among many we recommend using for composing an enterprise grade exchange. It is highly recommended to deploy a UAT environment and build automated tests for your needs, including Functional tests, Smoke tests and Security vulnerability scans. You may not need to have an active developer on Peatio source code, however, we recommend the following team setup: 1 dev/ops, 3 frontend developers (react / angular), 2 QA engineers, 1 Security Officer.
 
@@ -66,7 +66,7 @@ You must know what you're doing, there's no shortcut. Please get prepared before
 * Highly configurable and extendable
 * Industry standard security out of box
 * Maintained by [Openware.com](https://www.openware.com)
-* [KYC Verification](http://en.wikipedia.org/wiki/Know_your_customer) provided by [Barong](https://www.github.com/rubykube/barong)
+* [KYC Verification](http://en.wikipedia.org/wiki/Know_your_customer) provided by [Barong](https://www.github.com/openware/barong)
 
 ## Contribute
 
@@ -105,38 +105,31 @@ Otherwise we advice to use [microkube based environment](#local-development-envi
 
 ### Local development environment with microkube:
 
-We suggest you to start using Peatio by installing [Microkube](https://github.com/rubykube/microkube).
-[Microkube](https://github.com/rubykube/microkube) which is based on
+We suggest you to start using Peatio by installing [OpenDAX](https://github.com/openware/opendax).
+[OpenDAX](https://github.com/openware/opendax) which is based on
 [Docker containers](https://www.docker.com/what-docker) is a convenient and straightforward way to start
-Peatio development environment.
+Peatio crypto exchange software development environment.
 
 #### Prerequisites
 * [Docker](https://docs.docker.com/install/) installed
 * [Docker compose](https://docs.docker.com/compose/install/) installed
 
-#### Prepare the microkube
+#### Start OpenDAX ready to use
 
-Follow microkube [README](https://github.com/rubykube/microkube) for the best Peatio installation experience.
+Follow [OpenDAX](https://github.com/openware/opendax) documentation for the latest Peatio installation information.
 
-### Local development environment with workbench (DEPRECATED since 2.0):
+#### [Barong](https://github.com/openware/barong)
 
-[Workbench](https://github.com/rubykube/workbench) is legacy way for running Peatio locally.
-Probably Workbench support will be removed soon. We advice to use [Microkube](https://github.com/rubykube/microkube)
-which is more lightweight environment.
+Barong is an essential part of Openware [crypto exchange software](https://www.openware.com) stack. It's providing the authentication service, it provides KyC and 2FA features out of the box.
 
-#### [Barong](https://github.com/rubykube/barong)
-
-Barong is an essential part of Rubykube Peatio. It is a KYC OAuth 2.0 provider. Barong replace the KYC, 2FA, Phone verification from legacy Peatio.
-Barong manage roles and kyc level across all applications from the RKCP. It's easy to extend by using the EventAPI or Rest API.
+Barong manages roles and kyc level across all applications from the OpenDAX stack. It can be easily extended using Rest Management API and Event API.
 
 ##### Barong key features
 
 * KYC Verification for individuals
 * SMS and Google two-factor authentication
-* OAuth 2.0 provider
 * Transaction Signature support
-* Supply JWT tokens to frontend and mobile app
-
+* Implement JWT standard to authenticate users of every microservice of the OpenDAX stack
 
 Start barong:
 
@@ -157,12 +150,6 @@ $> docker-compose up -d peatio
 ```
 
 After all of that you can start using Peatio in your browser just by following one of the hosts which you added earlier.
-
-
-### Production setup:
-
-* [Deploy production cluster with kite](https://github.com/rubykube/kite/blob/master/README.md)
-* [Kubernetes deployment architecture](docs/architecture.md)
 
 ## API
 
@@ -192,8 +179,8 @@ Chat with us and other community members on Telegram.
 ### GitHub
 Peatio issues
 
-If you spot a bug, then please raise an issue in our main GitHub project (rubykube/peatio); likewise, if you have developed a cool new feature or improvement in your Rubykube Peatio fork, then send us a pull request!
-If you want to brainstorm a potential new feature, then the Rubykube Discourse Forum (see above) is probably a better place to start.
+If you spot a bug, then please raise an issue in our main GitHub project (Openware Peatio)[https://github.com/openware/peatio/]; likewise, if you have developed a new feature or an improvement in your Rubykube Peatio fork, then send us a pull request!
+If you want to brainstorm a potential new feature, then the Telegram group is the best place to start (see above).
 
 ### Email
 hello@openware.com
@@ -216,6 +203,3 @@ Peatio is released under the terms of the [MIT license](http://peatio.mit-licens
 [Peatio](http://en.wikipedia.org/wiki/Pixiu) (Chinese: 貔貅) is a Chinese mythical hybrid creature
 considered to be a very powerful protector to practitioners of Feng Shui.
 
-**[This illustration copyright for Peatio Team]**
-
-![logo](public/peatio.png)
