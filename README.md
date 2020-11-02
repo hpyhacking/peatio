@@ -1,26 +1,52 @@
-# Peatio - an open-source crypto currency exchange
+![Cryptocurrency Exchange Platform - Baseapp](https://github.com/openware/meta/raw/main/images/github_peatio.png)
+
+<h3 align="center">
+<a href="https://www.openware.com/sdk/docs.html#peatio">Guide</a> <span>&vert;</span> 
+<a href="https://www.openware.com/sdk/api/peatio/peatio-user-api-v2.html">API Docs</a> <span>&vert;</span> 
+<a href="https://www.openware.com/">Consulting</a> <span>&vert;</span> 
+<a href="https://t.me/peatio">Community</a>
+</h3>
+<h6 align="center">Component part of <a href="https://github.com/openware/opendax">OpenDAX Trading Platform</a></h6>
+
+---
+
+# Peatio - Cryptocurrency Exchange Software
 
 [![Build Status](https://ci.openware.work/api/badges/openware/peatio/status.svg)](https://ci.openware.work/openware/peatio)
 [![Telegram Chat](https://cdn.rawgit.com/Patrolavia/telegram-badge/8fe3382b/chat.svg)](https://t.me/peatio)
 
-## [Peatio](https://www.openware.com) Introduction
+## What is Peatio
 
-Peatio is a free and open-source crypto currency exchange implementation with the Rails framework.
+Peatio is a free and open-source crypto-currency exchange implementation with the Rails framework.
 This is a fork of Peatio designed for micro-services architecture. We have simplified the code
 in order to use only Peatio API with external frontend and server components.
 
+Peatio is the core accounting component and configuration for markets; it is part of OpenDAX system.
+
 ## Getting Started
 
-Rubykube is a container distribution, the fastest way to install the full stack is using [OpenDAX](https://github.com/openware/opendax)
+OpenDAX is a container distribution, the fastest way to install the full stack is using [OpenDAX](https://github.com/openware/opendax)
+OpenDAX can be installed under 15 minutes on any Linux / Mac OS X environment with Docker.
 
 ```
 # To install
 git clone https://github.com/openware/opendax.git
 # Follow the README instructions
+# Configure config/app.yml
+bundle install
+bundle exec rake service:all
+# Open your browser on www.app.local (please it in /etc/hosts)
 ```
 
 To build your own exchange you should now run Peatio as a backend instead of forking the repository,
 and extend it using other microservices such as [Barong](https://www.github.com/rubykube/barong).
+
+## System Overview
+
+![Cryptocurrency Exchange Platform overview](https://github.com/openware/meta/raw/main/images/system.png)
+
+This is a service oriented architecture; the system is designed to be customized by creating Applogic which is your api code.
+Barong will dispatch the traffic on your api to extend the current system.
 
 ## Mission
 
@@ -84,12 +110,12 @@ Otherwise we advice to use [microkube based environment](#local-development-envi
 #### Prerequisites
 * [Docker](https://docs.docker.com/install/) installed
 * [Docker compose](https://docs.docker.com/compose/install/) installed
-* Ruby 2.6.2
+* Ruby 2.6.5
 * Rails 5.2.3+
 
 ## Installation
 
-### Local development without microkube
+### Local development install
 
 1. Set up initial configuration `./bin/setup`
 2. Start peatio daemons `god -c lib/daemons/daemons.god`
@@ -103,7 +129,7 @@ Otherwise we advice to use [microkube based environment](#local-development-envi
 (`base64 -b0` for macOS)
 
 
-### Local development environment with microkube:
+### Local development environment with docker compose:
 
 We suggest you to start using Peatio by installing [OpenDAX](https://github.com/openware/opendax).
 [OpenDAX](https://github.com/openware/opendax) which is based on
