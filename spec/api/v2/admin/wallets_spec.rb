@@ -41,11 +41,11 @@ describe API::V2::Admin::Wallets, type: :request do
       expect(result).not_to include('settings')
     end
 
-    it 'retunrs NA balance if node not accessible' do
+    it 'returns NA balance if node not accessible' do
       wallet.update(balance: wallet.current_balance)
       api_get "/api/v2/admin/wallets/#{wallet.id}", token: token
       expect(response).to be_successful
-      expect(response_body['balance']).to eq({ 'eth' => 'N/A' })
+      expect(response_body['balance']).to eq(wallet.current_balance)
     end
 
     it 'returns wallet balance if node accessible' do
@@ -124,7 +124,7 @@ describe API::V2::Admin::Wallets, type: :request do
           expect(response_body.length).not_to eq 0
           expect(response_body.pluck('currencies').map { |a| a.include?('eth') }.all?).to eq(true)
           count = Wallet.joins(:currencies).where(currencies: { id: :eth }).count
-          expect(response_body.find { |c| c['id'] == hot_wallet.id }['currencies']).to eq(%w[eth trst])
+          expect(response_body.find { |c| c['id'] == hot_wallet.id }['currencies'].sort).to eq(%w[eth trst])
           expect(response_body.count).to eq(count)
         end
 
@@ -133,7 +133,7 @@ describe API::V2::Admin::Wallets, type: :request do
 
           expect(response_body.length).not_to eq 0
           count = Wallet.joins(:currencies).where(currencies: { id: %i[eth trst] }).distinct.count
-          expect(response_body.find { |c| c['id'] == hot_wallet.id }['currencies']).to eq(%w[eth trst])
+          expect(response_body.find { |c| c['id'] == hot_wallet.id }['currencies'].sort).to eq(%w[eth trst])
           expect(response_body.count).to eq(count)
         end
       end

@@ -103,7 +103,7 @@ describe Beneficiary, 'Callback' do
       expect(subject.sent_at).to be_nil
       subject.save!
       expect(subject.sent_at).to_not be_nil
-      expect(subject.sent_at).to eq(subject.created_at)
+      expect(subject.sent_at.round).to eq(subject.created_at.round)
     end
   end
 end

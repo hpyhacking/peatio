@@ -231,7 +231,7 @@ module Jobs::Cron
         "GROUP BY currency_id, member_id, reference_type, reference_id"
         liabilities = ActiveRecord::Base.connection.select_all(q)
         liabilities.each do |l|
-          next if l['total'].zero?
+          next if (l['total'] = l['total'].to_d).zero?
 
           cid = l['currency_id']
           transfer[cid] ||= {
@@ -341,32 +341,60 @@ module Jobs::Cron
       end
 
       def build_query_idx(pnl_currency, currency_id, reference_type, idx)
-        "REPLACE INTO stats_member_pnl_idx (pnl_currency_id, currency_id, reference_type, last_id) " \
-        "VALUES ('#{pnl_currency.id}','#{currency_id}','#{reference_type}',#{idx})"
+        if Rails.configuration.database_adapter.downcase == 'PostgreSQL'.downcase
+          'INSERT INTO stats_member_pnl_idx (pnl_currency_id, currency_id, reference_type, last_id) ' \
+          "VALUES ('#{pnl_currency.id}','#{currency_id}','#{reference_type}',#{idx}) " \
+          'ON CONFLICT (pnl_currency_id, currency_id, reference_type) DO UPDATE SET ' \
+          "last_id='#{idx}'"
+        else
+          'REPLACE INTO stats_member_pnl_idx (pnl_currency_id, currency_id, reference_type, last_id) ' \
+          "VALUES ('#{pnl_currency.id}','#{currency_id}','#{reference_type}',#{idx})"
+        end
       end
 
       def build_query(member_id, pnl_currency, currency_id, total_credit, total_credit_fees, total_credit_value, total_debit, total_debit_value, total_debit_fees)
+        total_balance_formula = 'GREATEST(0, stats_member_pnl.total_balance_value + EXCLUDED.total_balance_value - (CASE WHEN EXCLUDED.total_debit = 0 THEN 0 ELSE (EXCLUDED.total_debit + EXCLUDED.total_debit_fees) * stats_member_pnl.average_balance_price END))'
         if pnl_currency.id == currency_id
           average_balance_price = 1
           avg_balance_formula = '1'
         else
           average_balance_price = total_credit.zero? ? 0 : (total_credit_value / total_credit)
-          balance_formula = '(VALUES(total_credit) + total_credit - total_debit - total_debit_fees)'
-          avg_balance_formula = "IF(VALUES(total_credit)=0 OR #{balance_formula}<=0 OR total_balance_value < 0, average_balance_price, total_balance_value/#{balance_formula})"
+          if Rails.configuration.database_adapter.downcase == 'PostgreSQL'.downcase
+            balance_formula = '(EXCLUDED.total_credit + stats_member_pnl.total_credit - stats_member_pnl.total_debit - stats_member_pnl.total_debit_fees)'
+            avg_balance_formula = "CASE WHEN (EXCLUDED.total_credit = 0 OR #{balance_formula} <= 0 OR #{total_balance_formula} < 0) THEN (stats_member_pnl.average_balance_price) ELSE (#{total_balance_formula} / #{balance_formula}) END"
+          else
+            balance_formula = '(VALUES(total_credit) + total_credit - total_debit - total_debit_fees)'
+            avg_balance_formula = "IF(VALUES(total_credit)=0 OR #{balance_formula}<=0 OR total_balance_value < 0, average_balance_price, total_balance_value/#{balance_formula})"
+          end
         end
 
-        'INSERT INTO stats_member_pnl (member_id, pnl_currency_id, currency_id, total_credit, total_credit_fees, total_credit_value, total_debit, total_debit_value, total_debit_fees, total_balance_value, average_balance_price) ' \
-        "VALUES (#{member_id},'#{pnl_currency.id}','#{currency_id}',#{total_credit},#{total_credit_fees},#{total_credit_value},#{total_debit},#{total_debit_value},#{total_debit_fees},#{total_credit_value},#{average_balance_price}) " \
-        'ON DUPLICATE KEY UPDATE ' \
-        'total_balance_value = GREATEST(0, total_balance_value + VALUES(total_balance_value) - IF(VALUES(total_debit) = 0, 0, (VALUES(total_debit) + VALUES(total_debit_fees)) * average_balance_price)), ' \
-        "average_balance_price = #{avg_balance_formula}, " \
-        'total_credit = total_credit + VALUES(total_credit), ' \
-        'total_credit_fees = total_credit_fees + VALUES(total_credit_fees), ' \
-        'total_debit_fees = total_debit_fees + VALUES(total_debit_fees), ' \
-        'total_credit_value = total_credit_value + VALUES(total_credit_value), ' \
-        'total_debit_value = total_debit_value + VALUES(total_debit_value), ' \
-        'total_debit = total_debit + VALUES(total_debit), ' \
-        'updated_at = NOW()'
+        if Rails.configuration.database_adapter.downcase == 'PostgreSQL'.downcase
+          'INSERT INTO stats_member_pnl (member_id, pnl_currency_id, currency_id, total_credit, total_credit_fees, total_credit_value, total_debit, total_debit_value, total_debit_fees, total_balance_value, average_balance_price) ' \
+          "VALUES ('#{member_id}','#{pnl_currency.id}','#{currency_id}',#{total_credit},#{total_credit_fees},#{total_credit_value},#{total_debit},#{total_debit_value},#{total_debit_fees},#{total_credit_value},#{average_balance_price}) " \
+          'ON CONFLICT (pnl_currency_id, currency_id, member_id) DO UPDATE SET ' \
+          "total_balance_value = #{total_balance_formula}, " \
+          "average_balance_price = #{avg_balance_formula}, " \
+          'total_credit = stats_member_pnl.total_credit + EXCLUDED.total_credit, ' \
+          'total_credit_fees = stats_member_pnl.total_credit_fees + EXCLUDED.total_credit_fees, ' \
+          'total_debit_fees = stats_member_pnl.total_debit_fees + EXCLUDED.total_debit_fees, ' \
+          'total_credit_value = stats_member_pnl.total_credit_value + EXCLUDED.total_credit_value, ' \
+          'total_debit_value = stats_member_pnl.total_debit_value + EXCLUDED.total_debit_value, ' \
+          'total_debit = stats_member_pnl.total_debit + EXCLUDED.total_debit, ' \
+          'updated_at = NOW()'
+        else
+          'INSERT INTO stats_member_pnl (member_id, pnl_currency_id, currency_id, total_credit, total_credit_fees, total_credit_value, total_debit, total_debit_value, total_debit_fees, total_balance_value, average_balance_price) ' \
+          "VALUES (#{member_id},'#{pnl_currency.id}','#{currency_id}',#{total_credit},#{total_credit_fees},#{total_credit_value},#{total_debit},#{total_debit_value},#{total_debit_fees},#{total_credit_value},#{average_balance_price}) " \
+          'ON DUPLICATE KEY UPDATE ' \
+          'total_balance_value = GREATEST(0, total_balance_value + VALUES(total_balance_value) - IF(VALUES(total_debit) = 0, 0, (VALUES(total_debit) + VALUES(total_debit_fees)) * average_balance_price)), ' \
+          "average_balance_price = #{avg_balance_formula}, " \
+          'total_credit = total_credit + VALUES(total_credit), ' \
+          'total_credit_fees = total_credit_fees + VALUES(total_credit_fees), ' \
+          'total_debit_fees = total_debit_fees + VALUES(total_debit_fees), ' \
+          'total_credit_value = total_credit_value + VALUES(total_credit_value), ' \
+          'total_debit_value = total_debit_value + VALUES(total_debit_value), ' \
+          'total_debit = total_debit + VALUES(total_debit), ' \
+          'updated_at = NOW()'
+        end
       end
 
       def update_pnl(queries)

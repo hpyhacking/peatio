@@ -23,6 +23,8 @@ class StatsMemberPnl < ApplicationRecord
             numericality: { greater_than_or_equal_to: 0 }
   # == Scopes ===============================================================
 
+  default_scope { order(id: :asc) }
+
   # == Callbacks ============================================================
 
   # == Class Methods ========================================================

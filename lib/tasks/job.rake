@@ -71,7 +71,11 @@ namespace :job do
     task :compact_orders, %i[min_time max_time] => [:environment] do |_, args|
       Job.execute('compact_orders') do
         # Connection to the main database
-        main_db = Mysql2::Client.new(sql_config(ENV.fetch('RAILS_ENV', 'development')))
+        main_db = if Rails.configuration.database_adapter.downcase == 'PostgreSQL'.downcase
+                    ActiveRecord::Base.connection.raw_connection
+                  else
+                    Mysql2::Client.new(sql_config(ENV.fetch('RAILS_ENV', 'development')))
+                  end
         # Execute Stored Procedure for Liabilities compacting
         # Example:
         # Current date: "2020-07-30 16:39:15"
@@ -80,7 +84,11 @@ namespace :job do
         # Compact liabilities beetwen: "2020-07-23 00:00:00" and "2020-07-24 00:00:00"
         args.with_defaults(min_time: (Time.now - 1.week).beginning_of_day.to_s(:db),
                            max_time: (Time.now - 6.day).beginning_of_day.to_s(:db))
-        result = main_db.query("call compact_orders('#{args.min_time}', '#{args.max_time}');")
+        result = if Rails.configuration.database_adapter.downcase == 'PostgreSQL'.downcase
+                   main_db.query("select * from compact_orders('#{args.min_time}'::date, '#{args.max_time}'::date);")
+                 else
+                   main_db.query("call compact_orders('#{args.min_time}', '#{args.max_time}');")
+                 end
         result.first
       end
     end

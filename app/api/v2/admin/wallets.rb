@@ -237,7 +237,7 @@ module API
               # Check if exist (will return error)
               CurrencyWallet.find_by!(currency_id: c_id, wallet_id: params[:id])
               # Delete relation
-              CurrencyWallet.delete(currency_id: c_id, wallet_id: params[:id])
+              CurrencyWallet.where(currency_id: c_id, wallet_id: params[:id]).delete_all
             end
           end
 

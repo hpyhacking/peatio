@@ -24,8 +24,8 @@ describe 'job.rake' do
       min = (Time.now - 1.week).beginning_of_day.to_s(:db)
       max = (Time.now - 6.day).beginning_of_day.to_s(:db)
 
-      counter = Operations::Liability.where("reference_type = 'Order' AND created_at BETWEEN '#{min}' AND '#{max}'").count
-      result = ActiveRecord::Base.connection.query("SELECT NULL, code, currency_id, member_id, SUM(debit), SUM(credit) FROM `liabilities` WHERE (reference_type = 'Order' AND created_at BETWEEN '#{min}' AND '#{max}') GROUP BY `code`, `member_id`, `currency_id`, DATE(`created_at`)")
+      counter = Operations::Liability.where("LOWER(reference_type) = LOWER('Order') AND created_at BETWEEN '#{min}' AND '#{max}'").count
+      result = ActiveRecord::Base.connection.query("SELECT NULL, code, currency_id, member_id, SUM(debit), SUM(credit) FROM liabilities WHERE (LOWER(reference_type) = LOWER('Order') AND created_at BETWEEN '#{min}' AND '#{max}') GROUP BY code, member_id, currency_id, DATE(created_at)")
       subject.invoke
       expect(job.name).to eq('compact_orders')
       expect(job.counter).to eq(counter)
@@ -37,8 +37,8 @@ describe 'job.rake' do
       min = (Time.now - 2.day).beginning_of_day.to_s(:db)
       max = (Time.now - 1.day).beginning_of_day.to_s(:db)
 
-      counter = Operations::Liability.where("reference_type = 'Order' AND created_at BETWEEN '#{min}' AND '#{max}'").count
-      result = ActiveRecord::Base.connection.query("SELECT NULL, code, currency_id, member_id, SUM(debit), SUM(credit) FROM `liabilities` WHERE (reference_type = 'Order' AND created_at BETWEEN '#{min}' AND '#{max}') GROUP BY `code`, `member_id`, `currency_id`, DATE(`created_at`)")
+      counter = Operations::Liability.where("LOWER(reference_type) = LOWER('Order') AND created_at BETWEEN '#{min}' AND '#{max}'").count
+      result = ActiveRecord::Base.connection.query("SELECT NULL, code, currency_id, member_id, SUM(debit), SUM(credit) FROM liabilities WHERE (LOWER(reference_type) = LOWER('Order') AND created_at BETWEEN '#{min}' AND '#{max}') GROUP BY code, member_id, currency_id, DATE(created_at)")
       subject.invoke(min, max)
       expect(job.name).to eq('compact_orders')
       expect(job.counter).to eq(counter)

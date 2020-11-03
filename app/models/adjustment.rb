@@ -118,7 +118,7 @@ class Adjustment < ApplicationRecord
     klass = Operations.klass_for(code: code)
 
     params = {
-      currency_id: currency_id,
+      currency_id: currency_id.downcase,
       code: asset_account_code,
       debit: debit.to_d,
       credit: credit.to_d,

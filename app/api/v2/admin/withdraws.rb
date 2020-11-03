@@ -40,7 +40,7 @@ module API
                              .eq(:id, :txid, :rid, :tid)
                              .translate(uid: :member_uid, currency: :currency_id)
                              .with_daterange
-                             .merge(type_eq: params[:type].present? ? "Withdraws::#{params[:type]}" : nil)
+                             .merge(type_eq: params[:type].present? ? "Withdraws::#{params[:type].capitalize}" : nil)
                              .merge(aasm_state_in: params[:state])
                              .build
 

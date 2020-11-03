@@ -59,7 +59,7 @@ describe API::V2::Account::Withdraws, type: :request do
     end
 
     it 'returns withdraws specified currency' do
-      api_get '/api/v2/account/withdraws', params: { currency: 'BTC', limit: 100 }, token: token
+      api_get '/api/v2/account/withdraws', params: { currency: 'btc', limit: 100 }, token: token
       result = JSON.parse(response.body)
 
       expect(response).to be_successful
@@ -94,14 +94,14 @@ describe API::V2::Account::Withdraws, type: :request do
     it 'paginates withdraws' do
       ordered_withdraws = btc_withdraws.sort_by(&:id).reverse
 
-      api_get '/api/v2/account/withdraws', params: { currency: 'BTC', limit: 10, page: 1 }, token: token
+      api_get '/api/v2/account/withdraws', params: { currency: 'btc', limit: 10, page: 1 }, token: token
       result = JSON.parse(response.body)
 
       expect(response).to be_successful
       expect(response.headers.fetch('Total')).to eq '20'
       expect(result.first['id']).to eq ordered_withdraws[0].id
 
-      api_get '/api/v2/account/withdraws', params: { currency: 'BTC', limit: 10, page: 2 }, token: token
+      api_get '/api/v2/account/withdraws', params: { currency: 'btc', limit: 10, page: 2 }, token: token
       result = JSON.parse(response.body)
 
       expect(response).to be_successful
@@ -112,7 +112,7 @@ describe API::V2::Account::Withdraws, type: :request do
     it 'sorts withdraws' do
       ordered_withdraws = btc_withdraws.sort_by(&:id).reverse
 
-      api_get '/api/v2/account/withdraws', params: { currency: 'BTC', limit: 100 }, token: token
+      api_get '/api/v2/account/withdraws', params: { currency: 'btc', limit: 100 }, token: token
       expect(response).to be_successful
       result = JSON.parse(response.body)
 

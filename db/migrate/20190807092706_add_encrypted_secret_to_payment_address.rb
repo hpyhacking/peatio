@@ -5,7 +5,7 @@ class AddEncryptedSecretToPaymentAddress < ActiveRecord::Migration[5.2]
     settings = Wallet.pluck(:id, :settings)
 
     remove_column :payment_addresses, :secret
-    add_column :payment_addresses, :secret_encrypted , :string, after: :address
+    add_column :payment_addresses, :secret_encrypted , :string, limit: 255, after: :address
 
     remove_column :payment_addresses, :details
     add_column :payment_addresses, :details_encrypted , :string, limit: 1024, after: :secret_encrypted

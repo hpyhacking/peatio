@@ -1,6 +1,6 @@
 ---
 kind: pipeline
-name: MySQL
+name: "MySQL 5.7"
 
 services:
 - name: database
@@ -18,7 +18,7 @@ services:
     INFLUXDB_ADMIN_ENABLED: 'true'
 
 - name: rabbitmq
-  image: rabbitmq:3.7.6-management
+  image: rabbitmq:3.8.9
   ports:
     - 5672
 
@@ -164,6 +164,7 @@ steps:
     - export latest_image=quay.io/openware/peatio:$(cat .tags)
     - cd /home/app
     - bundle exec rake payload:send[peatio,$latest_image,http://master.devkube.com:1337]
+  detach: true
   when:
     branch:
       - master
@@ -190,6 +191,7 @@ steps:
       from_secret: kite_bot_key
   commands:
     - BUNDLE_GEMFILE=/sdk/Gemfile bundle exec rake --rakefile=/sdk/Rakefile ci:postbuild[/drone/src]
+  detach: true
   when:
     branch:
       - master
@@ -246,7 +248,7 @@ image_pull_secrets:
   
 ---
 kind: pipeline
-name: MariaDB
+name: "MariaDB 10.3"
 
 services:
 - name: mariadb
@@ -255,6 +257,7 @@ services:
     - 3306
   environment:
     MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
+
 - name: influxdb
   image: influxdb:1.7.8
   ports:
@@ -263,7 +266,7 @@ services:
     INFLUXDB_ADMIN_ENABLED: 'true'
 
 - name: rabbitmq
-  image: rabbitmq:3.7.6-management
+  image: rabbitmq:3.8.9
   ports:
     - 5672
 
@@ -306,3 +309,134 @@ trigger:
   event:
     - push
 
+---
+kind: pipeline
+name: "MySQL 8.0"
+
+services:
+- name: mysql
+  image: mysql:8.0
+  commands:
+    - /entrypoint.sh --default-authentication-plugin=mysql_native_password
+  ports:
+    - 3306
+  environment:
+    MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
+
+- name: influxdb
+  image: influxdb:1.7.8
+  ports:
+    - 8086
+  environment:
+    INFLUXDB_ADMIN_ENABLED: 'true'
+
+- name: rabbitmq
+  image: rabbitmq:3.8.9
+  ports:
+    - 5672
+
+- name: redis
+  image: redis:4.0
+  ports:
+    - 6379
+
+steps:
+- name: wait-for-services
+  image: jwilder/dockerize
+  commands:
+  - dockerize -wait tcp://mysql:3306 -wait tcp://influxdb:8086 -wait tcp://rabbitmq:5672 -wait tcp://redis:6379 -timeout 1m
+
+- name: init-influxdb
+  image: influxdb:1.7.8
+  commands:
+  - cat db/influxdb.sql | influx -host influxdb
+
+- name: run-rspec
+  image: ruby:2.6.5
+  environment:
+    DATABASE_HOST: "mysql"
+    INFLUXDB_HOST: influxdb
+    RABBITMQ_HOST: rabbitmq
+    EVENT_API_RABBITMQ_HOST: rabbitmq
+    REDIS_URL: redis://redis:6379
+    RAILS_ENV: test
+    VAULT_ADDR: ''
+    VAULT_TOKEN: ''
+  commands:
+  - bin/init_config
+  - gem install bundler:2.1.4
+  - bundle install --jobs=$(nproc) --retry=3 --path vendor/bundle
+  - bundle exec rake db:create db:migrate
+  - LOG_LEVEL=warn bundle exec rspec
+
+trigger:
+  event:
+    - push
+
+
+---
+kind: pipeline
+name: "PostgreSQL 13.0"
+
+services:
+- name: postgres
+  image: postgres:13.0
+  ports:
+    - 5432
+  environment:
+    POSTGRES_PASSWORD: changeme
+
+- name: influxdb
+  image: influxdb:1.7.8
+  ports:
+    - 8086
+  environment:
+    INFLUXDB_ADMIN_ENABLED: 'true'
+
+- name: rabbitmq
+  image: rabbitmq:3.8.9
+  ports:
+    - 5672
+
+- name: redis
+  image: redis:4.0
+  ports:
+    - 6379
+
+steps:
+- name: wait-for-services
+  image: jwilder/dockerize
+  commands:
+  - dockerize -wait tcp://postgres:5432 -wait tcp://influxdb:8086 -wait tcp://rabbitmq:5672 -wait tcp://redis:6379 -timeout 1m
+
+- name: init-influxdb
+  image: influxdb:1.7.8
+  commands:
+  - cat db/influxdb.sql | influx -host influxdb
+
+- name: run-rspec
+  image: ruby:2.6.5
+  environment:
+    DATABASE_HOST: "postgres"
+    DATABASE_USER: "postgres"
+    DATABASE_PASS: "changeme"
+    DATABASE_ADAPTER: "postgresql"
+    DATABASE_PORT: "5432"
+    DATABASE_COLLATION: ""
+    INFLUXDB_HOST: influxdb
+    RABBITMQ_HOST: rabbitmq
+    EVENT_API_RABBITMQ_HOST: rabbitmq
+    REDIS_URL: redis://redis:6379
+    RAILS_ENV: test
+    VAULT_ADDR: ''
+    VAULT_TOKEN: ''
+  commands:
+  - bin/init_config
+  - gem install bundler:2.1.4
+  - bundle install --jobs=$(nproc) --retry=3 --path vendor/bundle
+  - bundle exec rake db:create db:migrate
+  - LOG_LEVEL=warn bundle exec rspec
+
+trigger:
+  event:
+    - push

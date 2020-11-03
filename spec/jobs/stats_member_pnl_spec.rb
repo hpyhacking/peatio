@@ -266,29 +266,31 @@ describe Jobs::Cron::StatsMemberPnl do
         it do
           expect { Jobs::Cron::StatsMemberPnl.process }.to change { StatsMemberPnl.count }.by(2)
 
-          expect(StatsMemberPnl.second.member_id).to eq coin_deposit.member_id
-          expect(StatsMemberPnl.second.pnl_currency_id).to eq 'eth'
-          expect(StatsMemberPnl.second.currency_id).to eq coin_deposit.currency_id
-          expect(StatsMemberPnl.second.total_credit).to eq coin_deposit.amount
-          expect(StatsMemberPnl.second.total_debit).to eq 0
-          expect(StatsMemberPnl.second.total_debit_value).to eq 0
-          expect(StatsMemberPnl.second.total_debit_fees).to eq 0
-          expect(StatsMemberPnl.second.total_credit_fees).to eq coin_deposit.fee
-          expect(StatsMemberPnl.second.total_credit_value).to eq coin_deposit.amount * 1.0
-          expect(StatsMemberPnl.second.total_balance_value).to eq coin_deposit.amount * 1.0
-          expect(StatsMemberPnl.second.average_balance_price).to eq 1.0
+          stats_member_pnl_btc = StatsMemberPnl.find_by(currency_id: coin_deposit.currency_id, member: coin_deposit.member)
+          stats_member_pnl_usd = StatsMemberPnl.find_by(currency_id: fiat_deposit.currency_id, member: fiat_deposit.member)
+          expect(stats_member_pnl_btc.member_id).to eq coin_deposit.member_id
+          expect(stats_member_pnl_btc.pnl_currency_id).to eq 'eth'
+          expect(stats_member_pnl_btc.currency_id).to eq coin_deposit.currency_id
+          expect(stats_member_pnl_btc.total_credit).to eq coin_deposit.amount
+          expect(stats_member_pnl_btc.total_debit).to eq 0
+          expect(stats_member_pnl_btc.total_debit_value).to eq 0
+          expect(stats_member_pnl_btc.total_debit_fees).to eq 0
+          expect(stats_member_pnl_btc.total_credit_fees).to eq coin_deposit.fee
+          expect(stats_member_pnl_btc.total_credit_value).to eq coin_deposit.amount * 1.0
+          expect(stats_member_pnl_btc.total_balance_value).to eq coin_deposit.amount * 1.0
+          expect(stats_member_pnl_btc.average_balance_price).to eq 1.0
 
-          expect(StatsMemberPnl.last.member_id).to eq fiat_deposit.member_id
-          expect(StatsMemberPnl.last.pnl_currency_id).to eq 'eth'
-          expect(StatsMemberPnl.last.currency_id).to eq fiat_deposit.currency_id
-          expect(StatsMemberPnl.last.total_credit).to eq fiat_deposit.amount
-          expect(StatsMemberPnl.last.total_debit).to eq 0
-          expect(StatsMemberPnl.last.total_debit_value).to eq 0
-          expect(StatsMemberPnl.last.total_debit_fees).to eq 0
-          expect(StatsMemberPnl.last.total_credit_fees).to eq fiat_deposit.fee
-          expect(StatsMemberPnl.last.total_credit_value).to eq fiat_deposit.amount * 1.0
-          expect(StatsMemberPnl.last.total_balance_value).to eq fiat_deposit.amount * 1.0
-          expect(StatsMemberPnl.last.average_balance_price).to eq 1.0
+          expect(stats_member_pnl_usd.member_id).to eq fiat_deposit.member_id
+          expect(stats_member_pnl_usd.pnl_currency_id).to eq 'eth'
+          expect(stats_member_pnl_usd.currency_id).to eq fiat_deposit.currency_id
+          expect(stats_member_pnl_usd.total_credit).to eq fiat_deposit.amount
+          expect(stats_member_pnl_usd.total_debit).to eq 0
+          expect(stats_member_pnl_usd.total_debit_value).to eq 0
+          expect(stats_member_pnl_usd.total_debit_fees).to eq 0
+          expect(stats_member_pnl_usd.total_credit_fees).to eq fiat_deposit.fee
+          expect(stats_member_pnl_usd.total_credit_value).to eq fiat_deposit.amount * 1.0
+          expect(stats_member_pnl_usd.total_balance_value).to eq fiat_deposit.amount * 1.0
+          expect(stats_member_pnl_usd.average_balance_price).to eq 1.0
         end
       end
 

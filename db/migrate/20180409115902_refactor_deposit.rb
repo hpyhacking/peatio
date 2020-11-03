@@ -12,7 +12,7 @@ class RefactorDeposit < ActiveRecord::Migration[4.2]
     change_column_null :deposits, :created_at, false
     change_column_null :deposits, :updated_at, false
     add_column :deposits, :new_confirmations, :integer, null: false, default: 0, after: :confirmations
-    execute "UPDATE deposits SET new_confirmations = confirmations WHERE confirmations IS NOT NULL"
+    Deposit.where('confirmations IS NOT NULL').update_all(new_confirmations: 'confirmations')
     remove_column :deposits, :confirmations
     rename_column :deposits, :new_confirmations, :confirmations
     change_column :deposits, :type, :string, null: false, limit: 30

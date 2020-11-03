@@ -8,7 +8,18 @@ class CreateStatsMemberPnlIdx < ActiveRecord::Migration[5.2]
       t.string :reference_type, limit: 255, null: false
       t.bigint :last_id
       t.datetime :created_at, null: false, default: -> { 'CURRENT_TIMESTAMP' }
-      t.datetime :updated_at, null: false, default: -> { 'CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP' }
+
+      case ActiveRecord::Base.connection.adapter_name
+      when 'Mysql2'
+        t.datetime :updated_at, null: false, default: -> { 'CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP' }
+
+      when 'PostgreSQL'
+        t.datetime :updated_at, null: false, default: -> { 'CURRENT_TIMESTAMP' }
+
+      else
+        raise "Unsupported adapter: #{ActiveRecord::Base.connection.adapter_name}"
+      end
+
 
       t.index %i[pnl_currency_id currency_id last_id], name: 'index_currency_ids_and_last_id'
       t.index %i[pnl_currency_id currency_id reference_type], unique: true, name: 'index_currency_ids_and_type'

@@ -73,11 +73,23 @@ module API
 
           deposit_sql = "(SELECT d.id, currency_id, amount, fee, address, aasm_state, NULL AS note, txid, d.created_at, d.updated_at, d.type, b.height - block_number AS confirmations FROM deposits d " \
           "INNER JOIN currencies c ON c.id=d.currency_id LEFT JOIN blockchains b ON b.key=c.blockchain_key WHERE member_id=#{current_user.id} "
-          deposit_sql += "and FIND_IN_SET(aasm_state, '#{deposit_state}') " if params[:deposit_state].present?
+          if params[:deposit_state].present?
+            deposit_sql += if Rails.configuration.database_adapter.downcase == 'PostgreSQL'.downcase
+                             "and aasm_state = any(string_to_array('#{deposit_state}',','))"
+                           else
+                             "and FIND_IN_SET(aasm_state, '#{deposit_state}')"
+                           end
+          end
 
           withdraw_sql = "SELECT w.id, currency_id, amount, fee, rid, aasm_state, note, txid, w.created_at, w.updated_at, w.type, b.height - block_number AS confirmations FROM withdraws w " \
           "INNER JOIN currencies c ON c.id=w.currency_id LEFT JOIN blockchains b ON b.key=c.blockchain_key WHERE member_id=#{current_user.id} "
-          withdraw_sql += "and FIND_IN_SET(aasm_state, '#{withdraw_state}')" if params[:withdraw_state].present?
+          if params[:withdraw_state].present?
+            withdraw_sql += if Rails.configuration.database_adapter.downcase == 'PostgreSQL'.downcase
+                              "and aasm_state = any(string_to_array('#{withdraw_state}',','))"
+                            else
+                              "and FIND_IN_SET(aasm_state, '#{withdraw_state}')"
+                            end
+          end
 
           sql = "SELECT * FROM " + deposit_sql + "UNION " + withdraw_sql + ") AS transactions ORDER BY updated_at #{params[:order_by].upcase}"
 

@@ -123,8 +123,19 @@ module Matching
         end.join('; ').tap do |sql|
           Rails.logger.debug { sql }
           client = ActiveRecord::Base.connection.raw_connection
-          client.query(sql)
-          while client.next_result
+          if Rails.configuration.database_adapter.downcase == 'PostgreSQL'.downcase
+            client.send_query(sql)
+            client.set_single_row_mode
+            loop do
+              (res = client.get_result) or break
+              res.check
+              res.each do |_row|
+              end
+            end
+          else
+            client.query(sql)
+            while client.next_result
+            end
           end
         end
 

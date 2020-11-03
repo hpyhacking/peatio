@@ -39,7 +39,7 @@ module API
                              .eq(:id, :txid, :tid, :address)
                              .translate(state: :aasm_state, uid: :member_uid, currency: :currency_id, email: :member_email)
                              .with_daterange
-                             .merge(type_eq: params[:type].present? ? "Deposits::#{params[:type]}" : nil)
+                             .merge(type_eq: params[:type].present? ? "Deposits::#{params[:type].capitalize}" : nil)
                              .build
 
           search = Deposit.ransack(ransack_params)

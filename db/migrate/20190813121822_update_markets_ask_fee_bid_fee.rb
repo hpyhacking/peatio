@@ -17,11 +17,27 @@ class UpdateMarketsAskFeeBidFee < ActiveRecord::Migration[5.2]
       rename_column :orders, :fee, :maker_fee
     end
     add_column :orders, :taker_fee, :decimal, null: false, default: 0, precision: 17, scale: 16, after: :maker_fee
-    execute('UPDATE orders SET orders.taker_fee = orders.maker_fee')
-    execute('UPDATE trades SET trades.maker_order_id = trades.maker_order_id + trades.taker_order_id,
-             trades.taker_order_id = trades.maker_order_id - trades.taker_order_id,
-             trades.maker_order_id = trades.maker_order_id - trades.taker_order_id
-             WHERE (trades.maker_order_id > trades.taker_order_id)')
+
+    case ActiveRecord::Base.connection.adapter_name
+    when 'Mysql2'
+      execute('UPDATE orders SET orders.taker_fee = orders.maker_fee')
+      execute('UPDATE trades SET
+              trades.maker_order_id = trades.maker_order_id + trades.taker_order_id,
+              trades.taker_order_id = trades.maker_order_id - trades.taker_order_id,
+              trades.maker_order_id = trades.maker_order_id - trades.taker_order_id
+              WHERE (trades.maker_order_id > trades.taker_order_id)')
+
+    when 'PostgreSQL'
+      execute('UPDATE "orders" SET "taker_fee" = "maker_fee"')
+      execute('UPDATE "trades" SET
+              "maker_order_id" = "taker_order_id",
+              "taker_order_id" = "maker_order_id"
+              WHERE ("maker_order_id" > "taker_order_id")')
+
+    else
+      raise "Unsupported adapter: #{ActiveRecord::Base.connection.adapter_name}"
+    end
+
   end
 
   def down

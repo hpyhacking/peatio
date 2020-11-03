@@ -32,7 +32,15 @@ class CreateCurrenciesWallets < ActiveRecord::Migration[5.2]
         remove_index :payment_addresses, column: [:currency_id, :address]
         remove_column :payment_addresses, :currency_id
         remove_column :payment_addresses, :account_id
-        change_column :currencies, :options, :json
+
+        case ActiveRecord::Base.connection.adapter_name
+        when 'Mysql2'
+          change_column :currencies, :options, :json
+        when 'PostgreSQL'
+          execute 'ALTER TABLE currencies ALTER COLUMN options TYPE json USING (options::json)'
+        else
+          raise "Unsupported adapter: #{ActiveRecord::Base.connection.adapter_name}"
+        end
       end
 
       dir.down do

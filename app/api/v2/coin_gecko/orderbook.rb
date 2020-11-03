@@ -11,7 +11,7 @@ module API
           requires :ticker_id,
                    type: String,
                    desc: 'A pair such as "LTC_BTC"',
-                   coerce_with: ->(name) { name.strip.split('_').join }
+                   coerce_with: ->(name) { name.strip.split('_').join.downcase }
           optional :depth,
                    type: { value: Integer, message: 'coingecko.market_depth.non_integer_depth' },
                    values: { value: 0..1000, message: 'coingecko.market_depth.invalid_depth' },
