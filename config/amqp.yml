@@ -17,6 +17,9 @@ exchange:
   events:
     name: peatio.events
     type: direct
+  matching:
+    name: peatio.matching
+    type: direct
   finex-spot:
     name: finex.orderapi
     type: direct
@@ -43,9 +46,6 @@ queue:
     #
     # In such case queue will be deleted automatically once all workers are disconnected. This should ensure queue
     # is created from scratch with new configuration at next redeployment.
-  slave_book:
-    name: peatio.orderbook.slave
-    durable: true
   new_trade:
     name: peatio.trade.new
     durable: true
@@ -80,27 +80,15 @@ binding:
   matching:
     queue: matching
     clean_start: true
-  slave_book:
-    queue: slave_book
-    exchange: orderbook
+    exchange: matching
   trade_executor:
     queue: new_trade
+    exchange: matching
   order_processor:
     queue: order_processor
-  market_ticker:
-    queue: market_ticker
-    exchange: trade
-  pusher_market:
-    queue: pusher_market
-    exchange: trade
-  pusher_member:
-    queue: pusher_member
+    exchange: matching
   withdraw_coin:
     queue: withdraw_coin
-  deposit_collection_fees:
-    queue: deposit_collection_fees
-  deposit_collection:
-    queue: deposit_collection
   deposit_coin_address:
     queue: deposit_coin_address
   influx_writer:
@@ -108,6 +96,7 @@ binding:
     exchange: trade
   trade_error:
     queue: trade_error
+    exchange: matching
   events_processor:
     queue: events_processor
     exchange: events
