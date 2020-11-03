@@ -79,7 +79,7 @@ module API
 
           begin
             order = Order.find(params[:id])
-            cancel_order(order)
+            order.trigger_cancellation
             present order, with: API::V2::Admin::Entities::Order
           rescue ActiveRecord::RecordNotFound => e
             # RecordNotFound in rescued by ExceptionsHandler.
@@ -110,7 +110,7 @@ module API
                                     }).build
 
             orders = Order.ransack(ransack_params)
-            orders.result.each { |o| cancel_order(o) }
+            orders.result.map(&:trigger_cancellation)
             present orders.result, with: API::V2::Entities::Order
           rescue
             error!({ errors: ['admin.order.cancel_error'] }, 422)

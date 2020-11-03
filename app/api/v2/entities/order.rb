@@ -158,15 +158,8 @@ module API
           },
           if: { type: :full }
         ) do |order, _options|
-            API::V2::Entities::Trade.represent order.trades, side: side
+            API::V2::Entities::Trade.represent order.trades, side: order.side
           end
-
-        private
-
-        def side
-          @side ||= @object.type[-3, 3] == 'Ask' ? 'sell' : 'buy'
-        end
-
       end
     end
   end

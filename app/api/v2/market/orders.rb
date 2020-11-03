@@ -122,7 +122,7 @@ module API
             else
               error!({ errors: ['market.order.invaild_id_or_uuid'] }, 422)
             end
-            cancel_order(order)
+            order.trigger_cancellation
             present order, with: API::V2::Entities::Order
           rescue ActiveRecord::RecordNotFound => e
             # RecordNotFound in rescued by ExceptionsHandler.
@@ -155,7 +155,7 @@ module API
               type = params[:side] == 'sell' ? 'OrderAsk' : 'OrderBid'
               orders = orders.where(type: type)
             end
-            orders.each { |o| cancel_order(o) }
+            orders.map(&:trigger_cancellation)
             present orders, with: API::V2::Entities::Order
           rescue
             error!({ errors: ['market.order.cancel_error'] }, 422)

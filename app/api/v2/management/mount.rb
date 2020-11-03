@@ -40,6 +40,7 @@ module API
         mount Management::Withdraws
         mount Management::Tools
         mount Management::Operations
+        mount Management::Orders
         mount Management::Transfers
         mount Management::Trades
         mount Management::Members
