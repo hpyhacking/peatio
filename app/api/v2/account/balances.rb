@@ -29,7 +29,7 @@ module API
           end
         end
         get '/balances' do
-          user_authorize! :read, Account
+          user_authorize! :read, ::Operations::Account
 
           search_params = params[:search]
                                 .slice(:currency_code, :currency_name)
@@ -54,7 +54,7 @@ module API
                    desc: 'The currency code.'
         end
         get '/balances/:currency', requirements: { currency: /[\w\.\-]+/ }  do
-          user_authorize! :read, Account
+          user_authorize! :read, ::Operations::Account
 
           present current_user.accounts.visible.find_by!(currency_id: params[:currency]),
                   with: API::V2::Entities::Account

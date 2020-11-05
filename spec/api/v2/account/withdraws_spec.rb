@@ -7,6 +7,10 @@ describe API::V2::Account::Withdraws, type: :request do
   let(:level_0_member) { create(:member, :level_0) }
   let(:level_0_member_token) { jwt_for(level_0_member) }
 
+  before do
+    Ability.stubs(:user_permissions).returns({'member'=>{'read'=>['Withdraw'],'create'=>['Withdraw']}})
+  end
+
   describe 'GET /api/v2/account/withdraws' do
     let!(:btc_withdraws) { create_list(:btc_withdraw, 20, :with_deposit_liability, member: member) }
     let!(:usd_withdraws) { create_list(:usd_withdraw, 20, :with_deposit_liability, member: member) }

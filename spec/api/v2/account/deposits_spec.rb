@@ -8,6 +8,10 @@ describe API::V2::Account::Deposits, type: :request do
   let(:level_0_member) { create(:member, :level_0) }
   let(:level_0_member_token) { jwt_for(level_0_member) }
 
+  before do
+    Ability.stubs(:user_permissions).returns({'member'=>{'read'=>['Deposit', 'PaymentAddress']}})
+  end
+
   describe 'GET /api/v2/account/deposits' do
     before do
       create(:deposit_btc, member: member)

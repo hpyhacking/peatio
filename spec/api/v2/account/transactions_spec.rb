@@ -9,6 +9,10 @@ describe API::V2::Account::Transactions, type: :request do
     let(:usd_account) { member.get_account('usd') }
     let(:balance) { 100000 }
 
+    before do
+      Ability.stubs(:user_permissions).returns({'member'=>{'read'=>['Deposit', 'Withdraw']}})
+    end
+
     context 'successful' do
       before do
         btc_account.plus_funds(balance)

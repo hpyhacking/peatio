@@ -11,6 +11,10 @@ describe API::V2::Account::Balances, type: :request do
   let(:response_body) { { 'currency' => 'eth', 'balance' => '30.5', 'locked' => '0.0' } }
 
   before do
+    Ability.stubs(:user_permissions).returns({'member'=>{'read'=>['Operations::Account']}})
+  end
+
+  before do
     deposit_btc.accept!
     deposit_btc.process!
     deposit_btc.dispatch

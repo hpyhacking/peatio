@@ -60,7 +60,7 @@ module API
                          "If set, only orders created before the time will be returned."
         end
         get '/orders' do
-          user_authorize! :read, Order
+          user_authorize! :read, ::Order
 
           current_user.orders.order(updated_at: params[:order_by])
                       .tap { |q| q.where!(market: params[:market]) if params[:market] }
@@ -80,7 +80,7 @@ module API
           use :order_id
         end
         get '/orders/:id' do
-          user_authorize! :read, Order
+          user_authorize! :read, ::Order
 
           if params[:id].match?(/\A[0-9]+\z/)
             order = current_user.orders.find_by!(id: params[:id])
@@ -98,7 +98,7 @@ module API
           use :enabled_markets, :order
         end
         post '/orders' do
-          user_authorize! :create, Order
+          user_authorize! :create, ::Order
 
           if params[:ord_type] == 'market' && params.key?(:price)
             error!({ errors: ['market.order.market_order_price'] }, 422)
@@ -112,7 +112,7 @@ module API
           use :order_id
         end
         post '/orders/:id/cancel' do
-          user_authorize! :update, Order
+          user_authorize! :update, ::Order
 
           begin
             if params[:id].match?(/\A[0-9]+\z/)
@@ -145,7 +145,7 @@ module API
                    desc: 'If present, only sell orders (asks) or buy orders (bids) will be canncelled.'
         end
         post '/orders/cancel' do
-          user_authorize! :update, Order
+          user_authorize! :update, ::Order
 
           begin
             orders = current_user.orders

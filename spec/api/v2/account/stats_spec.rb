@@ -4,6 +4,10 @@ describe API::V2::Account::Stats, type: :request do
   let(:member) { create(:member, :level_3) }
   let(:token) { jwt_for(member) }
 
+  before do
+    Ability.stubs(:user_permissions).returns({'member'=>{'read'=>['StatsMemberPnl']}})
+  end
+
   describe 'GET /api/v2/account/stats/pnl' do
     let!(:eth) { Currency.find('eth') }
     let!(:btc) { Currency.find('btc') }

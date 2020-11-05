@@ -7,6 +7,10 @@ describe API::V2::Market::Orders, type: :request do
   let(:token) { jwt_for(member) }
   let(:level_0_member_token) { jwt_for(level_0_member) }
 
+  before do
+    Ability.stubs(:user_permissions).returns({'member'=>{'read'=>['Order'],'create'=>['Order'],'update'=>['Order']}})
+  end
+
   describe 'GET /api/v2/market/orders' do
     before do
       # NOTE: We specify updated_at attribute for testing order of Order.

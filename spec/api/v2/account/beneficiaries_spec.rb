@@ -27,6 +27,11 @@ describe API::V2::Account::Beneficiaries, 'GET', type: :request do
     JSON.parse(response.body)
   end
 
+  before do
+    Ability.stubs(:user_permissions).returns({'member'=>{'read'=>['Beneficiary'],'update'=>['Beneficiary'],
+                                                         'create'=> ['Beneficiary'],'destroy'=> ['Beneficiary']}})
+  end
+
   context 'without JWT' do
     it do
       get endpoint

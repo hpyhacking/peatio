@@ -12,7 +12,7 @@ module API
                    desc: 'Currency code in which the PnL is calculated'
         end
         get '/stats/pnl' do
-          user_authorize! :create, StatsMemberPnl
+          user_authorize! :read, ::StatsMemberPnl
 
           query = 'SELECT pnl_currency_id, currency_id, total_credit, total_debit, total_credit_value, total_debit_value, ' \
                   'total_credit_value / NULLIF(total_credit, 0) "average_buy_price", ' \
