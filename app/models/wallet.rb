@@ -52,6 +52,22 @@ class Wallet < ApplicationRecord
   scope :with_currency, ->(currency) { joins(:currencies).where(currencies: { id: currency }) }
   scope :ordered, -> { order(kind: :asc) }
 
+  before_validation(on: :create) do
+    if address.blank? && settings[:uri].present? && currencies.present?
+      begin
+        result = generate_settings
+      rescue StandardError => e
+        Rails.logger.info { "Cannot generate wallet address and secret error: #{e.message}" }
+        result = { address: 'changeme', secret: 'changeme' }
+      ensure
+        if result.present?
+          self.address = result[:address]
+          self.secret = result[:secret]
+        end
+      end
+    end
+  end
+
   before_validation do
     next unless address? && blockchain.blockchain_api.supports_cash_addr_format?
     self.address = CashAddr::Converter.to_cash_address(address)
@@ -119,6 +135,10 @@ class Wallet < ApplicationRecord
 
   def service
     ::WalletService.new(self)
+  end
+
+  def generate_settings
+    service.create_address!('peatio', {})
   end
 end
 

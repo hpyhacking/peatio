@@ -101,7 +101,7 @@ module API
                    desc: -> { API::V2::Admin::Entities::Wallet.documentation[:blockchain_key][:desc] }
           requires :name,
                    desc: -> { API::V2::Admin::Entities::Wallet.documentation[:name][:desc] }
-          requires :address,
+          optional :address,
                    desc: -> { API::V2::Admin::Entities::Wallet.documentation[:address][:desc] }
           optional :currencies,
                    values: { value: ->(v) { (Array.wrap(v) - ::Currency.codes).blank? }, message: 'admin.wallet.currency_doesnt_exist' },
