@@ -21,7 +21,7 @@ describe API::V2::Admin::Engines, type: :request do
     end
 
     it 'returns error in case of invalid id' do
-      api_get '/api/v2/admin/engines/120', token: token
+      api_get "/api/v2/admin/engines/#{Engine.last.id + 1}", token: token
 
       expect(response.code).to eq '404'
       expect(response).to include_api_error('record.not_found')

@@ -112,7 +112,7 @@ describe API::V2::Admin::Wallets, type: :request do
       end
 
       context do
-        let(:hot_wallet) { Wallet.find_by(blockchain_key: 'eth-rinkeby', kind: :hot) }
+        let(:hot_wallet) { Wallet.joins(:currencies).find_by(blockchain_key: 'eth-rinkeby', kind: :hot, currencies: { id: :eth }) }
 
         before do
           hot_wallet.currencies << Currency.find(:trst)
