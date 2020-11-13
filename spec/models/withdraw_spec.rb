@@ -592,21 +592,19 @@ describe Withdraw do
     end
 
     context 'enough limits' do
-      it { expect(withdraw.valid?).to be_truthy }
+      it { expect(withdraw.verify_limits).to be_truthy }
     end
 
     context 'Withdraw 24 hours limit exceeded' do
       it do
         withdraw.sum = 100
-        withdraw.validate
-        expect(withdraw.errors.full_messages).to include('Withdraw 24 hours limit exceeded')
+        expect(withdraw.verify_limits).to be_falsey
       end
 
       it 'withdraw in different currency' do
         Currency.find('usd').update!(price: 1)
         withdraw.sum = 100
-        withdraw.validate
-        expect(withdraw.errors.full_messages).to include('Withdraw 24 hours limit exceeded')
+        expect(withdraw.verify_limits).to be_falsey
       end
     end
 
@@ -615,8 +613,7 @@ describe Withdraw do
       it do
         withdraw.update(created_at: 2.day.ago)
         withdraw = build(:btc_withdraw, :with_deposit_liability, member: member, sum: 0.6.to_d)
-        withdraw.validate
-        expect(withdraw.errors.full_messages).to include('Withdraw 1 month limit exceeded')
+        expect(withdraw.verify_limits).to be_falsey
       end
     end
 

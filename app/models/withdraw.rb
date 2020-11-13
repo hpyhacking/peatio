@@ -50,7 +50,6 @@ class Withdraw < ApplicationRecord
     errors.add(:beneficiary, 'not active') if beneficiary.present? && !beneficiary.active? && !aasm_state.to_sym.in?(COMPLETED_STATES)
   end
 
-  validate :verify_limits, on: :create
   scope :completed, -> { where(aasm_state: COMPLETED_STATES) }
   scope :succeed_processing, -> { where(aasm_state: SUCCEED_PROCESSING_STATES) }
   scope :last_24_hours, -> { where('created_at > ?', 24.hour.ago) }
@@ -76,7 +75,8 @@ class Withdraw < ApplicationRecord
         record_submit_operations!
       end
       after_commit do
-        process! if ENV.false?('WITHDRAW_ADMIN_APPROVE') && currency.coin?
+        # auto process withdrawal if sum less than limits and WITHDRAW_ADMIN_APPROVE env set to false (not set)
+        process! if verify_limits && ENV.false?('WITHDRAW_ADMIN_APPROVE') && currency.coin?
       end
     end
 
@@ -183,17 +183,14 @@ class Withdraw < ApplicationRecord
 
     # If there are no limits in DB or current user withdraw limit
     # has 0.0 for 24 hour and 1 mounth it will skip this checks
-    return if limits.limit_24_hour.zero? && limits.limit_1_month.zero?
+    return true if limits.limit_24_hour.zero? && limits.limit_1_month.zero?
 
     # Withdraw limits in USD and withdraw sum in currency.
     # Convert withdraw sums with price from the currency model.
     sum_24_hours, sum_1_month = Withdraw.sanitize_execute_sum_queries(member_id)
 
-    if sum_24_hours + sum * currency.get_price > limits.limit_24_hour
-      errors.add(:withdraw, '24 hours limit exceeded')
-    elsif sum_1_month + sum * currency.price > limits.limit_1_month
-      errors.add(:withdraw, '1 month limit exceeded')
-    end
+    sum_24_hours + sum * currency.get_price <= limits.limit_24_hour &&
+      sum_1_month + sum * currency.get_price <= limits.limit_1_month
   end
 
   def blockchain_api
