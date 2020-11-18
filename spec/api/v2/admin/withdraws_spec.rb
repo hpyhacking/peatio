@@ -128,6 +128,18 @@ describe API::V2::Admin::Withdraws, type: :request do
         expect(actual.first['member']).to eq expected.member_id
         expect(actual.first['type']).to eq 'coin'
       end
+
+      it 'by wallet_type' do
+        wallet_type = Wallet.joins(:currencies)
+                            .find_by(currencies: { id: Withdraw.find_by(type: 'Withdraws::Coin').currency_id })
+                            .gateway
+        api_get url, token: token, params: { wallet_type: wallet_type }
+
+        actual = JSON.parse(response.body)
+
+        expect(actual.length).to eq Withdraw.where(currency: Currency.joins(:wallets)
+                                            .where(wallets: { id: Wallet.where(gateway: wallet_type) })).count
+      end
     end
   end
 
@@ -190,6 +202,30 @@ describe API::V2::Admin::Withdraws, type: :request do
           api_get "/api/v2/admin/withdraws/#{withdraw.id}", token: token
           expect(response_body.include?('error')).to be_truthy
         end
+      end
+    end
+  end
+
+  describe 'PUT /api/v2/admin/withdraws' do
+    let(:url) { '/api/v2/admin/withdraws' }
+    let(:fiat) { Withdraw.where(type: 'Withdraws::Fiat').first }
+    let(:coin) { Withdraw.where(type: 'Withdraws::Coin').first }
+    context 'updates withdraw' do
+      it 'updates empty metadata' do
+        api_put url, token: token, params: { metadata: { info: :some }, id: coin.id }
+        expect(response_body['metadata']).to eq({'info' => 'some'})
+      end
+
+      it 'updates existing metadata' do
+        coin.update!(metadata: { data: :data })
+        api_put url, token: token, params: { metadata: { info: :some }, id: coin.id }
+        expect(response_body['metadata']).to eq({'data' => 'data', 'info' => 'some'})
+      end
+
+      it 'updates existing metadata' do
+        coin.update!(metadata: { info: :some })
+        api_put url, token: token, params: { metadata: { info: :some1 }, id: coin.id }
+        expect(response_body['metadata']).to eq({ 'info' => 'some1' })
       end
     end
   end

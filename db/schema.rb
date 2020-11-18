@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_10_01_094156) do
+ActiveRecord::Schema.define(version: 2020_11_18_151056) do
 
   create_table "accounts", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.integer "member_id", null: false
@@ -351,7 +351,7 @@ ActiveRecord::Schema.define(version: 2020_10_01_094156) do
     t.string "market_id", limit: 20, null: false
     t.integer "maker_id", null: false
     t.integer "taker_id", null: false
-    t.string "taker_type", limit: 20, null: false
+    t.string "taker_type", limit: 20, default: "", null: false
     t.datetime "created_at", precision: 3, null: false
     t.datetime "updated_at", precision: 3, null: false
     t.index ["created_at"], name: "index_trades_on_created_at"
@@ -438,6 +438,7 @@ ActiveRecord::Schema.define(version: 2020_10_01_094156) do
     t.string "tid", limit: 64, null: false, collation: "utf8_bin"
     t.string "rid", limit: 256, null: false
     t.string "note", limit: 256
+    t.json "metadata"
     t.json "error"
     t.datetime "created_at", precision: 3, null: false
     t.datetime "updated_at", precision: 3, null: false

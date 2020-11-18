@@ -57,34 +57,10 @@ module API
           )
 
           expose(
-            :amount,
-            documentation: {
-              type: BigDecimal,
-              desc: 'The withdrawal amount.'
-            }
-          )
-
-          expose(
-            :sum,
-            documentation: {
-              type: BigDecimal,
-              desc: 'The withdrawal sum.'
-            }
-          )
-
-          expose(
             :tid,
             documentation: {
               type: String,
               desc: 'Withdraw tid.'
-            }
-          )
-
-          expose(
-            :note,
-            documentation: {
-              type: String,
-              desc: 'Withdraw note.'
             }
           )
 
@@ -98,13 +74,11 @@ module API
           )
 
           expose(
-            :completed_at,
-            format_with: :iso8601,
+            :metadata,
             documentation: {
               type: String,
-              desc: 'The datetime when withdraw was completed.'
-            },
-            if: ->(w) { w.completed? }
+              desc: 'Optional metadata to be applied to the transaction.'
+            }
           )
         end
       end

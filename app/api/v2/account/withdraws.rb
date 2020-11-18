@@ -76,7 +76,7 @@ module API
           optional :note,
                    type: String,
                    values: { value: ->(v) { v.size <= 256 }, message: 'account.withdraw.too_long_note' },
-                   desc: 'Optional metadata to be applied to the transaction. Used to tag transactions with memorable comments.'
+                   desc: 'Optional user metadata to be applied to the transaction. Used to tag transactions with memorable comments.'
         end
         post '/withdraws' do
           user_authorize! :create, ::Withdraw

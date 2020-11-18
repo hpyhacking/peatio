@@ -1,4 +1,3 @@
-# encoding: UTF-8
 # frozen_string_literal: true
 
 module API
@@ -8,8 +7,8 @@ module API
         helpers ::API::V2::Admin::Helpers
 
         desc 'Get all withdraws, result is paginated.',
-          is_array: true,
-          success: API::V2::Admin::Entities::Withdraw
+             is_array: true,
+             success: API::V2::Admin::Entities::Withdraw
         params do
           optional :state,
                    values: { value: ->(v) { (Array.wrap(v) - Withdraw::STATES.map(&:to_s)).blank? }, message: 'admin.withdraw.invalid_state' },
@@ -26,6 +25,9 @@ module API
                    desc: -> { API::V2::Admin::Entities::Withdraw.documentation[:confirmations][:desc] }
           optional :rid,
                    desc: -> { API::V2::Admin::Entities::Withdraw.documentation[:rid][:desc] }
+          optional :wallet_type,
+                   values: { value: ->(v) { (Array.wrap(v.to_sym) - Wallet.gateways).blank? }, message: 'admin.withdraw.invalid_wallet_type' },
+                   desc: -> { 'Select withdraw that can be processed from wallets with given type e.g. patiry' }
           use :uid
           use :currency
           use :currency_type
@@ -37,17 +39,24 @@ module API
           admin_authorize! :read, Withdraw
 
           ransack_params = Helpers::RansackBuilder.new(params)
-                             .eq(:id, :txid, :rid, :tid)
-                             .translate(uid: :member_uid, currency: :currency_id)
-                             .with_daterange
-                             .merge(type_eq: params[:type].present? ? "Withdraws::#{params[:type].capitalize}" : nil)
-                             .merge(aasm_state_in: params[:state])
-                             .build
+                                                  .eq(:id, :txid, :rid, :tid)
+                                                  .translate(uid: :member_uid, currency: :currency_id)
+                                                  .with_daterange
+                                                  .merge(type_eq: params[:type].present? ? "Withdraws::#{params[:type].capitalize}" : nil)
+                                                  .merge(aasm_state_in: params[:state])
+                                                  .build
 
           search = Withdraw.ransack(ransack_params)
           search.sorts = "#{params[:order_by]} #{params[:ordering]}"
 
-          present paginate(search.result), with: API::V2::Admin::Entities::Withdraw
+          if params[:wallet_type].present?
+            present paginate(search.result
+                            .where(currency: Currency.joins(:wallets)
+                            .where(wallets: { id: Wallet.where(gateway: params[:wallet_type]) }))),
+                    with: API::V2::Admin::Entities::Withdraw
+          else
+            present paginate(search.result), with: API::V2::Admin::Entities::Withdraw
+          end
         end
 
         desc 'Get withdraw by ID.',
@@ -67,7 +76,7 @@ module API
         end
 
         desc 'Take an action on the withdrawal.',
-          success: API::V2::Admin::Entities::Withdraw
+             success: API::V2::Admin::Entities::Withdraw
         params do
           requires :id,
                    type: Integer,
@@ -106,6 +115,31 @@ module API
             present withdraw, with: API::V2::Admin::Entities::Withdraw
           else
             body errors: ["admin.withdraw.cannot_#{declared_params[:action]}"]
+            status 422
+          end
+        end
+
+        desc 'Update withdraw request',
+             success: API::V2::Admin::Entities::Withdraw
+        params do
+          requires :id,
+                   type: Integer,
+                   desc: -> { API::V2::Admin::Entities::Withdraw.documentation[:id][:desc] }
+          optional :metadata,
+                   type: JSON,
+                   desc: 'Optional metadata to be applied to the transaction.'
+        end
+        put '/withdraws' do
+          admin_authorize! :update, Withdraw
+
+          declared_params = declared(params, include_missing: false)
+          withdraw = Withdraw.find(declared_params[:id])
+
+          declared_params[:metadata] = withdraw.metadata.merge(declared_params[:metadata]) if declared_params[:metadata].present?
+          if withdraw.update(declared_params)
+            present withdraw, with: API::V2::Admin::Entities::Withdraw
+          else
+            body errors: withdraw.errors.full_messages
             status 422
           end
         end

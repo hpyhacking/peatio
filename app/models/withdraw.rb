@@ -23,6 +23,7 @@ class Withdraw < ApplicationRecord
   extend Enumerize
 
   serialize :error, JSON unless Rails.configuration.database_support_json
+  serialize :metadata, JSON unless Rails.configuration.database_support_json
 
   TRANSFER_TYPES = { fiat: 100, crypto: 200 }
 
@@ -35,6 +36,7 @@ class Withdraw < ApplicationRecord
 
   acts_as_eventable prefix: 'withdraw', on: %i[create update]
 
+  after_initialize :initialize_defaults, if: :new_record?
   before_validation(on: :create) { self.rid ||= beneficiary.rid if beneficiary.present? }
   before_validation { self.completed_at ||= Time.current if completed? }
   before_validation { self.transfer_type ||= currency.coin? ? 'crypto' : 'fiat' }
@@ -164,6 +166,10 @@ class Withdraw < ApplicationRecord
       sum_withdraws_1_month = ActiveRecord::Base.connection.exec_query(squery_1m).to_hash.first['sum'].to_d
       [sum_withdraws_24_hours, sum_withdraws_1_month]
     end
+  end
+
+  def initialize_defaults
+    self.metadata = {} if metadata.blank?
   end
 
   def account
