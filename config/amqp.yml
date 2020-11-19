@@ -23,6 +23,9 @@ exchange:
   finex-spot:
     name: finex.orderapi
     type: direct
+  opendax:
+    name: finex.orderapi
+    type: direct
 
 queue:
   matching:
