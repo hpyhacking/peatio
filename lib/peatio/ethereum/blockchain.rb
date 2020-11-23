@@ -40,8 +40,9 @@ module Ethereum
           next if invalid_eth_transaction?(tx)
         else
           next if @erc20.find do |c|
+            # Check `to` and `input` options to find erc-20 smart contract contract 
             c.dig(:options, :erc20_contract_address) == normalize_address(tx.fetch('to')) ||
-            c.dig(:options, :erc20_contract_address) == '0x' + tx.fetch('input')[34...74]
+            c.dig(:options, :erc20_contract_address) == '0x' + tx.fetch('input')[34...74].to_s
           end.blank?
 
           tx = client.json_rpc(:eth_getTransactionReceipt, [normalize_txid(tx.fetch('hash'))])
