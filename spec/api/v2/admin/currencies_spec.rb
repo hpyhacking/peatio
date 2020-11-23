@@ -105,6 +105,88 @@ describe API::V2::Admin::Currencies, type: :request do
       expect(result.dig(0, :code)).to eq 'usd'
     end
 
+    it 'list of deposit enabled currencies' do
+      api_get '/api/v2/admin/currencies', params: { deposit_enabled: true }, token: token
+      expect(response).to be_successful
+
+      result = JSON.parse(response.body)
+      expect(result.size).to eq Currency.deposit_enabled.count
+    end
+
+    it 'list of deposit disabled currencies' do
+      api_get '/api/v2/admin/currencies', params: { deposit_enabled: false }, token: token
+      expect(response).to be_successful
+
+      result = JSON.parse(response.body)
+      expect(result.size).to eq Currency.where(deposit_enabled: false).count
+    end
+
+    it 'returns error in case of invalid deposit_enabled type' do
+      api_get '/api/v2/admin/currencies', params: { deposit_enabled: 'invalid' }, token: token
+      expect(response).to have_http_status 422
+      expect(response).to include_api_error('admin.currency.non_boolean_deposit_enabled')
+    end
+
+    it 'list of withdrawal enabled currencies' do
+      api_get '/api/v2/admin/currencies', params: { withdrawal_enabled: true }, token: token
+      expect(response).to be_successful
+
+      result = JSON.parse(response.body)
+      expect(result.size).to eq Currency.withdrawal_enabled.count
+    end
+
+    it 'list of withdrawal disabled currencies' do
+      api_get '/api/v2/admin/currencies', params: { withdrawal_enabled: false }, token: token
+      expect(response).to be_successful
+
+      result = JSON.parse(response.body)
+      expect(result.size).to eq Currency.where(withdrawal_enabled: false).count
+    end
+
+    it 'returns error in case of invalid withdrawal_enabled type' do
+      api_get '/api/v2/admin/currencies', params: { withdrawal_enabled: 'invalid' }, token: token
+      expect(response).to have_http_status 422
+      expect(response).to include_api_error('admin.currency.non_boolean_withdrawal_enabled')
+    end
+
+    it 'list of visible currencies' do
+      api_get '/api/v2/admin/currencies', params: { visible: true }, token: token
+      expect(response).to be_successful
+
+      result = JSON.parse(response.body)
+      expect(result.size).to eq Currency.visible.count
+    end
+
+    it 'list of not visible currencies' do
+      api_get '/api/v2/admin/currencies', params: { visible: false }, token: token
+      expect(response).to be_successful
+
+      result = JSON.parse(response.body)
+      expect(result.size).to eq Currency.where(visible: false).count
+    end
+
+    it 'returns error in case of invalid visible type' do
+      api_get '/api/v2/admin/currencies', params: { visible: 'invalid' }, token: token
+      expect(response).to have_http_status 422
+      expect(response).to include_api_error('admin.currency.non_boolean_visible')
+    end
+
+    it 'list of visible coins' do
+      api_get '/api/v2/admin/currencies', params: { visible: true, type: 'coin' }, token: token
+      expect(response).to be_successful
+
+      result = JSON.parse(response.body)
+      expect(result.size).to eq Currency.coins.select { |c| c['visible'] == true }.count
+    end
+
+    it 'list of not visible coins' do
+      api_get '/api/v2/admin/currencies', params: { visible: false, type: 'coin' }, token: token
+      expect(response).to be_successful
+
+      result = JSON.parse(response.body)
+      expect(result.size).to eq Currency.coins.where(visible: false).count
+    end
+
     it 'returns error in case of invalid type' do
       api_get '/api/v2/admin/currencies', params: { type: 'invalid' }, token: token
       expect(response).to have_http_status 422
