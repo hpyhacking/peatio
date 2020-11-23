@@ -245,7 +245,7 @@ trigger:
 
 image_pull_secrets:
   - dockerconfigjson
-  
+
 ---
 kind: pipeline
 name: "MariaDB 10.3"

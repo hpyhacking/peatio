@@ -39,7 +39,11 @@ module Ethereum
         if tx.fetch('input').hex <= 0
           next if invalid_eth_transaction?(tx)
         else
-          next if @erc20.find { |c| c.dig(:options, :erc20_contract_address) == normalize_address(tx.fetch('to')) }.blank?
+          next if @erc20.find do |c|
+            c.dig(:options, :erc20_contract_address) == normalize_address(tx.fetch('to')) ||
+            c.dig(:options, :erc20_contract_address) == '0x' + tx.fetch('input')[34...74]
+          end.blank?
+
           tx = client.json_rpc(:eth_getTransactionReceipt, [normalize_txid(tx.fetch('hash'))])
           next if tx.nil? || tx.fetch('to').blank?
         end
