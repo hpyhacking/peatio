@@ -1,8 +1,8 @@
-# Rubykube Crypto Platform Architecture (RKCP)
+# OpenDAX Crypto Platform Architecture (OCP)
 
 ## System Overview
 
-Rubykube Crypto-Platform, is a distribution of component working together to form
+OpenDAX Crypto-Platform, is a distribution of component working together to form
 a crypto-currency cluster on Kubernetes.
 
 ## System Requirements
@@ -82,13 +82,13 @@ Our goal and roadmap is to provide advanced API endpoints in order to be able to
 
 [Peatio project](https://github.com/rubykube/peatio)
 
-#### Peatio Microkube
+#### OpenDAX Docker compose
 
-Peatio microkube is the recommended development, test and integration environment for new developers.
+OpenDAX compose is the recommended development, test and integration environment for new developers.
 
 Bundler 2.0.2
 
-[Peatio Microkube](https://github.com/rubykube/microkube)
+[OpenDAX Peatio](https://github.com/openware/opendax)
 
 
 #### Coinhub
