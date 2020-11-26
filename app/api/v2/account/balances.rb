@@ -23,8 +23,10 @@ module API
                    desc: 'Filter non zero balances.'
           optional :search, type: JSON, default: {} do
             optional :currency_code,
+                     as: :code,
                      type: String
             optional :currency_name,
+                     as: :name,
                      type: String
           end
         end
@@ -32,15 +34,23 @@ module API
           user_authorize! :read, ::Operations::Account
 
           search_params = params[:search]
-                                .slice(:currency_code, :currency_name)
+                                .slice(:code, :name)
                                 .transform_keys {|k| "#{k}_cont"}
                                 .merge(m: 'or')
 
-          search_params.merge!(balance_or_locked_gt: 0) if params[:nonzero]
-          search = current_user.accounts.visible.ransack(search_params)
+          accounts = ::Currency.visible.ransack(search_params).result.each_with_object([]) do |c, result|
+            account = ::Account.find_by(currency: c, member: current_user)
+            if account.present?
+              next if params[:nonzero].present? && account.amount.zero? && account.locked.zero?
 
-          present paginate(search.result),
-                  with: Entities::Account
+              result << account
+            elsif account.blank? && params[:nonzero].blank?
+              result << ::Account.new(currency: c, member: current_user)
+            end
+          end
+
+          present paginate(accounts),
+                  with: Entities::Account, current_user: current_user
         end
 
         desc 'Get user account by currency' do

@@ -31,6 +31,19 @@ module API
             type: BigDecimal
           }
         )
+
+        expose(
+          :deposit_address,
+          if: ->(account, _options) { account.currency.coin? },
+          using: API::V2::Entities::PaymentAddress,
+          documentation: {
+            desc: 'User deposit address',
+            type: String
+          }
+        ) do |account, options|
+          wallet = Wallet.deposit_wallet(account.currency_id)
+          ::PaymentAddress.find_by(wallet: wallet, member: options[:current_user])
+        end
       end
     end
   end

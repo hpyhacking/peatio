@@ -189,7 +189,7 @@ describe API::V2::Admin::WithdrawLimits, type: :request do
 
     context 'not found withdraw_limit table' do
       it 'returns status 404 and error' do
-        api_put '/api/v2/admin/withdraw_limits', token: token, params: { id: 100 }
+        api_put '/api/v2/admin/withdraw_limits', token: token, params: { id: WithdrawLimit.last.id + 1 }
 
         expect(response).to have_http_status(404)
         expect(response).to include_api_error('record.not_found')

@@ -86,6 +86,17 @@ module API
           ) do |m|
             m.accounts.includes(:currency)
           end
+
+          expose(
+            :payment_addresses,
+            as: :deposit_addresses,
+            using: API::V2::Entities::PaymentAddress,
+            documentation: {
+              type: 'API::V2::Entities::PaymentAddress',
+              is_array: true,
+              desc: 'Member deposits addresses'
+            }
+          )
         end
       end
     end

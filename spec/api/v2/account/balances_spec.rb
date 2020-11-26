@@ -8,7 +8,7 @@ describe API::V2::Account::Balances, type: :request do
   let(:withdraw) { create(:btc_withdraw, member: member, sum: 5) }
   let(:token) { jwt_for(member) }
 
-  let(:response_body) { { 'currency' => 'eth', 'balance' => '30.5', 'locked' => '0.0' } }
+  let(:response_body) { { 'currency' => 'eth', 'balance' => '30.5', 'locked' => '0.0', 'deposit_address' => nil } }
 
   before do
     Ability.stubs(:user_permissions).returns({'member'=>{'read'=>['Operations::Account']}})
@@ -43,12 +43,12 @@ describe API::V2::Account::Balances, type: :request do
         expect(response).to have_http_status 200
         result = JSON.parse(response.body)
         expect(result).to contain_exactly(
-                              { 'currency' => 'btc',  'balance' => '5.0',  'locked'  => '5.0' },
-                              { 'currency' => 'eth',  'balance' => '30.5', 'locked'  => '0.0' },
-                              { 'currency' => 'usd',  'balance' => '0.0',  'locked'  => '0.0' },
-                              { 'currency' => 'trst',  'balance' => '0.0',  'locked'  => '0.0' },
-                              { 'currency' => 'ring',  'balance' => '0.0',  'locked'  => '0.0' },
-                              { 'currency' => 'eur',  'balance' => '0.0',  'locked'  => '0.0' },
+                              { 'currency' => 'btc', 'balance' => '5.0', 'locked' => '5.0', 'deposit_address' => nil },
+                              { 'currency' => 'eth', 'balance' => '30.5', 'locked' => '0.0', 'deposit_address' => nil },
+                              { 'currency' => 'usd', 'balance' => '0.0', 'locked' => '0.0' },
+                              { 'currency' => 'trst', 'balance' => '0.0', 'locked' => '0.0', 'deposit_address' => nil },
+                              { 'currency' => 'ring', 'balance' => '0.0', 'locked' => '0.0', 'deposit_address' => nil },
+                              { 'currency' => 'eur', 'balance' => '0.0', 'locked' => '0.0' }
                               )
       end
     end
@@ -60,8 +60,8 @@ describe API::V2::Account::Balances, type: :request do
         expect(response).to have_http_status 200
         result = JSON.parse(response.body)
         expect(result).to contain_exactly(
-                            { 'currency' => 'btc',  'balance' => '5.0',  'locked'  => '5.0' },
-                            { 'currency' => 'eth',  'balance' => '30.5', 'locked'  => '0.0' },
+                            { 'currency' => 'btc',  'balance' => '5.0',  'locked'  => '5.0', 'deposit_address' => nil },
+                            { 'currency' => 'eth',  'balance' => '30.5', 'locked'  => '0.0', 'deposit_address' => nil },
                             )
       end
     end
@@ -73,11 +73,11 @@ describe API::V2::Account::Balances, type: :request do
         expect(response).to have_http_status 200
         result = JSON.parse(response.body)
         expect(result).to contain_exactly(
-                              { 'currency' => 'btc',  'balance' => '5.0',  'locked'  => '5.0' },
-                              { 'currency' => 'eth',  'balance' => '30.5', 'locked'  => '0.0' },
+                              { 'currency' => 'btc',  'balance' => '5.0',  'locked'  => '5.0', 'deposit_address' => nil },
+                              { 'currency' => 'eth',  'balance' => '30.5', 'locked'  => '0.0', 'deposit_address' => nil },
                               { 'currency' => 'usd',  'balance' => '0.0',  'locked'  => '0.0' },
-                              { 'currency' => 'trst',  'balance' => '0.0',  'locked'  => '0.0' },
-                              { 'currency' => 'ring',  'balance' => '0.0',  'locked'  => '0.0' },
+                              { 'currency' => 'trst',  'balance' => '0.0',  'locked'  => '0.0', 'deposit_address' => nil },
+                              { 'currency' => 'ring',  'balance' => '0.0',  'locked'  => '0.0', 'deposit_address' => nil },
                               { 'currency' => 'eur',  'balance' => '0.0',  'locked'  => '0.0' },
                               )
       end
