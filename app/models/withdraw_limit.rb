@@ -69,7 +69,7 @@ class WithdrawLimit < ApplicationRecord
 end
 
 # == Schema Information
-# Schema version: 20200827105929
+# Schema version: 20201125134745
 #
 # Table name: withdraw_limits
 #
@@ -83,7 +83,7 @@ end
 #
 # Indexes
 #
-#  index_withdraw_limits_on_and_group_and_kyc_level  (group,kyc_level) UNIQUE
-#  index_withdraw_limits_on_group                                (group)
-#  index_withdraw_limits_on_kyc_level                            (kyc_level)
+#  index_withdraw_limits_on_group                (group)
+#  index_withdraw_limits_on_group_and_kyc_level  (group,kyc_level) UNIQUE
+#  index_withdraw_limits_on_kyc_level            (kyc_level)
 #

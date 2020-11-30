@@ -59,6 +59,7 @@ module Opendax
     def prepare_deposit_collection!(transaction, deposit_spread, deposit_currency)
       # Don't prepare for deposit_collection in case of eth deposit.
       return [] if deposit_currency.dig(:options, :erc20_contract_address).blank?
+      return [] if deposit_spread.blank?
 
       options = DEFAULT_ERC20_FEE.merge(deposit_currency.fetch(:options).slice(:gas_limit, :gas_price))
       gas_speed = options[:gas_price].in?(GAS_PRICE_THRESHOLDS) ? options[:gas_price] : 'standard'
@@ -75,6 +76,7 @@ module Opendax
         passphrase:   wallet_secret
       })
 
+      transaction.currency_id = 'eth' if transaction.currency_id.blank?
       transaction.hash = response['tx']
       transaction.options = {}
       transaction.options[:gas_limit] = gas_limit

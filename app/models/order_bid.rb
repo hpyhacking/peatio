@@ -65,7 +65,7 @@ class OrderBid < Order
 end
 
 # == Schema Information
-# Schema version: 20200513153429
+# Schema version: 20201125134745
 #
 # Table name: orders
 #
@@ -78,16 +78,16 @@ end
 #  price          :decimal(32, 16)
 #  volume         :decimal(32, 16)  not null
 #  origin_volume  :decimal(32, 16)  not null
-#  maker_fee      :decimal(17, 16)  default("0.0000000000000000"), not null
-#  taker_fee      :decimal(17, 16)  default("0.0000000000000000"), not null
+#  maker_fee      :decimal(17, 16)  default(0.0), not null
+#  taker_fee      :decimal(17, 16)  default(0.0), not null
 #  state          :integer          not null
 #  type           :string(8)        not null
 #  member_id      :integer          not null
 #  ord_type       :string(30)       not null
-#  locked         :decimal(32, 16)  default("0.0000000000000000"), not null
-#  origin_locked  :decimal(32, 16)  default("0.0000000000000000"), not null
-#  funds_received :decimal(32, 16)  default("0.0000000000000000")
-#  trades_count   :integer          default("0"), not null
+#  locked         :decimal(32, 16)  default(0.0), not null
+#  origin_locked  :decimal(32, 16)  default(0.0), not null
+#  funds_received :decimal(32, 16)  default(0.0)
+#  trades_count   :integer          default(0), not null
 #  created_at     :datetime         not null
 #  updated_at     :datetime         not null
 #

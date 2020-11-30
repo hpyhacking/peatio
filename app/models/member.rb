@@ -196,7 +196,7 @@ class Member < ApplicationRecord
 end
 
 # == Schema Information
-# Schema version: 20190829035814
+# Schema version: 20201207134745
 #
 # Table name: members
 #
@@ -213,4 +213,5 @@ end
 # Indexes
 #
 #  index_members_on_email  (email) UNIQUE
+#  index_members_on_uid    (uid) UNIQUE
 #

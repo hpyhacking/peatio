@@ -33,7 +33,7 @@ class StatsMemberPnl < ApplicationRecord
 end
 
 # == Schema Information
-# Schema version: 20200514132805
+# Schema version: 20201125134745
 #
 # Table name: stats_member_pnl
 #
@@ -41,17 +41,18 @@ end
 #  member_id             :integer          not null
 #  pnl_currency_id       :string(10)       not null
 #  currency_id           :string(10)       not null
-#  total_credit          :decimal(32, 16)
-#  total_credit_fees     :decimal(32, 16)
-#  total_debit_fees      :decimal(32, 16)
-#  total_debit           :decimal(32, 16)
-#  total_credit_value    :decimal(32, 16)
-#  total_debit_value     :decimal(32, 16)
-#  total_balance_value   :decimal(32, 16)
+#  total_credit          :decimal(48, 16)  default(0.0)
+#  total_credit_fees     :decimal(48, 16)  default(0.0)
+#  total_debit_fees      :decimal(48, 16)  default(0.0)
+#  total_debit           :decimal(48, 16)  default(0.0)
+#  total_credit_value    :decimal(48, 16)  default(0.0)
+#  total_debit_value     :decimal(48, 16)  default(0.0)
+#  total_balance_value   :decimal(48, 16)  default(0.0)
+#  average_balance_price :decimal(48, 16)  default(0.0)
 #  created_at            :datetime         not null
 #  updated_at            :datetime         not null
 #
 # Indexes
 #
-#  index_currency_ids_and_member_id       (pnl_currency_id,currency_id,member_id) UNIQUE
+#  index_currency_ids_and_member_id  (pnl_currency_id,currency_id,member_id) UNIQUE
 #

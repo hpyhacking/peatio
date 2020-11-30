@@ -54,12 +54,18 @@ module Workers
 
         transactions = service.collect_deposit!(deposit, deposit.spread_to_transactions)
 
-        # Save txids in deposit spread.
-        deposit.update!(spread: transactions.map(&:as_json))
+        if transactions.present?
+          # Save txids in deposit spread.
+          deposit.update!(spread: transactions.map(&:as_json))
 
-        Rails.logger.warn { "The API accepted deposit collection and assigned transaction ID: #{transactions.map(&:as_json)}." }
+          Rails.logger.warn { "The API accepted deposit collection and assigned transaction ID: #{transactions.map(&:as_json)}." }
 
-        deposit.dispatch!
+          deposit.dispatch!
+        else
+          deposit.skip!
+          "Skipped deposit with txid: #{deposit.txid} with amount: #{deposit.amount}"\
+          " to #{deposit.address}"
+        end
       rescue StandardError => e
         Rails.logger.error { "Failed to collect deposit #{deposit.id}. See exception details below." }
         report_exception(e)

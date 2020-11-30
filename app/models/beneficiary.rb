@@ -191,20 +191,21 @@ class Beneficiary < ApplicationRecord
 end
 
 # == Schema Information
-# Schema version: 20200316132213
+# Schema version: 20201125134745
 #
 # Table name: beneficiaries
 #
-#  id          :bigint           not null, primary key
-#  member_id   :bigint           not null
-#  currency_id :string(10)       not null
-#  name        :string(64)       not null
-#  description :string(255)      default("")
-#  data        :json
-#  pin         :integer          unsigned, not null
-#  state       :integer          default("0"), unsigned, not null
-#  created_at  :datetime         not null
-#  updated_at  :datetime         not null
+#  id             :bigint           not null, primary key
+#  member_id      :bigint           not null
+#  currency_id    :string(10)       not null
+#  name           :string(64)       not null
+#  description    :string(255)      default("")
+#  data_encrypted :string(1024)
+#  pin            :integer          unsigned, not null
+#  sent_at        :datetime
+#  state          :integer          default("pending"), unsigned, not null
+#  created_at     :datetime         not null
+#  updated_at     :datetime         not null
 #
 # Indexes
 #

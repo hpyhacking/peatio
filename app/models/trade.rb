@@ -347,20 +347,20 @@ class Trade < ApplicationRecord
 end
 
 # == Schema Information
-# Schema version: 20200316132213
+# Schema version: 20201125134745
 #
 # Table name: trades
 #
 #  id             :integer          not null, primary key
 #  price          :decimal(32, 16)  not null
 #  amount         :decimal(32, 16)  not null
-#  total          :decimal(32, 16)  default("0.0000000000000000"), not null
+#  total          :decimal(32, 16)  default(0.0), not null
 #  maker_order_id :integer          not null
 #  taker_order_id :integer          not null
 #  market_id      :string(20)       not null
 #  maker_id       :integer          not null
 #  taker_id       :integer          not null
-#  taker_type     :string(20)       not null
+#  taker_type     :string(20)       default(""), not null
 #  created_at     :datetime         not null
 #  updated_at     :datetime         not null
 #

@@ -143,13 +143,12 @@ class Wallet < ApplicationRecord
 end
 
 # == Schema Information
-# Schema version: 20200827105929
+# Schema version: 20201125134745
 #
 # Table name: wallets
 #
 #  id                 :integer          not null, primary key
 #  blockchain_key     :string(32)
-#  currency_id        :string(10)
 #  name               :string(64)
 #  address            :string(255)      not null
 #  kind               :integer          not null
@@ -163,8 +162,7 @@ end
 #
 # Indexes
 #
-#  index_wallets_on_currency_id                      (currency_id)
 #  index_wallets_on_kind                             (kind)
-#  index_wallets_on_kind_and_currency_id_and_status  (kind,currency_id,status)
+#  index_wallets_on_kind_and_currency_id_and_status  (kind,status)
 #  index_wallets_on_status                           (status)
 #

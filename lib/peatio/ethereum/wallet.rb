@@ -52,6 +52,7 @@ module Ethereum
     def prepare_deposit_collection!(transaction, deposit_spread, deposit_currency)
       # Don't prepare for deposit_collection in case of eth deposit.
       return [] if deposit_currency.dig(:options, :erc20_contract_address).blank?
+      return [] if deposit_spread.blank?
 
       options = DEFAULT_ERC20_FEE.merge(deposit_currency.fetch(:options).slice(:gas_limit, :gas_price))
 
@@ -119,6 +120,8 @@ module Ethereum
         raise Ethereum::WalletClient::Error, \
               "Withdrawal from #{@wallet.fetch(:address)} to #{transaction.to_address} failed."
       end
+      # Make sure that we return currency_id
+      transaction.currency_id = 'eth' if transaction.currency_id.blank?
       transaction.amount = convert_from_base_unit(amount)
       transaction.hash = normalize_txid(txid)
       transaction.options = options

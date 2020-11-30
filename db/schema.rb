@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_12_06_205429) do
+ActiveRecord::Schema.define(version: 2020_12_07_134745) do
 
   create_table "accounts", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.integer "member_id", null: false
@@ -372,6 +372,26 @@ ActiveRecord::Schema.define(version: 2020_12_06_205429) do
     t.index ["group"], name: "index_trading_fees_on_group"
     t.index ["market_id", "group"], name: "index_trading_fees_on_market_id_and_group", unique: true
     t.index ["market_id"], name: "index_trading_fees_on_market_id"
+  end
+
+  create_table "transactions", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.string "currency_id", null: false
+    t.string "reference_type"
+    t.bigint "reference_id"
+    t.string "txid"
+    t.string "from_address"
+    t.string "to_address"
+    t.decimal "amount", precision: 32, scale: 16, default: "0.0", null: false
+    t.integer "block_number"
+    t.integer "txout"
+    t.string "status"
+    t.json "options"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["currency_id", "txid"], name: "index_transactions_on_currency_id_and_txid", unique: true
+    t.index ["currency_id"], name: "index_transactions_on_currency_id"
+    t.index ["reference_type", "reference_id"], name: "index_transactions_on_reference_type_and_reference_id"
+    t.index ["txid"], name: "index_transactions_on_txid"
   end
 
   create_table "transfers", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|

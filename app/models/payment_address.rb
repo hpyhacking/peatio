@@ -55,13 +55,13 @@ class PaymentAddress < ApplicationRecord
 end
 
 # == Schema Information
-# Schema version: 20190807092706
+# Schema version: 20201125134745
 #
 # Table name: payment_addresses
 #
 #  id                :integer          not null, primary key
-#  currency_id       :string(10)       not null
-#  account_id        :integer          not null
+#  member_id         :bigint
+#  wallet_id         :bigint
 #  address           :string(95)
 #  secret_encrypted  :string(255)
 #  details_encrypted :string(1024)
@@ -70,5 +70,6 @@ end
 #
 # Indexes
 #
-#  index_payment_addresses_on_currency_id_and_address  (currency_id,address) UNIQUE
+#  index_payment_addresses_on_member_id  (member_id)
+#  index_payment_addresses_on_wallet_id  (wallet_id)
 #

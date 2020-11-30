@@ -5,6 +5,7 @@ describe WalletService do
   let!(:blockchain) { create(:blockchain, 'fake-testnet') }
   let!(:currency) { create(:currency, :fake) }
   let(:wallet) { create(:wallet, :fake_hot) }
+  let(:member) { create(:member) }
 
   let(:fake_wallet_adapter) { FakeWallet.new }
   let(:fake_blockchain_adapter) { FakeBlockchain.new }
@@ -43,7 +44,7 @@ describe WalletService do
   end
 
   context :build_withdrawal! do
-    let(:withdrawal) { OpenStruct.new(rid: 'fake-address', amount: 100, currency: currency) }
+    let(:withdrawal) { create(:btc_withdraw, rid: 'fake-address', amount: 100, currency: currency, member: member) }
 
     let(:transaction) do
       Peatio::Transaction.new(hash:        '0xfake',
@@ -53,6 +54,7 @@ describe WalletService do
     end
 
     before do
+      member.get_account(currency).update!(balance: 1000)
       service.adapter.expects(:create_transaction!).returns(transaction)
     end
 
@@ -700,7 +702,7 @@ describe WalletService do
            to_address:  hot_wallet.address,
            amount:      deposit.amount,
            currency_id: currency.id },
-         { hash:        '0xfake',
+         { hash:        '0xfake1',
            to_address:  cold_wallet.address,
            amount:      deposit.amount,
            currency_id: currency.id }].map { |t| Peatio::Transaction.new(t)}

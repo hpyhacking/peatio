@@ -169,6 +169,7 @@ describe Ethereum::Wallet do
 
         result = wallet.create_transaction!(transaction, subtract_fee: true)
         expect(result.as_json.symbolize_keys).to eq(amount: 1.099979.to_s,
+                                                    currency_id: 'eth',
                                                     to_address: '0x6d6cabaa7232d7f45b143b445114f7e92350a2aa',
                                                     hash: txid,
                                                     status: 'pending',
@@ -207,6 +208,7 @@ describe Ethereum::Wallet do
 
           result = wallet.create_transaction!(transaction)
           expect(result.as_json.symbolize_keys).to eq(amount: 1.1.to_s,
+                                                      currency_id: 'eth',
                                                       to_address: '0x6d6cabaa7232d7f45b143b445114f7e92350a2aa',
                                                       hash: txid,
                                                       status: 'pending',
@@ -253,6 +255,7 @@ describe Ethereum::Wallet do
                                id: 1 }.to_json)
           result = wallet.create_transaction!(transaction, subtract_fee: true)
           expect(result.as_json.symbolize_keys).to eq(amount: 1.0999769.to_s,
+                                                      currency_id: 'eth',
                                                       to_address: '0x6d6cabaa7232d7f45b143b445114f7e92350a2aa',
                                                       hash: txid,
                                                       status: 'pending',
@@ -384,6 +387,7 @@ describe Ethereum::Wallet do
                              id: 1 }.to_json)
         result = wallet.prepare_deposit_collection!(transaction, spread_deposit, trst.to_blockchain_api_settings)
         expect(result.first.as_json.symbolize_keys).to eq(amount: '0.00018',
+                                                          currency_id: 'eth',
                                                           to_address: '0x6d6cabaa7232d7f45b143b445114f7e92350a2aa',
                                                           hash: txid,
                                                           status: 'pending',

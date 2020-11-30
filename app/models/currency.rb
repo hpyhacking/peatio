@@ -217,7 +217,7 @@ class Currency < ApplicationRecord
 end
 
 # == Schema Information
-# Schema version: 20200909083000
+# Schema version: 20201207134745
 #
 # Table name: currencies
 #
@@ -243,7 +243,7 @@ end
 #  base_factor           :bigint           default(1), not null
 #  precision             :integer          default(8), not null
 #  icon_url              :string(255)
-#  price                 :decimal(32, 16)
+#  price                 :decimal(32, 16)  default(1.0), not null
 #  created_at            :datetime         not null
 #  updated_at            :datetime         not null
 #

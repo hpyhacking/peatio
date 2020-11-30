@@ -117,15 +117,15 @@ class TradingFee < ApplicationRecord
 end
 
 # == Schema Information
-# Schema version: 20200316132213
+# Schema version: 20201125134745
 #
 # Table name: trading_fees
 #
 #  id         :bigint           not null, primary key
 #  market_id  :string(20)       default("any"), not null
 #  group      :string(32)       default("any"), not null
-#  maker      :decimal(7, 6)    default("0.000000"), not null
-#  taker      :decimal(7, 6)    default("0.000000"), not null
+#  maker      :decimal(7, 6)    default(0.0), not null
+#  taker      :decimal(7, 6)    default(0.0), not null
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #

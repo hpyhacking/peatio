@@ -182,10 +182,11 @@ describe Opendax::Wallet do
 
       result = wallet.prepare_deposit_collection!(transaction, spread_deposit, trst.to_blockchain_api_settings)
       expect(result.first.as_json.symbolize_keys).to eq(amount: '1.1',
-                                                  to_address: '0x6d6cabaa7232d7f45b143b445114f7e92350a2aa',
-                                                  hash: '0xab6ada9608f4cebf799ee8be20fe3fb84b0d08efcdb0d962df45d6fce70cb017',
-                                                  status: 'pending',
-                                                  options: {"gas_limit"=>90000, "gas_price"=>1000000000})
+                                                        currency_id: 'eth',
+                                                        to_address: '0x6d6cabaa7232d7f45b143b445114f7e92350a2aa',
+                                                        hash: '0xab6ada9608f4cebf799ee8be20fe3fb84b0d08efcdb0d962df45d6fce70cb017',
+                                                        status: 'pending',
+                                                        options: {"gas_limit"=>90000, "gas_price"=>1000000000})
     end
 
     context 'erc20_contract_address is not configured properly in currency' do

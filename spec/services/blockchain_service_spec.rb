@@ -155,6 +155,23 @@ describe BlockchainService do
         expect(Deposits::Coin.where(currency: fake_currency2).exists?).to be true
       end
     end
+
+    context 'skip deposit collection fee transaction' do
+      let!(:transaction) { create(:transaction, txid: 'fake_hash1') }
+      before do
+        PaymentAddress.create!(member: member,
+                               wallet: wallet,
+                               address: 'fake_address')
+        service.adapter.stubs(:fetch_block!).returns(expected_block)
+        service.process_block(block_number)
+      end
+
+      subject { Deposits::Coin.where(currency: [fake_currency1, fake_currency2]) }
+
+      it do
+        expect(subject.count).to eq 1
+      end
+    end
   end
 
   # Withdraw context: (mock fetch_block)

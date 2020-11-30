@@ -9,15 +9,16 @@ class CurrencyWallet < ApplicationRecord
 end
 
 # == Schema Information
-# Schema version: 20200813133518
+# Schema version: 20201125134745
 #
 # Table name: currencies_wallets
 #
-#  id          :bigint           not null, primary key
 #  currency_id :string(255)
-#  wallet_id   :string(255)
+#  wallet_id   :integer
 #
 # Indexes
 #
+#  index_currencies_wallets_on_currency_id                (currency_id)
 #  index_currencies_wallets_on_currency_id_and_wallet_id  (currency_id,wallet_id) UNIQUE
+#  index_currencies_wallets_on_wallet_id                  (wallet_id)
 #
