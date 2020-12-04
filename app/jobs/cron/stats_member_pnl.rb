@@ -7,8 +7,14 @@ module Jobs::Cron
         queries = []
         idx = last_idx(pnl_currency, currency)
 
+        if exclude_user_ids.empty?
+          filter_trades = ''
+        else
+          filter_trades = "AND (trades.taker_id != trades.maker_id OR trades.taker_id NOT IN (#{exclude_user_ids.join(',')}))"
+        end
+
         query = "
-        (SELECT 'Trade', id, updated_at as ts FROM trades WHERE id > #{idx['Trade']} ORDER BY ts,id LIMIT #{batch_size}) UNION ALL
+        (SELECT 'Trade', id, updated_at as ts FROM trades WHERE id > #{idx['Trade']} #{filter_trades} ORDER BY ts,id LIMIT #{batch_size}) UNION ALL
         (SELECT 'Adjustment', id, updated_at as ts FROM adjustments WHERE updated_at > '#{idx['Adjustment']}' AND currency_id = '#{currency.id}' AND state = 2 ORDER BY ts,id LIMIT #{batch_size}) UNION ALL
         (SELECT 'Transfer', id, updated_at as ts FROM transfers WHERE id > #{idx['Transfer']} ORDER BY ts,id LIMIT #{batch_size}) UNION ALL
         (SELECT 'Withdraw', id, completed_at as ts FROM withdraws WHERE completed_at > '#{idx['Withdraw']}' AND currency_id = '#{currency.id}' AND aasm_state = 'succeed' ORDER BY ts,id LIMIT #{batch_size}) UNION ALL
@@ -93,6 +99,16 @@ module Jobs::Cron
         @conversion_paths ||= parse_conversion_paths(ENV.fetch('CONVERSION_PATHS', ''))
       end
 
+      def exclude_roles
+        ENV.fetch('PNL_EXCLUDE_ROLES', '').split(',')
+      end
+
+      def exclude_user_ids
+        return @exclude_user_ids unless @exclude_user_ids.nil?
+
+        @exclude_user_ids = Member.where(role: exclude_roles).pluck(:id)
+      end
+
       def parse_conversion_paths(str)
         paths = {}
         str.to_s.split(';').each do |path|
@@ -146,6 +162,8 @@ module Jobs::Cron
       def process_trade(pnl_currency, currency, trade, order)
         queries = []
         Rails.logger.info { "Process trade: #{trade.id}" }
+        return [] if exclude_user_ids.include?(order.member_id)
+
         market = trade.market
         return [] unless [market.quote_unit, market.base_unit].include?(currency.id)
         if order.side == 'buy'
@@ -186,6 +204,11 @@ module Jobs::Cron
 
       def process_adjustment(pnl_currency, adjustment)
         Rails.logger.info { "Process adjustment: #{adjustment.id}" }
+        account_number_hash = Operations.split_account_number(account_number: adjustment.receiving_account_number)
+        member = Member.find_by(uid: account_number_hash[:member_uid]) if account_number_hash.key?(:member_uid)
+
+        return [] if exclude_user_ids.include?(member.id)
+
         if adjustment.amount < 0
           total_credit = total_credit_value = 0
           total_debit = -adjustment.amount
@@ -195,8 +218,6 @@ module Jobs::Cron
           total_credit = adjustment.amount
           total_credit_value = total_credit * price_at(adjustment.currency_id, pnl_currency.id, adjustment.created_at)
         end
-        account_number_hash = Operations.split_account_number(account_number: adjustment.receiving_account_number)
-        member = Member.find_by(uid: account_number_hash[:member_uid]) if account_number_hash.key?(:member_uid)
         [
           build_query(member.id, pnl_currency, adjustment.currency_id, total_credit, 0.0, total_credit_value, total_debit, total_debit_value, 0),
         ]
@@ -204,6 +225,8 @@ module Jobs::Cron
 
       def process_deposit(pnl_currency, deposit)
         Rails.logger.info { "Process deposit: #{deposit.id}" }
+        return [] if exclude_user_ids.include?(deposit.member_id)
+
         total_credit = deposit.amount
         total_credit_fees = deposit.fee
         total_credit_value = total_credit * price_at(deposit.currency_id, pnl_currency.id, deposit.created_at)
@@ -213,6 +236,8 @@ module Jobs::Cron
 
       def process_withdraw(pnl_currency, withdraw)
         Rails.logger.info { "Process withdraw: #{withdraw.id}" }
+        return [] if exclude_user_ids.include?(withdraw.member_id)
+
         total_debit = withdraw.amount
         total_debit_fees = withdraw.fee
         total_debit_value = (total_debit + total_debit_fees) * price_at(withdraw.currency_id, pnl_currency.id, withdraw.created_at)
@@ -268,7 +293,6 @@ module Jobs::Cron
               # We don't support fees payed on credit, they are all considered debit fees
             end
 
-            byebug if infos.nil?
             infos[:liabilities].each do |l|
               store[l['member_id']] ||= {}
               store[l['member_id']][cid]
@@ -288,6 +312,8 @@ module Jobs::Cron
           end
 
           store.each do |member_id, stats|
+            next if exclude_user_ids.include?(member_id)
+
             a, b = stats.keys
 
             if a == pnl_currency.id
@@ -336,7 +362,7 @@ module Jobs::Cron
             end
           end
         end
-
+        @exclude_user_ids = nil # Remove the cache
         sleep 3 if l_count == 0
       end
 

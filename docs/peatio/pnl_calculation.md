@@ -23,6 +23,7 @@ To enable the PnL calculation for traders you need to setup at least one destina
 | -------------------- | ------------------------------------------------------------ | ------------------------------------------------------------ |
 | PNL_CURRENCIES       | usd,btc                                                      | List of pnl currencies                                       |
 | CONVERSION_PATHS     | usd/krw:_usdt/usd,usdt/krw this will convert usd to krw using the last price of markets usd/usdt (reversed) and usd/krw | By default conversions are made using the direct market (BTC to USD use latest market price of btc/usd). If a direct conversion market is missing you can specify a conversion path setting this variable. Several paths can be defined with semi-colon (;) separation. |
+| PNL_EXCLUDE_ROLES    | maker,broker                                                 | Skip PnL calculation for users with the following roles      |
 
 
 ### Formulas

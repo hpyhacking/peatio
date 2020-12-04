@@ -3,6 +3,8 @@
 describe Jobs::Cron::StatsMemberPnl do
   let!(:member_platform) { create(:member, :level_3) }
   let!(:member) { create(:member, :level_3) }
+  let!(:maker) { create(:member, role: 'maker') }
+  let(:maker2) { create(:member, role: 'maker') }
 
   include ::API::V2::Management::Helpers
 
@@ -29,6 +31,10 @@ describe Jobs::Cron::StatsMemberPnl do
         create_operation!(credit_params)
       end
     end
+  end
+
+  before(:each) do
+    Jobs::Cron::StatsMemberPnl.stubs(:exclude_roles).returns(['maker'])
   end
 
   context 'conversion_market' do
@@ -83,12 +89,15 @@ describe Jobs::Cron::StatsMemberPnl do
 
     context 'reference type withdraw' do
       before do
-        member.touch_accounts
-        member.accounts.map { |a| a.update(balance: 500) }
+        [member, maker].each do |m|
+          m.touch_accounts
+          m.accounts.map { |a| a.update(balance: 500) }
+        end
       end
 
       context 'creates one pnl' do
         let!(:coin_withdraw) { create(:btc_withdraw, sum: 0.3.to_d, amount: 0.2.to_d, aasm_state: 'succeed', member: member) }
+        let!(:coin_withdraw_maker) { create(:btc_withdraw, sum: 0.3.to_d, amount: 0.2.to_d, aasm_state: 'succeed', member: maker) }
         let!(:pnl) { create(:stats_member_pnl) }
 
         before do
@@ -149,15 +158,17 @@ describe Jobs::Cron::StatsMemberPnl do
     end
 
     context 'reference type adjustments' do
-      context 'creates one pnl with positve adjustment' do
+      context 'creates one pnl with positive adjustment' do
         let!(:member) { create(:member) }
         let!(:adjustment) { create(:adjustment, currency_id: 'btc', amount: 1.0, receiving_account_number: "btc-202-#{member.uid}") }
+        let!(:adjustment_maker) { create(:adjustment, currency_id: 'btc', amount: 1.0, receiving_account_number: "btc-202-#{maker.uid}") }
         let(:btceth_price) { 100.0 }
 
         before do
           Jobs::Cron::StatsMemberPnl.stubs(:price_at).returns(btceth_price)
           Jobs::Cron::StatsMemberPnl.stubs(:pnl_currencies).returns([Currency.find('eth')])
           adjustment.accept!(validator: member)
+          adjustment_maker.accept!(validator: member)
         end
 
         it do
@@ -176,7 +187,7 @@ describe Jobs::Cron::StatsMemberPnl do
         end
       end
 
-      context 'creates one pnl with positve and negative adjustments' do
+      context 'creates one pnl with positive and negative adjustments' do
         let(:member) { create(:member) }
         let(:adjustment) { create(:adjustment, currency_id: 'btc', amount: 1.0, receiving_account_number: "btc-202-#{member.uid}") }
         let(:btceth_price) { 100.0 }
@@ -225,13 +236,16 @@ describe Jobs::Cron::StatsMemberPnl do
     context 'reference type deposit' do
       context 'creates one pnl' do
         let!(:coin_deposit) { create(:deposit, :deposit_btc) }
+        let!(:coin_deposit_maker) { create(:deposit, :deposit_btc, member: maker) }
         let!(:pnl) { create(:stats_member_pnl) }
 
         before do
           Jobs::Cron::StatsMemberPnl.stubs(:price_at).returns(1.0)
           Jobs::Cron::StatsMemberPnl.stubs(:pnl_currencies).returns([Currency.find('eth')])
-          coin_deposit.accept!
-          coin_deposit.process!
+          [coin_deposit, coin_deposit_maker].each do |d|
+            d.accept!
+            d.process!
+          end
         end
 
         it do
@@ -412,11 +426,6 @@ describe Jobs::Cron::StatsMemberPnl do
         let!(:trade) { create(:trade, :btcusd, price: '5.0'.to_d, amount: '1.1'.to_d, total: '5.5'.to_d) }
         let!(:pnl) { create(:stats_member_pnl) }
 
-        let!(:liability1) { create(:liability, id: 1, member: trade.maker, currency: Currency.find('usd'), reference_type: 'Trade', reference_id: trade.id) }
-        let!(:liability2) { create(:liability, id: 2, member: trade.taker, currency: Currency.find('btc'), reference_type: 'Trade', reference_id: trade.id) }
-        let!(:liability3) { create(:liability, id: 3, member: trade.maker, currency: Currency.find('usd'), reference_type: 'Trade', reference_id: trade.id) }
-        let!(:liability4) { create(:liability, id: 4, member: trade.taker, currency: Currency.find('btc'), reference_type: 'Trade', reference_id: trade.id) }
-
         before do
           Jobs::Cron::StatsMemberPnl.stubs(:price_at).returns(1.0.to_f)
           Jobs::Cron::StatsMemberPnl.stubs(:pnl_currencies).returns([Currency.find('eth')])
@@ -456,6 +465,33 @@ describe Jobs::Cron::StatsMemberPnl do
           expect(pnl4.total_credit_value).to eq 0
         end
       end
+
+      context 'trades of makers should not create pnls' do
+        let!(:trade) do
+          create(
+            :trade, :btcusd, price: '5.0'.to_d, amount: '1.1'.to_d, total: '5.5'.to_d,
+            maker_order: create(:order_bid, :btceth, member: maker),
+            taker_order: create(:order_ask, :btceth, member: maker)
+          )
+
+          create(
+            :trade, :btcusd, price: '5.0'.to_d, amount: '1.1'.to_d, total: '5.5'.to_d,
+            maker_order: create(:order_bid, :btceth, member: maker),
+            taker_order: create(:order_ask, :btceth, member: maker2)
+          )
+        end
+        let!(:pnl) { create(:stats_member_pnl) }
+
+        before do
+          Jobs::Cron::StatsMemberPnl.stubs(:price_at).returns(1.0.to_f)
+          Jobs::Cron::StatsMemberPnl.stubs(:pnl_currencies).returns([Currency.find('eth')])
+        end
+
+        it do
+          expect { Jobs::Cron::StatsMemberPnl.process }.to change { StatsMemberPnl.count }.by(0)
+        end
+      end
+
     end
   end
 
@@ -528,10 +564,10 @@ describe Jobs::Cron::StatsMemberPnl do
       Jobs::Cron::StatsMemberPnl.stubs(:pnl_currencies).returns([Currency.find('usd')])
     end
 
-    def scenario1_internal_sell_with_partial_refund
+    def scenario1_internal_sell_with_partial_refund(msrc, mdst)
       key = (Time.now.to_f * 1000).to_i
-      create(:deposit_usd, member: member, amount: 100).accept!
-      d = create(:deposit_btc, member: member_platform, amount: 0.09)
+      create(:deposit_usd, member: mdst, amount: 100).accept!
+      d = create(:deposit_btc, member: msrc, amount: 0.09)
       d.accept!
       d.process!
       d.dispatch!
@@ -546,11 +582,11 @@ describe Jobs::Cron::StatsMemberPnl do
               amount: 100,
               account_src: {
                 code: 201,
-                uid: member.uid
+                uid: mdst.uid
               },
               account_dst: {
                 code: 211,
-                uid: member.uid
+                uid: mdst.uid
               }
             }
           ]
@@ -565,11 +601,11 @@ describe Jobs::Cron::StatsMemberPnl do
               amount: 10,
               account_src: {
                 code: 211,
-                uid: member.uid
+                uid: mdst.uid
               },
               account_dst: {
                 code: 201,
-                uid: member.uid
+                uid: mdst.uid
               }
             },
             {
@@ -578,11 +614,11 @@ describe Jobs::Cron::StatsMemberPnl do
               amount: 89,
               account_src: {
                 code: 211,
-                uid: member.uid
+                uid: mdst.uid
               },
               account_dst: {
                 code: 201,
-                uid: member_platform.uid
+                uid: msrc.uid
               }
             },
             {
@@ -591,11 +627,11 @@ describe Jobs::Cron::StatsMemberPnl do
               amount: 1,
               account_src: {
                 code: 211,
-                uid: member.uid
+                uid: mdst.uid
               },
               account_dst: {
                 code: 301,
-                uid: member.uid
+                uid: mdst.uid
               }
             },
             {
@@ -604,11 +640,11 @@ describe Jobs::Cron::StatsMemberPnl do
               amount: 0.09,
               account_src: {
                 code: 202,
-                uid: member_platform.uid
+                uid: msrc.uid
               },
               account_dst: {
                 code: 202,
-                uid: member.uid
+                uid: mdst.uid
               }
             }
           ]
@@ -620,12 +656,18 @@ describe Jobs::Cron::StatsMemberPnl do
       end
     end
 
+    it 'excludes makers' do
+      scenario1_internal_sell_with_partial_refund(maker2, maker)
+      Jobs::Cron::StatsMemberPnl.process
+      expect(StatsMemberPnl.count).to eq(0)
+    end
+
     it do
-      scenario1_internal_sell_with_partial_refund
+      scenario1_internal_sell_with_partial_refund(member_platform, member)
       Jobs::Cron::StatsMemberPnl.stubs(:price_at).with('usd', 'usd', anything).returns(1)
       Jobs::Cron::StatsMemberPnl.stubs(:price_at).with('btc', 'usd', anything).returns(10_000)
       Jobs::Cron::StatsMemberPnl.process
-      expect(StatsMemberPnl.all.size).to eq(4)
+      expect(StatsMemberPnl.count).to eq(4)
 
       musd = StatsMemberPnl.find_by(member_id: member.id, pnl_currency_id: 'usd', currency_id: 'usd')
       expect(musd.total_credit).to eq(100)
@@ -733,7 +775,7 @@ describe Jobs::Cron::StatsMemberPnl do
       Jobs::Cron::StatsMemberPnl.stubs(:price_at).with('btc', 'usd', anything).returns(10_000)
       Jobs::Cron::StatsMemberPnl.process
 
-      expect(StatsMemberPnl.all.size).to eq(4)
+      expect(StatsMemberPnl.count).to eq(4)
       musd = StatsMemberPnl.find_by(member_id: member.id, pnl_currency_id: 'usd', currency_id: 'usd')
       expect(musd.total_credit).to eq(100)
       expect(musd.total_credit_fees).to eq(0)
