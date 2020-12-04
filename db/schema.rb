@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_11_18_151056) do
+ActiveRecord::Schema.define(version: 2020_12_04_134602) do
 
   create_table "accounts", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.integer "member_id", null: false
@@ -229,6 +229,7 @@ ActiveRecord::Schema.define(version: 2020_11_18_151056) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["email"], name: "index_members_on_email", unique: true
+    t.index ["uid"], name: "index_members_on_uid", unique: true
   end
 
   create_table "operations_accounts", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|

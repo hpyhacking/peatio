@@ -204,6 +204,22 @@ describe API::V2::Account::Balances, type: :request do
         expect(response).to include_api_error('user.ability.not_permitted')
       end
     end
+
+    context 'email changed' do
+      let(:new_member_email) { Faker::Internet.email }
+
+      it do
+        old_member_email = member.email
+        member.email = new_member_email
+        api_get '/api/v2/account/balances', {token: jwt_for(member), params: {limit: 2} }
+        expect(response).to be_successful
+
+        member.reload
+        expect(member.email).to eq new_member_email
+        expect(member.email).to_not eq old_member_email
+      end
+
+    end
   end
 
   describe 'GET api/v2/account/balances/:currency' do
