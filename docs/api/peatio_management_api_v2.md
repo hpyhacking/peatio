@@ -1,19 +1,85 @@
 # Peatio Management API v2
 Management API is server-to-server API with high privileges.
 
-## Version: 2.4.0
+## Version: 2.6.0
 
 **Contact information:**  
 openware.com  
-https://www.openware.com  
+<https://www.openware.com>
 hello@openware.com  
 
-**License:** https://github.com/rubykube/peatio/blob/master/LICENSE.md
+**License:** <https://github.com/openware/peatio/blob/master/LICENSE.md>
 
-### /accounts/balance
+### /api/v2/management/peatio/beneficiaries
 
 #### POST
-##### Description:
+##### Description
+
+Create new beneficiary
+
+##### Parameters
+
+| Name | Located in | Description | Required | Schema |
+| ---- | ---------- | ----------- | -------- | ---- |
+| currency | formData | Beneficiary currency code. | Yes | string |
+| name | formData | Human rememberable name which refer beneficiary. | Yes | string |
+| description | formData | Human rememberable description which refer beneficiary. | No | string |
+| data | formData | Beneficiary data in JSON format | Yes | json |
+| uid | formData | The shared user ID. | Yes | string |
+| state | formData | Defines either beneficiary active - user can use it to withdraw moneyor pending - requires beneficiary activation with pin. | No | string |
+
+##### Responses
+
+| Code | Description | Schema |
+| ---- | ----------- | ------ |
+| 201 | Create new beneficiary | [Beneficiary](#beneficiary) |
+
+### /api/v2/management/peatio/beneficiaries/list
+
+#### POST
+##### Description
+
+Get list of user beneficiaries
+
+##### Parameters
+
+| Name | Located in | Description | Required | Schema |
+| ---- | ---------- | ----------- | -------- | ---- |
+| uid | formData | The shared user ID. | Yes | string |
+| currency | formData | Beneficiary currency code. | No | string |
+| state | formData | Defines either beneficiary active - user can use it to withdraw moneyor pending - requires beneficiary activation with pin. | No | string |
+
+##### Responses
+
+| Code | Description | Schema |
+| ---- | ----------- | ------ |
+| 201 | Get list of user beneficiaries | [Beneficiary](#beneficiary) |
+
+### /api/v2/management/peatio/accounts/balances
+
+#### POST
+##### Description
+
+Queries the non-zero balance accounts for the given currency.
+
+##### Parameters
+
+| Name | Located in | Description | Required | Schema |
+| ---- | ---------- | ----------- | -------- | ---- |
+| currency | formData | The currency code. | Yes | string |
+| page | formData | The page number (defaults to 1). | No | integer |
+| limit | formData | The number of accounts per page (defaults to 100, maximum is 1000). | No | integer |
+
+##### Responses
+
+| Code | Description | Schema |
+| ---- | ----------- | ------ |
+| 201 | Queries the non-zero balance accounts for the given currency. | [Balance](#balance) |
+
+### /api/v2/management/peatio/accounts/balance
+
+#### POST
+##### Description
 
 Queries the account balance for the given UID and currency.
 
@@ -30,10 +96,10 @@ Queries the account balance for the given UID and currency.
 | ---- | ----------- | ------ |
 | 201 | Queries the account balance for the given UID and currency. | [Balance](#balance) |
 
-### /deposits/state
+### /api/v2/management/peatio/deposits/state
 
 #### PUT
-##### Description:
+##### Description
 
 Allows to load money or cancel deposit.
 
@@ -50,10 +116,10 @@ Allows to load money or cancel deposit.
 | ---- | ----------- | ------ |
 | 200 | Allows to load money or cancel deposit. | [Deposit](#deposit) |
 
-### /deposits/new
+### /api/v2/management/peatio/deposits/new
 
 #### POST
-##### Description:
+##### Description
 
 Creates new fiat deposit with state set to «submitted». Optionally pass field «state» set to «accepted» if want to load money instantly. You can also use PUT /fiat_deposits/:id later to load money or cancel deposit.
 
@@ -66,6 +132,7 @@ Creates new fiat deposit with state set to «submitted». Optionally pass field 
 | currency | formData | The currency code. | Yes | string |
 | amount | formData | The deposit amount. | Yes | double |
 | state | formData | The state of deposit. | No | string |
+| transfer_type | formData | Deposit transfer type | No | string |
 
 ##### Responses
 
@@ -73,10 +140,10 @@ Creates new fiat deposit with state set to «submitted». Optionally pass field 
 | ---- | ----------- | ------ |
 | 201 | Creates new fiat deposit with state set to «submitted». Optionally pass field «state» set to «accepted» if want to load money instantly. You can also use PUT /fiat_deposits/:id later to load money or cancel deposit. | [Deposit](#deposit) |
 
-### /deposits/get
+### /api/v2/management/peatio/deposits/get
 
 #### POST
-##### Description:
+##### Description
 
 Returns deposit by TID.
 
@@ -92,10 +159,10 @@ Returns deposit by TID.
 | ---- | ----------- | ------ |
 | 201 | Returns deposit by TID. | [Deposit](#deposit) |
 
-### /deposits
+### /api/v2/management/peatio/deposits
 
 #### POST
-##### Description:
+##### Description
 
 Returns deposits as paginated collection.
 
@@ -115,14 +182,14 @@ Returns deposits as paginated collection.
 | ---- | ----------- | ------ |
 | 201 | Returns deposits as paginated collection. | [Deposit](#deposit) |
 
-### /withdraws/action
+### /api/v2/management/peatio/withdraws/action
 
 #### PUT
-##### Summary:
+##### Summary
 
 Performs action on withdraw.
 
-##### Description:
+##### Description
 
 «process» – system will lock the money, check for suspected activity, validate recipient address, and initiate the processing of the withdraw. «cancel»  – system will mark withdraw as «canceled», and unlock the money.
 
@@ -139,14 +206,14 @@ Performs action on withdraw.
 | ---- | ----------- | ------ |
 | 200 | Performs action on withdraw. | [Withdraw](#withdraw) |
 
-### /withdraws/new
+### /api/v2/management/peatio/withdraws/new
 
 #### POST
-##### Summary:
+##### Summary
 
 Creates new withdraw.
 
-##### Description:
+##### Description
 
 Creates new withdraw. The behaviours for fiat and crypto withdraws are different. Fiat: money are immediately locked, withdraw state is set to «submitted», system workers will validate withdraw later against suspected activity, and assign state to «rejected» or «accepted». The processing will not begin automatically. The processing may be initiated manually from admin panel or by PUT /management_api/v1/withdraws/action. Coin: money are immediately locked, withdraw state is set to «submitted», system workers will validate withdraw later against suspected activity, validate withdraw address and set state to «rejected» or «accepted». Then in case state is «accepted» withdraw workers will perform interactions with blockchain. The withdraw receives new state «processing». Then withdraw receives state either «confirming» or «failed».Then in case state is «confirming» withdraw confirmations workers will perform interactions with blockchain.Withdraw receives state «succeed» when it receives minimum necessary amount of confirmations.
 
@@ -162,6 +229,7 @@ Creates new withdraw. The behaviours for fiat and crypto withdraws are different
 | amount | formData | The amount to withdraw. | Yes | double |
 | note | formData | The note for withdraw. | No | string |
 | action | formData | The action to perform. | No | string |
+| transfer_type | formData | Withdraw transfer type | No | string |
 
 ##### Responses
 
@@ -169,10 +237,10 @@ Creates new withdraw. The behaviours for fiat and crypto withdraws are different
 | ---- | ----------- | ------ |
 | 201 | Creates new withdraw. | [Withdraw](#withdraw) |
 
-### /withdraws/get
+### /api/v2/management/peatio/withdraws/get
 
 #### POST
-##### Description:
+##### Description
 
 Returns withdraw by ID.
 
@@ -188,10 +256,10 @@ Returns withdraw by ID.
 | ---- | ----------- | ------ |
 | 201 | Returns withdraw by ID. | [Withdraw](#withdraw) |
 
-### /withdraws
+### /api/v2/management/peatio/withdraws
 
 #### POST
-##### Description:
+##### Description
 
 Returns withdraws as paginated collection.
 
@@ -211,10 +279,10 @@ Returns withdraws as paginated collection.
 | ---- | ----------- | ------ |
 | 201 | Returns withdraws as paginated collection. | [Withdraw](#withdraw) |
 
-### /timestamp
+### /api/v2/management/peatio/timestamp
 
 #### POST
-##### Description:
+##### Description
 
 Returns server time in seconds since Unix epoch.
 
@@ -224,10 +292,10 @@ Returns server time in seconds since Unix epoch.
 | ---- | ----------- |
 | 201 | Returns server time in seconds since Unix epoch. |
 
-### /assets/new
+### /api/v2/management/peatio/assets/new
 
 #### POST
-##### Description:
+##### Description
 
 Creates new asset operation.
 
@@ -246,10 +314,10 @@ Creates new asset operation.
 | ---- | ----------- | ------ |
 | 201 | Creates new asset operation. | [Operation](#operation) |
 
-### /assets
+### /api/v2/management/peatio/assets
 
 #### POST
-##### Description:
+##### Description
 
 Returns assets as paginated collection.
 
@@ -270,10 +338,10 @@ Returns assets as paginated collection.
 | ---- | ----------- | ------ |
 | 201 | Returns assets as paginated collection. | [Operation](#operation) |
 
-### /expenses/new
+### /api/v2/management/peatio/expenses/new
 
 #### POST
-##### Description:
+##### Description
 
 Creates new expense operation.
 
@@ -292,10 +360,10 @@ Creates new expense operation.
 | ---- | ----------- | ------ |
 | 201 | Creates new expense operation. | [Operation](#operation) |
 
-### /expenses
+### /api/v2/management/peatio/expenses
 
 #### POST
-##### Description:
+##### Description
 
 Returns expenses as paginated collection.
 
@@ -316,10 +384,10 @@ Returns expenses as paginated collection.
 | ---- | ----------- | ------ |
 | 201 | Returns expenses as paginated collection. | [Operation](#operation) |
 
-### /revenues/new
+### /api/v2/management/peatio/revenues/new
 
 #### POST
-##### Description:
+##### Description
 
 Creates new revenue operation.
 
@@ -338,10 +406,10 @@ Creates new revenue operation.
 | ---- | ----------- | ------ |
 | 201 | Creates new revenue operation. | [Operation](#operation) |
 
-### /revenues
+### /api/v2/management/peatio/revenues
 
 #### POST
-##### Description:
+##### Description
 
 Returns revenues as paginated collection.
 
@@ -362,10 +430,10 @@ Returns revenues as paginated collection.
 | ---- | ----------- | ------ |
 | 201 | Returns revenues as paginated collection. | [Operation](#operation) |
 
-### /liabilities/new
+### /api/v2/management/peatio/liabilities/new
 
 #### POST
-##### Description:
+##### Description
 
 Creates new liability operation.
 
@@ -385,10 +453,10 @@ Creates new liability operation.
 | ---- | ----------- | ------ |
 | 201 | Creates new liability operation. | [Operation](#operation) |
 
-### /liabilities
+### /api/v2/management/peatio/liabilities
 
 #### POST
-##### Description:
+##### Description
 
 Returns liabilities as paginated collection.
 
@@ -410,10 +478,71 @@ Returns liabilities as paginated collection.
 | ---- | ----------- | ------ |
 | 201 | Returns liabilities as paginated collection. | [Operation](#operation) |
 
-### /transfers/new
+### /api/v2/management/peatio/orders/cancel
 
 #### POST
-##### Description:
+##### Description
+
+Cancel all open orders
+
+##### Parameters
+
+| Name | Located in | Description | Required | Schema |
+| ---- | ---------- | ----------- | -------- | ---- |
+| uid | formData | Filter order by owner uid | No | string |
+| market | formData | Unique market id. It's always in the form of xxxyyy,where xxx is the base currency code, yyy is the quotecurrency code, e.g. 'btcusd'. All available markets canbe found at /api/v2/markets. | Yes | string |
+
+##### Responses
+
+| Code | Description | Schema |
+| ---- | ----------- | ------ |
+| 201 | Cancel all open orders | [Order](#order) |
+
+### /api/v2/management/peatio/orders/{id}/cancel
+
+#### POST
+##### Description
+
+Cancel specific order
+
+##### Parameters
+
+| Name | Located in | Description | Required | Schema |
+| ---- | ---------- | ----------- | -------- | ---- |
+| id | path | Unique order id. | Yes | string |
+
+##### Responses
+
+| Code | Description | Schema |
+| ---- | ----------- | ------ |
+| 201 | Cancel specific order | [Order](#order) |
+
+### /api/v2/management/peatio/orders
+
+#### POST
+##### Description
+
+Returns orders
+
+##### Parameters
+
+| Name | Located in | Description | Required | Schema |
+| ---- | ---------- | ----------- | -------- | ---- |
+| uid | formData | Filter order by owner uid | No | string |
+| market | formData | Unique market id. It's always in the form of xxxyyy,where xxx is the base currency code, yyy is the quotecurrency code, e.g. 'btcusd'. All available markets canbe found at /api/v2/markets. | No | string |
+| state | formData | Filter order by state. | No | string |
+| ord_type | formData | Filter order by ord_type. | No | string |
+
+##### Responses
+
+| Code | Description | Schema |
+| ---- | ----------- | ------ |
+| 201 | Returns orders | [Order](#order) |
+
+### /api/v2/management/peatio/transfers/new
+
+#### POST
+##### Description
 
 Creates new transfer.
 
@@ -437,10 +566,10 @@ Creates new transfer.
 | ---- | ----------- |
 | 201 | Creates new transfer. |
 
-### /trades
+### /api/v2/management/peatio/trades
 
 #### POST
-##### Description:
+##### Description
 
 Returns trades as paginated collection.
 
@@ -459,10 +588,10 @@ Returns trades as paginated collection.
 | ---- | ----------- | ------ |
 | 201 | Returns trades as paginated collection. | [Trade](#trade) |
 
-### /members/group
+### /api/v2/management/peatio/members/group
 
 #### POST
-##### Description:
+##### Description
 
 Set user group.
 
@@ -479,10 +608,34 @@ Set user group.
 | ---- | ----------- |
 | 201 | Set user group. |
 
-### /fee_schedule/trading_fees
+### /api/v2/management/peatio/members
 
 #### POST
-##### Description:
+##### Description
+
+Create a member.
+
+##### Parameters
+
+| Name | Located in | Description | Required | Schema |
+| ---- | ---------- | ----------- | -------- | ---- |
+| email | formData | User email. | Yes | string |
+| uid | formData | The shared user ID. | Yes | string |
+| level | formData | User level. | Yes | integer |
+| role | formData | User role. | Yes | string |
+| state | formData | User state. | Yes | string |
+| group | formData | User group | Yes | string |
+
+##### Responses
+
+| Code | Description |
+| ---- | ----------- |
+| 201 | Create a member. |
+
+### /api/v2/management/peatio/fee_schedule/trading_fees
+
+#### POST
+##### Description
 
 Returns trading_fees table as paginated collection
 
@@ -501,10 +654,10 @@ Returns trading_fees table as paginated collection
 | ---- | ----------- |
 | 201 | Returns trading_fees table as paginated collection |
 
-### /currencies/update
+### /api/v2/management/peatio/currencies/update
 
 #### PUT
-##### Description:
+##### Description
 
 Update  currency.
 
@@ -535,10 +688,10 @@ Update  currency.
 | ---- | ----------- | ------ |
 | 200 | Update  currency. | [Currency](#currency) |
 
-### /currencies/{code}
+### /api/v2/management/peatio/currencies/{code}
 
 #### POST
-##### Description:
+##### Description
 
 Returns currency by code.
 
@@ -554,10 +707,10 @@ Returns currency by code.
 | ---- | ----------- | ------ |
 | 201 | Returns currency by code. | [Currency](#currency) |
 
-### /currencies/list
+### /api/v2/management/peatio/currencies/list
 
 #### POST
-##### Description:
+##### Description
 
 Return currencies list.
 
@@ -573,10 +726,10 @@ Return currencies list.
 | ---- | ----------- | ------ |
 | 201 | Return currencies list. | [Currency](#currency) |
 
-### /markets/list
+### /api/v2/management/peatio/markets/list
 
 #### POST
-##### Description:
+##### Description
 
 Return markets list.
 
@@ -586,10 +739,10 @@ Return markets list.
 | ---- | ----------- | ------ |
 | 201 | Return markets list. | [Market](#market) |
 
-### /markets/update
+### /api/v2/management/peatio/markets/update
 
 #### PUT
-##### Description:
+##### Description
 
 Update market.
 
@@ -614,6 +767,20 @@ Update market.
 
 ### Models
 
+#### Beneficiary
+
+Get list of user beneficiaries
+
+| Name | Type | Description | Required |
+| ---- | ---- | ----------- | -------- |
+| id | integer | Beneficiary Identifier in Database | No |
+| currency | string | Beneficiary currency code. | No |
+| uid | string | Beneficiary owner | No |
+| name | string | Human rememberable name which refer beneficiary. | No |
+| description | string | Human rememberable description of beneficiary. | No |
+| data | json | Bank Account details for fiat Beneficiary in JSON format.For crypto it's blockchain address. | No |
+| state | string | Defines either beneficiary active - user can use it to withdraw moneyor pending - requires beneficiary activation with pin. | No |
+| sent_at | string | Time when last pin was sent | No |
 
 #### Balance
 
@@ -641,6 +808,7 @@ Returns deposits as paginated collection.
 | completed_at | string | The datetime when deposit was completed. | No |
 | blockchain_txid | string | The transaction ID on the Blockchain (coin only). | No |
 | blockchain_confirmations | string | The number of transaction confirmations on the Blockchain (coin only). | No |
+| transfer_type | string | deposit transfer_type. | No |
 
 #### Withdraw
 
@@ -659,6 +827,7 @@ Returns withdraws as paginated collection.
 | state | string | The withdraw state. «prepared» – initial state, money are not locked. «submitted» – withdraw has been allowed by outer service for further validation, money are locked. «canceled» – withdraw has been canceled by outer service, money are unlocked. «accepted» – system has validated withdraw and queued it for processing by worker, money are locked. «rejected» – system has validated withdraw and found errors, money are unlocked. «processing» – worker is processing withdraw as the current moment, money are locked. «skipped» – worker skipped withdrawal in case of insufficient balance of hot wallet or it absence. «succeed» – worker has successfully processed withdraw, money are subtracted from the account. «failed» – worker has encountered an unhandled error while processing withdraw, money are unlocked. | No |
 | created_at | string | The datetime when withdraw was created. | No |
 | blockchain_txid | string | The transaction ID on the Blockchain (coin only). | No |
+| transfer_type | string | withdraw transfer_type. | No |
 
 #### Operation
 
@@ -674,6 +843,31 @@ Returns liabilities as paginated collection.
 | reference_type | string | The type of operations. | No |
 | created_at | string | The datetime when operation was created. | No |
 
+#### Order
+
+Returns orders
+
+| Name | Type | Description | Required |
+| ---- | ---- | ----------- | -------- |
+| id | integer | Unique order id. | No |
+| member_id | integer | Member id. | No |
+| uuid | string | Unique order UUID. | No |
+| side | string | Either 'sell' or 'buy'. | No |
+| ord_type | string | Type of order, either 'limit' or 'market'. | No |
+| price | double | Price for each unit. e.g.If you want to sell/buy 1 btc at 3000 usd, the price is '3000.0' | No |
+| avg_price | double | Average execution price, average of price in trades. | No |
+| state | string | One of 'wait', 'done', or 'cancel'.An order in 'wait' is an active order, waiting fulfillment;a 'done' order is an order fulfilled;'cancel' means the order has been canceled. | No |
+| market | string | The market in which the order is placed, e.g. 'btcusd'.All available markets can be found at /api/v2/markets. | No |
+| created_at | string | Order create time in iso8601 format. | No |
+| updated_at | string | Order updated time in iso8601 format. | No |
+| origin_volume | double | The amount user want to sell/buy.An order could be partially executed,e.g. an order sell 5 btc can be matched with a buy 3 btc order,left 2 btc to be sold; in this case the order's volume would be '5.0',its remaining_volume would be '2.0', its executed volume is '3.0'. | No |
+| remaining_volume | double | The remaining volume, see 'volume'. | No |
+| executed_volume | double | The executed volume, see 'volume'. | No |
+| maker_fee | double | Fee for maker. | No |
+| taker_fee | double | Fee for taker. | No |
+| trades_count | integer | Count of trades. | No |
+| trades | [ [Trade](#trade) ] | Trades wiht this order. | No |
+
 #### Trade
 
 Returns trades as paginated collection.
@@ -683,14 +877,13 @@ Returns trades as paginated collection.
 | id | string | Trade ID. | No |
 | price | double | Trade price. | No |
 | amount | double | Trade amount. | No |
-| total | double | Trade total. | No |
+| total | double | Trade total (Amount * Price). | No |
+| fee_currency | double | Currency user's fees were charged in. | No |
+| fee | double | Percentage of fee user was charged for performed trade. | No |
+| fee_amount | double | Amount of fee user was charged for performed trade. | No |
 | market | string | Trade market id. | No |
 | created_at | string | Trade create time in iso8601 format. | No |
-| maker_order_id | string | Trade maker order id. | No |
-| taker_order_id | string | Trade taker order id. | No |
-| maker_member_uid | string | Trade ask member uid. | No |
-| taker_member_uid | string | Trade bid member uid. | No |
-| taker_type | string | Trade maker order type (sell or buy). | No |
+| taker_type | string | Trade taker order type (sell or buy). | No |
 | side | string | Trade side. | No |
 | order_id | integer | Order id. | No |
 
@@ -700,27 +893,29 @@ Return currencies list.
 
 | Name | Type | Description | Required |
 | ---- | ---- | ----------- | -------- |
-| id | string | Currency code. | No |
-| name | string | Currency name | No |
-| symbol | string | Currency symbol | No |
-| explorer_transaction | string | Currency transaction exprorer url template | No |
-| explorer_address | string | Currency address exprorer url template | No |
-| type | string | Currency type | No |
+| id | string | Currency code.<br>_Example:_ `"btc"` | No |
+| name | string | Currency name<br>_Example:_ `"Bitcoin"` | No |
+| description | string | Currency description<br>_Example:_ `"btc"` | No |
+| homepage | string | Currency homepage<br>_Example:_ `"btc"` | No |
+| price | string | Currency current price | No |
+| explorer_transaction | string | Currency transaction exprorer url template<br>_Example:_ `"https://testnet.blockchain.info/tx/"` | No |
+| explorer_address | string | Currency address exprorer url template<br>_Example:_ `"https://testnet.blockchain.info/address/"` | No |
+| type | string | Currency type<br>_Example:_ `"coin"` | No |
 | deposit_enabled | string | Currency deposit possibility status (true/false). | No |
 | withdrawal_enabled | string | Currency withdrawal possibility status (true/false). | No |
-| deposit_fee | string | Currency deposit fee | No |
-| min_deposit_amount | string | Minimal deposit amount | No |
-| withdraw_fee | string | Currency withdraw fee | No |
-| min_withdraw_amount | string | Minimal withdraw amount | No |
-| withdraw_limit_24h | string | Currency 24h withdraw limit | No |
-| withdraw_limit_72h | string | Currency 72h withdraw limit | No |
-| base_factor | string | Currency base factor | No |
-| precision | string | Currency precision | No |
+| deposit_fee | string | Currency deposit fee<br>_Example:_ `"0.0"` | No |
+| min_deposit_amount | string | Minimal deposit amount<br>_Example:_ `"0.0000356"` | No |
+| withdraw_fee | string | Currency withdraw fee<br>_Example:_ `"0.0"` | No |
+| min_withdraw_amount | string | Minimal withdraw amount<br>_Example:_ `"0.0"` | No |
+| withdraw_limit_24h | string | Currency 24h withdraw limit<br>_Example:_ `"0.1"` | No |
+| withdraw_limit_72h | string | Currency 72h withdraw limit<br>_Example:_ `"0.2"` | No |
+| base_factor | string | Currency base factor<br>_Example:_ `100000000` | No |
+| precision | string | Currency precision<br>_Example:_ `8` | No |
 | position | integer | Currency position. | No |
-| icon_url | string | Currency icon | No |
+| icon_url | string | Currency icon<br>_Example:_ `"https://upload.wikimedia.org/wikipedia/commons/0/05/Ethereum_logo_2014.svg"` | No |
 | min_confirmations | string | Number of confirmations required for confirming deposit or withdrawal | No |
 | code | string | Unique currency code. | No |
-| min_collection_amount | string | Minimal deposit amount that will be collected | No |
+| min_collection_amount | string | Minimal deposit amount that will be collected<br>_Example:_ `"0.0000356"` | No |
 | visible | string | Currency display possibility status (true/false). | No |
 | subunits | integer | Fraction of the basic monetary unit. | No |
 | options | json | Currency options. | No |

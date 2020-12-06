@@ -8,80 +8,479 @@
       "url": "https://www.openware.com"
     },
     "license": {
-      "url": "https://github.com/rubykube/peatio/blob/master/LICENSE.md"
+      "url": "https://github.com/openware/peatio/blob/master/LICENSE.md"
     },
-    "version": "2.4.0"
+    "version": "2.6.0"
   },
   "swagger": "2.0",
   "produces": [
     "application/json"
   ],
   "host": "localhost:3000",
-  "basePath": "/api/v2/admin",
+  "basePath": "/api/v2/admin/peatio",
   "tags": [
     {
-      "name": "adjustments",
-      "description": "Operations about adjustments"
-    },
-    {
-      "name": "orders",
-      "description": "Operations about orders"
-    },
-    {
-      "name": "blockchains",
-      "description": "Operations about blockchains"
-    },
-    {
-      "name": "currencies",
-      "description": "Operations about currencies"
-    },
-    {
-      "name": "markets",
-      "description": "Operations about markets"
-    },
-    {
-      "name": "wallets",
-      "description": "Operations about wallets"
-    },
-    {
-      "name": "deposits",
-      "description": "Operations about deposits"
-    },
-    {
-      "name": "withdraws",
-      "description": "Operations about withdraws"
-    },
-    {
-      "name": "trades",
-      "description": "Operations about trades"
-    },
-    {
-      "name": "assets",
-      "description": "Operations about assets"
-    },
-    {
-      "name": "expenses",
-      "description": "Operations about expenses"
-    },
-    {
-      "name": "revenues",
-      "description": "Operations about revenues"
-    },
-    {
-      "name": "liabilities",
-      "description": "Operations about liabilities"
-    },
-    {
-      "name": "members",
-      "description": "Operations about members"
-    },
-    {
-      "name": "trading_fees",
-      "description": "Operations about trading_fees"
+      "name": "api",
+      "description": "Operations about apis"
     }
   ],
   "paths": {
-    "/adjustments/action": {
+    "/api/v2/admin/peatio/blockchains/process_block": {
+      "post": {
+        "description": "Process blockchain's block.",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "formData",
+            "name": "id",
+            "description": "Unique blockchain identifier in database.",
+            "type": "integer",
+            "format": "int32",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "block_number",
+            "description": "The id of a particular block on blockchain",
+            "type": "integer",
+            "format": "int32",
+            "required": true
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Process blockchain's block.",
+            "schema": {
+              "$ref": "#/definitions/Blockchain"
+            }
+          }
+        },
+        "tags": [
+          "api"
+        ],
+        "operationId": "postApiV2AdminPeatioBlockchainsProcessBlock"
+      }
+    },
+    "/api/v2/admin/peatio/blockchains/update": {
+      "post": {
+        "description": "Update blockchain.",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "formData",
+            "name": "id",
+            "description": "Unique blockchain identifier in database.",
+            "type": "integer",
+            "format": "int32",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "key",
+            "description": "Unique key to identify blockchain.",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "name",
+            "description": "A name to identify blockchain.",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "client",
+            "description": "Integrated blockchain client.",
+            "type": "string",
+            "enum": [
+              "bitcoin",
+              "geth",
+              "parity",
+              "dash",
+              "litecoin",
+              "bitcoincash",
+              "ripple",
+              "bitgo",
+              "electrum"
+            ],
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "server",
+            "description": "Blockchain server url",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "height",
+            "description": "The number of blocks preceding a particular block on blockchain.",
+            "type": "integer",
+            "format": "int32",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "explorer_transaction",
+            "description": "Blockchain explorer transaction template.",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "explorer_address",
+            "description": "Blockchain explorer address template.",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "status",
+            "description": "Blockchain status (active/disabled).",
+            "type": "string",
+            "enum": [
+              "active",
+              "disabled"
+            ],
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "min_confirmations",
+            "description": "Minimum number of confirmations.",
+            "type": "integer",
+            "format": "int32",
+            "required": false
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Update blockchain.",
+            "schema": {
+              "$ref": "#/definitions/Blockchain"
+            }
+          }
+        },
+        "tags": [
+          "api"
+        ],
+        "operationId": "postApiV2AdminPeatioBlockchainsUpdate"
+      }
+    },
+    "/api/v2/admin/peatio/blockchains/new": {
+      "post": {
+        "description": "Create new blockchain.",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "formData",
+            "name": "key",
+            "description": "Unique key to identify blockchain.",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "name",
+            "description": "A name to identify blockchain.",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "client",
+            "description": "Integrated blockchain client.",
+            "type": "string",
+            "enum": [
+              "bitcoin",
+              "geth",
+              "parity",
+              "dash",
+              "litecoin",
+              "bitcoincash",
+              "ripple",
+              "bitgo",
+              "electrum"
+            ],
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "height",
+            "description": "The number of blocks preceding a particular block on blockchain.",
+            "type": "integer",
+            "format": "int32",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "explorer_transaction",
+            "description": "Blockchain explorer transaction template.",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "explorer_address",
+            "description": "Blockchain explorer address template.",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "server",
+            "description": "Blockchain server url",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "status",
+            "description": "Blockchain status (active/disabled).",
+            "type": "string",
+            "default": "active",
+            "enum": [
+              "active",
+              "disabled"
+            ],
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "min_confirmations",
+            "description": "Minimum number of confirmations.",
+            "type": "integer",
+            "format": "int32",
+            "default": 6,
+            "required": false
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Create new blockchain.",
+            "schema": {
+              "$ref": "#/definitions/Blockchain"
+            }
+          }
+        },
+        "tags": [
+          "api"
+        ],
+        "operationId": "postApiV2AdminPeatioBlockchainsNew"
+      }
+    },
+    "/api/v2/admin/peatio/blockchains/{id}/latest_block": {
+      "get": {
+        "description": "Get a latest blockchain block.",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "description": "Unique blockchain identifier in database.",
+            "type": "integer",
+            "format": "int32",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Get a latest blockchain block."
+          }
+        },
+        "tags": [
+          "api"
+        ],
+        "operationId": "getApiV2AdminPeatioBlockchainsIdLatestBlock"
+      }
+    },
+    "/api/v2/admin/peatio/blockchains/{id}": {
+      "get": {
+        "description": "Get a blockchain.",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "description": "Unique blockchain identifier in database.",
+            "type": "integer",
+            "format": "int32",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Get a blockchain.",
+            "schema": {
+              "$ref": "#/definitions/Blockchain"
+            }
+          }
+        },
+        "tags": [
+          "api"
+        ],
+        "operationId": "getApiV2AdminPeatioBlockchainsId"
+      }
+    },
+    "/api/v2/admin/peatio/blockchains/clients": {
+      "get": {
+        "description": "Get available blockchain clients.",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Get available blockchain clients."
+          }
+        },
+        "tags": [
+          "api"
+        ],
+        "operationId": "getApiV2AdminPeatioBlockchainsClients"
+      }
+    },
+    "/api/v2/admin/peatio/blockchains": {
+      "get": {
+        "description": "Get all blockchains, result is paginated.",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "key",
+            "description": "Unique key to identify blockchain.",
+            "type": "string",
+            "enum": [
+              "btc-testnet",
+              "eth-mainet",
+              "eth-rinkeby",
+              "prt-kovan"
+            ],
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "client",
+            "description": "Integrated blockchain client.",
+            "type": "string",
+            "enum": [
+              "bitcoin",
+              "geth",
+              "parity",
+              "dash",
+              "litecoin",
+              "bitcoincash",
+              "ripple",
+              "bitgo",
+              "electrum"
+            ],
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "status",
+            "description": "Blockchain status (active/disabled).",
+            "type": "string",
+            "enum": [
+              "active",
+              "disabled"
+            ],
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "name",
+            "description": "A name to identify blockchain.",
+            "type": "string",
+            "enum": [
+              "Ethereum Kovan",
+              "Ethereum Rinkeby",
+              "Ethereum Mainet",
+              "Bitcoin Testnet"
+            ],
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "description": "Limit the number of returned paginations. Defaults to 100.",
+            "type": "integer",
+            "format": "int32",
+            "default": 100,
+            "minimum": 1,
+            "maximum": 1000,
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "page",
+            "description": "Specify the page of paginated results.",
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "ordering",
+            "description": "If set, returned values will be sorted in specific order, defaults to 'asc'.",
+            "type": "string",
+            "default": "asc",
+            "enum": [
+              "asc",
+              "desc"
+            ],
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "order_by",
+            "description": "Name of the field, which result will be ordered by.",
+            "type": "string",
+            "default": "id",
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Get all blockchains, result is paginated.",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Blockchain"
+              }
+            }
+          }
+        },
+        "tags": [
+          "api"
+        ],
+        "operationId": "getApiV2AdminPeatioBlockchains"
+      }
+    },
+    "/api/v2/admin/peatio/adjustments/action": {
       "post": {
         "description": "Accepts adjustment and creates operations or reject adjustment.",
         "produces": [
@@ -120,12 +519,12 @@
           }
         },
         "tags": [
-          "adjustments"
+          "api"
         ],
-        "operationId": "postAdjustmentsAction"
+        "operationId": "postApiV2AdminPeatioAdjustmentsAction"
       }
     },
-    "/adjustments/new": {
+    "/api/v2/admin/peatio/adjustments/new": {
       "post": {
         "description": "Create new adjustment.",
         "produces": [
@@ -237,12 +636,12 @@
           }
         },
         "tags": [
-          "adjustments"
+          "api"
         ],
-        "operationId": "postAdjustmentsNew"
+        "operationId": "postApiV2AdminPeatioAdjustmentsNew"
       }
     },
-    "/adjustments/{id}": {
+    "/api/v2/admin/peatio/adjustments/{id}": {
       "get": {
         "description": "Get adjustment by ID",
         "produces": [
@@ -267,12 +666,12 @@
           }
         },
         "tags": [
-          "adjustments"
+          "api"
         ],
-        "operationId": "getAdjustmentsId"
+        "operationId": "getApiV2AdminPeatioAdjustmentsId"
       }
     },
-    "/adjustments": {
+    "/api/v2/admin/peatio/adjustments": {
       "get": {
         "description": "Get all adjustments, result is paginated.",
         "produces": [
@@ -410,12 +809,168 @@
           }
         },
         "tags": [
-          "adjustments"
+          "api"
         ],
-        "operationId": "getAdjustments"
+        "operationId": "getApiV2AdminPeatioAdjustments"
       }
     },
-    "/orders/cancel": {
+    "/api/v2/admin/peatio/beneficiaries/actions": {
+      "post": {
+        "description": "Take an action on the beneficiary",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "formData",
+            "name": "id",
+            "description": "Beneficiary Identifier in Database",
+            "type": "integer",
+            "format": "int32",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "action",
+            "description": "Valid actions are [:activate, :archive].",
+            "type": "string",
+            "enum": [
+              "activate",
+              "archive"
+            ],
+            "required": true
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Take an action on the beneficiary",
+            "schema": {
+              "$ref": "#/definitions/Beneficiary"
+            }
+          }
+        },
+        "tags": [
+          "api"
+        ],
+        "operationId": "postApiV2AdminPeatioBeneficiariesActions"
+      }
+    },
+    "/api/v2/admin/peatio/beneficiaries": {
+      "get": {
+        "description": "Get list of beneficiaries",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "uid",
+            "description": "Member UID.",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "ordering",
+            "description": "If set, returned values will be sorted in specific order, defaults to 'asc'.",
+            "type": "string",
+            "default": "asc",
+            "enum": [
+              "asc",
+              "desc"
+            ],
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "order_by",
+            "description": "Name of the field, which result will be ordered by.",
+            "type": "string",
+            "default": "id",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "description": "Limit the number of returned paginations. Defaults to 100.",
+            "type": "integer",
+            "format": "int32",
+            "default": 100,
+            "minimum": 1,
+            "maximum": 1000,
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "page",
+            "description": "Specify the page of paginated results.",
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "id",
+            "description": "Beneficiary Identifier in Database",
+            "type": "integer",
+            "format": "int32",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "currency",
+            "description": "Beneficiary currency code",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "state",
+            "description": "Beneficiary state",
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Get list of beneficiaries",
+            "schema": {
+              "$ref": "#/definitions/Beneficiary"
+            }
+          }
+        },
+        "tags": [
+          "api"
+        ],
+        "operationId": "getApiV2AdminPeatioBeneficiaries"
+      }
+    },
+    "/api/v2/admin/peatio/abilities": {
+      "get": {
+        "description": "Get all roles and permissions.",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Get all roles and permissions."
+          }
+        },
+        "tags": [
+          "api"
+        ],
+        "operationId": "getApiV2AdminPeatioAbilities"
+      }
+    },
+    "/api/v2/admin/peatio/orders/cancel": {
       "post": {
         "description": "Cancel all orders.",
         "produces": [
@@ -458,12 +1013,12 @@
           }
         },
         "tags": [
-          "orders"
+          "api"
         ],
-        "operationId": "postOrdersCancel"
+        "operationId": "postApiV2AdminPeatioOrdersCancel"
       }
     },
-    "/orders/{id}/cancel": {
+    "/api/v2/admin/peatio/orders/{id}/cancel": {
       "post": {
         "description": "Cancel an order.",
         "produces": [
@@ -488,12 +1043,12 @@
           }
         },
         "tags": [
-          "orders"
+          "api"
         ],
-        "operationId": "postOrdersIdCancel"
+        "operationId": "postApiV2AdminPeatioOrdersIdCancel"
       }
     },
-    "/orders": {
+    "/api/v2/admin/peatio/orders": {
       "get": {
         "description": "Get all orders, result is paginated.",
         "produces": [
@@ -663,342 +1218,12 @@
           }
         },
         "tags": [
-          "orders"
+          "api"
         ],
-        "operationId": "getOrders"
+        "operationId": "getApiV2AdminPeatioOrders"
       }
     },
-    "/blockchains/update": {
-      "post": {
-        "description": "Update blockchain.",
-        "produces": [
-          "application/json"
-        ],
-        "consumes": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "in": "formData",
-            "name": "id",
-            "description": "Unique blockchain identifier in database.",
-            "type": "integer",
-            "format": "int32",
-            "required": true
-          },
-          {
-            "in": "formData",
-            "name": "key",
-            "description": "Unique key to identify blockchain.",
-            "type": "string",
-            "required": false
-          },
-          {
-            "in": "formData",
-            "name": "name",
-            "description": "A name to identify blockchain.",
-            "type": "string",
-            "required": false
-          },
-          {
-            "in": "formData",
-            "name": "client",
-            "description": "Integrated blockchain client.",
-            "type": "string",
-            "enum": [
-              "bitcoin",
-              "geth",
-              "parity",
-              "dash",
-              "litecoin",
-              "bitcoincash",
-              "ripple",
-              "bitgo"
-            ],
-            "required": false
-          },
-          {
-            "in": "formData",
-            "name": "server",
-            "description": "Blockchain server url.",
-            "type": "string",
-            "required": false
-          },
-          {
-            "in": "formData",
-            "name": "height",
-            "description": "The number of blocks preceding a particular block on blockchain.",
-            "type": "integer",
-            "format": "int32",
-            "required": false
-          },
-          {
-            "in": "formData",
-            "name": "explorer_transaction",
-            "description": "Blockchain explorer transaction template.",
-            "type": "string",
-            "required": false
-          },
-          {
-            "in": "formData",
-            "name": "explorer_address",
-            "description": "Blockchain explorer address template.",
-            "type": "string",
-            "required": false
-          },
-          {
-            "in": "formData",
-            "name": "status",
-            "description": "Blockchain status (active/disabled).",
-            "type": "string",
-            "enum": [
-              "active",
-              "disabled"
-            ],
-            "required": false
-          },
-          {
-            "in": "formData",
-            "name": "min_confirmations",
-            "description": "Minimum number of confirmations.",
-            "type": "integer",
-            "format": "int32",
-            "required": false
-          }
-        ],
-        "responses": {
-          "201": {
-            "description": "Update blockchain.",
-            "schema": {
-              "$ref": "#/definitions/Blockchain"
-            }
-          }
-        },
-        "tags": [
-          "blockchains"
-        ],
-        "operationId": "postBlockchainsUpdate"
-      }
-    },
-    "/blockchains/new": {
-      "post": {
-        "description": "Create new blockchain.",
-        "produces": [
-          "application/json"
-        ],
-        "consumes": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "in": "formData",
-            "name": "key",
-            "description": "Unique key to identify blockchain.",
-            "type": "string",
-            "required": true
-          },
-          {
-            "in": "formData",
-            "name": "name",
-            "description": "A name to identify blockchain.",
-            "type": "string",
-            "required": true
-          },
-          {
-            "in": "formData",
-            "name": "client",
-            "description": "Integrated blockchain client.",
-            "type": "string",
-            "enum": [
-              "bitcoin",
-              "geth",
-              "parity",
-              "dash",
-              "litecoin",
-              "bitcoincash",
-              "ripple",
-              "bitgo"
-            ],
-            "required": true
-          },
-          {
-            "in": "formData",
-            "name": "height",
-            "description": "The number of blocks preceding a particular block on blockchain.",
-            "type": "integer",
-            "format": "int32",
-            "required": true
-          },
-          {
-            "in": "formData",
-            "name": "explorer_transaction",
-            "description": "Blockchain explorer transaction template.",
-            "type": "string",
-            "required": false
-          },
-          {
-            "in": "formData",
-            "name": "explorer_address",
-            "description": "Blockchain explorer address template.",
-            "type": "string",
-            "required": false
-          },
-          {
-            "in": "formData",
-            "name": "server",
-            "description": "Blockchain server url.",
-            "type": "string",
-            "required": false
-          },
-          {
-            "in": "formData",
-            "name": "status",
-            "description": "Blockchain status (active/disabled).",
-            "type": "string",
-            "default": "active",
-            "enum": [
-              "active",
-              "disabled"
-            ],
-            "required": false
-          },
-          {
-            "in": "formData",
-            "name": "min_confirmations",
-            "description": "Minimum number of confirmations.",
-            "type": "integer",
-            "format": "int32",
-            "default": 6,
-            "required": false
-          }
-        ],
-        "responses": {
-          "201": {
-            "description": "Create new blockchain.",
-            "schema": {
-              "$ref": "#/definitions/Blockchain"
-            }
-          }
-        },
-        "tags": [
-          "blockchains"
-        ],
-        "operationId": "postBlockchainsNew"
-      }
-    },
-    "/blockchains/{id}": {
-      "get": {
-        "description": "Get a blockchain.",
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "in": "path",
-            "name": "id",
-            "description": "Unique blockchain identifier in database.",
-            "type": "integer",
-            "format": "int32",
-            "required": true
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Get a blockchain.",
-            "schema": {
-              "$ref": "#/definitions/Blockchain"
-            }
-          }
-        },
-        "tags": [
-          "blockchains"
-        ],
-        "operationId": "getBlockchainsId"
-      }
-    },
-    "/blockchains/clients": {
-      "get": {
-        "description": "Get available blockchain clients.",
-        "produces": [
-          "application/json"
-        ],
-        "responses": {
-          "200": {
-            "description": "Get available blockchain clients."
-          }
-        },
-        "tags": [
-          "blockchains"
-        ],
-        "operationId": "getBlockchainsClients"
-      }
-    },
-    "/blockchains": {
-      "get": {
-        "description": "Get all blockchains, result is paginated.",
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "in": "query",
-            "name": "limit",
-            "description": "Limit the number of returned paginations. Defaults to 100.",
-            "type": "integer",
-            "format": "int32",
-            "default": 100,
-            "minimum": 1,
-            "maximum": 1000,
-            "required": false
-          },
-          {
-            "in": "query",
-            "name": "page",
-            "description": "Specify the page of paginated results.",
-            "type": "integer",
-            "format": "int32",
-            "default": 1,
-            "required": false
-          },
-          {
-            "in": "query",
-            "name": "ordering",
-            "description": "If set, returned values will be sorted in specific order, defaults to 'asc'.",
-            "type": "string",
-            "default": "asc",
-            "enum": [
-              "asc",
-              "desc"
-            ],
-            "required": false
-          },
-          {
-            "in": "query",
-            "name": "order_by",
-            "description": "Name of the field, which result will be ordered by.",
-            "type": "string",
-            "default": "id",
-            "required": false
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Get all blockchains, result is paginated.",
-            "schema": {
-              "type": "array",
-              "items": {
-                "$ref": "#/definitions/Blockchain"
-              }
-            }
-          }
-        },
-        "tags": [
-          "blockchains"
-        ],
-        "operationId": "getBlockchains"
-      }
-    },
-    "/currencies/update": {
+    "/api/v2/admin/peatio/currencies/update": {
       "post": {
         "description": "Update currency.",
         "produces": [
@@ -1073,14 +1298,6 @@
           },
           {
             "in": "formData",
-            "name": "position",
-            "description": "Currency position.",
-            "type": "integer",
-            "format": "int32",
-            "required": false
-          },
-          {
-            "in": "formData",
             "name": "options",
             "description": "Currency options.",
             "type": "json",
@@ -1124,6 +1341,20 @@
           },
           {
             "in": "formData",
+            "name": "description",
+            "description": "Currency description",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "homepage",
+            "description": "Currency homepage",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "formData",
             "name": "code",
             "description": "Unique currency code.",
             "type": "string",
@@ -1137,9 +1368,10 @@
           },
           {
             "in": "formData",
-            "name": "symbol",
-            "description": "Currency symbol",
-            "type": "string",
+            "name": "position",
+            "description": "Currency position.",
+            "type": "integer",
+            "format": "int32",
             "required": false
           },
           {
@@ -1154,6 +1386,17 @@
               "prt-kovan"
             ],
             "required": false
+          },
+          {
+            "in": "formData",
+            "name": "parent_id",
+            "description": "Parent currency id.",
+            "type": "string",
+            "enum": [
+              "btc",
+              "eth"
+            ],
+            "required": false
           }
         ],
         "responses": {
@@ -1165,12 +1408,12 @@
           }
         },
         "tags": [
-          "currencies"
+          "api"
         ],
-        "operationId": "postCurrenciesUpdate"
+        "operationId": "postApiV2AdminPeatioCurrenciesUpdate"
       }
     },
-    "/currencies/new": {
+    "/api/v2/admin/peatio/currencies/new": {
       "post": {
         "description": "Create new currency.",
         "produces": [
@@ -1252,19 +1495,9 @@
           },
           {
             "in": "formData",
-            "name": "position",
-            "description": "Currency position.",
-            "type": "integer",
-            "format": "int32",
-            "default": 0,
-            "required": false
-          },
-          {
-            "in": "formData",
             "name": "options",
             "description": "Currency options.",
             "type": "json",
-            "default": 0.0,
             "required": false
           },
           {
@@ -1309,15 +1542,22 @@
           },
           {
             "in": "formData",
-            "name": "code",
-            "description": "Unique currency code.",
+            "name": "description",
+            "description": "Currency description",
             "type": "string",
-            "required": true
+            "required": false
           },
           {
             "in": "formData",
-            "name": "symbol",
-            "description": "Currency symbol",
+            "name": "homepage",
+            "description": "Currency homepage",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "code",
+            "description": "Unique currency code.",
             "type": "string",
             "required": true
           },
@@ -1343,6 +1583,14 @@
           },
           {
             "in": "formData",
+            "name": "position",
+            "description": "Currency position.",
+            "type": "integer",
+            "format": "int32",
+            "required": false
+          },
+          {
+            "in": "formData",
             "name": "subunits",
             "description": "Fraction of the basic monetary unit.",
             "type": "integer",
@@ -1362,7 +1610,18 @@
               "eth-rinkeby",
               "prt-kovan"
             ],
-            "required": true
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "parent_id",
+            "description": "Parent currency id.",
+            "type": "string",
+            "enum": [
+              "btc",
+              "eth"
+            ],
+            "required": false
           }
         ],
         "responses": {
@@ -1374,12 +1633,12 @@
           }
         },
         "tags": [
-          "currencies"
+          "api"
         ],
-        "operationId": "postCurrenciesNew"
+        "operationId": "postApiV2AdminPeatioCurrenciesNew"
       }
     },
-    "/currencies/{code}": {
+    "/api/v2/admin/peatio/currencies/{code}": {
       "get": {
         "description": "Get a currency.",
         "produces": [
@@ -1413,12 +1672,12 @@
           }
         },
         "tags": [
-          "currencies"
+          "api"
         ],
-        "operationId": "getCurrenciesCode"
+        "operationId": "getApiV2AdminPeatioCurrenciesCode"
       }
     },
-    "/currencies": {
+    "/api/v2/admin/peatio/currencies": {
       "get": {
         "description": "Get list of currencies",
         "produces": [
@@ -1473,7 +1732,28 @@
             "name": "order_by",
             "description": "Name of the field, which result will be ordered by.",
             "type": "string",
-            "default": "id",
+            "default": "position",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "deposit_enabled",
+            "description": "Currency deposit possibility status (true/false).",
+            "type": "Boolean",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "withdrawal_enabled",
+            "description": "Currency withdrawal possibility status (true/false).",
+            "type": "Boolean",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "visible",
+            "description": "Currency display status (true/false).",
+            "type": "Boolean",
             "required": false
           }
         ],
@@ -1489,12 +1769,12 @@
           }
         },
         "tags": [
-          "currencies"
+          "api"
         ],
-        "operationId": "getCurrencies"
+        "operationId": "getApiV2AdminPeatioCurrencies"
       }
     },
-    "/markets/update": {
+    "/api/v2/admin/peatio/markets/update": {
       "post": {
         "description": "Update market.",
         "produces": [
@@ -1530,14 +1810,6 @@
           },
           {
             "in": "formData",
-            "name": "position",
-            "description": "Market position.",
-            "type": "integer",
-            "format": "int32",
-            "required": false
-          },
-          {
-            "in": "formData",
             "name": "data",
             "description": "Market additional data.",
             "type": "json",
@@ -1567,6 +1839,22 @@
           },
           {
             "in": "formData",
+            "name": "engine_id",
+            "description": "Engine id for this market.",
+            "type": "integer",
+            "format": "int32",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "position",
+            "description": "Market position.",
+            "type": "integer",
+            "format": "int32",
+            "required": false
+          },
+          {
+            "in": "formData",
             "name": "min_price",
             "description": "Minimum order price.",
             "type": "number",
@@ -1591,12 +1879,12 @@
           }
         },
         "tags": [
-          "markets"
+          "api"
         ],
-        "operationId": "postMarketsUpdate"
+        "operationId": "postApiV2AdminPeatioMarketsUpdate"
       }
     },
-    "/markets/new": {
+    "/api/v2/admin/peatio/markets/new": {
       "post": {
         "description": "Create new market.",
         "produces": [
@@ -1631,15 +1919,6 @@
             "type": "number",
             "format": "double",
             "default": 0.0,
-            "required": false
-          },
-          {
-            "in": "formData",
-            "name": "position",
-            "description": "Market position.",
-            "type": "integer",
-            "format": "int32",
-            "default": 0,
             "required": false
           },
           {
@@ -1706,6 +1985,34 @@
             "type": "number",
             "format": "double",
             "required": true
+          },
+          {
+            "in": "formData",
+            "name": "engine_id",
+            "description": "Engine id for this market.",
+            "type": "integer",
+            "format": "int32",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "position",
+            "description": "Market position.",
+            "type": "integer",
+            "format": "int32",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "engine_name",
+            "description": "Engine name",
+            "type": "string",
+            "enum": [
+              "peatio-default-engine",
+              "local-finex-spot-engine",
+              "opendax-finex-spote-engine"
+            ],
+            "required": false
           }
         ],
         "responses": {
@@ -1717,12 +2024,12 @@
           }
         },
         "tags": [
-          "markets"
+          "api"
         ],
-        "operationId": "postMarketsNew"
+        "operationId": "postApiV2AdminPeatioMarketsNew"
       }
     },
-    "/markets/{id}": {
+    "/api/v2/admin/peatio/markets/{id}": {
       "get": {
         "description": "Get market.",
         "produces": [
@@ -1746,12 +2053,12 @@
           }
         },
         "tags": [
-          "markets"
+          "api"
         ],
-        "operationId": "getMarketsId"
+        "operationId": "getApiV2AdminPeatioMarketsId"
       }
     },
-    "/markets": {
+    "/api/v2/admin/peatio/markets": {
       "get": {
         "description": "Get all markets, result is paginated.",
         "produces": [
@@ -1795,7 +2102,7 @@
             "name": "order_by",
             "description": "Name of the field, which result will be ordered by.",
             "type": "string",
-            "default": "id",
+            "default": "position",
             "required": false
           }
         ],
@@ -1811,14 +2118,49 @@
           }
         },
         "tags": [
-          "markets"
+          "api"
         ],
-        "operationId": "getMarkets"
+        "operationId": "getApiV2AdminPeatioMarkets"
       }
     },
-    "/wallets/update": {
+    "/api/v2/admin/peatio/wallets/currencies": {
+      "delete": {
+        "description": "Delete currency from the wallet",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "id",
+            "description": "Unique wallet identifier in database.",
+            "type": "integer",
+            "format": "int32",
+            "required": true
+          },
+          {
+            "in": "query",
+            "name": "currencies",
+            "description": "Wallet currency code.",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Delete currency from the wallet",
+            "schema": {
+              "$ref": "#/definitions/Wallet"
+            }
+          }
+        },
+        "tags": [
+          "api"
+        ],
+        "operationId": "deleteApiV2AdminPeatioWalletsCurrencies"
+      },
       "post": {
-        "description": "Update wallet.",
+        "description": "Add currency to the wallet",
         "produces": [
           "application/json"
         ],
@@ -1828,11 +2170,44 @@
         "parameters": [
           {
             "in": "formData",
-            "name": "settings",
-            "description": "Wallet settings.",
-            "type": "json",
-            "required": false
+            "name": "id",
+            "description": "Unique wallet identifier in database.",
+            "type": "integer",
+            "format": "int32",
+            "required": true
           },
+          {
+            "in": "formData",
+            "name": "currencies",
+            "description": "Wallet currency code.",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Add currency to the wallet",
+            "schema": {
+              "$ref": "#/definitions/Wallet"
+            }
+          }
+        },
+        "tags": [
+          "api"
+        ],
+        "operationId": "postApiV2AdminPeatioWalletsCurrencies"
+      }
+    },
+    "/api/v2/admin/peatio/wallets/update": {
+      "post": {
+        "description": "Update wallet.",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
           {
             "in": "formData",
             "name": "max_balance",
@@ -1910,25 +2285,43 @@
               "bitcoind",
               "geth",
               "parity",
+              "gnosis",
+              "opendax",
               "dashd",
               "litecoind",
               "bitcoincashd",
               "rippled",
-              "bitgo"
+              "bitgo",
+              "electrum"
             ],
             "required": false
           },
           {
             "in": "formData",
-            "name": "currency",
+            "name": "currencies",
             "description": "Wallet currency code.",
             "type": "string",
-            "enum": [
-              "btc",
-              "eth",
-              "trst",
-              "usd"
-            ],
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "settings",
+            "description": "Wallet settings",
+            "type": "json",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "settings[uri]",
+            "description": "Wallet uri setting",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "settings[secret]",
+            "description": "Wallet secret setting",
+            "type": "string",
             "required": false
           }
         ],
@@ -1941,12 +2334,12 @@
           }
         },
         "tags": [
-          "wallets"
+          "api"
         ],
-        "operationId": "postWalletsUpdate"
+        "operationId": "postApiV2AdminPeatioWalletsUpdate"
       }
     },
-    "/wallets/new": {
+    "/api/v2/admin/peatio/wallets/new": {
       "post": {
         "description": "Creates new wallet.",
         "produces": [
@@ -1956,13 +2349,6 @@
           "application/json"
         ],
         "parameters": [
-          {
-            "in": "formData",
-            "name": "settings",
-            "description": "Wallet settings.",
-            "type": "json",
-            "required": false
-          },
           {
             "in": "formData",
             "name": "max_balance",
@@ -2009,7 +2395,14 @@
             "name": "address",
             "description": "Wallet address.",
             "type": "string",
-            "required": true
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "currencies",
+            "description": "Wallet currency code.",
+            "type": "string",
+            "required": false
           },
           {
             "in": "formData",
@@ -2022,7 +2415,7 @@
               "trst",
               "usd"
             ],
-            "required": true
+            "required": false
           },
           {
             "in": "formData",
@@ -2047,13 +2440,37 @@
               "bitcoind",
               "geth",
               "parity",
+              "gnosis",
+              "opendax",
               "dashd",
               "litecoind",
               "bitcoincashd",
               "rippled",
-              "bitgo"
+              "bitgo",
+              "electrum"
             ],
             "required": true
+          },
+          {
+            "in": "formData",
+            "name": "settings",
+            "description": "Wallet settings (uri, secret)",
+            "type": "json",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "settings[uri]",
+            "description": "Wallet uri setting",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "settings[secret]",
+            "description": "Wallet secret setting",
+            "type": "string",
+            "required": false
           }
         ],
         "responses": {
@@ -2065,12 +2482,12 @@
           }
         },
         "tags": [
-          "wallets"
+          "api"
         ],
-        "operationId": "postWalletsNew"
+        "operationId": "postApiV2AdminPeatioWalletsNew"
       }
     },
-    "/wallets/{id}": {
+    "/api/v2/admin/peatio/wallets/{id}": {
       "get": {
         "description": "Get a wallet.",
         "produces": [
@@ -2095,12 +2512,12 @@
           }
         },
         "tags": [
-          "wallets"
+          "api"
         ],
-        "operationId": "getWalletsId"
+        "operationId": "getApiV2AdminPeatioWalletsId"
       }
     },
-    "/wallets/gateways": {
+    "/api/v2/admin/peatio/wallets/gateways": {
       "get": {
         "description": "List wallet gateways.",
         "produces": [
@@ -2112,12 +2529,12 @@
           }
         },
         "tags": [
-          "wallets"
+          "api"
         ],
-        "operationId": "getWalletsGateways"
+        "operationId": "getApiV2AdminPeatioWalletsGateways"
       }
     },
-    "/wallets/kinds": {
+    "/api/v2/admin/peatio/wallets/kinds": {
       "get": {
         "description": "List wallet kinds.",
         "produces": [
@@ -2129,12 +2546,12 @@
           }
         },
         "tags": [
-          "wallets"
+          "api"
         ],
-        "operationId": "getWalletsKinds"
+        "operationId": "getApiV2AdminPeatioWalletsKinds"
       }
     },
-    "/wallets": {
+    "/api/v2/admin/peatio/wallets": {
       "get": {
         "description": "Get all wallets, result is paginated.",
         "produces": [
@@ -2170,19 +2587,9 @@
           },
           {
             "in": "query",
-            "name": "currency",
-            "description": "Deposit currency id.",
+            "name": "currencies",
+            "description": "Wallet currency code.",
             "type": "string",
-            "enum": [
-              "btc",
-              "eth",
-              "trst",
-              "usd",
-              "BTC",
-              "ETH",
-              "TRST",
-              "USD"
-            ],
             "required": false
           },
           {
@@ -2238,12 +2645,52 @@
           }
         },
         "tags": [
-          "wallets"
+          "api"
         ],
-        "operationId": "getWallets"
+        "operationId": "getApiV2AdminPeatioWallets"
       }
     },
-    "/deposits/new": {
+    "/api/v2/admin/peatio/deposits/{id}/refund": {
+      "post": {
+        "description": "Creates new crypto refund",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "description": "Deposit id",
+            "type": "integer",
+            "format": "int32",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "address",
+            "description": "Refund address",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Creates new crypto refund",
+            "schema": {
+              "$ref": "#/definitions/Refund"
+            }
+          }
+        },
+        "tags": [
+          "api"
+        ],
+        "operationId": "postApiV2AdminPeatioDepositsIdRefund"
+      }
+    },
+    "/api/v2/admin/peatio/deposits/new": {
       "post": {
         "description": "Creates new fiat deposit .",
         "produces": [
@@ -2296,12 +2743,12 @@
           }
         },
         "tags": [
-          "deposits"
+          "api"
         ],
-        "operationId": "postDepositsNew"
+        "operationId": "postApiV2AdminPeatioDepositsNew"
       }
     },
-    "/deposits/actions": {
+    "/api/v2/admin/peatio/deposits/actions": {
       "post": {
         "description": "Take an action on the deposit.",
         "produces": [
@@ -2322,16 +2769,26 @@
           {
             "in": "formData",
             "name": "action",
-            "description": "Valid actions are [:cancel, :reject, :accept, :skip, :dispatch].",
+            "description": "Valid actions are [:cancel, :reject, :accept, :skip, :process, :fee_process, :dispatch, :refund].",
             "type": "string",
             "enum": [
               "cancel",
               "reject",
               "accept",
               "skip",
-              "dispatch"
+              "process",
+              "fee_process",
+              "dispatch",
+              "refund"
             ],
             "required": true
+          },
+          {
+            "in": "formData",
+            "name": "fees",
+            "description": "Process deposit collection with collecting fees or not",
+            "type": "Boolean",
+            "required": false
           }
         ],
         "responses": {
@@ -2343,12 +2800,12 @@
           }
         },
         "tags": [
-          "deposits"
+          "api"
         ],
-        "operationId": "postDepositsActions"
+        "operationId": "postApiV2AdminPeatioDepositsActions"
       }
     },
-    "/deposits": {
+    "/api/v2/admin/peatio/deposits": {
       "get": {
         "description": "Get all deposits, result is paginated.",
         "produces": [
@@ -2365,8 +2822,12 @@
               "canceled",
               "rejected",
               "accepted",
+              "aml_processing",
+              "aml_suspicious",
+              "processing",
+              "skipped",
               "collected",
-              "skipped"
+              "fee_processing"
             ],
             "required": false
           },
@@ -2396,6 +2857,13 @@
             "in": "query",
             "name": "tid",
             "description": "Deposit tid.",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "email",
+            "description": "The deposit member email.",
             "type": "string",
             "required": false
           },
@@ -2516,27 +2984,30 @@
           }
         },
         "tags": [
-          "deposits"
+          "api"
         ],
-        "operationId": "getDeposits"
+        "operationId": "getApiV2AdminPeatioDeposits"
       }
     },
-    "/deposit_address": {
-      "get": {
-        "description": "Returns deposit address for account you want to deposit to by currency and uid. The address may be blank because address generation process is still in progress. If this case you should try again later.",
+    "/api/v2/admin/peatio/deposit_address": {
+      "post": {
+        "description": "Returns deposit address for account you want to deposit to by currency and uid.",
         "produces": [
+          "application/json"
+        ],
+        "consumes": [
           "application/json"
         ],
         "parameters": [
           {
-            "in": "query",
+            "in": "formData",
             "name": "uid",
-            "description": "Member UID.",
+            "description": "Deposit member uid.",
             "type": "string",
             "required": true
           },
           {
-            "in": "query",
+            "in": "formData",
             "name": "currency",
             "description": "Deposit currency id.",
             "type": "string",
@@ -2544,16 +3015,12 @@
               "btc",
               "eth",
               "trst",
-              "usd",
-              "BTC",
-              "ETH",
-              "TRST",
-              "USD"
+              "usd"
             ],
             "required": true
           },
           {
-            "in": "query",
+            "in": "formData",
             "name": "address_format",
             "description": "Address format legacy/cash",
             "type": "string",
@@ -2565,22 +3032,22 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "Returns deposit address for account you want to deposit to by currency. The address may be blank because address generation process is still in progress. If this case you should try again later.",
+          "201": {
+            "description": "Returns deposit address for account you want to deposit to by currency and uid.",
             "schema": {
               "$ref": "#/definitions/Deposit"
             }
           }
         },
         "tags": [
-          "deposits"
+          "api"
         ],
-        "operationId": "getDepositAddressCurrencyUID"
+        "operationId": "postApiV2AdminPeatioDepositAddress"
       }
     },
-    "/withdraws/actions": {
-      "post": {
-        "description": "Take an action on the withdrawal.",
+    "/api/v2/admin/peatio/withdraws": {
+      "put": {
+        "description": "Update withdraw request",
         "produces": [
           "application/json"
         ],
@@ -2598,77 +3065,25 @@
           },
           {
             "in": "formData",
-            "name": "action",
-            "description": "Valid actions are [:submit, :cancel, :accept, :reject, :process, :load, :dispatch, :success, :skip, :fail, :err].",
-            "type": "string",
-            "enum": [
-              "submit",
-              "cancel",
-              "accept",
-              "reject",
-              "process",
-              "load",
-              "dispatch",
-              "success",
-              "skip",
-              "fail",
-              "err"
-            ],
-            "required": true
-          },
-          {
-            "in": "formData",
-            "name": "txid",
-            "description": "The withdrawal transaction id.",
-            "type": "string",
+            "name": "metadata",
+            "description": "Optional metadata to be applied to the transaction.",
+            "type": "json",
             "required": false
           }
         ],
         "responses": {
-          "201": {
-            "description": "Take an action on the withdrawal.",
-            "schema": {
-              "$ref": "#/definitions/Withdraw"
-            }
-          }
-        },
-        "tags": [
-          "withdraws"
-        ],
-        "operationId": "postWithdrawsActions"
-      }
-    },
-    "/withdraws/{id}": {
-      "get": {
-        "description": "Get withdraw by ID.",
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "in": "path",
-            "name": "id",
-            "description": "The withdrawal id.",
-            "type": "integer",
-            "format": "int32",
-            "required": true
-          }
-        ],
-        "responses": {
           "200": {
-            "description": "Get withdraw by ID.",
+            "description": "Update withdraw request",
             "schema": {
               "$ref": "#/definitions/Withdraw"
             }
           }
         },
         "tags": [
-          "withdraws"
+          "api"
         ],
-        "operationId": "getWithdrawsId"
-      }
-    },
-    "/withdraws": {
+        "operationId": "putApiV2AdminPeatioWithdraws"
+      },
       "get": {
         "description": "Get all withdraws, result is paginated.",
         "produces": [
@@ -2716,6 +3131,13 @@
             "in": "query",
             "name": "rid",
             "description": "The beneficiary ID or wallet address on the Blockchain.",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "wallet_type",
+            "description": "Select withdraw that can be processed from wallets with given type e.g. patiry",
             "type": "string",
             "required": false
           },
@@ -2836,12 +3258,101 @@
           }
         },
         "tags": [
-          "withdraws"
+          "api"
         ],
-        "operationId": "getWithdraws"
+        "operationId": "getApiV2AdminPeatioWithdraws"
       }
     },
-    "/trades/{id}": {
+    "/api/v2/admin/peatio/withdraws/actions": {
+      "post": {
+        "description": "Take an action on the withdrawal.",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "formData",
+            "name": "id",
+            "description": "The withdrawal id.",
+            "type": "integer",
+            "format": "int32",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "action",
+            "description": "Valid actions are [:accept, :cancel, :reject, :process, :load, :dispatch, :success, :skip, :fail, :err].",
+            "type": "string",
+            "enum": [
+              "accept",
+              "cancel",
+              "reject",
+              "process",
+              "load",
+              "dispatch",
+              "success",
+              "skip",
+              "fail",
+              "err"
+            ],
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "txid",
+            "description": "The withdrawal transaction id.",
+            "type": "string",
+            "required": false
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Take an action on the withdrawal.",
+            "schema": {
+              "$ref": "#/definitions/Withdraw"
+            }
+          }
+        },
+        "tags": [
+          "api"
+        ],
+        "operationId": "postApiV2AdminPeatioWithdrawsActions"
+      }
+    },
+    "/api/v2/admin/peatio/withdraws/{id}": {
+      "get": {
+        "description": "Get withdraw by ID.",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "description": "The withdrawal id.",
+            "type": "integer",
+            "format": "int32",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Get withdraw by ID.",
+            "schema": {
+              "$ref": "#/definitions/Withdraw"
+            }
+          }
+        },
+        "tags": [
+          "api"
+        ],
+        "operationId": "getApiV2AdminPeatioWithdrawsId"
+      }
+    },
+    "/api/v2/admin/peatio/trades/{id}": {
       "get": {
         "description": "Get a trade with detailed information.",
         "produces": [
@@ -2866,12 +3377,12 @@
           }
         },
         "tags": [
-          "trades"
+          "api"
         ],
-        "operationId": "getTradesId"
+        "operationId": "getApiV2AdminPeatioTradesId"
       }
     },
-    "/trades": {
+    "/api/v2/admin/peatio/trades": {
       "get": {
         "description": "Get all trades, result is paginated.",
         "produces": [
@@ -2990,12 +3501,12 @@
           }
         },
         "tags": [
-          "trades"
+          "api"
         ],
-        "operationId": "getTrades"
+        "operationId": "getApiV2AdminPeatioTrades"
       }
     },
-    "/assets": {
+    "/api/v2/admin/peatio/assets": {
       "get": {
         "description": "Returns assets as a paginated collection.",
         "produces": [
@@ -3121,12 +3632,12 @@
           }
         },
         "tags": [
-          "assets"
+          "api"
         ],
-        "operationId": "getAssets"
+        "operationId": "getApiV2AdminPeatioAssets"
       }
     },
-    "/expenses": {
+    "/api/v2/admin/peatio/expenses": {
       "get": {
         "description": "Returns expenses as a paginated collection.",
         "produces": [
@@ -3252,12 +3763,12 @@
           }
         },
         "tags": [
-          "expenses"
+          "api"
         ],
-        "operationId": "getExpenses"
+        "operationId": "getApiV2AdminPeatioExpenses"
       }
     },
-    "/revenues": {
+    "/api/v2/admin/peatio/revenues": {
       "get": {
         "description": "Returns revenues as a paginated collection.",
         "produces": [
@@ -3383,12 +3894,12 @@
           }
         },
         "tags": [
-          "revenues"
+          "api"
         ],
-        "operationId": "getRevenues"
+        "operationId": "getApiV2AdminPeatioRevenues"
       }
     },
-    "/liabilities": {
+    "/api/v2/admin/peatio/liabilities": {
       "get": {
         "description": "Returns liabilities as a paginated collection.",
         "produces": [
@@ -3521,12 +4032,12 @@
           }
         },
         "tags": [
-          "liabilities"
+          "api"
         ],
-        "operationId": "getLiabilities"
+        "operationId": "getApiV2AdminPeatioLiabilities"
       }
     },
-    "/members/{uid}": {
+    "/api/v2/admin/peatio/members/{uid}": {
       "put": {
         "description": "Set user group.",
         "produces": [
@@ -3560,9 +4071,9 @@
           }
         },
         "tags": [
-          "members"
+          "api"
         ],
-        "operationId": "putMembersUid"
+        "operationId": "putApiV2AdminPeatioMembersUid"
       },
       "get": {
         "description": "Get a member.",
@@ -3587,12 +4098,12 @@
           }
         },
         "tags": [
-          "members"
+          "api"
         ],
-        "operationId": "getMembersUid"
+        "operationId": "getApiV2AdminPeatioMembersUid"
       }
     },
-    "/members/groups": {
+    "/api/v2/admin/peatio/members/groups": {
       "get": {
         "description": "Get available members groups.",
         "produces": [
@@ -3604,12 +4115,12 @@
           }
         },
         "tags": [
-          "members"
+          "api"
         ],
-        "operationId": "getMembersGroups"
+        "operationId": "getApiV2AdminPeatioMembersGroups"
       }
     },
-    "/members": {
+    "/api/v2/admin/peatio/members": {
       "get": {
         "description": "Get all members, result is paginated.",
         "produces": [
@@ -3631,6 +4142,7 @@
             "enum": [
               "superadmin",
               "admin",
+              "manager",
               "accountant",
               "compliance",
               "support",
@@ -3752,12 +4264,12 @@
           }
         },
         "tags": [
-          "members"
+          "api"
         ],
-        "operationId": "getMembers"
+        "operationId": "getApiV2AdminPeatioMembers"
       }
     },
-    "/trading_fees/delete": {
+    "/api/v2/admin/peatio/trading_fees/delete": {
       "post": {
         "description": "It deletes trading fees record",
         "produces": [
@@ -3785,12 +4297,12 @@
           }
         },
         "tags": [
-          "trading_fees"
+          "api"
         ],
-        "operationId": "postTradingFeesDelete"
+        "operationId": "postApiV2AdminPeatioTradingFeesDelete"
       }
     },
-    "/trading_fees/update": {
+    "/api/v2/admin/peatio/trading_fees/update": {
       "post": {
         "description": "It updates trading fees record",
         "produces": [
@@ -3857,12 +4369,12 @@
           }
         },
         "tags": [
-          "trading_fees"
+          "api"
         ],
-        "operationId": "postTradingFeesUpdate"
+        "operationId": "postApiV2AdminPeatioTradingFeesUpdate"
       }
     },
-    "/trading_fees/new": {
+    "/api/v2/admin/peatio/trading_fees/new": {
       "post": {
         "description": "It creates trading fees record",
         "produces": [
@@ -3923,12 +4435,12 @@
           }
         },
         "tags": [
-          "trading_fees"
+          "api"
         ],
-        "operationId": "postTradingFeesNew"
+        "operationId": "postApiV2AdminPeatioTradingFeesNew"
       }
     },
-    "/trading_fees": {
+    "/api/v2/admin/peatio/trading_fees": {
       "get": {
         "description": "Returns trading_fees table as paginated collection",
         "produces": [
@@ -4011,13 +4523,524 @@
           }
         },
         "tags": [
-          "trading_fees"
+          "api"
         ],
-        "operationId": "getTradingFees"
+        "operationId": "getApiV2AdminPeatioTradingFees"
+      }
+    },
+    "/api/v2/admin/peatio/engines/update": {
+      "post": {
+        "description": "Update engine",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "formData",
+            "name": "id",
+            "description": "Engine uniq id",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "name",
+            "description": "Engine name",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "driver",
+            "description": "Engine driver",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "key",
+            "description": "Credentials for remote engine",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "secret",
+            "description": "Credentials for remote engine",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "state",
+            "description": "Engine state",
+            "type": "string",
+            "default": 1,
+            "enum": [
+              1,
+              0
+            ],
+            "required": false
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Update engine",
+            "schema": {
+              "$ref": "#/definitions/Engine"
+            }
+          }
+        },
+        "tags": [
+          "api"
+        ],
+        "operationId": "postApiV2AdminPeatioEnginesUpdate"
+      }
+    },
+    "/api/v2/admin/peatio/engines/new": {
+      "post": {
+        "description": "Create new engine.",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "formData",
+            "name": "name",
+            "description": "Engine name",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "driver",
+            "description": "Engine driver",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "uid",
+            "description": "Owner of a engine",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "key",
+            "description": "Credentials for remote engine",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "secret",
+            "description": "Credentials for remote engine",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "data",
+            "description": "Metadata for engine",
+            "type": "string",
+            "required": false
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Create new engine.",
+            "schema": {
+              "$ref": "#/definitions/Engine"
+            }
+          }
+        },
+        "tags": [
+          "api"
+        ],
+        "operationId": "postApiV2AdminPeatioEnginesNew"
+      }
+    },
+    "/api/v2/admin/peatio/engines/{id}": {
+      "get": {
+        "description": "Get engine.",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "description": "Engine uniq id",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Get engine.",
+            "schema": {
+              "$ref": "#/definitions/Engine"
+            }
+          }
+        },
+        "tags": [
+          "api"
+        ],
+        "operationId": "getApiV2AdminPeatioEnginesId"
+      }
+    },
+    "/api/v2/admin/peatio/engines": {
+      "get": {
+        "description": "Get all engine, result is paginated.",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "limit",
+            "description": "Limit the number of returned paginations. Defaults to 100.",
+            "type": "integer",
+            "format": "int32",
+            "default": 100,
+            "minimum": 1,
+            "maximum": 1000,
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "page",
+            "description": "Specify the page of paginated results.",
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "ordering",
+            "description": "If set, returned values will be sorted in specific order, defaults to 'asc'.",
+            "type": "string",
+            "default": "asc",
+            "enum": [
+              "asc",
+              "desc"
+            ],
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "order_by",
+            "description": "Name of the field, which result will be ordered by.",
+            "type": "string",
+            "default": "id",
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Get all engine, result is paginated.",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Engine"
+              }
+            }
+          }
+        },
+        "tags": [
+          "api"
+        ],
+        "operationId": "getApiV2AdminPeatioEngines"
+      }
+    },
+    "/api/v2/admin/peatio/withdraw_limits/{id}": {
+      "delete": {
+        "description": "It deletes withdraw limits record",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "description": "Unique withdraw limit table identifier in database.",
+            "type": "integer",
+            "format": "int32",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "It deletes withdraw limits record",
+            "schema": {
+              "$ref": "#/definitions/WithdrawLimit"
+            }
+          }
+        },
+        "tags": [
+          "api"
+        ],
+        "operationId": "deleteApiV2AdminPeatioWithdrawLimitsId"
+      }
+    },
+    "/api/v2/admin/peatio/withdraw_limits": {
+      "put": {
+        "description": "It updates withdraw limits record",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "formData",
+            "name": "id",
+            "description": "Unique withdraw limit table identifier in database.",
+            "type": "integer",
+            "format": "int32",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "limit_24_hour",
+            "description": "24 hours withdraw limit.",
+            "type": "number",
+            "format": "double",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "limit_1_month",
+            "description": "1 month withdraw limit.",
+            "type": "number",
+            "format": "double",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "kyc_level",
+            "description": "KYC level for define withdraw limits.",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "group",
+            "description": "Member group for define withdraw limits.",
+            "type": "string",
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "It updates withdraw limits record",
+            "schema": {
+              "$ref": "#/definitions/WithdrawLimit"
+            }
+          }
+        },
+        "tags": [
+          "api"
+        ],
+        "operationId": "putApiV2AdminPeatioWithdrawLimits"
+      },
+      "post": {
+        "description": "It creates withdraw limits record",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "formData",
+            "name": "limit_24_hour",
+            "description": "24 hours withdraw limit.",
+            "type": "number",
+            "format": "double",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "limit_1_month",
+            "description": "1 month withdraw limit.",
+            "type": "number",
+            "format": "double",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "group",
+            "description": "Member group for define withdraw limits.",
+            "type": "string",
+            "default": "any",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "kyc_level",
+            "description": "KYC level for define withdraw limits.",
+            "type": "string",
+            "default": "any",
+            "required": false
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "It creates withdraw limits record",
+            "schema": {
+              "$ref": "#/definitions/WithdrawLimit"
+            }
+          }
+        },
+        "tags": [
+          "api"
+        ],
+        "operationId": "postApiV2AdminPeatioWithdrawLimits"
+      },
+      "get": {
+        "description": "Returns withdraw limits table as paginated collection",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "group",
+            "description": "Member group for define withdraw limits.",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "kyc_level",
+            "description": "KYC level for define withdraw limits.",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "description": "Limit the number of returned paginations. Defaults to 100.",
+            "type": "integer",
+            "format": "int32",
+            "default": 100,
+            "minimum": 1,
+            "maximum": 1000,
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "page",
+            "description": "Specify the page of paginated results.",
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "ordering",
+            "description": "If set, returned values will be sorted in specific order, defaults to 'asc'.",
+            "type": "string",
+            "default": "asc",
+            "enum": [
+              "asc",
+              "desc"
+            ],
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "order_by",
+            "description": "Name of the field, which result will be ordered by.",
+            "type": "string",
+            "default": "id",
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns withdraw limits table as paginated collection",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/WithdrawLimit"
+              }
+            }
+          }
+        },
+        "tags": [
+          "api"
+        ],
+        "operationId": "getApiV2AdminPeatioWithdrawLimits"
       }
     }
   },
   "definitions": {
+    "Blockchain": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Unique blockchain identifier in database."
+        },
+        "key": {
+          "type": "string",
+          "description": "Unique key to identify blockchain."
+        },
+        "name": {
+          "type": "string",
+          "description": "A name to identify blockchain."
+        },
+        "client": {
+          "type": "string",
+          "description": "Integrated blockchain client."
+        },
+        "height": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The number of blocks preceding a particular block on blockchain."
+        },
+        "explorer_address": {
+          "type": "string",
+          "description": "Blockchain explorer address template."
+        },
+        "explorer_transaction": {
+          "type": "string",
+          "description": "Blockchain explorer transaction template."
+        },
+        "min_confirmations": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Minimum number of confirmations."
+        },
+        "status": {
+          "type": "string",
+          "description": "Blockchain status (active/disabled)."
+        },
+        "created_at": {
+          "type": "string",
+          "description": "Blockchain created time in iso8601 format."
+        },
+        "updated_at": {
+          "type": "string",
+          "description": "Blockchain updated time in iso8601 format."
+        }
+      },
+      "description": "Get a trade with detailed information."
+    },
     "Adjustment": {
       "type": "object",
       "properties": {
@@ -4143,6 +5166,45 @@
       },
       "description": "Returns liabilities as a paginated collection."
     },
+    "Beneficiary": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Beneficiary Identifier in Database"
+        },
+        "currency": {
+          "type": "string",
+          "description": "Beneficiary currency code."
+        },
+        "uid": {
+          "type": "string",
+          "description": "Beneficiary owner"
+        },
+        "name": {
+          "type": "string",
+          "description": "Human rememberable name which refer beneficiary."
+        },
+        "description": {
+          "type": "string",
+          "description": "Human rememberable description of beneficiary."
+        },
+        "data": {
+          "type": "json",
+          "description": "Bank Account details for fiat Beneficiary in JSON format.For crypto it's blockchain address."
+        },
+        "state": {
+          "type": "string",
+          "description": "Defines either beneficiary active - user can use it to withdraw moneyor pending - requires beneficiary activation with pin."
+        },
+        "sent_at": {
+          "type": "string",
+          "description": "Time when last pin was sent"
+        }
+      },
+      "description": "Get list of beneficiaries"
+    },
     "Order": {
       "type": "object",
       "properties": {
@@ -4204,6 +5266,16 @@
           "format": "double",
           "description": "The executed volume, see 'volume'."
         },
+        "maker_fee": {
+          "type": "number",
+          "format": "double",
+          "description": "Fee for maker."
+        },
+        "taker_fee": {
+          "type": "number",
+          "format": "double",
+          "description": "Fee for taker."
+        },
         "trades_count": {
           "type": "integer",
           "format": "int32",
@@ -4220,63 +5292,6 @@
       },
       "description": "Get all orders, result is paginated."
     },
-    "Blockchain": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "integer",
-          "format": "int32",
-          "description": "Unique blockchain identifier in database."
-        },
-        "key": {
-          "type": "string",
-          "description": "Unique key to identify blockchain."
-        },
-        "name": {
-          "type": "string",
-          "description": "A name to identify blockchain."
-        },
-        "client": {
-          "type": "string",
-          "description": "Integrated blockchain client."
-        },
-        "server": {
-          "type": "string",
-          "description": "Blockchain server url."
-        },
-        "height": {
-          "type": "integer",
-          "format": "int32",
-          "description": "The number of blocks preceding a particular block on blockchain."
-        },
-        "explorer_address": {
-          "type": "string",
-          "description": "Blockchain explorer address template."
-        },
-        "explorer_transaction": {
-          "type": "string",
-          "description": "Blockchain explorer transaction template."
-        },
-        "min_confirmations": {
-          "type": "integer",
-          "format": "int32",
-          "description": "Minimum number of confirmations."
-        },
-        "status": {
-          "type": "string",
-          "description": "Blockchain status (active/disabled)."
-        },
-        "created_at": {
-          "type": "string",
-          "description": "Blockchain created time in iso8601 format."
-        },
-        "updated_at": {
-          "type": "string",
-          "description": "Blockchain updated time in iso8601 format."
-        }
-      },
-      "description": "Get a trade with detailed information."
-    },
     "Currency": {
       "type": "object",
       "properties": {
@@ -4285,10 +5300,19 @@
           "example": "Bitcoin",
           "description": "Currency name"
         },
-        "symbol": {
+        "description": {
           "type": "string",
-          "example": "฿",
-          "description": "Currency symbol"
+          "example": "btc",
+          "description": "Currency description"
+        },
+        "homepage": {
+          "type": "string",
+          "example": "btc",
+          "description": "Currency homepage"
+        },
+        "price": {
+          "type": "string",
+          "description": "Currency current price"
         },
         "explorer_transaction": {
           "type": "string",
@@ -4375,6 +5399,10 @@
           "type": "string",
           "description": "Associated blockchain key which will perform transactions synchronization for currency."
         },
+        "parent_id": {
+          "type": "string",
+          "description": "Parent currency id."
+        },
         "min_collection_amount": {
           "type": "number",
           "format": "double",
@@ -4452,6 +5480,11 @@
           "type": "string",
           "description": "Market state defines if user can see/trade on current market."
         },
+        "engine_id": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Engine id for this market."
+        },
         "position": {
           "type": "integer",
           "format": "int32",
@@ -4488,8 +5521,17 @@
           "type": "string",
           "description": "Kind of wallet 'deposit','fee','hot','warm' or 'cold'."
         },
-        "currency": {
-          "type": "string",
+        "currencies": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "example": [
+              "btc",
+              "eth",
+              "trst",
+              "usd"
+            ]
+          },
           "description": "Wallet currency code."
         },
         "address": {
@@ -4505,6 +5547,11 @@
           "format": "double",
           "description": "Wallet max balance."
         },
+        "balance": {
+          "type": "number",
+          "format": "double",
+          "description": "Wallet balance"
+        },
         "blockchain_key": {
           "type": "string",
           "description": "Wallet blockchain key."
@@ -4512,10 +5559,6 @@
         "status": {
           "type": "string",
           "description": "Wallet status (active/disabled)."
-        },
-        "settings": {
-          "type": "json",
-          "description": "Wallet settings."
         },
         "created_at": {
           "type": "string",
@@ -4527,6 +5570,24 @@
         }
       },
       "description": "Get all wallets, result is paginated."
+    },
+    "Refund": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The refund id"
+        },
+        "address": {
+          "type": "string",
+          "description": "Refund address"
+        },
+        "deposit": {
+          "$ref": "#/definitions/Deposit"
+        }
+      },
+      "description": "Creates new crypto refund"
     },
     "Deposit": {
       "type": "object",
@@ -4562,6 +5623,10 @@
         "state": {
           "type": "string",
           "description": "Deposit state."
+        },
+        "transfer_type": {
+          "type": "string",
+          "description": "Deposit transfer type"
         },
         "created_at": {
           "type": "string",
@@ -4614,7 +5679,7 @@
           "description": "The datetime when deposit was updated."
         }
       },
-      "description": "Get all deposits, result is paginated."
+      "description": "Returns deposit address for account you want to deposit to by currency and uid."
     },
     "Withdraw": {
       "type": "object",
@@ -4632,10 +5697,9 @@
           "type": "string",
           "description": "The withdrawal type"
         },
-        "sum": {
-          "type": "number",
-          "format": "double",
-          "description": "The withdrawal sum."
+        "amount": {
+          "type": "string",
+          "description": "The withdrawal amount"
         },
         "fee": {
           "type": "number",
@@ -4663,6 +5727,10 @@
           "type": "string",
           "description": "Withdraw note."
         },
+        "transfer_type": {
+          "type": "string",
+          "description": "Withdraw transfer type"
+        },
         "created_at": {
           "type": "string",
           "description": "The datetimes for the withdrawal."
@@ -4671,9 +5739,9 @@
           "type": "string",
           "description": "The datetimes for the withdrawal."
         },
-        "completed_at": {
+        "done_at": {
           "type": "string",
-          "description": "The datetime when withdraw was completed."
+          "description": "The datetime when withdraw was completed"
         },
         "member": {
           "type": "string",
@@ -4699,47 +5767,20 @@
           "format": "int32",
           "description": "The withdrawal block_number."
         },
-        "amount": {
-          "type": "number",
-          "format": "double",
-          "description": "The withdrawal amount."
-        },
         "tid": {
           "type": "string",
           "description": "Withdraw tid."
+        },
+        "error": {
+          "type": "string",
+          "description": "Withdraw error."
+        },
+        "metadata": {
+          "type": "string",
+          "description": "Optional metadata to be applied to the transaction."
         }
       },
       "description": "Get all withdraws, result is paginated."
-    },
-    "Beneficiary": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "integer",
-          "format": "int32",
-          "description": "Beneficiary Identifier in Database"
-        },
-        "currency": {
-          "type": "string",
-          "description": "Beneficiary currency code."
-        },
-        "name": {
-          "type": "string",
-          "description": "Human rememberable name which refer beneficiary."
-        },
-        "description": {
-          "type": "string",
-          "description": "Human rememberable description of beneficiary."
-        },
-        "data": {
-          "type": "json",
-          "description": "Bank Account details for fiat Beneficiary in JSON format.For crypto it's blockchain address."
-        },
-        "state": {
-          "type": "string",
-          "description": "Defines either beneficiary active - user can use it to withdraw moneyor pending - requires beneficiary activation with pin."
-        }
-      }
     },
     "Trade": {
       "type": "object",
@@ -4875,6 +5916,13 @@
         "updated_at": {
           "type": "string",
           "description": "Member updated time in iso8601 format."
+        },
+        "beneficiaries": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Beneficiary"
+          },
+          "description": "Member Beneficiary."
         }
       },
       "description": "Get all members, result is paginated."
@@ -4934,6 +5982,70 @@
         }
       },
       "description": "Returns trading_fees table as paginated collection"
+    },
+    "Engine": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Engine uniq id"
+        },
+        "name": {
+          "type": "string",
+          "description": "Engine name"
+        },
+        "driver": {
+          "type": "string",
+          "description": "Engine driver"
+        },
+        "uid": {
+          "type": "string",
+          "description": "Owner of a engine"
+        },
+        "state": {
+          "type": "string",
+          "description": "Engine state"
+        }
+      },
+      "description": "Get all engine, result is paginated."
+    },
+    "WithdrawLimit": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Unique withdraw limit table identifier in database."
+        },
+        "group": {
+          "type": "string",
+          "description": "Member group for define withdraw limits."
+        },
+        "kyc_level": {
+          "type": "string",
+          "description": "KYC level for define withdraw limits."
+        },
+        "limit_24_hour": {
+          "type": "number",
+          "format": "double",
+          "description": "24 hours withdraw limit."
+        },
+        "limit_1_month": {
+          "type": "number",
+          "format": "double",
+          "description": "1 month withdraw limit."
+        },
+        "created_at": {
+          "type": "string",
+          "description": "Withdraw limit table created time in iso8601 format."
+        },
+        "updated_at": {
+          "type": "string",
+          "description": "Withdraw limit table updated time in iso8601 format."
+        }
+      },
+      "description": "Returns withdraw limits table as paginated collection"
     }
   }
 }

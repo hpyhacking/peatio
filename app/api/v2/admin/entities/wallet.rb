@@ -34,8 +34,9 @@ module API
             :currency_ids,
             as: :currencies,
             documentation: {
-                type: Array,
-                desc: 'Wallet currency code.'
+                is_array: true,
+                desc: 'Wallet currency code.',
+                example: -> { ::Currency.visible.codes }
             }
           )
 

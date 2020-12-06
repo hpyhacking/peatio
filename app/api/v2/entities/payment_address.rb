@@ -9,7 +9,7 @@ module API
           :currencies,
           documentation: {
             desc: 'Currencies codes.',
-            type: Array,
+            is_array: true,
             example: -> { ::Currency.visible.codes }
           }
         ) do |pa|

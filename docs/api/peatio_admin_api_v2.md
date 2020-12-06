@@ -1,19 +1,171 @@
 # Peatio Admin API v2
 Admin API high privileged API with RBAC.
 
-## Version: 2.4.0
+## Version: 2.6.0
 
 **Contact information:**  
 openware.com  
-https://www.openware.com  
+<https://www.openware.com>
 hello@openware.com  
 
-**License:** https://github.com/rubykube/peatio/blob/master/LICENSE.md
+**License:** <https://github.com/openware/peatio/blob/master/LICENSE.md>
 
-### /adjustments/action
+### /api/v2/admin/peatio/blockchains/process_block
 
 #### POST
-##### Description:
+##### Description
+
+Process blockchain's block.
+
+##### Parameters
+
+| Name | Located in | Description | Required | Schema |
+| ---- | ---------- | ----------- | -------- | ---- |
+| id | formData | Unique blockchain identifier in database. | Yes | integer |
+| block_number | formData | The id of a particular block on blockchain | Yes | integer |
+
+##### Responses
+
+| Code | Description | Schema |
+| ---- | ----------- | ------ |
+| 201 | Process blockchain's block. | [Blockchain](#blockchain) |
+
+### /api/v2/admin/peatio/blockchains/update
+
+#### POST
+##### Description
+
+Update blockchain.
+
+##### Parameters
+
+| Name | Located in | Description | Required | Schema |
+| ---- | ---------- | ----------- | -------- | ---- |
+| id | formData | Unique blockchain identifier in database. | Yes | integer |
+| key | formData | Unique key to identify blockchain. | No | string |
+| name | formData | A name to identify blockchain. | No | string |
+| client | formData | Integrated blockchain client. | No | string |
+| server | formData | Blockchain server url | No | string |
+| height | formData | The number of blocks preceding a particular block on blockchain. | No | integer |
+| explorer_transaction | formData | Blockchain explorer transaction template. | No | string |
+| explorer_address | formData | Blockchain explorer address template. | No | string |
+| status | formData | Blockchain status (active/disabled). | No | string |
+| min_confirmations | formData | Minimum number of confirmations. | No | integer |
+
+##### Responses
+
+| Code | Description | Schema |
+| ---- | ----------- | ------ |
+| 201 | Update blockchain. | [Blockchain](#blockchain) |
+
+### /api/v2/admin/peatio/blockchains/new
+
+#### POST
+##### Description
+
+Create new blockchain.
+
+##### Parameters
+
+| Name | Located in | Description | Required | Schema |
+| ---- | ---------- | ----------- | -------- | ---- |
+| key | formData | Unique key to identify blockchain. | Yes | string |
+| name | formData | A name to identify blockchain. | Yes | string |
+| client | formData | Integrated blockchain client. | Yes | string |
+| height | formData | The number of blocks preceding a particular block on blockchain. | Yes | integer |
+| explorer_transaction | formData | Blockchain explorer transaction template. | No | string |
+| explorer_address | formData | Blockchain explorer address template. | No | string |
+| server | formData | Blockchain server url | No | string |
+| status | formData | Blockchain status (active/disabled). | No | string |
+| min_confirmations | formData | Minimum number of confirmations. | No | integer |
+
+##### Responses
+
+| Code | Description | Schema |
+| ---- | ----------- | ------ |
+| 201 | Create new blockchain. | [Blockchain](#blockchain) |
+
+### /api/v2/admin/peatio/blockchains/{id}/latest_block
+
+#### GET
+##### Description
+
+Get a latest blockchain block.
+
+##### Parameters
+
+| Name | Located in | Description | Required | Schema |
+| ---- | ---------- | ----------- | -------- | ---- |
+| id | path | Unique blockchain identifier in database. | Yes | integer |
+
+##### Responses
+
+| Code | Description |
+| ---- | ----------- |
+| 200 | Get a latest blockchain block. |
+
+### /api/v2/admin/peatio/blockchains/{id}
+
+#### GET
+##### Description
+
+Get a blockchain.
+
+##### Parameters
+
+| Name | Located in | Description | Required | Schema |
+| ---- | ---------- | ----------- | -------- | ---- |
+| id | path | Unique blockchain identifier in database. | Yes | integer |
+
+##### Responses
+
+| Code | Description | Schema |
+| ---- | ----------- | ------ |
+| 200 | Get a blockchain. | [Blockchain](#blockchain) |
+
+### /api/v2/admin/peatio/blockchains/clients
+
+#### GET
+##### Description
+
+Get available blockchain clients.
+
+##### Responses
+
+| Code | Description |
+| ---- | ----------- |
+| 200 | Get available blockchain clients. |
+
+### /api/v2/admin/peatio/blockchains
+
+#### GET
+##### Description
+
+Get all blockchains, result is paginated.
+
+##### Parameters
+
+| Name | Located in | Description | Required | Schema |
+| ---- | ---------- | ----------- | -------- | ---- |
+| key | query | Unique key to identify blockchain. | No | string |
+| client | query | Integrated blockchain client. | No | string |
+| status | query | Blockchain status (active/disabled). | No | string |
+| name | query | A name to identify blockchain. | No | string |
+| limit | query | Limit the number of returned paginations. Defaults to 100. | No | integer |
+| page | query | Specify the page of paginated results. | No | integer |
+| ordering | query | If set, returned values will be sorted in specific order, defaults to 'asc'. | No | string |
+| order_by | query | Name of the field, which result will be ordered by. | No | string |
+
+##### Responses
+
+| Code | Description | Schema |
+| ---- | ----------- | ------ |
+| 200 | Get all blockchains, result is paginated. | [ [Blockchain](#blockchain) ] |
+
+### /api/v2/admin/peatio/adjustments/action
+
+#### POST
+##### Description
 
 Accepts adjustment and creates operations or reject adjustment.
 
@@ -30,10 +182,10 @@ Accepts adjustment and creates operations or reject adjustment.
 | ---- | ----------- | ------ |
 | 201 | Accepts adjustment and creates operations or reject adjustment. | [Adjustment](#adjustment) |
 
-### /adjustments/new
+### /api/v2/admin/peatio/adjustments/new
 
 #### POST
-##### Description:
+##### Description
 
 Create new adjustment.
 
@@ -56,10 +208,10 @@ Create new adjustment.
 | ---- | ----------- | ------ |
 | 201 | Create new adjustment. | [Adjustment](#adjustment) |
 
-### /adjustments/{id}
+### /api/v2/admin/peatio/adjustments/{id}
 
 #### GET
-##### Description:
+##### Description
 
 Get adjustment by ID
 
@@ -75,10 +227,10 @@ Get adjustment by ID
 | ---- | ----------- | ------ |
 | 200 | Get adjustment by ID | [Adjustment](#adjustment) |
 
-### /adjustments
+### /api/v2/admin/peatio/adjustments
 
 #### GET
-##### Description:
+##### Description
 
 Get all adjustments, result is paginated.
 
@@ -103,10 +255,69 @@ Get all adjustments, result is paginated.
 | ---- | ----------- | ------ |
 | 200 | Get all adjustments, result is paginated. | [ [Adjustment](#adjustment) ] |
 
-### /orders/cancel
+### /api/v2/admin/peatio/beneficiaries/actions
 
 #### POST
-##### Description:
+##### Description
+
+Take an action on the beneficiary
+
+##### Parameters
+
+| Name | Located in | Description | Required | Schema |
+| ---- | ---------- | ----------- | -------- | ---- |
+| id | formData | Beneficiary Identifier in Database | Yes | integer |
+| action | formData | Valid actions are [:activate, :archive]. | Yes | string |
+
+##### Responses
+
+| Code | Description | Schema |
+| ---- | ----------- | ------ |
+| 201 | Take an action on the beneficiary | [Beneficiary](#beneficiary) |
+
+### /api/v2/admin/peatio/beneficiaries
+
+#### GET
+##### Description
+
+Get list of beneficiaries
+
+##### Parameters
+
+| Name | Located in | Description | Required | Schema |
+| ---- | ---------- | ----------- | -------- | ---- |
+| uid | query | Member UID. | No | string |
+| ordering | query | If set, returned values will be sorted in specific order, defaults to 'asc'. | No | string |
+| order_by | query | Name of the field, which result will be ordered by. | No | string |
+| limit | query | Limit the number of returned paginations. Defaults to 100. | No | integer |
+| page | query | Specify the page of paginated results. | No | integer |
+| id | query | Beneficiary Identifier in Database | No | integer |
+| currency | query | Beneficiary currency code | No | string |
+| state | formData | Beneficiary state | No | [ integer ] |
+
+##### Responses
+
+| Code | Description | Schema |
+| ---- | ----------- | ------ |
+| 200 | Get list of beneficiaries | [Beneficiary](#beneficiary) |
+
+### /api/v2/admin/peatio/abilities
+
+#### GET
+##### Description
+
+Get all roles and permissions.
+
+##### Responses
+
+| Code | Description |
+| ---- | ----------- |
+| 200 | Get all roles and permissions. |
+
+### /api/v2/admin/peatio/orders/cancel
+
+#### POST
+##### Description
 
 Cancel all orders.
 
@@ -123,10 +334,10 @@ Cancel all orders.
 | ---- | ----------- |
 | 201 | Cancel all orders. |
 
-### /orders/{id}/cancel
+### /api/v2/admin/peatio/orders/{id}/cancel
 
 #### POST
-##### Description:
+##### Description
 
 Cancel an order.
 
@@ -142,10 +353,10 @@ Cancel an order.
 | ---- | ----------- |
 | 201 | Cancel an order. |
 
-### /orders
+### /api/v2/admin/peatio/orders
 
 #### GET
-##### Description:
+##### Description
 
 Get all orders, result is paginated.
 
@@ -175,119 +386,10 @@ Get all orders, result is paginated.
 | ---- | ----------- | ------ |
 | 200 | Get all orders, result is paginated. | [ [Order](#order) ] |
 
-### /blockchains/update
+### /api/v2/admin/peatio/currencies/update
 
 #### POST
-##### Description:
-
-Update blockchain.
-
-##### Parameters
-
-| Name | Located in | Description | Required | Schema |
-| ---- | ---------- | ----------- | -------- | ---- |
-| id | formData | Unique blockchain identifier in database. | Yes | integer |
-| key | formData | Unique key to identify blockchain. | No | string |
-| name | formData | A name to identify blockchain. | No | string |
-| client | formData | Integrated blockchain client. | No | string |
-| server | formData | Blockchain server url. | No | string |
-| height | formData | The number of blocks preceding a particular block on blockchain. | No | integer |
-| explorer_transaction | formData | Blockchain explorer transaction template. | No | string |
-| explorer_address | formData | Blockchain explorer address template. | No | string |
-| status | formData | Blockchain status (active/disabled). | No | string |
-| min_confirmations | formData | Minimum number of confirmations. | No | integer |
-
-##### Responses
-
-| Code | Description | Schema |
-| ---- | ----------- | ------ |
-| 201 | Update blockchain. | [Blockchain](#blockchain) |
-
-### /blockchains/new
-
-#### POST
-##### Description:
-
-Create new blockchain.
-
-##### Parameters
-
-| Name | Located in | Description | Required | Schema |
-| ---- | ---------- | ----------- | -------- | ---- |
-| key | formData | Unique key to identify blockchain. | Yes | string |
-| name | formData | A name to identify blockchain. | Yes | string |
-| client | formData | Integrated blockchain client. | Yes | string |
-| height | formData | The number of blocks preceding a particular block on blockchain. | Yes | integer |
-| explorer_transaction | formData | Blockchain explorer transaction template. | No | string |
-| explorer_address | formData | Blockchain explorer address template. | No | string |
-| server | formData | Blockchain server url. | No | string |
-| status | formData | Blockchain status (active/disabled). | No | string |
-| min_confirmations | formData | Minimum number of confirmations. | No | integer |
-
-##### Responses
-
-| Code | Description | Schema |
-| ---- | ----------- | ------ |
-| 201 | Create new blockchain. | [Blockchain](#blockchain) |
-
-### /blockchains/{id}
-
-#### GET
-##### Description:
-
-Get a blockchain.
-
-##### Parameters
-
-| Name | Located in | Description | Required | Schema |
-| ---- | ---------- | ----------- | -------- | ---- |
-| id | path | Unique blockchain identifier in database. | Yes | integer |
-
-##### Responses
-
-| Code | Description | Schema |
-| ---- | ----------- | ------ |
-| 200 | Get a blockchain. | [Blockchain](#blockchain) |
-
-### /blockchains/clients
-
-#### GET
-##### Description:
-
-Get available blockchain clients.
-
-##### Responses
-
-| Code | Description |
-| ---- | ----------- |
-| 200 | Get available blockchain clients. |
-
-### /blockchains
-
-#### GET
-##### Description:
-
-Get all blockchains, result is paginated.
-
-##### Parameters
-
-| Name | Located in | Description | Required | Schema |
-| ---- | ---------- | ----------- | -------- | ---- |
-| limit | query | Limit the number of returned paginations. Defaults to 100. | No | integer |
-| page | query | Specify the page of paginated results. | No | integer |
-| ordering | query | If set, returned values will be sorted in specific order, defaults to 'asc'. | No | string |
-| order_by | query | Name of the field, which result will be ordered by. | No | string |
-
-##### Responses
-
-| Code | Description | Schema |
-| ---- | ----------- | ------ |
-| 200 | Get all blockchains, result is paginated. | [ [Blockchain](#blockchain) ] |
-
-### /currencies/update
-
-#### POST
-##### Description:
+##### Description
 
 Update currency.
 
@@ -303,16 +405,18 @@ Update currency.
 | min_withdraw_amount | formData | Minimal withdraw amount | No | double |
 | withdraw_limit_24h | formData | Currency 24h withdraw limit | No | double |
 | withdraw_limit_72h | formData | Currency 72h withdraw limit | No | double |
-| position | formData | Currency position. | No | integer |
 | options | formData | Currency options. | No | json |
 | visible | formData | Currency display status (true/false). | No | Boolean |
 | deposit_enabled | formData | Currency deposit possibility status (true/false). | No | Boolean |
 | withdrawal_enabled | formData | Currency withdrawal possibility status (true/false). | No | Boolean |
 | precision | formData | Currency precision. | No | integer |
 | icon_url | formData | Currency icon | No | string |
+| description | formData | Currency description | No | string |
+| homepage | formData | Currency homepage | No | string |
 | code | formData | Unique currency code. | Yes | string |
-| symbol | formData | Currency symbol | No | string |
+| position | formData | Currency position. | No | integer |
 | blockchain_key | formData | Associated blockchain key which will perform transactions synchronization for currency. | No | string |
+| parent_id | formData | Parent currency id. | No | string |
 
 ##### Responses
 
@@ -320,10 +424,10 @@ Update currency.
 | ---- | ----------- | ------ |
 | 201 | Update currency. | [Currency](#currency) |
 
-### /currencies/new
+### /api/v2/admin/peatio/currencies/new
 
 #### POST
-##### Description:
+##### Description
 
 Create new currency.
 
@@ -339,19 +443,21 @@ Create new currency.
 | min_withdraw_amount | formData | Minimal withdraw amount | No | double |
 | withdraw_limit_24h | formData | Currency 24h withdraw limit | No | double |
 | withdraw_limit_72h | formData | Currency 72h withdraw limit | No | double |
-| position | formData | Currency position. | No | integer |
 | options | formData | Currency options. | No | json |
 | visible | formData | Currency display status (true/false). | No | Boolean |
 | deposit_enabled | formData | Currency deposit possibility status (true/false). | No | Boolean |
 | withdrawal_enabled | formData | Currency withdrawal possibility status (true/false). | No | Boolean |
 | precision | formData | Currency precision. | No | integer |
 | icon_url | formData | Currency icon | No | string |
+| description | formData | Currency description | No | string |
+| homepage | formData | Currency homepage | No | string |
 | code | formData | Unique currency code. | Yes | string |
-| symbol | formData | Currency symbol | Yes | string |
 | type | formData | Currency type | No | string |
 | base_factor | formData | Currency base factor. | No | integer |
+| position | formData | Currency position. | No | integer |
 | subunits | formData | Fraction of the basic monetary unit. | No | integer |
-| blockchain_key | formData | Associated blockchain key which will perform transactions synchronization for currency. | Yes | string |
+| blockchain_key | formData | Associated blockchain key which will perform transactions synchronization for currency. | No | string |
+| parent_id | formData | Parent currency id. | No | string |
 
 ##### Responses
 
@@ -359,10 +465,10 @@ Create new currency.
 | ---- | ----------- | ------ |
 | 201 | Create new currency. | [Currency](#currency) |
 
-### /currencies/{code}
+### /api/v2/admin/peatio/currencies/{code}
 
 #### GET
-##### Description:
+##### Description
 
 Get a currency.
 
@@ -378,10 +484,10 @@ Get a currency.
 | ---- | ----------- | ------ |
 | 200 | Get a currency. | [Currency](#currency) |
 
-### /currencies
+### /api/v2/admin/peatio/currencies
 
 #### GET
-##### Description:
+##### Description
 
 Get list of currencies
 
@@ -394,6 +500,9 @@ Get list of currencies
 | page | query | Specify the page of paginated results. | No | integer |
 | ordering | query | If set, returned values will be sorted in specific order, defaults to 'asc'. | No | string |
 | order_by | query | Name of the field, which result will be ordered by. | No | string |
+| deposit_enabled | query | Currency deposit possibility status (true/false). | No | Boolean |
+| withdrawal_enabled | query | Currency withdrawal possibility status (true/false). | No | Boolean |
+| visible | query | Currency display status (true/false). | No | Boolean |
 
 ##### Responses
 
@@ -401,10 +510,10 @@ Get list of currencies
 | ---- | ----------- | ------ |
 | 200 | Get list of currencies | [ [Currency](#currency) ] |
 
-### /markets/update
+### /api/v2/admin/peatio/markets/update
 
 #### POST
-##### Description:
+##### Description
 
 Update market.
 
@@ -415,10 +524,11 @@ Update market.
 | amount_precision | formData | Precision for order amount. | No | integer |
 | price_precision | formData | Precision for order price. | No | integer |
 | max_price | formData | Maximum order price. | No | double |
-| position | formData | Market position. | No | integer |
 | data | formData | Market additional data. | No | json |
 | state | formData | Market state defines if user can see/trade on current market. | No | string |
 | id | formData | Unique market id. It's always in the form of xxxyyy,where xxx is the base currency code, yyy is the quotecurrency code, e.g. 'btcusd'. All available markets canbe found at /api/v2/markets. | Yes | string |
+| engine_id | formData | Engine id for this market. | No | integer |
+| position | formData | Market position. | No | integer |
 | min_price | formData | Minimum order price. | No | double |
 | min_amount | formData | Minimum order amount. | No | double |
 
@@ -428,10 +538,10 @@ Update market.
 | ---- | ----------- | ------ |
 | 201 | Update market. | [Market](#market) |
 
-### /markets/new
+### /api/v2/admin/peatio/markets/new
 
 #### POST
-##### Description:
+##### Description
 
 Create new market.
 
@@ -442,13 +552,15 @@ Create new market.
 | amount_precision | formData | Precision for order amount. | No | integer |
 | price_precision | formData | Precision for order price. | No | integer |
 | max_price | formData | Maximum order price. | No | double |
-| position | formData | Market position. | No | integer |
 | data | formData | Market additional data. | No | json |
 | state | formData | Market state defines if user can see/trade on current market. | No | string |
 | base_currency | formData | Market Base unit. | Yes | string |
 | quote_currency | formData | Market Quote unit. | Yes | string |
 | min_price | formData | Minimum order price. | Yes | double |
 | min_amount | formData | Minimum order amount. | Yes | double |
+| engine_id | formData | Engine id for this market. | No | integer |
+| position | formData | Market position. | No | integer |
+| engine_name | formData | Engine name | No | string |
 
 ##### Responses
 
@@ -456,10 +568,10 @@ Create new market.
 | ---- | ----------- | ------ |
 | 201 | Create new market. | [Market](#market) |
 
-### /markets/{id}
+### /api/v2/admin/peatio/markets/{id}
 
 #### GET
-##### Description:
+##### Description
 
 Get market.
 
@@ -475,10 +587,10 @@ Get market.
 | ---- | ----------- | ------ |
 | 200 | Get market. | [Market](#market) |
 
-### /markets
+### /api/v2/admin/peatio/markets
 
 #### GET
-##### Description:
+##### Description
 
 Get all markets, result is paginated.
 
@@ -497,10 +609,48 @@ Get all markets, result is paginated.
 | ---- | ----------- | ------ |
 | 200 | Get all markets, result is paginated. | [ [Market](#market) ] |
 
-### /wallets/update
+### /api/v2/admin/peatio/wallets/currencies
+
+#### DELETE
+##### Description
+
+Delete currency from the wallet
+
+##### Parameters
+
+| Name | Located in | Description | Required | Schema |
+| ---- | ---------- | ----------- | -------- | ---- |
+| id | query | Unique wallet identifier in database. | Yes | integer |
+| currencies | query | Wallet currency code. | Yes | string |
+
+##### Responses
+
+| Code | Description | Schema |
+| ---- | ----------- | ------ |
+| 200 | Delete currency from the wallet | [Wallet](#wallet) |
 
 #### POST
-##### Description:
+##### Description
+
+Add currency to the wallet
+
+##### Parameters
+
+| Name | Located in | Description | Required | Schema |
+| ---- | ---------- | ----------- | -------- | ---- |
+| id | formData | Unique wallet identifier in database. | Yes | integer |
+| currencies | formData | Wallet currency code. | Yes | string |
+
+##### Responses
+
+| Code | Description | Schema |
+| ---- | ----------- | ------ |
+| 201 | Add currency to the wallet | [Wallet](#wallet) |
+
+### /api/v2/admin/peatio/wallets/update
+
+#### POST
+##### Description
 
 Update wallet.
 
@@ -508,7 +658,6 @@ Update wallet.
 
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
-| settings | formData | Wallet settings. | No | json |
 | max_balance | formData | Wallet max balance. | No | double |
 | status | formData | Wallet status (active/disabled). | No | string |
 | id | formData | Unique wallet identifier in database. | Yes | integer |
@@ -517,7 +666,10 @@ Update wallet.
 | address | formData | Wallet address. | No | string |
 | kind | formData | Kind of wallet 'deposit','fee','hot','warm' or 'cold'. | No | string |
 | gateway | formData | Wallet gateway. | No | string |
-| currency | formData | Wallet currency code. | No | string |
+| currencies | formData | Wallet currency code. | No | string |
+| settings | formData | Wallet settings | No | json |
+| settings[uri] | formData | Wallet uri setting | No | string |
+| settings[secret] | formData | Wallet secret setting | No | string |
 
 ##### Responses
 
@@ -525,10 +677,10 @@ Update wallet.
 | ---- | ----------- | ------ |
 | 201 | Update wallet. | [Wallet](#wallet) |
 
-### /wallets/new
+### /api/v2/admin/peatio/wallets/new
 
 #### POST
-##### Description:
+##### Description
 
 Creates new wallet.
 
@@ -536,15 +688,18 @@ Creates new wallet.
 
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
-| settings | formData | Wallet settings. | No | json |
 | max_balance | formData | Wallet max balance. | No | double |
 | status | formData | Wallet status (active/disabled). | No | string |
 | blockchain_key | formData | Wallet blockchain key. | Yes | string |
 | name | formData | Wallet name. | Yes | string |
-| address | formData | Wallet address. | Yes | string |
-| currency | formData | Wallet currency code. | Yes | string |
+| address | formData | Wallet address. | No | string |
+| currencies | formData | Wallet currency code. | No | string |
+| currency | formData | Wallet currency code. | No | string |
 | kind | formData | Kind of wallet 'deposit','fee','hot','warm' or 'cold'. | Yes | string |
 | gateway | formData | Wallet gateway. | Yes | string |
+| settings | formData | Wallet settings (uri, secret) | No | json |
+| settings[uri] | formData | Wallet uri setting | No | string |
+| settings[secret] | formData | Wallet secret setting | No | string |
 
 ##### Responses
 
@@ -552,10 +707,10 @@ Creates new wallet.
 | ---- | ----------- | ------ |
 | 201 | Creates new wallet. | [Wallet](#wallet) |
 
-### /wallets/{id}
+### /api/v2/admin/peatio/wallets/{id}
 
 #### GET
-##### Description:
+##### Description
 
 Get a wallet.
 
@@ -571,10 +726,10 @@ Get a wallet.
 | ---- | ----------- | ------ |
 | 200 | Get a wallet. | [Wallet](#wallet) |
 
-### /wallets/gateways
+### /api/v2/admin/peatio/wallets/gateways
 
 #### GET
-##### Description:
+##### Description
 
 List wallet gateways.
 
@@ -584,10 +739,10 @@ List wallet gateways.
 | ---- | ----------- |
 | 200 | List wallet gateways. |
 
-### /wallets/kinds
+### /api/v2/admin/peatio/wallets/kinds
 
 #### GET
-##### Description:
+##### Description
 
 List wallet kinds.
 
@@ -597,10 +752,10 @@ List wallet kinds.
 | ---- | ----------- |
 | 200 | List wallet kinds. |
 
-### /wallets
+### /api/v2/admin/peatio/wallets
 
 #### GET
-##### Description:
+##### Description
 
 Get all wallets, result is paginated.
 
@@ -610,7 +765,7 @@ Get all wallets, result is paginated.
 | ---- | ---------- | ----------- | -------- | ---- |
 | blockchain_key | query | Wallet blockchain key. | No | string |
 | kind | query | Kind of wallet 'deposit','fee','hot','warm' or 'cold'. | No | string |
-| currency | query | Deposit currency id. | No | string |
+| currencies | query | Wallet currency code. | No | string |
 | limit | query | Limit the number of returned paginations. Defaults to 100. | No | integer |
 | page | query | Specify the page of paginated results. | No | integer |
 | ordering | query | If set, returned values will be sorted in specific order, defaults to 'asc'. | No | string |
@@ -622,10 +777,30 @@ Get all wallets, result is paginated.
 | ---- | ----------- | ------ |
 | 200 | Get all wallets, result is paginated. | [ [Wallet](#wallet) ] |
 
-### /deposits/new
+### /api/v2/admin/peatio/deposits/{id}/refund
 
 #### POST
-##### Description:
+##### Description
+
+Creates new crypto refund
+
+##### Parameters
+
+| Name | Located in | Description | Required | Schema |
+| ---- | ---------- | ----------- | -------- | ---- |
+| id | path | Deposit id | Yes | integer |
+| address | formData | Refund address | Yes | string |
+
+##### Responses
+
+| Code | Description | Schema |
+| ---- | ----------- | ------ |
+| 201 | Creates new crypto refund | [Refund](#refund) |
+
+### /api/v2/admin/peatio/deposits/new
+
+#### POST
+##### Description
 
 Creates new fiat deposit .
 
@@ -644,10 +819,10 @@ Creates new fiat deposit .
 | ---- | ----------- | ------ |
 | 201 | Creates new fiat deposit . | [Deposit](#deposit) |
 
-### /deposits/actions
+### /api/v2/admin/peatio/deposits/actions
 
 #### POST
-##### Description:
+##### Description
 
 Take an action on the deposit.
 
@@ -656,7 +831,8 @@ Take an action on the deposit.
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
 | id | formData | Unique deposit id. | Yes | integer |
-| action | formData | Valid actions are [:cancel, :reject, :accept, :skip, :dispatch]. | Yes | string |
+| action | formData | Valid actions are [:cancel, :reject, :accept, :skip, :process, :fee_process, :dispatch, :refund]. | Yes | string |
+| fees | formData | Process deposit collection with collecting fees or not | No | Boolean |
 
 ##### Responses
 
@@ -664,10 +840,10 @@ Take an action on the deposit.
 | ---- | ----------- | ------ |
 | 201 | Take an action on the deposit. | [Deposit](#deposit) |
 
-### /deposits
+### /api/v2/admin/peatio/deposits
 
 #### GET
-##### Description:
+##### Description
 
 Get all deposits, result is paginated.
 
@@ -680,6 +856,7 @@ Get all deposits, result is paginated.
 | txid | query | Deposit transaction id. | No | string |
 | address | query | Deposit blockchain address. | No | string |
 | tid | query | Deposit tid. | No | string |
+| email | query | The deposit member email. | No | string |
 | uid | query | Member UID. | No | string |
 | currency | query | Deposit currency id. | No | string |
 | type | query | Currency type | No | string |
@@ -697,71 +874,49 @@ Get all deposits, result is paginated.
 | ---- | ----------- | ------ |
 | 200 | Get all deposits, result is paginated. | [ [Deposit](#deposit) ] |
 
-### /deposit_address
+### /api/v2/admin/peatio/deposit_address
 
-#### GET
-##### Description:
+#### POST
+##### Description
 
-Returns deposit address for account you want to deposit to by currency and uid. The address may be blank because address generation process is still in progress. If this case you should try again later.
+Returns deposit address for account you want to deposit to by currency and uid.
 
 ##### Parameters
 
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
-| currency | query | The account you want to deposit to. | Yes | string |
-| uid | query | Member UID. | Yes | string |
-| address_format | query | Address format legacy/cash | No | string |
+| uid | formData | Deposit member uid. | Yes | string |
+| currency | formData | Deposit currency id. | Yes | string |
+| address_format | formData | Address format legacy/cash | No | string |
 
 ##### Responses
 
 | Code | Description | Schema |
 | ---- | ----------- | ------ |
-| 200 | Returns deposit address for account you want to deposit to by currency. The address may be blank because address generation process is still in progress. If this case you should try again later. | [Deposit](#deposit) |
+| 201 | Returns deposit address for account you want to deposit to by currency and uid. | [Deposit](#deposit) |
 
-### /withdraws/actions
+### /api/v2/admin/peatio/withdraws
 
-#### POST
-##### Description:
+#### PUT
+##### Description
 
-Take an action on the withdrawal.
+Update withdraw request
 
 ##### Parameters
 
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
 | id | formData | The withdrawal id. | Yes | integer |
-| action | formData | Valid actions are [:submit, :cancel, :accept, :reject, :process, :load, :dispatch, :success, :skip, :fail, :err]. | Yes | string |
-| txid | formData | The withdrawal transaction id. | No | string |
+| metadata | formData | Optional metadata to be applied to the transaction. | No | json |
 
 ##### Responses
 
 | Code | Description | Schema |
 | ---- | ----------- | ------ |
-| 201 | Take an action on the withdrawal. | [Withdraw](#withdraw) |
-
-### /withdraws/{id}
+| 200 | Update withdraw request | [Withdraw](#withdraw) |
 
 #### GET
-##### Description:
-
-Get withdraw by ID.
-
-##### Parameters
-
-| Name | Located in | Description | Required | Schema |
-| ---- | ---------- | ----------- | -------- | ---- |
-| id | path | The withdrawal id. | Yes | integer |
-
-##### Responses
-
-| Code | Description | Schema |
-| ---- | ----------- | ------ |
-| 200 | Get withdraw by ID. | [Withdraw](#withdraw) |
-
-### /withdraws
-
-#### GET
-##### Description:
+##### Description
 
 Get all withdraws, result is paginated.
 
@@ -775,6 +930,7 @@ Get all withdraws, result is paginated.
 | tid | query | Withdraw tid. | No | string |
 | confirmations | query | Number of confirmations. | No | integer |
 | rid | query | The beneficiary ID or wallet address on the Blockchain. | No | string |
+| wallet_type | query | Select withdraw that can be processed from wallets with given type e.g. patiry | No | string |
 | uid | query | Member UID. | No | string |
 | currency | query | Deposit currency id. | No | string |
 | type | query | Currency type | No | string |
@@ -792,10 +948,50 @@ Get all withdraws, result is paginated.
 | ---- | ----------- | ------ |
 | 200 | Get all withdraws, result is paginated. | [ [Withdraw](#withdraw) ] |
 
-### /trades/{id}
+### /api/v2/admin/peatio/withdraws/actions
+
+#### POST
+##### Description
+
+Take an action on the withdrawal.
+
+##### Parameters
+
+| Name | Located in | Description | Required | Schema |
+| ---- | ---------- | ----------- | -------- | ---- |
+| id | formData | The withdrawal id. | Yes | integer |
+| action | formData | Valid actions are [:accept, :cancel, :reject, :process, :load, :dispatch, :success, :skip, :fail, :err]. | Yes | string |
+| txid | formData | The withdrawal transaction id. | No | string |
+
+##### Responses
+
+| Code | Description | Schema |
+| ---- | ----------- | ------ |
+| 201 | Take an action on the withdrawal. | [Withdraw](#withdraw) |
+
+### /api/v2/admin/peatio/withdraws/{id}
 
 #### GET
-##### Description:
+##### Description
+
+Get withdraw by ID.
+
+##### Parameters
+
+| Name | Located in | Description | Required | Schema |
+| ---- | ---------- | ----------- | -------- | ---- |
+| id | path | The withdrawal id. | Yes | integer |
+
+##### Responses
+
+| Code | Description | Schema |
+| ---- | ----------- | ------ |
+| 200 | Get withdraw by ID. | [Withdraw](#withdraw) |
+
+### /api/v2/admin/peatio/trades/{id}
+
+#### GET
+##### Description
 
 Get a trade with detailed information.
 
@@ -811,10 +1007,10 @@ Get a trade with detailed information.
 | ---- | ----------- | ------ |
 | 200 | Get a trade with detailed information. | [Blockchain](#blockchain) |
 
-### /trades
+### /api/v2/admin/peatio/trades
 
 #### GET
-##### Description:
+##### Description
 
 Get all trades, result is paginated.
 
@@ -839,10 +1035,10 @@ Get all trades, result is paginated.
 | ---- | ----------- | ------ |
 | 200 | Get all trades, result is paginated. | [ [Trade](#trade) ] |
 
-### /assets
+### /api/v2/admin/peatio/assets
 
 #### GET
-##### Description:
+##### Description
 
 Returns assets as a paginated collection.
 
@@ -868,10 +1064,10 @@ Returns assets as a paginated collection.
 | ---- | ----------- | ------ |
 | 200 | Returns assets as a paginated collection. | [Operation](#operation) |
 
-### /expenses
+### /api/v2/admin/peatio/expenses
 
 #### GET
-##### Description:
+##### Description
 
 Returns expenses as a paginated collection.
 
@@ -897,10 +1093,10 @@ Returns expenses as a paginated collection.
 | ---- | ----------- | ------ |
 | 200 | Returns expenses as a paginated collection. | [Operation](#operation) |
 
-### /revenues
+### /api/v2/admin/peatio/revenues
 
 #### GET
-##### Description:
+##### Description
 
 Returns revenues as a paginated collection.
 
@@ -926,10 +1122,10 @@ Returns revenues as a paginated collection.
 | ---- | ----------- | ------ |
 | 200 | Returns revenues as a paginated collection. | [Operation](#operation) |
 
-### /liabilities
+### /api/v2/admin/peatio/liabilities
 
 #### GET
-##### Description:
+##### Description
 
 Returns liabilities as a paginated collection.
 
@@ -956,10 +1152,10 @@ Returns liabilities as a paginated collection.
 | ---- | ----------- | ------ |
 | 200 | Returns liabilities as a paginated collection. | [Operation](#operation) |
 
-### /members/{uid}
+### /api/v2/admin/peatio/members/{uid}
 
 #### PUT
-##### Description:
+##### Description
 
 Set user group.
 
@@ -977,7 +1173,7 @@ Set user group.
 | 200 | Set user group. | [Member](#member) |
 
 #### GET
-##### Description:
+##### Description
 
 Get a member.
 
@@ -993,10 +1189,10 @@ Get a member.
 | ---- | ----------- | ------ |
 | 200 | Get a member. | [Member](#member) |
 
-### /members/groups
+### /api/v2/admin/peatio/members/groups
 
 #### GET
-##### Description:
+##### Description
 
 Get available members groups.
 
@@ -1006,10 +1202,10 @@ Get available members groups.
 | ---- | ----------- |
 | 200 | Get available members groups. |
 
-### /members
+### /api/v2/admin/peatio/members
 
 #### GET
-##### Description:
+##### Description
 
 Get all members, result is paginated.
 
@@ -1036,10 +1232,10 @@ Get all members, result is paginated.
 | ---- | ----------- | ------ |
 | 200 | Get all members, result is paginated. | [ [Member](#member) ] |
 
-### /trading_fees/delete
+### /api/v2/admin/peatio/trading_fees/delete
 
 #### POST
-##### Description:
+##### Description
 
 It deletes trading fees record
 
@@ -1055,10 +1251,10 @@ It deletes trading fees record
 | ---- | ----------- | ------ |
 | 201 | It deletes trading fees record | [TradingFee](#tradingfee) |
 
-### /trading_fees/update
+### /api/v2/admin/peatio/trading_fees/update
 
 #### POST
-##### Description:
+##### Description
 
 It updates trading fees record
 
@@ -1078,10 +1274,10 @@ It updates trading fees record
 | ---- | ----------- | ------ |
 | 201 | It updates trading fees record | [TradingFee](#tradingfee) |
 
-### /trading_fees/new
+### /api/v2/admin/peatio/trading_fees/new
 
 #### POST
-##### Description:
+##### Description
 
 It creates trading fees record
 
@@ -1100,10 +1296,10 @@ It creates trading fees record
 | ---- | ----------- | ------ |
 | 201 | It creates trading fees record | [TradingFee](#tradingfee) |
 
-### /trading_fees
+### /api/v2/admin/peatio/trading_fees
 
 #### GET
-##### Description:
+##### Description
 
 Returns trading_fees table as paginated collection
 
@@ -1124,8 +1320,198 @@ Returns trading_fees table as paginated collection
 | ---- | ----------- | ------ |
 | 200 | Returns trading_fees table as paginated collection | [ [TradingFee](#tradingfee) ] |
 
+### /api/v2/admin/peatio/engines/update
+
+#### POST
+##### Description
+
+Update engine
+
+##### Parameters
+
+| Name | Located in | Description | Required | Schema |
+| ---- | ---------- | ----------- | -------- | ---- |
+| id | formData | Engine uniq id | Yes | string |
+| name | formData | Engine name | No | string |
+| driver | formData | Engine driver | No | string |
+| key | formData | Credentials for remote engine | No | string |
+| secret | formData | Credentials for remote engine | No | string |
+| state | formData | Engine state | No | string |
+
+##### Responses
+
+| Code | Description | Schema |
+| ---- | ----------- | ------ |
+| 201 | Update engine | [Engine](#engine) |
+
+### /api/v2/admin/peatio/engines/new
+
+#### POST
+##### Description
+
+Create new engine.
+
+##### Parameters
+
+| Name | Located in | Description | Required | Schema |
+| ---- | ---------- | ----------- | -------- | ---- |
+| name | formData | Engine name | Yes | string |
+| driver | formData | Engine driver | Yes | string |
+| uid | formData | Owner of a engine | No | string |
+| key | formData | Credentials for remote engine | No | string |
+| secret | formData | Credentials for remote engine | No | string |
+| data | formData | Metadata for engine | No | string |
+
+##### Responses
+
+| Code | Description | Schema |
+| ---- | ----------- | ------ |
+| 201 | Create new engine. | [Engine](#engine) |
+
+### /api/v2/admin/peatio/engines/{id}
+
+#### GET
+##### Description
+
+Get engine.
+
+##### Parameters
+
+| Name | Located in | Description | Required | Schema |
+| ---- | ---------- | ----------- | -------- | ---- |
+| id | path | Engine uniq id | Yes | string |
+
+##### Responses
+
+| Code | Description | Schema |
+| ---- | ----------- | ------ |
+| 200 | Get engine. | [Engine](#engine) |
+
+### /api/v2/admin/peatio/engines
+
+#### GET
+##### Description
+
+Get all engine, result is paginated.
+
+##### Parameters
+
+| Name | Located in | Description | Required | Schema |
+| ---- | ---------- | ----------- | -------- | ---- |
+| limit | query | Limit the number of returned paginations. Defaults to 100. | No | integer |
+| page | query | Specify the page of paginated results. | No | integer |
+| ordering | query | If set, returned values will be sorted in specific order, defaults to 'asc'. | No | string |
+| order_by | query | Name of the field, which result will be ordered by. | No | string |
+
+##### Responses
+
+| Code | Description | Schema |
+| ---- | ----------- | ------ |
+| 200 | Get all engine, result is paginated. | [ [Engine](#engine) ] |
+
+### /api/v2/admin/peatio/withdraw_limits/{id}
+
+#### DELETE
+##### Description
+
+It deletes withdraw limits record
+
+##### Parameters
+
+| Name | Located in | Description | Required | Schema |
+| ---- | ---------- | ----------- | -------- | ---- |
+| id | path | Unique withdraw limit table identifier in database. | Yes | integer |
+
+##### Responses
+
+| Code | Description | Schema |
+| ---- | ----------- | ------ |
+| 200 | It deletes withdraw limits record | [WithdrawLimit](#withdrawlimit) |
+
+### /api/v2/admin/peatio/withdraw_limits
+
+#### PUT
+##### Description
+
+It updates withdraw limits record
+
+##### Parameters
+
+| Name | Located in | Description | Required | Schema |
+| ---- | ---------- | ----------- | -------- | ---- |
+| id | formData | Unique withdraw limit table identifier in database. | Yes | integer |
+| limit_24_hour | formData | 24 hours withdraw limit. | No | double |
+| limit_1_month | formData | 1 month withdraw limit. | No | double |
+| kyc_level | formData | KYC level for define withdraw limits. | No | string |
+| group | formData | Member group for define withdraw limits. | No | string |
+
+##### Responses
+
+| Code | Description | Schema |
+| ---- | ----------- | ------ |
+| 200 | It updates withdraw limits record | [WithdrawLimit](#withdrawlimit) |
+
+#### POST
+##### Description
+
+It creates withdraw limits record
+
+##### Parameters
+
+| Name | Located in | Description | Required | Schema |
+| ---- | ---------- | ----------- | -------- | ---- |
+| limit_24_hour | formData | 24 hours withdraw limit. | Yes | double |
+| limit_1_month | formData | 1 month withdraw limit. | Yes | double |
+| group | formData | Member group for define withdraw limits. | No | string |
+| kyc_level | formData | KYC level for define withdraw limits. | No | string |
+
+##### Responses
+
+| Code | Description | Schema |
+| ---- | ----------- | ------ |
+| 201 | It creates withdraw limits record | [WithdrawLimit](#withdrawlimit) |
+
+#### GET
+##### Description
+
+Returns withdraw limits table as paginated collection
+
+##### Parameters
+
+| Name | Located in | Description | Required | Schema |
+| ---- | ---------- | ----------- | -------- | ---- |
+| group | query | Member group for define withdraw limits. | No | string |
+| kyc_level | query | KYC level for define withdraw limits. | No | string |
+| limit | query | Limit the number of returned paginations. Defaults to 100. | No | integer |
+| page | query | Specify the page of paginated results. | No | integer |
+| ordering | query | If set, returned values will be sorted in specific order, defaults to 'asc'. | No | string |
+| order_by | query | Name of the field, which result will be ordered by. | No | string |
+
+##### Responses
+
+| Code | Description | Schema |
+| ---- | ----------- | ------ |
+| 200 | Returns withdraw limits table as paginated collection | [ [WithdrawLimit](#withdrawlimit) ] |
+
 ### Models
 
+#### Blockchain
+
+Get a trade with detailed information.
+
+| Name | Type | Description | Required |
+| ---- | ---- | ----------- | -------- |
+| id | integer | Unique blockchain identifier in database. | No |
+| key | string | Unique key to identify blockchain. | No |
+| name | string | A name to identify blockchain. | No |
+| client | string | Integrated blockchain client. | No |
+| height | integer | The number of blocks preceding a particular block on blockchain. | No |
+| explorer_address | string | Blockchain explorer address template. | No |
+| explorer_transaction | string | Blockchain explorer transaction template. | No |
+| min_confirmations | integer | Minimum number of confirmations. | No |
+| status | string | Blockchain status (active/disabled). | No |
+| created_at | string | Blockchain created time in iso8601 format. | No |
+| updated_at | string | Blockchain updated time in iso8601 format. | No |
 
 #### Adjustment
 
@@ -1169,6 +1555,21 @@ Returns liabilities as a paginated collection.
 | reference_type | string | The type of operations. | No |
 | created_at | string | The datetime when operation was created. | No |
 
+#### Beneficiary
+
+Get list of beneficiaries
+
+| Name | Type | Description | Required |
+| ---- | ---- | ----------- | -------- |
+| id | integer | Beneficiary Identifier in Database | No |
+| currency | string | Beneficiary currency code. | No |
+| uid | string | Beneficiary owner | No |
+| name | string | Human rememberable name which refer beneficiary. | No |
+| description | string | Human rememberable description of beneficiary. | No |
+| data | json | Bank Account details for fiat Beneficiary in JSON format.For crypto it's blockchain address. | No |
+| state | string | Defines either beneficiary active - user can use it to withdraw moneyor pending - requires beneficiary activation with pin. | No |
+| sent_at | string | Time when last pin was sent | No |
+
 #### Order
 
 Get all orders, result is paginated.
@@ -1188,28 +1589,11 @@ Get all orders, result is paginated.
 | origin_volume | double | The amount user want to sell/buy.An order could be partially executed,e.g. an order sell 5 btc can be matched with a buy 3 btc order,left 2 btc to be sold; in this case the order's volume would be '5.0',its remaining_volume would be '2.0', its executed volume is '3.0'. | No |
 | remaining_volume | double | The remaining volume, see 'volume'. | No |
 | executed_volume | double | The executed volume, see 'volume'. | No |
+| maker_fee | double | Fee for maker. | No |
+| taker_fee | double | Fee for taker. | No |
 | trades_count | integer | Count of trades. | No |
 | email | string | The shared user email. | No |
 | uid | string | The shared user ID. | No |
-
-#### Blockchain
-
-Get a trade with detailed information.
-
-| Name | Type | Description | Required |
-| ---- | ---- | ----------- | -------- |
-| id | integer | Unique blockchain identifier in database. | No |
-| key | string | Unique key to identify blockchain. | No |
-| name | string | A name to identify blockchain. | No |
-| client | string | Integrated blockchain client. | No |
-| server | string | Blockchain server url. | No |
-| height | integer | The number of blocks preceding a particular block on blockchain. | No |
-| explorer_address | string | Blockchain explorer address template. | No |
-| explorer_transaction | string | Blockchain explorer transaction template. | No |
-| min_confirmations | integer | Minimum number of confirmations. | No |
-| status | string | Blockchain status (active/disabled). | No |
-| created_at | string | Blockchain created time in iso8601 format. | No |
-| updated_at | string | Blockchain updated time in iso8601 format. | No |
 
 #### Currency
 
@@ -1217,26 +1601,29 @@ Get list of currencies
 
 | Name | Type | Description | Required |
 | ---- | ---- | ----------- | -------- |
-| name | string | Currency name | No |
-| symbol | string | Currency symbol | No |
-| explorer_transaction | string | Currency transaction exprorer url template | No |
-| explorer_address | string | Currency address exprorer url template | No |
-| type | string | Currency type | No |
+| name | string | Currency name<br>_Example:_ `"Bitcoin"` | No |
+| description | string | Currency description<br>_Example:_ `"btc"` | No |
+| homepage | string | Currency homepage<br>_Example:_ `"btc"` | No |
+| price | string | Currency current price | No |
+| explorer_transaction | string | Currency transaction exprorer url template<br>_Example:_ `"https://testnet.blockchain.info/tx/"` | No |
+| explorer_address | string | Currency address exprorer url template<br>_Example:_ `"https://testnet.blockchain.info/address/"` | No |
+| type | string | Currency type<br>_Example:_ `"coin"` | No |
 | deposit_enabled | string | Currency deposit possibility status (true/false). | No |
 | withdrawal_enabled | string | Currency withdrawal possibility status (true/false). | No |
-| deposit_fee | string | Currency deposit fee | No |
-| min_deposit_amount | string | Minimal deposit amount | No |
-| withdraw_fee | string | Currency withdraw fee | No |
-| min_withdraw_amount | string | Minimal withdraw amount | No |
-| withdraw_limit_24h | string | Currency 24h withdraw limit | No |
-| withdraw_limit_72h | string | Currency 72h withdraw limit | No |
+| deposit_fee | string | Currency deposit fee<br>_Example:_ `"0.0"` | No |
+| min_deposit_amount | string | Minimal deposit amount<br>_Example:_ `"0.0000356"` | No |
+| withdraw_fee | string | Currency withdraw fee<br>_Example:_ `"0.0"` | No |
+| min_withdraw_amount | string | Minimal withdraw amount<br>_Example:_ `"0.0"` | No |
+| withdraw_limit_24h | string | Currency 24h withdraw limit<br>_Example:_ `"0.1"` | No |
+| withdraw_limit_72h | string | Currency 72h withdraw limit<br>_Example:_ `"0.2"` | No |
 | base_factor | integer | Currency base factor. | No |
 | precision | integer | Currency precision. | No |
 | position | integer | Currency position. | No |
-| icon_url | string | Currency icon | No |
+| icon_url | string | Currency icon<br>_Example:_ `"https://upload.wikimedia.org/wikipedia/commons/0/05/Ethereum_logo_2014.svg"` | No |
 | min_confirmations | string | Number of confirmations required for confirming deposit or withdrawal | No |
 | code | string | Unique currency code. | No |
 | blockchain_key | string | Associated blockchain key which will perform transactions synchronization for currency. | No |
+| parent_id | string | Parent currency id. | No |
 | min_collection_amount | double | Minimal collection amount. | No |
 | visible | string | Currency display status (true/false). | No |
 | subunits | integer | Fraction of the basic monetary unit. | No |
@@ -1260,6 +1647,7 @@ Get all markets, result is paginated.
 | amount_precision | double | Precision for order amount. | No |
 | price_precision | double | Precision for order price. | No |
 | state | string | Market state defines if user can see/trade on current market. | No |
+| engine_id | integer | Engine id for this market. | No |
 | position | integer | Market position. | No |
 | data | json | Market additional data. | No |
 | created_at | string | Market created time in iso8601 format. | No |
@@ -1274,19 +1662,29 @@ Get all wallets, result is paginated.
 | id | integer | Unique wallet identifier in database. | No |
 | name | string | Wallet name. | No |
 | kind | string | Kind of wallet 'deposit','fee','hot','warm' or 'cold'. | No |
-| currency | string | Wallet currency code. | No |
+| currencies | [ string ] | Wallet currency code. | No |
 | address | string | Wallet address. | No |
 | gateway | string | Wallet gateway. | No |
 | max_balance | double | Wallet max balance. | No |
+| balance | double | Wallet balance | No |
 | blockchain_key | string | Wallet blockchain key. | No |
 | status | string | Wallet status (active/disabled). | No |
-| settings | json | Wallet settings. | No |
 | created_at | string | Wallet created time in iso8601 format. | No |
 | updated_at | string | Wallet updated time in iso8601 format. | No |
 
+#### Refund
+
+Creates new crypto refund
+
+| Name | Type | Description | Required |
+| ---- | ---- | ----------- | -------- |
+| id | integer | The refund id | No |
+| address | string | Refund address | No |
+| deposit | [Deposit](#deposit) |  | No |
+
 #### Deposit
 
-Get all deposits, result is paginated.
+Returns deposit address for account you want to deposit to by currency and uid.
 
 | Name | Type | Description | Required |
 | ---- | ---- | ----------- | -------- |
@@ -1297,6 +1695,7 @@ Get all deposits, result is paginated.
 | txid | string | Deposit transaction id. | No |
 | confirmations | integer | Number of deposit confirmations. | No |
 | state | string | Deposit state. | No |
+| transfer_type | string | Deposit transfer type | No |
 | created_at | string | The datetime when deposit was created. | No |
 | completed_at | string | The datetime when deposit was completed. | No |
 | tid | string | Deposit tid. | No |
@@ -1319,35 +1718,26 @@ Get all withdraws, result is paginated.
 | id | integer | The withdrawal id. | No |
 | currency | string | The currency code. | No |
 | type | string | The withdrawal type | No |
-| sum | double | The withdrawal sum. | No |
+| amount | string | The withdrawal amount | No |
 | fee | double | The exchange fee. | No |
 | blockchain_txid | string | The withdrawal transaction id. | No |
 | rid | string | The beneficiary ID or wallet address on the Blockchain. | No |
 | state | string | The withdrawal state. | No |
 | confirmations | integer | Number of confirmations. | No |
 | note | string | Withdraw note. | No |
+| transfer_type | string | Withdraw transfer type | No |
 | created_at | string | The datetimes for the withdrawal. | No |
 | updated_at | string | The datetimes for the withdrawal. | No |
-| completed_at | string | The datetime when withdraw was completed. | No |
+| done_at | string | The datetime when withdraw was completed | No |
 | member | string | The member id. | No |
 | beneficiary | [Beneficiary](#beneficiary) |  | No |
 | uid | string | The withdrawal member uid. | No |
 | email | string | The withdrawal member email. | No |
 | account | string | The account code. | No |
 | block_number | integer | The withdrawal block_number. | No |
-| amount | double | The withdrawal amount. | No |
 | tid | string | Withdraw tid. | No |
-
-#### Beneficiary
-
-| Name | Type | Description | Required |
-| ---- | ---- | ----------- | -------- |
-| id | integer | Beneficiary Identifier in Database | No |
-| currency | string | Beneficiary currency code. | No |
-| name | string | Human rememberable name which refer beneficiary. | No |
-| description | string | Human rememberable description of beneficiary. | No |
-| data | json | Bank Account details for fiat Beneficiary in JSON format.For crypto it's blockchain address. | No |
-| state | string | Defines either beneficiary active - user can use it to withdraw moneyor pending - requires beneficiary activation with pin. | No |
+| error | string | Withdraw error. | No |
+| metadata | string | Optional metadata to be applied to the transaction. | No |
 
 #### Trade
 
@@ -1391,6 +1781,7 @@ Get all members, result is paginated.
 | state | string | Member's state. | No |
 | created_at | string | Member created time in iso8601 format. | No |
 | updated_at | string | Member updated time in iso8601 format. | No |
+| beneficiaries | [ [Beneficiary](#beneficiary) ] | Member Beneficiary. | No |
 
 #### Account
 
@@ -1413,3 +1804,29 @@ Returns trading_fees table as paginated collection
 | taker | double | Market taker fee. | No |
 | created_at | string | Trading fee table created time in iso8601 format. | No |
 | updated_at | string | Trading fee table updated time in iso8601 format. | No |
+
+#### Engine
+
+Get all engine, result is paginated.
+
+| Name | Type | Description | Required |
+| ---- | ---- | ----------- | -------- |
+| id | integer | Engine uniq id | No |
+| name | string | Engine name | No |
+| driver | string | Engine driver | No |
+| uid | string | Owner of a engine | No |
+| state | string | Engine state | No |
+
+#### WithdrawLimit
+
+Returns withdraw limits table as paginated collection
+
+| Name | Type | Description | Required |
+| ---- | ---- | ----------- | -------- |
+| id | integer | Unique withdraw limit table identifier in database. | No |
+| group | string | Member group for define withdraw limits. | No |
+| kyc_level | string | KYC level for define withdraw limits. | No |
+| limit_24_hour | double | 24 hours withdraw limit. | No |
+| limit_1_month | double | 1 month withdraw limit. | No |
+| created_at | string | Withdraw limit table created time in iso8601 format. | No |
+| updated_at | string | Withdraw limit table updated time in iso8601 format. | No |
