@@ -92,6 +92,14 @@ module API
           )
 
           expose(
+            :price,
+            documentation: {
+              type: BigDecimal,
+              desc: 'Currency price.'
+            }
+          )
+
+          expose(
             :created_at,
             format_with: :iso8601,
             documentation: {

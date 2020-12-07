@@ -78,6 +78,10 @@ module API
               default: 8,
               desc: -> { API::V2::Admin::Entities::Currency.documentation[:precision][:desc] }
             },
+            price: {
+              type: { value: BigDecimal, message: 'admin.currency.non_decimal_price' },
+              desc: -> { API::V2::Admin::Entities::Currency.documentation[:price][:desc] }
+            },
             icon_url: { desc: -> { API::V2::Admin::Entities::Currency.documentation[:icon_url][:desc] } },
             description: { desc: -> { API::V2::Admin::Entities::Currency.documentation[:description][:desc] } },
             homepage: { desc: -> { API::V2::Admin::Entities::Currency.documentation[:homepage][:desc] } },
