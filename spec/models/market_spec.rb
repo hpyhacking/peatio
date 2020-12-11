@@ -127,21 +127,6 @@ describe Market do
       end
     end
 
-    it 'validates if both currencies visible on enabled market creation' do
-      %i[base_currency quote_currency].each do |field|
-        record = Market.new(valid_attributes.merge(field => disabled_currency.code))
-        record.save
-        expect(record.errors.full_messages).to include(/#{to_readable(field)} is not visible/i)
-      end
-    end
-
-    it 'doesn\'t validate if both currencies enabled on disabled market creation' do
-      %i[base_currency quote_currency].each do |field|
-        record = Market.new(valid_attributes.merge(field => disabled_currency.code, state: 'disabled'))
-        expect(record.save).to eq true
-      end
-    end
-
     it 'validate position value on update' do
       market = Market.find(:btcusd)
       market.update(position: nil)

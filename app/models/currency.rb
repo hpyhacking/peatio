@@ -107,7 +107,6 @@ class Currency < ApplicationRecord
 
   before_update { update_position(self) if position_changed? }
 
-  after_update :disable_markets
   after_commit :wipe_cache
 
   # == Class Methods ========================================================
@@ -203,12 +202,6 @@ class Currency < ApplicationRecord
 
   def dependent_markets
     Market.where('base_unit = ? OR quote_unit = ?', id, id)
-  end
-
-  def disable_markets
-    unless visible?
-      dependent_markets.update_all(state: :disabled)
-    end
   end
 
   def subunits

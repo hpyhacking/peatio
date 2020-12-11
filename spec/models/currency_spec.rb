@@ -95,28 +95,6 @@ describe Currency do
     end
   end
 
-  it 'disables markets when currency is set to disabled' do
-    currency = Currency.find(:eth)
-    expect(Market.find(:btcusd).state == 'enabled').to be_truthy
-    expect(Market.find(:btceth).state == 'enabled').to be_truthy
-
-    currency.update!(visible: false)
-    expect(Market.find(:btcusd).state == 'enabled').to be_truthy
-    expect(Market.find(:btceth).state == 'enabled').to be_falsey
-
-    currency.update!(visible: true)
-    expect(Market.find(:btcusd).state == 'enabled').to be_truthy
-    expect(Market.find(:btceth).state == 'enabled').to be_falsey
-  end
-
-  it 'allows to disable all dependent markets' do
-    Market.where.not(base_unit: 'btc').update_all(state: :disabled)
-    currency = Currency.find(:btc)
-    currency.update(visible: false)
-    expect(currency.valid?).to be_truthy
-    expect(currency.errors[:currency].size).to eq(0)
-  end
-
   context 'subunits=' do
     let!(:currency) { Currency.find(:btc) }
 

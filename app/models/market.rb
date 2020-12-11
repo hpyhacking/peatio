@@ -107,8 +107,6 @@ class Market < ApplicationRecord
 
   validates :base_currency, :quote_currency, inclusion: { in: -> (_) { Currency.codes } }
 
-  validate  :currencies_must_be_visible, if: ->(m) { m.state == 'enabled' }
-
   validates :min_price,
             presence: true,
             numericality: { greater_than_or_equal_to: ->(market){ market.min_price_by_precision } }
@@ -194,14 +192,6 @@ class Market < ApplicationRecord
 
   def engine_name=(engine_name)
     self.engine = Engine.find_by(name: engine_name)
-  end
-
-  private
-
-  def currencies_must_be_visible
-    %i[base_currency quote_currency].each do |unit|
-      errors.add(unit, 'is not visible.') unless Currency.lock.find_by_id(public_send(unit))&.visible?
-    end
   end
 end
 
