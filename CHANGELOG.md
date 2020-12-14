@@ -1,3 +1,400 @@
+# Changelog
+
+## [Unreleased](https://github.com/openware/peatio/tree/HEAD)
+
+[Full Changelog](https://github.com/openware/peatio/compare/2.6.6...HEAD)
+
+**Closed issues:**
+
+- Vault::HTTPConnectionError: The Vault server at `http://127.0.0.1:8200' [\#2752](https://github.com/openware/peatio/issues/2752)
+
+**Merged pull requests:**
+
+- Update drone config [\#2759](https://github.com/openware/peatio/pull/2759) ([calj](https://github.com/calj))
+- Update currency price field [\#2757](https://github.com/openware/peatio/pull/2757) ([mnaichuk](https://github.com/mnaichuk))
+- Bump master with 2.7.0. Update API docs [\#2753](https://github.com/openware/peatio/pull/2753) ([mnaichuk](https://github.com/mnaichuk))
+- Add the ability to exclude users by role from PnL calculation [\#2751](https://github.com/openware/peatio/pull/2751) ([calj](https://github.com/calj))
+- Enhancement: Return deposit address in account entity [\#2747](https://github.com/openware/peatio/pull/2747) ([mnaichuk](https://github.com/mnaichuk))
+
+## [2.6.6](https://github.com/openware/peatio/tree/2.6.6) (2020-12-11)
+
+[Full Changelog](https://github.com/openware/peatio/compare/2.6.5...2.6.6)
+
+**Merged pull requests:**
+
+- Remove market creation validation for unvisible market [\#2765](https://github.com/openware/peatio/pull/2765) ([mnaichuk](https://github.com/mnaichuk))
+
+## [2.6.5](https://github.com/openware/peatio/tree/2.6.5) (2020-12-09)
+
+[Full Changelog](https://github.com/openware/peatio/compare/2.6.4...2.6.5)
+
+**Merged pull requests:**
+
+- Skip deposit fee collection transaction [\#2762](https://github.com/openware/peatio/pull/2762) ([mnaichuk](https://github.com/mnaichuk))
+
+## [2.6.4](https://github.com/openware/peatio/tree/2.6.4) (2020-12-08)
+
+[Full Changelog](https://github.com/openware/peatio/compare/2.6.3...2.6.4)
+
+**Merged pull requests:**
+
+- Enhancement: Return deposit address in account entity [\#2761](https://github.com/openware/peatio/pull/2761) ([mnaichuk](https://github.com/mnaichuk))
+
+## [2.6.3](https://github.com/openware/peatio/tree/2.6.3) (2020-12-07)
+
+[Full Changelog](https://github.com/openware/peatio/compare/2.6.2...2.6.3)
+
+**Merged pull requests:**
+
+- Add the ability to exclude users by role from PnL calculation [\#2760](https://github.com/openware/peatio/pull/2760) ([calj](https://github.com/calj))
+- Update drone config [\#2758](https://github.com/openware/peatio/pull/2758) ([calj](https://github.com/calj))
+
+## [2.6.2](https://github.com/openware/peatio/tree/2.6.2) (2020-12-07)
+
+[Full Changelog](https://github.com/openware/peatio/compare/2.6.1...2.6.2)
+
+**Merged pull requests:**
+
+- Update currency price field [\#2756](https://github.com/openware/peatio/pull/2756) ([mnaichuk](https://github.com/mnaichuk))
+
+## [2.6.1](https://github.com/openware/peatio/tree/2.6.1) (2020-12-07)
+
+[Full Changelog](https://github.com/openware/peatio/compare/2.5.44...2.6.1)
+
+**Merged pull requests:**
+
+- Update API docs for 2-6-stable [\#2754](https://github.com/openware/peatio/pull/2754) ([mnaichuk](https://github.com/mnaichuk))
+
+## [2.5.44](https://github.com/openware/peatio/tree/2.5.44) (2020-12-07)
+
+[Full Changelog](https://github.com/openware/peatio/compare/2.6.0...2.5.44)
+
+**Merged pull requests:**
+
+- Update API docs for 2-5-stable [\#2755](https://github.com/openware/peatio/pull/2755) ([mnaichuk](https://github.com/mnaichuk))
+
+## [2.6.0](https://github.com/openware/peatio/tree/2.6.0) (2020-12-04)
+
+[Full Changelog](https://github.com/openware/peatio/compare/2.5.43...2.6.0)
+
+**Closed issues:**
+
+- BountyHunt : Integrating Peatio Management API V2 [\#2737](https://github.com/openware/peatio/issues/2737)
+
+**Merged pull requests:**
+
+- Feature: allow user to change the email [\#2750](https://github.com/openware/peatio/pull/2750) ([dpatsora](https://github.com/dpatsora))
+- Fix: tx\[input\] fetch [\#2746](https://github.com/openware/peatio/pull/2746) ([mnaichuk](https://github.com/mnaichuk))
+- Fix: Add ability to cancel orders on upstream [\#2745](https://github.com/openware/peatio/pull/2745) ([dpatsora](https://github.com/dpatsora))
+- Add Gnosis base plugin [\#2744](https://github.com/openware/peatio/pull/2744) ([mnaichuk](https://github.com/mnaichuk))
+- Fix specs for PostgreSQL [\#2742](https://github.com/openware/peatio/pull/2742) ([mnaichuk](https://github.com/mnaichuk))
+- Enhancement: Generate wallet settings on creation [\#2741](https://github.com/openware/peatio/pull/2741) ([mnaichuk](https://github.com/mnaichuk))
+- Enhancement: Update withdraw limits logic [\#2740](https://github.com/openware/peatio/pull/2740) ([mnaichuk](https://github.com/mnaichuk))
+- Fix: Add ability to configure wallet features from settings [\#2738](https://github.com/openware/peatio/pull/2738) ([mnaichuk](https://github.com/mnaichuk))
+- Fix: Abilities for user permissions [\#2736](https://github.com/openware/peatio/pull/2736) ([chumaknadya](https://github.com/chumaknadya))
+- Feature: Add Opendax wallet plugin [\#2735](https://github.com/openware/peatio/pull/2735) ([chumaknadya](https://github.com/chumaknadya))
+- Add matching exchange for trading daemons. Delete deprecated amqp configs [\#2733](https://github.com/openware/peatio/pull/2733) ([mnaichuk](https://github.com/mnaichuk))
+- Fix: Allow dot in currency code for API endpoints [\#2731](https://github.com/openware/peatio/pull/2731) ([chumaknadya](https://github.com/chumaknadya))
+- Feature: Add user permissions [\#2730](https://github.com/openware/peatio/pull/2730) ([chumaknadya](https://github.com/chumaknadya))
+- Fix: Dont mask beneficiary account number on admin endpoints [\#2729](https://github.com/openware/peatio/pull/2729) ([chumaknadya](https://github.com/chumaknadya))
+- Update WalletService trigger\_webhook\_event method [\#2727](https://github.com/openware/peatio/pull/2727) ([mnaichuk](https://github.com/mnaichuk))
+- Fix: Add ability to update wallet settings [\#2725](https://github.com/openware/peatio/pull/2725) ([chumaknadya](https://github.com/chumaknadya))
+- Enhancement: Disable WLs if there are no in DB or zero limits [\#2724](https://github.com/openware/peatio/pull/2724) ([mnaichuk](https://github.com/mnaichuk))
+- Fix: Remove partial wallet settings update [\#2722](https://github.com/openware/peatio/pull/2722) ([mnaichuk](https://github.com/mnaichuk))
+- Feature: Add possibility to import and export Operation::Accounts [\#2720](https://github.com/openware/peatio/pull/2720) ([dpatsora](https://github.com/dpatsora))
+- Fix InfluxDB sharding spec [\#2716](https://github.com/openware/peatio/pull/2716) ([mnaichuk](https://github.com/mnaichuk))
+- Enhancement: Add error message for adjustment creation if user balance is insufficient [\#2715](https://github.com/openware/peatio/pull/2715) ([Kohelbekker](https://github.com/Kohelbekker))
+- Update vault policies documentation [\#2712](https://github.com/openware/peatio/pull/2712) ([calj](https://github.com/calj))
+- Add separate user and password for archive DB [\#2711](https://github.com/openware/peatio/pull/2711) ([dnfd](https://github.com/dnfd))
+- Update dependencies [\#2710](https://github.com/openware/peatio/pull/2710) ([calj](https://github.com/calj))
+- Fix: do not fail on start if VAULT\_TOKEN is unset [\#2709](https://github.com/openware/peatio/pull/2709) ([calj](https://github.com/calj))
+- Feature: Mask beneficiary account\_number on API level [\#2708](https://github.com/openware/peatio/pull/2708) ([chumaknadya](https://github.com/chumaknadya))
+- Update vault rails gem. Fix update wallet params [\#2707](https://github.com/openware/peatio/pull/2707) ([mnaichuk](https://github.com/mnaichuk))
+- Fix: Update import/export rake tasks for payment\_addresses [\#2703](https://github.com/openware/peatio/pull/2703) ([mnaichuk](https://github.com/mnaichuk))
+- Enhancement: Encrypt Beneficiary data [\#2702](https://github.com/openware/peatio/pull/2702) ([mnaichuk](https://github.com/mnaichuk))
+- Remove uri validation from wallet model [\#2700](https://github.com/openware/peatio/pull/2700) ([mnaichuk](https://github.com/mnaichuk))
+- Optimize PnL main query [\#2699](https://github.com/openware/peatio/pull/2699) ([calj](https://github.com/calj))
+- WIP: Introduce CoinGecko API Endpoints [\#2698](https://github.com/openware/peatio/pull/2698) ([dpatsora](https://github.com/dpatsora))
+- Feature: Add CMC integration [\#2696](https://github.com/openware/peatio/pull/2696) ([chumaknadya](https://github.com/chumaknadya))
+- Fix database migration for MariaDB [\#2694](https://github.com/openware/peatio/pull/2694) ([calj](https://github.com/calj))
+- Add the support of MariaDB ([calj](https://github.com/calj))
+- Feature: Add export:configs Rake task [\#2693](https://github.com/openware/peatio/pull/2693) ([vshatravenko](https://github.com/vshatravenko))
+- Feature: Add import:configs Rake task [\#2692](https://github.com/openware/peatio/pull/2692) ([vshatravenko](https://github.com/vshatravenko))
+- Feature: trigger custom image build [\#2691](https://github.com/openware/peatio/pull/2691) ([josadcha](https://github.com/josadcha))
+- Feature: Peatio orders Management API [\#2689](https://github.com/openware/peatio/pull/2689) ([dpatsora](https://github.com/dpatsora))
+- Fix: Wallet links update. Deposit spread wallet recalculation [\#2687](https://github.com/openware/peatio/pull/2687) ([mnaichuk](https://github.com/mnaichuk))
+- Fix: Add wallet link && fix blockchain\_key on currency creation [\#2686](https://github.com/openware/peatio/pull/2686) ([chumaknadya](https://github.com/chumaknadya))
+- Enhancement: Update spread deposit with currency price [\#2685](https://github.com/openware/peatio/pull/2685) ([mnaichuk](https://github.com/mnaichuk))
+- Feature: Implement adaptive gas\_price setting [\#2684](https://github.com/openware/peatio/pull/2684) ([mnaichuk](https://github.com/mnaichuk))
+- Feature: Create member via Management API [\#2681](https://github.com/openware/peatio/pull/2681) ([dpatsora](https://github.com/dpatsora))
+- Feature: Add rake task to fetch currency current price [\#2680](https://github.com/openware/peatio/pull/2680) ([chumaknadya](https://github.com/chumaknadya))
+- Feature: add admin currencies fetch filters [\#2678](https://github.com/openware/peatio/pull/2678) ([oyershov](https://github.com/oyershov))
+- Enhancement: Delete symbol from currency table [\#2676](https://github.com/openware/peatio/pull/2676) ([chumaknadya](https://github.com/chumaknadya))
+- Add rake task for load trades and build k-lines. Update 2-4 migration documentation [\#2675](https://github.com/openware/peatio/pull/2675) ([mnaichuk](https://github.com/mnaichuk))
+- Update CI to build images for branches matching {fix,integration}/\* [\#2674](https://github.com/openware/peatio/pull/2674) ([calj](https://github.com/calj))
+- Feature: Add token type to currency model [\#2672](https://github.com/openware/peatio/pull/2672) ([chumaknadya](https://github.com/chumaknadya))
+- Enhancement: Add ability to create market by engine name [\#2671](https://github.com/openware/peatio/pull/2671) ([chumaknadya](https://github.com/chumaknadya))
+- Update peatio-bitgo version. Change rid length for withdraw [\#2669](https://github.com/openware/peatio/pull/2669) ([mnaichuk](https://github.com/mnaichuk))
+- Fix wallet load\_balance method. Update WalletBalances job [\#2667](https://github.com/openware/peatio/pull/2667) ([mnaichuk](https://github.com/mnaichuk))
+- Improve Engines and Markets seed [\#2665](https://github.com/openware/peatio/pull/2665) ([mnaichuk](https://github.com/mnaichuk))
+- Global Withdraw Limits [\#2670](https://github.com/openware/peatio/pull/2670) ([mnaichuk](https://github.com/mnaichuk))
+- Feature: Unify deposit addresses for ETH & ERC20 tokens [\#2575](https://github.com/openware/peatio/pull/2575) ([mnaichuk](https://github.com/mnaichuk))
+- Feature: added transfer\_type in deposit and withdraw [\#2664](https://github.com/openware/peatio/pull/2664) ([mnaichuk](https://github.com/mnaichuk))
+- Speedup tests execution [\#2661](https://github.com/openware/peatio/pull/2661) ([calj](https://github.com/calj))
+- feature: limit number of currencies/markets [\#2660](https://github.com/openware/peatio/pull/2660) ([dinesh-skyach](https://github.com/dinesh-skyach))
+- Fix: Add from\_addresses on deposit creation [\#2656](https://github.com/openware/peatio/pull/2656) ([mnaichuk](https://github.com/mnaichuk))
+- Feature: Define token type in currency model [\#2672](https://github.com/openware/peatio/pull/2672) ([chumaknadya](https://github.com/chumaknadya))
+- Feature: Introduce yaml based admin permissions in peatio [\#2643](https://github.com/openware/peatio/pull/2643) ([chumaknadya](https://github.com/chumaknadya))
+
+## [2.5.43](https://github.com/openware/peatio/tree/2.5.43) (2020-11-03)
+
+[Full Changelog](https://github.com/openware/peatio/compare/2.2.34...2.5.43)
+
+**Merged pull requests:**
+
+- Feature: Submit and cancel finex-spot orders via Peatio API [\#2705](https://github.com/openware/peatio/pull/2705) ([dpatsora](https://github.com/dpatsora))
+
+## [2.2.34](https://github.com/openware/peatio/tree/2.2.34) (2020-11-02)
+
+[Full Changelog](https://github.com/openware/peatio/compare/2.3.63...2.2.34)
+
+## [2.3.63](https://github.com/openware/peatio/tree/2.3.63) (2020-11-02)
+
+[Full Changelog](https://github.com/openware/peatio/compare/2.4.23...2.3.63)
+
+## [2.4.23](https://github.com/openware/peatio/tree/2.4.23) (2020-11-02)
+
+[Full Changelog](https://github.com/openware/peatio/compare/2.5.42...2.4.23)
+
+## [2.5.42](https://github.com/openware/peatio/tree/2.5.42) (2020-11-02)
+
+[Full Changelog](https://github.com/openware/peatio/compare/2.5.41...2.5.42)
+
+## [2.5.41](https://github.com/openware/peatio/tree/2.5.41) (2020-10-19)
+
+[Full Changelog](https://github.com/openware/peatio/compare/2.5.40...2.5.41)
+
+**Merged pull requests:**
+
+- Feature: Add possibility to import and export Operation::Accounts [\#2721](https://github.com/openware/peatio/pull/2721) ([dpatsora](https://github.com/dpatsora))
+
+## [2.5.40](https://github.com/openware/peatio/tree/2.5.40) (2020-10-05)
+
+[Full Changelog](https://github.com/openware/peatio/compare/2.5.39...2.5.40)
+
+**Merged pull requests:**
+
+- Feature: Add export:configs Rake task \(\#2693\) [\#2706](https://github.com/openware/peatio/pull/2706) ([mnaichuk](https://github.com/mnaichuk))
+- Integration/vault renew token improved [\#2704](https://github.com/openware/peatio/pull/2704) ([calj](https://github.com/calj))
+
+## [2.5.39](https://github.com/openware/peatio/tree/2.5.39) (2020-09-29)
+
+[Full Changelog](https://github.com/openware/peatio/compare/2.5.38...2.5.39)
+
+**Merged pull requests:**
+
+- Optimize PnL main query [\#2688](https://github.com/openware/peatio/pull/2688) ([calj](https://github.com/calj))
+
+## [2.5.38](https://github.com/openware/peatio/tree/2.5.38) (2020-09-24)
+
+[Full Changelog](https://github.com/openware/peatio/compare/2.5.37...2.5.38)
+
+**Closed issues:**
+
+- Bitcoin deposit monitoring is failing! Peatio::Blockchain::ClientError: 401 Unauthorized  [\#2690](https://github.com/openware/peatio/issues/2690)
+
+**Merged pull requests:**
+
+- Feature: trigger custom image build [\#2695](https://github.com/openware/peatio/pull/2695) ([josadcha](https://github.com/josadcha))
+
+## [2.5.37](https://github.com/openware/peatio/tree/2.5.37) (2020-09-09)
+
+[Full Changelog](https://github.com/openware/peatio/compare/2.5.36...2.5.37)
+
+## [2.5.36](https://github.com/openware/peatio/tree/2.5.36) (2020-09-03)
+
+[Full Changelog](https://github.com/openware/peatio/compare/2.3.62...2.5.36)
+
+**Merged pull requests:**
+
+- Update CI to build images for branches matching {fix,integration}/\* [\#2677](https://github.com/openware/peatio/pull/2677) ([calj](https://github.com/calj))
+
+## [2.3.62](https://github.com/openware/peatio/tree/2.3.62) (2020-09-02)
+
+[Full Changelog](https://github.com/openware/peatio/compare/2.4.22...2.3.62)
+
+## [2.4.22](https://github.com/openware/peatio/tree/2.4.22) (2020-09-01)
+
+[Full Changelog](https://github.com/openware/peatio/compare/2.5.35...2.4.22)
+
+**Merged pull requests:**
+
+- Update sassc & ffi dependencies [\#2673](https://github.com/openware/peatio/pull/2673) ([calj](https://github.com/calj))
+
+## [2.5.35](https://github.com/openware/peatio/tree/2.5.35) (2020-08-24)
+
+[Full Changelog](https://github.com/openware/peatio/compare/2.5.34...2.5.35)
+
+**Merged pull requests:**
+
+- Update peatio-bitgo version. Change rid length for withdraw [\#2668](https://github.com/openware/peatio/pull/2668) ([mnaichuk](https://github.com/mnaichuk))
+
+## [2.5.34](https://github.com/openware/peatio/tree/2.5.34) (2020-08-17)
+
+[Full Changelog](https://github.com/openware/peatio/compare/2.3.61...2.5.34)
+
+**Merged pull requests:**
+
+- Fix wallet balance parse in the daemons [\#2666](https://github.com/openware/peatio/pull/2666) ([mnaichuk](https://github.com/mnaichuk))
+
+## [2.3.61](https://github.com/openware/peatio/tree/2.3.61) (2020-08-10)
+
+[Full Changelog](https://github.com/openware/peatio/compare/2.4.21...2.3.61)
+
+**Merged pull requests:**
+
+- Enhancement: Skip pending ERC-20 transaction in blockchain daemon [\#2659](https://github.com/openware/peatio/pull/2659) ([mnaichuk](https://github.com/mnaichuk))
+
+## [2.4.21](https://github.com/openware/peatio/tree/2.4.21) (2020-08-10)
+
+[Full Changelog](https://github.com/openware/peatio/compare/2.5.33...2.4.21)
+
+**Merged pull requests:**
+
+- Enhancement: Skip pending ERC-20 transaction in blockchain daemon [\#2658](https://github.com/openware/peatio/pull/2658) ([mnaichuk](https://github.com/mnaichuk))
+
+## [2.5.33](https://github.com/openware/peatio/tree/2.5.33) (2020-08-10)
+
+[Full Changelog](https://github.com/openware/peatio/compare/2.5.32...2.5.33)
+
+**Merged pull requests:**
+
+- Fix: Add from\_addresses on deposit creation [\#2657](https://github.com/openware/peatio/pull/2657) ([mnaichuk](https://github.com/mnaichuk))
+
+## [2.5.32](https://github.com/openware/peatio/tree/2.5.32) (2020-08-10)
+
+[Full Changelog](https://github.com/openware/peatio/compare/2.5.31...2.5.32)
+
+**Merged pull requests:**
+
+- Enhancement: Filter trade by type && expose received_amount ([chumaknadya](https://github.com/chumaknadya))
+
+## [2.5.31](https://github.com/openware/peatio/tree/2.5.31) (2020-08-07)
+
+[Full Changelog](https://github.com/openware/peatio/compare/2.5.30...2.5.31)
+
+**Merged pull requests:**
+
+- Add wallet balances. Add cron job for wallet balances update ([mnaichuk](https://github.com/mnaichuk))
+
+## [2.5.30](https://github.com/openware/peatio/tree/2.5.30) (2020-08-07)
+
+[Full Changelog](https://github.com/openware/peatio/compare/2.5.29...2.5.30)
+
+- Add wallet balances. Add cron job for wallet balances update ([mnaichuk](https://github.com/mnaichuk))
+
+## [2.5.29](https://github.com/openware/peatio/tree/2.5.29) (2020-08-06)
+
+[Full Changelog](https://github.com/openware/peatio/compare/2.5.28...2.5.29)
+
+**Merged pull requests:**
+
+- Move data from main database to archive database [\#2632](https://github.com/openware/peatio/pull/2632) ([mnaichuk](https://github.com/mnaichuk))
+
+## [2.5.28](https://github.com/openware/peatio/tree/2.5.28) (2020-08-06)
+
+[Full Changelog](https://github.com/openware/peatio/compare/2.5.27...2.5.28)
+
+## [2.5.27](https://github.com/openware/peatio/tree/2.5.27) (2020-08-05)
+
+[Full Changelog](https://github.com/openware/peatio/compare/2.5.26...2.5.27)
+
+**Merged pull requests:**
+
+-  AML integration [\#2589](https://github.com/openware/peatio/pull/2589) ([mnaichuk](https://github.com/mnaichuk))
+
+## [2.5.26](https://github.com/openware/peatio/tree/2.5.26) (2020-08-05)
+
+[Full Changelog](https://github.com/openware/peatio/compare/2.5.25...2.5.26)
+
+**Merged pull requests:**
+
+- Feature: PnL calculation for traders ([calj](https://github.com/calj))
+
+## [2.5.25](https://github.com/openware/peatio/tree/2.5.25) (2020-08-05)
+
+[Full Changelog](https://github.com/openware/peatio/compare/2.5.24...2.5.25)
+
+- Accounting: add member_id in platform revenues [\#2607](https://github.com/openware/peatio/pull/2607) ([calj](https://github.com/calj))
+
+**Merged pull requests:**
+
+## [2.5.24](https://github.com/openware/peatio/tree/2.5.24) (2020-08-04)
+
+[Full Changelog](https://github.com/openware/peatio/compare/2.4.20...2.5.24)
+
+**Merged pull requests:**
+
+- Add jobs table [\#2649](https://github.com/openware/peatio/pull/2649) ([mnaichuk](https://github.com/mnaichuk))
+
+## [2.4.20](https://github.com/openware/peatio/tree/2.4.20) (2020-08-03)
+
+[Full Changelog](https://github.com/openware/peatio/compare/2.3.60...2.4.20)
+
+## [2.3.60](https://github.com/openware/peatio/tree/2.3.60) (2020-08-01)
+
+[Full Changelog](https://github.com/openware/peatio/compare/2.5.23...2.3.60)
+
+## [2.5.23](https://github.com/openware/peatio/tree/2.5.23) (2020-07-27)
+
+[Full Changelog](https://github.com/openware/peatio/compare/2.5.22...2.5.23)
+
+**Merged pull requests:**
+
+- Rewrite deposit collection flow [\#2636](https://github.com/openware/peatio/pull/2636) ([mnaichuk](https://github.com/mnaichuk))
+
+## [2.5.22](https://github.com/openware/peatio/tree/2.5.22) (2020-07-15)
+
+[Full Changelog](https://github.com/openware/peatio/compare/2.5.21...2.5.22)
+
+## [2.5.21](https://github.com/openware/peatio/tree/2.5.21) (2020-07-02)
+
+[Full Changelog](https://github.com/openware/peatio/compare/2.3.59...2.5.21)
+
+**Merged pull requests:**
+
+- Add rake task for distribution [\#2631](https://github.com/openware/peatio/pull/2631) ([mnaichuk](https://github.com/mnaichuk))
+
+## [2.5.20](https://github.com/openware/peatio/tree/2.5.20) (2020-06-26)
+
+[Full Changelog](https://github.com/openware/peatio/compare/2.5.19...2.5.20)
+
+**Merged pull requests:**
+
+- Feature: expose maker & taker fee for order entity (#2627) ([vpetrusenko](https://github.com/vpetrusenko))
+
+## [2.5.19](https://github.com/openware/peatio/tree/2.5.19) (2020-06-24)
+
+[Full Changelog](https://github.com/openware/peatio/compare/2.5.18...2.5.19)
+
+**Merged pull requests:**
+
+- Remove inqury from TradingFee model ([mnaichuk](https://github.com/mnaichuk))
+
+## [2.5.18](https://github.com/openware/peatio/tree/2.5.18) (2020-06-24)
+
+[Full Changelog](https://github.com/openware/peatio/compare/2.5.17...2.5.18)
+
+**Merged pull requests:**
+
+- Fix format function in TickersJob ([mnaichuk](https://github.com/mnaichuk))
+
+## [2.5.17](https://github.com/openware/peatio/tree/2.5.17) (2020-06-24)
+
+[Full Changelog](https://github.com/openware/peatio/compare/2.4.19...2.5.17)
+
+-  Add caching for the most used public endpoints [\#2625](https://github.com/openware/peatio/pull/2625) ([mnaichuk](https://github.com/mnaichuk))
+
 # Change Log
 
 ## [2.4.19](https://github.com/openware/peatio/tree/2.4.19) (2020-06-19)
@@ -5109,3 +5506,6 @@
 - updated gem file and added mysql adapter [\#2](https://github.com/openware/peatio/pull/2) ([kashlo](https://github.com/kashlo))
 
 ## [0.1.1](https://github.com/openware/peatio/tree/0.1.1) (2015-09-25)
+
+
+\* *This Changelog was automatically generated by [github_changelog_generator](https://github.com/github-changelog-generator/github-changelog-generator)*
