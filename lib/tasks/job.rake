@@ -5,7 +5,7 @@ namespace :job do
     desc 'Close orders older than ORDER_MAX_AGE.'
     task close: :environment do
       Job.execute('close_orders') do
-        order_max_age = ENV.fetch('ORDER_MAX_AGE', 40_320).to_i
+        order_max_age = ENV.fetch('ORDER_MAX_AGE', 2_419_200).to_i
 
         # Cancel orders that older than max_order_age
         orders = Order.where('created_at < ? AND state = ?', Time.now - order_max_age, 100)
@@ -20,30 +20,20 @@ namespace :job do
     desc 'Archive and delete old cancelled orders without trades to the archive database.'
     task archive: :environment do
       Job.execute('archive_orders') do
-        time = Time.now.to_s(:db)
-        # Connection to the main database
-        main_db = Mysql2::Client.new(sql_config(ENV.fetch('RAILS_ENV', 'development')))
-        # Connection to the archive database
-        archive_db = Mysql2::Client.new(sql_config('archive_db'))
-
-        result = main_db.query("SELECT * FROM `orders` WHERE updated_at < DATE_SUB('#{time}', INTERVAL 1 WEEK) AND state = -100 AND trades_count = 0;")
-        # Copy old cancelled orders without trades to the archive database
-        archive_db.query('BEGIN')
-        result.each_slice(1000) do |batch|
-          queries = []
-          batch.each do |order|
-            queries << order_values(order)
+        time = Time.now
+        # default batch 1000
+        count = Order.where(state: :cancel, trades_count: 0).where('updated_at < ?', time - 1.week).count
+        Order.where(state: :cancel, trades_count: 0).where('updated_at < ?', time - 1.week).find_in_batches do |batch|
+          ActiveRecord::Base.establish_connection(:archive_db)
+          batch.each do |o|
+            Order.new(o.attributes).save!(validate: false)
           end
-          archive_db.query(order_insert + queries.join(', ') + ';')
-        rescue StandardError => e
-          archive_db.query('ROLLBACK')
-          raise e
+          ActiveRecord::Base.establish_connection
+          batch.each do |o|
+            o.delete
+          end
         end
-        archive_db.query('COMMIT')
-
-        # Delete old cancelled orders without trades
-        main_db.query("DELETE FROM `orders` WHERE updated_at < DATE_SUB('#{time}', INTERVAL 1 WEEK) AND state = -100 AND trades_count = 0;")
-        { pointer: time, counter: result.count }
+        { pointer: time, counter: count }
       end
     end
 

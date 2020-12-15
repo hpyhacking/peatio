@@ -123,7 +123,7 @@ class Member < ApplicationRecord
 
   class << self
     def uid(member_id)
-      Member.find_by(id: member_id).uid
+      Member.find_by(id: member_id)&.uid
     end
 
     # Create Member object from payload

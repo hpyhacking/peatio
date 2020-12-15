@@ -89,7 +89,7 @@ class Order < ApplicationRecord
   end
 
   before_create do
-    self.uuid = UUID.generate
+    self.uuid = UUID.generate if uuid.blank?
   end
 
   after_commit on: :create do
@@ -221,7 +221,7 @@ class Order < ApplicationRecord
     # skip market type orders, they should not appear on trading-ui
     return unless ord_type == 'limit' || state == 'done'
 
-    ::AMQP::Queue.enqueue_event('private', member.uid, 'order', for_notify)
+    ::AMQP::Queue.enqueue_event('private', member&.uid, 'order', for_notify)
   end
 
   def side
