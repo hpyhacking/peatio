@@ -107,9 +107,6 @@ trigger:
   event:
     - push
 
-image_pull_secrets:
-  - dockerconfigjson
-
 ---
 kind: pipeline
 type: docker
@@ -542,3 +539,6 @@ depends_on:
 - test-mariadb-10.3
 - test-mysql-8.0
 - test-postgresql-13.0
+
+image_pull_secrets:
+  - dockerconfigjson
