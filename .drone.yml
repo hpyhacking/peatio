@@ -356,7 +356,7 @@ name: docker-build-snapshot
 
 steps:
 - name: git-tag-snapshot
-  image: quay.io/openware/sdk-citools:2.4.5
+  image: quay.io/openware/sdk-citools:2.6.5
   environment:
     BRANCH_NAME: master
     REPO_NAME: ${DRONE_REPO}
