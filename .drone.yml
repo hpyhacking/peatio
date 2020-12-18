@@ -356,7 +356,7 @@ name: docker-build-snapshot
 
 steps:
 - name: git-tag-snapshot
-  image: quay.io/openware/sdk-citools:2.6.5
+  image: quay.io/openware/sdk-citools:2.6.6
   environment:
     BRANCH_NAME: master
     REPO_NAME: ${DRONE_REPO}
@@ -394,7 +394,7 @@ steps:
 
 # Update changelog and API documentation, then push it to sdk repository and notify.
 - name: push-and-notify
-  image: quay.io/openware/sdk-citools:2.4.5
+  image: quay.io/openware/sdk-citools:2.6.6
   environment:
     BOT_USERNAME: kite-bot
     BOT_NAME: Kite Bot
@@ -453,7 +453,7 @@ name: docker-build-stable
 steps:
 # Update application version
 - name: git-tag-stable
-  image: quay.io/openware/sdk-citools:2.4.5
+  image: quay.io/openware/sdk-citools:2.6.6
   environment:
     BOT_USERNAME: kite-bot
     BOT_NAME: Kite Bot
@@ -491,7 +491,7 @@ steps:
 
 # Update changelog and API documentation, then push it to sdk repository and notify.
 - name: push-and-notify
-  image: quay.io/openware/sdk-citools:2.4.5
+  image: quay.io/openware/sdk-citools:2.6.6
   environment:
     BOT_USERNAME: kite-bot
     BOT_NAME: Kite Bot
