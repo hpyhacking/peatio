@@ -66,12 +66,6 @@ module API
         end
       end
 
-      def withdraw_api_must_be_enabled!
-        if ENV.false?('ENABLE_ACCOUNT_WITHDRAWAL_API')
-          error!({ errors: ['account.withdraw.disabled_api'] }, 422)
-        end
-      end
-
       def current_user
         # jwt.payload provided by rack-jwt
         if request.env.key?('jwt.payload')

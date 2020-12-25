@@ -182,16 +182,6 @@ describe API::V2::Account::Withdraws, type: :request do
     before { account.plus_funds(balance) }
     before { Vault::TOTP.stubs(:validate?).returns(true) }
 
-    context 'disabled account withdrawal API' do
-      before { ENV['ENABLE_ACCOUNT_WITHDRAWAL_API'] = 'false' }
-      after { ENV['ENABLE_ACCOUNT_WITHDRAWAL_API'] = 'true' }
-      it 'doesn\'t allow account withdrawal API call' do
-        api_post '/api/v2/account/withdraws', params: data, token: token
-        expect(response).to have_http_status(422)
-        expect(response).to include_api_error('account.withdraw.disabled_api')
-      end
-    end
-
     context 'extremely precise values' do
       before { Currency.any_instance.stubs(:withdraw_fee).returns(BigDecimal(0)) }
       before { Currency.any_instance.stubs(:precision).returns(16) }

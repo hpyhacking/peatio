@@ -91,8 +91,6 @@ module API
         post '/withdraws' do
           user_authorize! :create, ::Withdraw
 
-          withdraw_api_must_be_enabled!
-
           beneficiary = current_user
                           .beneficiaries
                           .available_to_member
