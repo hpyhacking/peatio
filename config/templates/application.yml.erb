@@ -1,18 +1,10 @@
 defaults: &defaults
-  TIMEZONE: 'Paris'
-
   # Configure Redis URL, for a TCP connection:
   # `redis://:[password]@[hostname]:[port]/[db]`
   # (password, port and database are optional).
   REDIS_URL:      redis://localhost:6379
   REDIS_PASSWORD: ~
   REDIS_CLUSTER:  false
-
-  # Application URL configuration variables.
-  URL_HOST:                peatio.tech
-  URL_ROOT_PATH:           '/'
-  URL_SCHEME:              http
-  FORCE_SECURE_CONNECTION: 'false' # Set to "true" to disable access via unsecured HTTP, send HSTS headers and use secure cookies.
 
   # Configuration variables for logger.
   LOG_LEVEL: ~ # Default level for production is warn, otherwise – debug.
@@ -33,11 +25,6 @@ defaults: &defaults
 
   # Configuration variables for Sentry.
   SENTRY_DSN_BACKEND:  ~          # Specify Sentry DSN used for Rails application.
-
-  # Customize page metadata like title, description & keywords for landing, cabinet & admin modules.
-  METADATA_TITLE:       Peatio Exchange
-  METADATA_DESCRIPTION: The Opensource Cryptocurrency Exchange
-  METADATA_KEYWORDS:    Peatio,Opensource,Exchange,Cryptocurrency
 
   # Configuration variables for JWT verification.
   # Get explanation at https://en.wikipedia.org/wiki/JSON_Web_Token.
@@ -116,14 +103,7 @@ defaults: &defaults
   EVENT_API_RABBITMQ_USERNAME: guest
   EVENT_API_RABBITMQ_PASSWORD: guest
 
-  RANGER_HOST: '0.0.0.0'
-  RANGER_PORT: '8081'
-  RANGER_CONNECT_SECURE: 'false'
-
   BULLET: 'false'
-
-  # Configuration to allow Withdraw via API i.e (POST api/v2/account/withdraws)
-  ENABLE_ACCOUNT_WITHDRAWAL_API: 'true'
 
   # Configure Vault to verify OTP for Withdraw API
   VAULT_ADDR:   http://127.0.0.1:8200
