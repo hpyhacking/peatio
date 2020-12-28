@@ -10,26 +10,30 @@ describe Jobs::Cron::StatsMemberPnl do
 
   def create_transfer(transfer_attrs)
     Transfer.transaction do
-      transfer = Transfer.create!(transfer_attrs.slice(:key, :category, :description))
-      transfer_attrs[:operations].map do |op_pair|
-        shared_params = {
-          currency: op_pair[:currency],
-          reference: transfer
-        }
+      attrs = transfer_attrs.slice(:key, :category, :description)
+      transfer_attrs[:operations].each do |op_pair|
+        currency = Currency.find(op_pair[:currency])
 
-        debit_params = op_pair[:account_src]
-                       .merge(debit: op_pair[:amount])
-                       .merge(shared_params)
-                       .compact
+        debit_op = op_pair[:account_src].merge(debit: op_pair[:amount], credit: 0.0, currency: currency)
+        credit_op = op_pair[:account_dst].merge(credit: op_pair[:amount], debit: 0.0, currency: currency)
 
-        credit_params = op_pair[:account_dst]
-                        .merge(credit: op_pair[:amount])
-                        .merge(shared_params)
-                        .compact
+        [debit_op, credit_op].each do |op|
+          klass = ::Operations.klass_for(code: op[:code])
 
-        create_operation!(debit_params)
-        create_operation!(credit_params)
+          uid = op.delete(:uid)
+          op.merge!(member: Member.find_by!(uid: uid)) if uid.present?
+
+          type = ::Operations::Account.find_by(code: op[:code]).type
+          type_plural = type.pluralize
+          if attrs[type_plural].present?
+            attrs[type_plural].push(klass.new(op))
+          else
+            attrs[type_plural] = [klass.new(op)]
+          end
+        end
       end
+
+      Transfer.create!(attrs)
     end
   end
 

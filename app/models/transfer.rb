@@ -7,8 +7,8 @@ class Transfer < ApplicationRecord
 
   extend Enumerize
 
-  CATEGORIES = %w[wire refund purchases commission].freeze
-  CATEGORIES_MAPPING = { wire: 1, refund: 2, purchases: 3, commission: 4 }.freeze
+  CATEGORIES = %w[wire refund purchases commission airdrop].freeze
+  CATEGORIES_MAPPING = { wire: 1, refund: 2, purchases: 3, commission: 4, airdrop: 5 }.freeze
 
   # == Attributes ===========================================================
 
@@ -38,7 +38,9 @@ class Transfer < ApplicationRecord
   # == Callbacks ============================================================
 
   before_create { self.key = self.key.strip.downcase }
-  after_create :update_legacy_balances
+  before_commit on: :create do
+    update_legacy_balances
+  end
 
   # == Class Methods ========================================================
 

@@ -26,6 +26,7 @@ module API
         mount Admin::Beneficiaries
         mount Admin::Abilities
         mount Admin::WithdrawLimits
+        mount Admin::Airdrops
 
         # The documentation is accessible at http://localhost:3000/swagger?url=/api/v2/admin/swagger
         # Add swagger documentation for Peatio Admin API
