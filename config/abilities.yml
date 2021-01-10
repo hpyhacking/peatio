@@ -70,6 +70,9 @@ admin_permissions:
       - Operations::Asset
       - Operations::Expense
       - Operations::Liability
+      - Trade
+      - Order
+      - Member
     manage:
       - WithdrawLimit
       - Blockchain
@@ -78,10 +81,6 @@ admin_permissions:
       - Market
       - TradingFee
       - Wallet
-    read:
-      - Trade
-      - Order
-      - Member
     update:
       - Order
   accountant:

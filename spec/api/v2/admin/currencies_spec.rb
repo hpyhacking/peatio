@@ -360,18 +360,18 @@ describe API::V2::Admin::Currencies, type: :request do
 
   describe 'POST /api/v2/admin/currencies/update' do
     context 'permissions' do
-      let(:manager) { create(:member, :admin, :level_3, role: :manager, email: 'example@gmail.com', uid: 'ID73BF61C8H1') }
-      let(:manager_token) { jwt_for(manager) }
+      let(:support) { create(:member, :admin, :level_3, role: :support, email: 'example@gmail.com', uid: 'ID73BF61C8H1') }
+      let(:support_token) { jwt_for(support) }
 
       it 'return error in case of not permitted ability' do
-        api_post '/api/v2/admin/currencies/update', params: { code: Currency.find_by(type: 'fiat').code, precision: 1 }, token: manager_token
+        api_post '/api/v2/admin/currencies/update', params: { code: Currency.find_by(type: 'fiat').code, precision: 1 }, token: support_token
 
         expect(response.code).to eq '403'
         expect(response).to include_api_error('admin.ability.not_permitted')
       end
 
       it 'updates fiat' do
-        api_post '/api/v2/admin/currencies/update', params: { code: Currency.find_by(type: 'fiat').code, name: 'Test' }, token: manager_token
+        api_post '/api/v2/admin/currencies/update', params: { code: Currency.find_by(type: 'fiat').code, name: 'Test' }, token: token
         result = JSON.parse(response.body)
 
         expect(response).to be_successful

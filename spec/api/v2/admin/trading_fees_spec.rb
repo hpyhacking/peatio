@@ -198,7 +198,7 @@ describe API::V2::Admin::TradingFees, type: :request do
 
     context 'not found trading_fee table' do
       it 'returns status 404 and error' do
-        api_post '/api/v2/admin/trading_fees/update', token: token, params: { id: 100 }
+        api_post '/api/v2/admin/trading_fees/update', token: token, params: { id: TradingFee.last.id + 1 }
 
         expect(response).to have_http_status(404)
         expect(response).to include_api_error('record.not_found')

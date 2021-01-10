@@ -274,18 +274,18 @@ describe API::V2::Admin::Blockchains, type: :request do
 
   describe 'POST /api/v2/admin/blockchains/update' do
     context 'permissions' do
-      let(:manager) { create(:member, :admin, :level_3, role: :manager, email: 'example@gmail.com', uid: 'ID73BF61C8H1') }
-      let(:manager_token) { jwt_for(manager) }
+      let(:support) { create(:member, :admin, :level_3, role: :support, email: 'example@gmail.com', uid: 'ID73BF61C8H1') }
+      let(:support_token) { jwt_for(support) }
 
       it 'return error in case of not permitted ability' do
-        api_post '/api/v2/admin/blockchains/update', params: { key: 'test-blockchain', id: Blockchain.first.id }, token: manager_token
+        api_post '/api/v2/admin/blockchains/update', params: { key: 'test-blockchain', id: Blockchain.first.id }, token: support_token
 
         expect(response.code).to eq '403'
         expect(response).to include_api_error('admin.ability.not_permitted')
       end
 
       it 'returns updated blockchain' do
-        api_post '/api/v2/admin/blockchains/update', params: { name: 'Test Blockchain', id: Blockchain.first.id }, token: manager_token
+        api_post '/api/v2/admin/blockchains/update', params: { name: 'Test Blockchain', id: Blockchain.first.id }, token: token
         result = JSON.parse(response.body)
 
         expect(response).to be_successful

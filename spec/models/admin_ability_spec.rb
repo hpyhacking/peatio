@@ -73,6 +73,7 @@ describe AdminAbility do
       is_expected.to be_able_to(:manage, Operations::Expense.new)
       is_expected.to be_able_to(:manage, Operations::Liability.new)
       is_expected.to be_able_to(:manage, Operations::Revenue.new)
+      is_expected.to be_able_to(:manage, Account.new)
       is_expected.to be_able_to(:manage, Market.new)
       is_expected.to be_able_to(:manage, Blockchain.new)
       is_expected.to be_able_to(:manage, Wallet.new)
@@ -83,40 +84,7 @@ describe AdminAbility do
       is_expected.to be_able_to(:read, Order.new)
       is_expected.to be_able_to(:update, Order.new)
       is_expected.to be_able_to(:read, Trade.new)
-      is_expected.to be_able_to(:read, Account.new)
       is_expected.not_to be_able_to(:update, Trade.new)
-      is_expected.not_to be_able_to(:update, Account.new)
-    end
-  end
-
-  context 'abilities for manager' do
-    let(:member) { create(:member, role: 'manager') }
-    subject(:ability) { AdminAbility.new(member) }
-
-    it do
-      is_expected.to be_able_to(:read, Operations::Account.new)
-      is_expected.to be_able_to(:read, Operations::Asset.new)
-      is_expected.to be_able_to(:read, Operations::Expense.new)
-      is_expected.to be_able_to(:read, Operations::Liability.new)
-      is_expected.to be_able_to(:read, Operations::Revenue.new)
-      is_expected.to be_able_to(:read, PaymentAddress.new)
-      is_expected.to be_able_to(:read, Member.new)
-      is_expected.to be_able_to(:read, Order.new)
-      is_expected.to be_able_to(:read, Trade.new)
-      is_expected.to be_able_to(:read, Account.new)
-      is_expected.to be_able_to(:read, Deposit.new)
-      is_expected.to be_able_to(:read, Withdraw.new)
-      is_expected.to be_able_to(:update, Blockchain.new, :name)
-      is_expected.not_to be_able_to(:update, Currency.new, :precision)
-      is_expected.not_to be_able_to(:update, Blockchain.new, :key)
-      is_expected.to be_able_to(:update, Currency.new, :name)
-      is_expected.not_to be_able_to(:manage, Market.new)
-      is_expected.not_to be_able_to(:manage, Wallet.new)
-      is_expected.not_to be_able_to(:update, PaymentAddress.new)
-      is_expected.not_to be_able_to(:update, Member.new)
-      is_expected.not_to be_able_to(:update, Order.new)
-      is_expected.not_to be_able_to(:update, Trade.new)
-      is_expected.not_to be_able_to(:update, Account.new)
     end
   end
 
@@ -133,19 +101,7 @@ describe AdminAbility do
       is_expected.to be_able_to(:read, Operations::Asset.new)
       is_expected.to be_able_to(:read, Operations::Expense.new)
       is_expected.to be_able_to(:read, Operations::Liability.new)
-      is_expected.to be_able_to(:read, Operations::Revenue.new)
       is_expected.to be_able_to(:read, Member.new)
-      is_expected.not_to be_able_to(:update, Member.new)
-      is_expected.not_to be_able_to(:update, Account.new)
-      is_expected.not_to be_able_to(:update, Account.new)
-      is_expected.to be_able_to(:update, Deposit.new)
-      is_expected.to be_able_to(:update, Withdraw.new)
-      is_expected.not_to be_able_to(:update, PaymentAddress.new)
-      is_expected.not_to be_able_to(:update, Operations::Account.new)
-      is_expected.not_to be_able_to(:update, Operations::Asset.new)
-      is_expected.not_to be_able_to(:update, Operations::Expense.new)
-      is_expected.not_to be_able_to(:update, Operations::Liability.new)
-      is_expected.not_to be_able_to(:update, Operations::Revenue.new)
     end
   end
 
@@ -176,15 +132,15 @@ describe AdminAbility do
       is_expected.to be_able_to(:manage, Blockchain.new)
       is_expected.to be_able_to(:manage, Wallet.new)
       is_expected.to be_able_to(:read, Member.new)
-      is_expected.to be_able_to(:read, Deposit.new)
-      is_expected.to be_able_to(:read, Withdraw.new)
-      is_expected.to be_able_to(:read, Account.new)
-      is_expected.to be_able_to(:read, PaymentAddress.new)
-      is_expected.not_to be_able_to(:update, Member.new)
-      is_expected.not_to be_able_to(:update, Deposit.new)
-      is_expected.not_to be_able_to(:update, Withdraw.new)
-      is_expected.not_to be_able_to(:update, Account.new)
-      is_expected.not_to be_able_to(:update, PaymentAddress.new)
+      is_expected.to be_able_to(:manage, Engine.new)
+      is_expected.to be_able_to(:manage, TradingFee.new)
+      is_expected.to be_able_to(:read, Operations::Account.new)
+      is_expected.to be_able_to(:read, Operations::Asset.new)
+      is_expected.to be_able_to(:read, Operations::Expense.new)
+      is_expected.to be_able_to(:read, Operations::Liability.new)
+      is_expected.to be_able_to(:read, Order.new)
+      is_expected.to be_able_to(:read, Trade.new)
+      is_expected.to be_able_to(:read, Member.new)
     end
   end
 
@@ -203,16 +159,9 @@ describe AdminAbility do
       is_expected.to be_able_to(:read, Operations::Liability.new)
       is_expected.to be_able_to(:read, Operations::Revenue.new)
       is_expected.to be_able_to(:read, Member.new)
-      is_expected.not_to be_able_to(:update, Member.new)
-      is_expected.to be_able_to(:update, Deposit.new)
-      is_expected.to be_able_to(:update, Withdraw.new)
-      is_expected.not_to be_able_to(:update, Account.new)
-      is_expected.not_to be_able_to(:update, PaymentAddress.new)
-      is_expected.not_to be_able_to(:update, Operations::Account.new)
-      is_expected.not_to be_able_to(:update, Operations::Asset.new)
-      is_expected.not_to be_able_to(:update, Operations::Expense.new)
-      is_expected.not_to be_able_to(:update, Operations::Liability.new)
-      is_expected.not_to be_able_to(:update, Operations::Revenue.new)
+      is_expected.to be_able_to(:read, Deposit.new)
+      is_expected.to be_able_to(:create, Deposits::Fiat.new)
+      is_expected.to be_able_to(:create, Adjustment.new)
     end
   end
 
