@@ -4,8 +4,9 @@
 class String
   # Similar to how ActiveRecord does. See lib/active_record/type/decimal.rb
   def to_d
-    BigDecimal(self)
-  rescue ArgumentError
-    BigDecimal(0)
+    str_decimal = delete_suffix('.')
+    return BigDecimal(0) if str_decimal.blank?
+
+    BigDecimal(str_decimal)
   end
 end
