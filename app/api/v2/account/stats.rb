@@ -28,7 +28,7 @@ module API
 
           squery = ActiveRecord::Base.sanitize_sql_for_conditions([query] + conditions)
           result = ActiveRecord::Base.connection.exec_query(squery).to_hash
-          present paginate(result.each(&:symbolize_keys!)), with: API::V2::Entities::Pnl
+          present result.each(&:symbolize_keys!), with: API::V2::Entities::Pnl
         end
       end
     end
