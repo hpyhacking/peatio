@@ -31,6 +31,18 @@ class BlockchainService
     @adapter.features[:cash_addr_format]
   end
 
+  def fetch_transaction(transaction)
+    tx = Peatio::Transaction.new(currency_id: transaction.currency_id,
+                                 hash: transaction.txid,
+                                 to_address: transaction.rid,
+                                 amount: transaction.amount)
+    if @adapter.respond_to?(:fetch_transaction)
+      @adapter.fetch_transaction(tx)
+    else
+      tx
+    end
+  end
+
   def process_block(block_number)
     block = @adapter.fetch_block!(block_number)
     deposits = filter_deposits(block)

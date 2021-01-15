@@ -330,6 +330,7 @@ describe Withdraw do
       end
 
       it 'transitions to :confirming after calling #load! when withdrawing coin currency' do
+        BlockchainService.any_instance.expects(:fetch_transaction).once.returns(Peatio::Transaction.new)
         subject.update(txid: txid)
         subject.load!
         expect(subject.confirming?).to be true
@@ -350,6 +351,7 @@ describe Withdraw do
       end
 
       it 'transitions to :confirming after calling #load! when withdrawing coin currency' do
+        BlockchainService.any_instance.expects(:fetch_transaction).once.returns(Peatio::Transaction.new)
         subject.update(txid: txid)
         subject.load!
         expect(subject.confirming?).to be true

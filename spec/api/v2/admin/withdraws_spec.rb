@@ -284,6 +284,7 @@ describe API::V2::Admin::Withdraws, type: :request do
       end
 
       it 'load coin with txid' do
+        BlockchainService.any_instance.expects(:fetch_transaction).once.returns(Peatio::Transaction.new)
         coin.accept!
         api_post url, token: token, params: { action: 'load', id: coin.id, txid: 'new_txid' }
         expect(coin.reload.txid).to eq('new_txid')
@@ -300,6 +301,7 @@ describe API::V2::Admin::Withdraws, type: :request do
       end
 
       it 'load coin without txid with txid as param' do
+        BlockchainService.any_instance.expects(:fetch_transaction).once.returns(Peatio::Transaction.new)
         coin.update(txid: nil)
         coin.accept!
         api_post url, token: token, params: { action: 'load', id: coin.id, txid: 'new_txid' }

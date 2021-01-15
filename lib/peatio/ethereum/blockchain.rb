@@ -90,10 +90,15 @@ module Ethereum
         attributes = {
           amount: convert_from_base_unit(txn_json.fetch('value').hex, currency),
           to_address: normalize_address(txn_json['to']),
+          txout: txn_json.fetch('transactionIndex').to_i(16),
           status: transaction_status(txn_receipt)
         }
       else
-        txn_json = txn_receipt.fetch('logs').find { |log| log['logIndex'].to_i(16) == transaction.txout }
+        if transaction.txout.present?
+          txn_json = txn_receipt.fetch('logs').find { |log| log['logIndex'].to_i(16) == transaction.txout }
+        else
+          txn_json = txn_receipt.fetch('logs').first
+        end
         attributes = {
           amount: convert_from_base_unit(txn_json.fetch('data').hex, currency),
           to_address: normalize_address('0x' + txn_json.fetch('topics').last[-40..-1]),

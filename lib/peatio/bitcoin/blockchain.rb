@@ -35,6 +35,30 @@ module Bitcoin
       raise Peatio::Blockchain::ClientError, e
     end
 
+    def fetch_transaction(transaction)
+      transaction_hash = client.json_rpc(:getrawtransaction, [transaction.hash, 1])
+      tx = nil
+      transaction_hash.fetch('vout').select do |entry|
+        entry.fetch('value').to_d > 0 &&
+        entry['scriptPubKey'].has_key?('addresses')
+      end.each do |entry|
+        if transaction.to_address == entry['scriptPubKey']['addresses'][0] && entry.fetch('value').to_d == transaction.amount
+          tx = { hash: transaction_hash['txid'], txout: entry['n'],
+                 to_address: entry['scriptPubKey']['addresses'][0],
+                 amount: entry.fetch('value').to_d,
+                 status: 'success' }
+          break
+        else
+          next
+        end
+      end
+      if tx.present?
+        Peatio::Transaction.new(tx)
+      else
+        Peatio::Transaction.new
+      end
+    end
+
     def transaction_sources(transaction)
       transaction_hash = client.json_rpc(:getrawtransaction, [transaction.hash, 1])
       transaction_hash['vin'].each_with_object([]) do |vin, source_addresses|
