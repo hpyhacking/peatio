@@ -10,11 +10,11 @@ Also you can do an adjustment for admin account but after airdrop make sure to d
 
 2. Prepare csv file for airdrop with the following format
 
-  |      uid      | currency_id | amount |
-  |---------------|-------------|--------|
-  | ID1000003838  | usdt        |  100   |
-  | ID1000003839  | usdt        |  100   |
-  | ID1000003840  | usdt        |  100   |
+|      uid      | currency_id | amount |
+|---------------|-------------|--------|
+| ID1000003838  | usdt        |  100   |
+| ID1000003839  | usdt        |  100   |
+| ID1000003840  | usdt        |  100   |
 
 3. Load csv file from Tower in Promo -> Airdrops tab and click Submit button.
 
