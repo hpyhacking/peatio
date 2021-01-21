@@ -44,4 +44,16 @@ describe API::V2::Helpers, type: :request do
       end
     end
   end
+
+  context '#authentic_include_username?' do
+    let!(:member) { create(:member, username: 'foobar') }
+    let!(:token) { jwt_for(member, { username: 'foobar' }) }
+
+    context 'Authenticate using headers' do
+      it 'should set current user' do
+        api_get '/api/v2/auth_test', token: token
+        expect(response.body).to eq member.reload.to_json
+      end
+    end
+  end
 end

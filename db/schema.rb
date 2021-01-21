@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_12_22_155655) do
+ActiveRecord::Schema.define(version: 2021_01_20_135842) do
 
   create_table "accounts", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.integer "member_id", null: false
@@ -228,8 +228,10 @@ ActiveRecord::Schema.define(version: 2020_12_22_155655) do
     t.string "state", limit: 16, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "username"
     t.index ["email"], name: "index_members_on_email", unique: true
     t.index ["uid"], name: "index_members_on_uid", unique: true
+    t.index ["username"], name: "index_members_on_username", unique: true
   end
 
   create_table "operations_accounts", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|

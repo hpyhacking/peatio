@@ -140,6 +140,7 @@ class Member < ApplicationRecord
     #   :sub=>"session",
     #   :aud=>["peatio"],
     #   :email=>"admin@barong.io",
+    #   :username=>"barong",
     #   :uid=>"U123456789",
     #   :role=>"admin",
     #   :state=>"active",
@@ -154,6 +155,7 @@ class Member < ApplicationRecord
       validate_payload(params)
       member = Member.find_or_create_by(uid: p[:uid]) do |m|
         m.email = params[:email]
+        m.username = params[:username]
         m.role = params[:role]
         m.state = params[:state]
         m.level = params[:level]
@@ -165,7 +167,7 @@ class Member < ApplicationRecord
 
     # Filter and validate payload params
     def filter_payload(payload)
-      payload.slice(:email, :uid, :role, :state, :level)
+      payload.slice(:email, :username, :uid, :role, :state, :level)
     end
 
     def validate_payload(p)
@@ -210,6 +212,7 @@ end
 #  id         :integer          not null, primary key
 #  uid        :string(32)       not null
 #  email      :string(255)      not null
+#  username   :string(255)
 #  level      :integer          not null
 #  role       :string(16)       not null
 #  group      :string(32)       default("vip-0"), not null

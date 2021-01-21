@@ -14,6 +14,15 @@ describe Member do
     end
   end
 
+  describe 'username' do
+    subject(:member) { create(:member, username: 'foobar') }
+    it do
+      expect(member.username).to_not be_nil
+      expect(member.username).to_not be_empty
+      expect(member.username).to eq 'foobar'
+    end
+  end
+
   describe 'before_create' do
     it 'should unify email' do
       create(:member, email: 'foo@example.com')
