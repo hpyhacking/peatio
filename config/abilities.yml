@@ -32,7 +32,8 @@ admin_permissions:
       - Market
       - TradingFee
       - Wallet
-      - Adjustment  
+      - Adjustment
+      - InternalTransfer
     read:
       - Trade
       - Order
@@ -59,6 +60,7 @@ admin_permissions:
       - TradingFee
       - Wallet
       - Adjustment 
+      - InternalTransfer
     read:
       - Trade
       - Order

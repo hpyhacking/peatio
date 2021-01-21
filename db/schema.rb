@@ -172,6 +172,16 @@ ActiveRecord::Schema.define(version: 2021_01_28_083207) do
     t.index ["reference_type", "reference_id"], name: "index_expenses_on_reference_type_and_reference_id"
   end
 
+  create_table "internal_transfers", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.string "currency_id", null: false
+    t.decimal "amount", precision: 32, scale: 16, null: false
+    t.bigint "sender_id", null: false
+    t.bigint "receiver_id", null: false
+    t.integer "state", default: 1, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "jobs", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "name", null: false
     t.integer "pointer", unsigned: true
