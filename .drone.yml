@@ -526,6 +526,14 @@ steps:
     - "curl -s -XPOST -H \"Authorization: Bearer $DRONE_TOKEN\" -i \"$SERVER/api/repos/$REPO/builds?branch=$BRANCH&ASSEMBLY_COMPONENT_VERSION=$COMPONENT_VERSION&ASSEMBLY_COMPONENT=$COMPONENT\""
   detach: true
 
+- name: "Update global OpenDAX version"
+  image: quay.io/openware/goci:0.0.6
+  environment:
+    GIT_TOKEN:
+      from_secret: kite_bot_key
+  commands:
+    - /app/goci versions
+
 trigger:
   event:
     - push
