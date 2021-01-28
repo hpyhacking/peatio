@@ -113,7 +113,7 @@ class Member < ApplicationRecord
     pa = PaymentAddress.find_by(member: self, wallet: wallet)
 
     # The address generation process is in progress.
-    if pa.address.blank?
+    if pa.present? && pa.address.blank?
       pa
     else
       # allows user to have multiple addresses.
