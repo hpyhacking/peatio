@@ -13,11 +13,14 @@ module API
           requires :uid,
                     type: String,
                     values: { value: ->(v) { Member.exists?(uid: v) }, message: 'management.payment_address.uid_doesnt_exist' },
-                    desc: 'The shared user ID.'
+                    desc: API::V2::Management::Entities::PaymentAddress.documentation[:uid][:desc]
           requires :currency,
                     type: String,
                     values: { value: -> { Currency.codes(bothcase: true) }, message: 'management.payment_address.currency_doesnt_exist' },
                     desc: -> { API::V2::Management::Entities::Currency.documentation[:code][:desc] }
+          optional :remote,
+                    type: { value: Boolean, message: 'management.payment_address.non_boolean_remote' },
+                    desc: API::V2::Management::Entities::PaymentAddress.documentation[:remote][:desc]
         end
 
         post '/deposit_address/new' do
@@ -33,7 +36,12 @@ module API
             error!({ errors: ['account.wallet.not_found'] }, 422)
           end
 
-          pa = member.payment_address!(wallet.id)
+          unless params[:remote].nil?
+            pa = member.payment_address!(wallet.id, params[:remote])
+          else
+            pa = member.payment_address!(wallet.id)
+          end
+          
           wallet_service = WalletService.new(wallet)
 
           begin

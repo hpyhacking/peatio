@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_01_20_135842) do
+ActiveRecord::Schema.define(version: 2021_01_28_083207) do
 
   create_table "accounts", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.integer "member_id", null: false
@@ -285,6 +285,7 @@ ActiveRecord::Schema.define(version: 2021_01_20_135842) do
     t.bigint "member_id"
     t.bigint "wallet_id"
     t.string "address", limit: 95
+    t.boolean "remote", default: false, null: false
     t.string "secret_encrypted"
     t.string "details_encrypted", limit: 1024
     t.datetime "created_at", null: false

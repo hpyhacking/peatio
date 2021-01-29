@@ -27,7 +27,7 @@ describe API::V2::Management::PaymentAddress, type: :request do
 
     it 'generates new address' do
       request
-      expect(response_body).to eq({"address"=>address, "currencies"=>[data[:currency]], "state"=>"active", "uid"=>data[:uid]})
+      expect(response_body).to eq({"address"=>address, "currencies"=>[data[:currency]], "remote"=>false, "state"=>"active", "uid"=>data[:uid]})
       expect(response).to have_http_status 200
     end
 
@@ -35,7 +35,16 @@ describe API::V2::Management::PaymentAddress, type: :request do
       it do
         data[:currency] = 'btc'
         request
-        expect(response_body).to eq({"address"=>address, "currencies"=>[data[:currency]], "state"=>"active", "uid"=>data[:uid]})
+        expect(response_body).to eq({"address"=>address, "currencies"=>[data[:currency]], "remote"=>false, "state"=>"active", "uid"=>data[:uid]})
+        expect(response).to have_http_status 200
+      end
+    end
+
+    context 'generates new address with specified remote value' do
+      it do
+        data[:remote] = true
+        request
+        expect(response_body).to eq({"address"=>address, "currencies"=>[data[:currency]], "remote"=>true, "state"=>"active", "uid"=>data[:uid]})
         expect(response).to have_http_status 200
       end
     end
@@ -76,6 +85,15 @@ describe API::V2::Management::PaymentAddress, type: :request do
           request
           expect(response.status).to eq 422
           expect(response.body).to match(/management.payment_address.currency_doesnt_exist/i)
+        end
+      end
+
+      context 'remote' do
+        it do
+          data[:remote] = 'remote'
+          request
+          expect(response.status).to eq 422
+          expect(response.body).to match(/management.payment_address.non_boolean_remote/i)
         end
       end
     end

@@ -88,12 +88,12 @@ class Member < ApplicationRecord
     trades.each(&:revert_trade!)
   end
 
-  def payment_address(wallet_id)
+  def payment_address(wallet_id, remote = false)
     wallet = Wallet.find(wallet_id)
 
     return if wallet.blank?
 
-    pa = PaymentAddress.find_by(member: self, wallet: wallet)
+    pa = PaymentAddress.find_by(member: self, wallet: wallet, remote: remote)
 
     if pa.blank?
       pa = payment_addresses.create!(wallet: wallet)
@@ -105,7 +105,7 @@ class Member < ApplicationRecord
   end
 
   # Attempts to create additional deposit address for account.
-  def payment_address!(wallet_id)
+  def payment_address!(wallet_id, remote = false)
     wallet = Wallet.find(wallet_id)
 
     return if wallet.blank?
@@ -116,8 +116,8 @@ class Member < ApplicationRecord
     if pa.present? && pa.address.blank?
       pa
     else
-      # allows user to have multiple addresses.
-      pa = payment_addresses.create!(wallet: wallet)
+      # allows user to have multiple addresses
+      pa = payment_addresses.create!(wallet: wallet, remote: remote)
     end
     pa
   end

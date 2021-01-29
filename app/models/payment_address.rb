@@ -55,7 +55,7 @@ class PaymentAddress < ApplicationRecord
 end
 
 # == Schema Information
-# Schema version: 20201125134745
+# Schema version: 20210128083207
 #
 # Table name: payment_addresses
 #
@@ -63,6 +63,7 @@ end
 #  member_id         :bigint
 #  wallet_id         :bigint
 #  address           :string(95)
+#  remote            :boolean          default(FALSE), not null
 #  secret_encrypted  :string(255)
 #  details_encrypted :string(1024)
 #  created_at        :datetime         not null

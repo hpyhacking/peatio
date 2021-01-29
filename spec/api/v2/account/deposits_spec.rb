@@ -215,6 +215,12 @@ describe API::V2::Account::Deposits, type: :request do
             expect(response.body).to eq '{"currencies":["eth","xagm.cx"],"address":"2n2wnxrdo4oengp498xgngcbru29mychogr","state":"active"}'
           end
         end
+
+        it 'exposes non-remote addresses' do
+          member.payment_address(wallet.id).update!(remote: true)
+          api_get "/api/v2/account/deposit_address/#{currency}", token: token
+          expect(response.body).to eq '{"currencies":["eth"],"address":null,"state":"pending"}'
+        end
       end
     end
 

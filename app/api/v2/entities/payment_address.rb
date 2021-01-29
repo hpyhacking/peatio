@@ -35,7 +35,6 @@ module API
         ) do |pa|
           pa.address.present? ? 'active' : 'pending'
         end
-
       end
     end
   end

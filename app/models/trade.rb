@@ -347,7 +347,7 @@ class Trade < ApplicationRecord
 end
 
 # == Schema Information
-# Schema version: 20201125134745
+# Schema version: 20210128083207
 #
 # Table name: trades
 #
@@ -367,8 +367,9 @@ end
 # Indexes
 #
 #  index_trades_on_created_at                (created_at)
-#  index_trades_on_maker_id_and_taker_id     (maker_id,taker_id)
+#  index_trades_on_maker_id                  (maker_id)
 #  index_trades_on_maker_order_id            (maker_order_id)
 #  index_trades_on_market_id_and_created_at  (market_id,created_at)
+#  index_trades_on_taker_id                  (taker_id)
 #  index_trades_on_taker_order_id            (taker_order_id)
 #
