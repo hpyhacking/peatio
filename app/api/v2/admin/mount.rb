@@ -28,6 +28,7 @@ module API
         mount Admin::WithdrawLimits
         mount Admin::Airdrops
         mount Admin::InternalTransfers
+        mount Admin::WhitelistedSmartContracts
 
         # The documentation is accessible at http://localhost:3000/swagger?url=/api/v2/admin/swagger
         # Add swagger documentation for Peatio Admin API
@@ -56,7 +57,8 @@ module API
                                     API::V2::Admin::Entities::Trade,
                                     API::V2::Admin::Entities::Wallet,
                                     API::V2::Admin::Entities::Withdraw,
-                                    API::V2::Admin::Entities::InternalTransfer
+                                    API::V2::Admin::Entities::InternalTransfer,
+                                    API::V2::Admin::Entities::WhitelistedSmartContract
                                   ]
       end
     end

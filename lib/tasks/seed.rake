@@ -107,4 +107,14 @@ namespace :seed do
       end
     end
   end
+
+  desc 'Adds missing whitelisted_smart_contracts to database defined at config/seed/whitelisted_smart_contracts.yml.'
+  task whitelisted_smart_contracts: :environment do
+    WhitelistedSmartContract.transaction do
+      YAML.load_file(Rails.root.join('config/seed/whitelisted_smart_contracts.yml')).each do |hash|
+        next if WhitelistedSmartContract.exists?(address: hash.fetch('address'), blockchain_key: hash.fetch('blockchain_key'))
+        WhitelistedSmartContract.create!(hash)
+      end
+    end
+  end
 end

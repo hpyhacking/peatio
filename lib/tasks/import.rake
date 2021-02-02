@@ -116,7 +116,32 @@ namespace :import do
     Kernel.puts "Errored #{errors_count}"
   end
 
-  desc 'Import configs(accounts, blockchains, currencies, wallets, trading_fees, markets, engines) to the database'
+  desc 'Load whitelisted smart contracts from CSV'
+  task :whitelisted_smart_contracts, [:config_load_path] => [:environment] do |_, args|
+    args.with_defaults(:config_load_path => 'exported_whitelisted_smart_contracts.csv')
+    csv_table = File.read(Rails.root.join(args[:config_load_path]))
+    count = 0
+    errors_count = 0
+    CSV.parse(csv_table, headers: true, quote_empty: false).each do |row|
+      row = row.to_h.compact.symbolize_keys!
+      address = row[:address]
+      blockchain_key = row[:blockchain_key]
+      description = row[:description]
+      next if address.blank? || blockchain_key.blank? || ::Blockchain.pluck(:key).exclude?(blockchain_key)
+
+      ::WhitelistedSmartContract.create!(description: description, address: address,
+                                     blockchain_key: blockchain_key, state: 'active')
+      count += 1
+    rescue StandardError => e
+      message = { error: e.message, uid: row[:uid], currency_id: currency_id[:currency_id] }
+      Rails.logger.error message
+      errors_count += 1
+    end
+    Kernel.puts "whitelisted contracts created #{count}"
+    Kernel.puts "Errored #{errors_count}"
+  end
+
+  desc 'Import configs(accounts, blockchains, currencies, wallets, trading_fees, markets, engines, whitelisted_smart_contracts) to the database'
   task :configs, [:config_load_path] => :environment do |_, args|
     args.with_defaults(config_load_path: 'import_configs.yaml')
 

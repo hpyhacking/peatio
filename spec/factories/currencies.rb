@@ -75,6 +75,24 @@ FactoryBot.define do
       end
     end
 
+    trait :tom do
+      blockchain_key       { 'eth-rinkeby' }
+      code                 { 'tom' }
+      name                 { 'TOM' }
+      type                 { 'coin' }
+      parent_id            { 'eth' }
+      base_factor          { 1_000_000 }
+      withdraw_limit_24h   { 100 }
+      withdraw_limit_72h   { 1000 }
+      withdraw_fee         { 0.025 }
+      position             { 5 }
+      options do
+        { gas_limit: 90_000,
+          gas_price: 1_000_000_000,
+          erc20_contract_address: '0xf7970499814654cd13cb7b6e7634a12a7a8a9abc' }
+      end
+    end
+
     trait :ring do
       blockchain_key       { 'eth-kovan' }
       code                 { 'ring' }

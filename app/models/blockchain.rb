@@ -4,6 +4,7 @@
 class Blockchain < ApplicationRecord
   has_many :currencies, foreign_key: :blockchain_key, primary_key: :key
   has_many :wallets, foreign_key: :blockchain_key, primary_key: :key
+  has_many :whitelisted_smart_contracts, foreign_key: :blockchain_key, primary_key: :key
 
   validates :key, :name, :client, presence: true
   validates :key, uniqueness: true

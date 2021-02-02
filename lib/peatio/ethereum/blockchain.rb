@@ -18,6 +18,11 @@ module Ethereum
       # Clean client state during configure.
       @client = nil
       @erc20 = []; @eth = []
+      @whitelisted_addresses = if settings[:whitelisted_addresses].present?
+                                 settings[:whitelisted_addresses].pluck(:address).to_set
+                               else
+                                 []
+                               end
 
       @settings.merge!(settings.slice(*SUPPORTED_SETTINGS))
       @settings[:currencies]&.each do |c|
@@ -42,7 +47,9 @@ module Ethereum
           next if @erc20.find do |c|
             # Check `to` and `input` options to find erc-20 smart contract contract 
             c.dig(:options, :erc20_contract_address) == normalize_address(tx.fetch('to')) ||
-            c.dig(:options, :erc20_contract_address) == '0x' + tx.fetch('input')[34...74].to_s
+            c.dig(:options, :erc20_contract_address) == '0x' + tx.fetch('input')[34...74].to_s ||
+            # Check if `to` in whitelisted smart contracts
+            @whitelisted_addresses.include?(tx.fetch('to'))
           end.blank?
 
           tx = client.json_rpc(:eth_getTransactionReceipt, [normalize_txid(tx.fetch('hash'))])

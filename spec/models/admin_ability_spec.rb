@@ -22,6 +22,7 @@ describe AdminAbility do
       is_expected.to be_able_to(:manage, Wallet.new)
       is_expected.to be_able_to(:manage, PaymentAddress.new)
       is_expected.to be_able_to(:manage, Member.new)
+      is_expected.to be_able_to(:manage, WhitelistedSmartContract.new)
 
       is_expected.to be_able_to(:read, Account.new)
       is_expected.to be_able_to(:read, Currency.new)

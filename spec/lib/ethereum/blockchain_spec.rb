@@ -12,8 +12,18 @@ describe Ethereum::Blockchain do
     Currency.find_by(id: :ring)
   end
 
+  let!(:tom) do
+    create(:currency, :tom)
+  end
+
+  let!(:address_1) { create(:whitelisted_smart_contract, :address_1, address: '0x6c0b51971650d28821ce30b15b02b9826a20b129') }
+  let!(:address_2) { create(:whitelisted_smart_contract, :address_2) }
+  let!(:address_3) { create(:whitelisted_smart_contract, :address_3) }
+  let!(:address_4) { create(:whitelisted_smart_contract, :address_4) }
+  let!(:address_5) { create(:whitelisted_smart_contract, :address_5) }
+
   let(:blockchain) do
-    Ethereum::Blockchain.new.tap { |b| b.configure(server: server, currencies: [eth.to_blockchain_api_settings, trst.to_blockchain_api_settings, ring.to_blockchain_api_settings]) }
+    Ethereum::Blockchain.new.tap { |b| b.configure(server: server, currencies: [eth.to_blockchain_api_settings, trst.to_blockchain_api_settings, ring.to_blockchain_api_settings, tom.to_blockchain_api_settings], whitelisted_addresses: [address_1, address_2, address_3, address_4, address_5]) }
   end
 
   let(:server) { 'http://127.0.0.1:8545' }
@@ -164,7 +174,6 @@ describe Ethereum::Blockchain do
     end
 
     context 'first block' do
-
       let(:expected_transactions) do
         [{:hash=>"0xb60e22c6eed3dc8cd7bc5c7e38c50aa355c55debddbff5c1c4837b995b8ee96d",
           :amount=>1.to_d,
@@ -191,7 +200,6 @@ describe Ethereum::Blockchain do
 
     context 'last block' do
       subject { blockchain.fetch_block!(latest_block) }
-
       let(:expected_transactions) do
         [{:hash=>"0x0338e2a59db18596afff8b7a0db3669cc231c7333064640bedf3a73c1c1c31ed",
           :amount=>18.75.to_d,
@@ -232,7 +240,16 @@ describe Ethereum::Blockchain do
           :txout=>131,
           :block_number=>8292243,
           :status=>"pending",
-          :currency_id=>eth.id}]
+          :currency_id=>eth.id},
+         {:hash=>"0xeb92797eb91f53ce7bb68abaf3fd3198980d971dd42f9fcb6eb1272ef3ef2a0e",
+          :to_address=>"0xbbd602bb278edff65cbc967b9b62095ad5be23a3",
+          :from_addresses=>["0x095273adb73e55a8710e448c49eaee16fe115527"],
+          :amount=>2436832050000.to_d,
+          :currency_id=>tom.id,
+          :block_number=>11684206,
+          :status=>"success",
+          :txout=>3}
+        ]
       end
 
       it 'builds expected number of transactions' do
@@ -308,7 +325,6 @@ describe Ethereum::Blockchain do
       end
 
       context :pending_erc20_transaction do
-
         let(:tx_file_name) { '0xb44861cb188356c67bec27a35abab1b7ef33fc402330faa9ac4d863ef621d7b1.json' }
 
         let(:tx_hash) do
@@ -324,6 +340,32 @@ describe Ethereum::Blockchain do
         it 'builds formatted transactions for passed transaction' do
           expect(blockchain.send(:build_transactions, tx_hash)).to contain_exactly(*expected_transactions)
         end
+      end
+    end
+
+    context :tom_whitelisted_smart_contract_transaction do
+      let(:tx_file_name) { '0xeb92797eb91f53ce7bb68abaf3fd3198980d971dd42f9fcb6eb1272ef3ef2a0e.json' }
+
+      let(:tx_hash) do
+        Rails.root.join('spec', 'resources', 'ethereum-data', 'rinkeby', 'transactions', tx_file_name)
+          .yield_self { |file_path| File.open(file_path) }
+          .yield_self { |file| JSON.load(file) }
+      end
+
+      let(:expected_transactions) do
+        [{:hash=>"0xeb92797eb91f53ce7bb68abaf3fd3198980d971dd42f9fcb6eb1272ef3ef2a0e",
+          :to_address=>"0xbbd602bb278edff65cbc967b9b62095ad5be23a3",
+          :from_addresses=>["0x095273adb73e55a8710e448c49eaee16fe115527"],
+          :amount=>2436832050000.to_d,
+          :currency_id=>tom.id,
+          :block_number=>11684206,
+          :status=>"success",
+          :txout=>3}
+        ]
+      end
+
+      it 'builds formatted transactions for passed transaction' do
+        expect(blockchain.send(:build_transactions, tx_hash)).to contain_exactly(*expected_transactions)
       end
     end
   end

@@ -9,3 +9,4 @@ Rake::Task['seed:engines'].invoke
 Rake::Task['seed:markets'].invoke
 Rake::Task['seed:wallets'].invoke
 Rake::Task['seed:trading_fees'].invoke
+Rake::Task['seed:whitelisted_smart_contracts'].invoke

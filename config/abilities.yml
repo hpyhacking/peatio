@@ -34,6 +34,7 @@ admin_permissions:
       - Wallet
       - Adjustment
       - InternalTransfer
+      - WhitelistedSmartContract
     read:
       - Trade
       - Order
@@ -61,6 +62,7 @@ admin_permissions:
       - Wallet
       - Adjustment 
       - InternalTransfer
+      - WhitelistedSmartContract
     read:
       - Trade
       - Order

@@ -3,7 +3,7 @@
 
 describe API::V2::Admin::TradingFees, type: :request do
 
-  let(:admin) { create(:member, :admin, :level_3, email: 'example@gmail.com', uid: 'ID73BF61C8H0') }
+  let(:admin) { create(:member, :admin, :level_3, email: 'example@gmail.com', uid: 'ID73BF61C8H1') }
   let(:token) { jwt_for(admin) }
   let(:level_3_member) { create(:member, :level_3) }
   let(:level_3_member_token) { jwt_for(level_3_member) }

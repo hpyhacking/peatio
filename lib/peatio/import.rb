@@ -17,6 +17,7 @@ module Peatio
       load_engines
       load_markets
       load_trading_fees
+      load_whitelisted_smart_contracts
     end
 
     def load_accounts
@@ -76,6 +77,21 @@ module Peatio
           ::Wallet.create!(hash)
 
           Kernel.puts "Created #{hash.fetch('name')} wallet"
+        end
+      end
+    end
+
+    def load_whitelisted_smart_contracts
+      return unless @data.include? 'whitelisted_smart_contracts'
+
+      Kernel.puts 'Importing whitelisted_smart_contracts'
+      ::Wallet.transaction do
+        @data['whitelisted_smart_contracts'].each do |hash|
+          next if ::WhitelistedSmartContract.exists?(address: hash.fetch('address'), blockchain_key: hash.fetch('blockchain_key'))
+
+          ::WhitelistedSmartContract.create!(hash)
+
+          Kernel.puts "Created #{hash.fetch('address')}, #{hash.fetch('blockchain_key')} whitelisted_smart_contracts"
         end
       end
     end
