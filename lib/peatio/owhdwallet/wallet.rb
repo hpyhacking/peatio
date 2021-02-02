@@ -1,4 +1,4 @@
-module Opendax
+module OWHDWallet
   class Wallet < Peatio::Wallet::Abstract
     DEFAULT_FEATURES = { skip_deposit_collection: false }.freeze
     DEFAULT_ERC20_FEE = { eth_gas_limit: 21_000, erc20_gas_limit: 90_000, gas_price: :standard }.freeze
@@ -31,7 +31,7 @@ module Opendax
       })
 
       { address: response['address'], secret: response['passphrase'], details: response.except('address', 'passphrase') }
-    rescue Opendax::Client::Error => e
+    rescue OWHDWallet::Client::Error => e
       raise Peatio::Wallet::ClientError, e
     end
 
@@ -51,7 +51,7 @@ module Opendax
       transaction.hash = response['tx']
       transaction.options = response['options'] if response['options'].present?
       transaction
-    rescue Opendax::Client::Error => e
+    rescue OWHDWallet::Client::Error => e
       raise Peatio::Wallet::ClientError, e
     end
 
@@ -82,7 +82,7 @@ module Opendax
       transaction.options[:gas_limit] = gas_limit
       transaction.options[:gas_price] = response['gas_price']
       [transaction]
-    rescue Ethereum::Client::Error => e
+    rescue OWHDWallet::Client::Error => e
       raise Peatio::Wallet::ClientError, e
     end
 
@@ -99,7 +99,7 @@ module Opendax
       end
 
       response.to_d
-    rescue Opendax::Client::Error => e
+    rescue OWHDWallet::Client::Error => e
       raise Peatio::Wallet::ClientError, e
     end
 
@@ -143,7 +143,7 @@ module Opendax
     def convert_to_base_unit(value)
       x = value.to_d * @currency.fetch(:base_factor)
       unless (x % 1).zero?
-        raise Peatio::WalletClient::Error,
+        raise Peatio::Wallet::ClientError,
             "Failed to convert value to base (smallest) unit because it exceeds the maximum precision: " \
             "#{value.to_d} - #{x.to_d} must be equal to zero."
       end

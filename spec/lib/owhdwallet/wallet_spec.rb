@@ -1,5 +1,5 @@
-describe Opendax::Wallet do
-  let(:wallet) { Opendax::Wallet.new }
+describe OWHDWallet::Wallet do
+  let(:wallet) { OWHDWallet::Wallet.new }
 
   context :configure do
     let(:settings) { { wallet: {}, currency: {} } }

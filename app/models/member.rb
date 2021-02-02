@@ -230,6 +230,7 @@ end
 #
 # Indexes
 #
-#  index_members_on_email  (email) UNIQUE
-#  index_members_on_uid    (uid) UNIQUE
+#  index_members_on_email     (email) UNIQUE
+#  index_members_on_uid       (uid) UNIQUE
+#  index_members_on_username  (username) UNIQUE
 #

@@ -108,6 +108,10 @@ module API
             error!({ errors: ['management.beneficiary.invalid_state_for_withdrawal'] }, 422)
           end
 
+          if params[:tid].present?
+            error!({ errors: ['TID already exist'] }, 422) if Withdraw.where(tid: params[:tid]).present?
+          end
+
           declared_params = declared(params, include_missing: false).slice(:tid, :rid, :note, :transfer_type).merge(
             sum: params[:amount],
             member: member,
@@ -127,7 +131,7 @@ module API
           error!({ errors: [e.to_s] }, 422)
         rescue => e
           report_exception(e)
-          error!({ errors: ['Failed to create withdraw!']}, 422)
+          error!({ errors: ['Failed to create withdraw!'] }, 422)
         end
 
         desc 'Performs action on withdraw.' do

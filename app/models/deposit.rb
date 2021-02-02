@@ -20,7 +20,8 @@ class Deposit < ApplicationRecord
 
   acts_as_eventable prefix: 'deposit', on: %i[create update]
 
-  validates :tid, :aasm_state, :type, presence: true
+  validates :tid, presence: true, uniqueness: { case_sensitive: false }
+  validates :aasm_state, :type, presence: true
   validates :completed_at, presence: { if: :completed? }
   validates :block_number, allow_blank: true, numericality: { greater_than_or_equal_to: 0, only_integer: true }
   validates :amount,

@@ -1,4 +1,4 @@
-module Opendax
+module OWHDWallet
   class Client
     Error = Class.new(StandardError)
 

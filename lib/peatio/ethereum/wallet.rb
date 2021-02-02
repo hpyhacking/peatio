@@ -117,7 +117,7 @@ module Ethereum
                     }.compact, @wallet.fetch(:secret)])
 
       unless valid_txid?(normalize_txid(txid))
-        raise Ethereum::WalletClient::Error, \
+        raise Ethereum::Client::Error, \
               "Withdrawal from #{@wallet.fetch(:address)} to #{transaction.to_address} failed."
       end
       # Make sure that we return currency_id
@@ -153,7 +153,7 @@ module Ethereum
                   }.compact, @wallet.fetch(:secret)])
 
       unless valid_txid?(normalize_txid(txid))
-        raise Ethereum::WalletClient::Error, \
+        raise Ethereum::Client::Error, \
               "Withdrawal from #{@wallet.fetch(:address)} to #{transaction.to_address} failed."
       end
       transaction.hash = normalize_txid(txid)
@@ -190,7 +190,7 @@ module Ethereum
     def convert_to_base_unit(value)
       x = value.to_d * @currency.fetch(:base_factor)
       unless (x % 1).zero?
-        raise Peatio::WalletClient::Error,
+        raise Peatio::Wallet::ClientError,
             "Failed to convert value to base (smallest) unit because it exceeds the maximum precision: " \
             "#{value.to_d} - #{x.to_d} must be equal to zero."
       end
