@@ -66,4 +66,4 @@ FROM base
 COPY --chown=app:app Gemfile.plugin Gemfile.lock $APP_HOME/
 
 # Install plugins.
-RUN bundle install --path /opt/vendor/bundle
+RUN bundle install --path /opt/vendor/bundle --jobs $(nproc)
