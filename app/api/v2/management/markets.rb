@@ -60,7 +60,7 @@ module API
           success API::V2::Management::Entities::Market
         end
         post '/markets/list' do
-          present ::Market.ordered, with: API::V2::Entities::Market
+          present ::Market.ordered, with: API::V2::Management::Entities::Market
           status 200
         end
       end

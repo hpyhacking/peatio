@@ -107,7 +107,7 @@ describe API::V2::Management::Markets, type: :request do
 
     let(:expected_keys) do
       %w[id name base_unit quote_unit min_price max_price
-         min_amount amount_precision price_precision state]
+         min_amount amount_precision price_precision state position created_at updated_at]
     end
 
     it 'lists enabled markets' do
