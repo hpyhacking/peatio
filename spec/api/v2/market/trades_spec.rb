@@ -58,6 +58,36 @@ describe API::V2::Market::Trades, type: :request do
     )
   end
 
+  let(:btcusd_bid_maker) do
+    create(
+      :order_bid,
+      :btcusd,
+      price: '12.32'.to_d,
+      volume: '123.12345678',
+      member: member
+    )
+  end
+
+  let(:btceth_ask_taker) do
+    create(
+      :order_ask,
+      :btceth,
+      price: '12.32'.to_d,
+      volume: '123.1234',
+      member: member
+    )
+  end
+
+  let(:btceth_bid_taker) do
+    create(
+      :order_bid,
+      :btceth,
+      price: '12.32'.to_d,
+      volume: '123.1234',
+      member: member
+    )
+  end
+
   let!(:btcusd_ask_trade) { create(:trade, :btcusd, maker_order: btcusd_ask, created_at: 2.days.ago) }
   let!(:btceth_ask_trade) { create(:trade, :btceth, maker_order: btceth_ask, created_at: 2.days.ago) }
   let!(:btcusd_bid_trade) { create(:trade, :btcusd, taker_order: btcusd_bid, created_at: 23.hours.ago) }
@@ -188,6 +218,59 @@ describe API::V2::Market::Trades, type: :request do
 
       expect(result['order_id']).to eq btcusd_ask.id
       expect(result['fee_currency']).to eq 'usd'
+    end
+
+    context 'type filtering' do
+      context 'sell orders' do
+        let!(:btceth_ask_trade_taker) { create(:trade, :btceth, taker_order: btceth_ask_taker, created_at: 2.hours.ago) }
+        let!(:btcusd_bid_trade_maker) { create(:trade, :btcusd, maker_order: btcusd_bid_maker, created_at: 2.hours.ago) }
+
+        it 'with taker_id = user_id and taker_type = sell' do
+          api_get '/api/v2/market/trades', params: { market: 'btceth', type: 'sell' }, token: token
+          result = JSON.parse(response.body)
+
+          expect(result.size).to eq 2
+          expect(result.find { |t| t['id'] == btceth_ask_trade.id }['side']).to eq 'sell'
+          expect(result.find { |t| t['id'] == btceth_ask_trade.id }['order_id']).to eq btceth_ask.id
+          expect(result.find { |t| t['id'] == btceth_ask_trade_taker.id }['side']).to eq 'sell'
+          expect(result.find { |t| t['id'] == btceth_ask_trade_taker.id }['order_id']).to eq btceth_ask_taker.id
+        end
+
+        it 'with maker_id = user_id and taker_type = buy' do
+          api_get '/api/v2/market/trades', params: { market: 'btcusd', type: 'sell' }, token: token
+          result = JSON.parse(response.body)
+
+          expect(result.size).to eq 2
+          expect(result.find { |t| t['id'] == btcusd_ask_trade.id }['side']).to eq 'sell'
+          expect(result.find { |t| t['id'] == btcusd_ask_trade.id }['order_id']).to eq btcusd_ask.id
+          expect(result.find { |t| t['id'] == btcusd_bid_trade_maker.id }['side']).to eq 'buy'
+          expect(result.find { |t| t['id'] == btcusd_bid_trade_maker.id }['order_id']).to eq btcusd_bid_maker.id
+        end
+      end
+
+      context 'buy orders' do
+        let!(:btceth_bid_trade_taker) { create(:trade, :btceth, taker_order: btceth_bid_taker, created_at: 2.hours.ago) }
+
+        it 'with taker_id = user_id and taker_type = buy' do
+          api_get '/api/v2/market/trades', params: { market: 'btceth', type: 'buy' }, token: token
+          result = JSON.parse(response.body)
+
+          expect(result.size).to eq 2
+          expect(result.find { |t| t['id'] == btceth_bid_trade.id }['side']).to eq 'buy'
+          expect(result.find { |t| t['id'] == btceth_bid_trade.id }['order_id']).to eq btceth_bid.id
+          expect(result.find { |t| t['id'] == btceth_bid_trade_taker.id }['side']).to eq 'buy'
+          expect(result.find { |t| t['id'] == btceth_bid_trade_taker.id }['order_id']).to eq btceth_bid_taker.id
+        end
+
+        it 'with maker_id = user_id and taker_type = sell' do
+          api_get '/api/v2/market/trades', params: { market: 'btcusd', type: 'buy' }, token: token
+          result = JSON.parse(response.body)
+
+          expect(result.size).to eq 1
+          expect(result.find { |t| t['id'] == btcusd_bid_trade.id }['side']).to eq 'buy'
+          expect(result.find { |t| t['id'] == btcusd_bid_trade.id }['order_id']).to eq btcusd_bid.id
+        end
+      end
     end
 
     context 'unauthorized' do

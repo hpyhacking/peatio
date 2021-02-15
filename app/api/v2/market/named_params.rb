@@ -54,6 +54,10 @@ module API
                    allow_blank: false,
                    default: 1,
                    desc: 'Specify the page of paginated results.'
+          optional :type,
+                   type: String,
+                   values: { value: %w(buy sell), message: 'market.trade.invalid_type' },
+                   desc: 'To indicate nature of trade - buy/sell'
           optional :time_from,
                    type: { value: Integer, message: 'market.trade.non_integer_time_from' },
                    allow_blank: { value: false, message: 'market.trade.empty_time_from' },

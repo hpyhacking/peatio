@@ -364,6 +364,7 @@ ActiveRecord::Schema.define(version: 2021_01_28_083207) do
     t.index ["market_id", "created_at"], name: "index_trades_on_market_id_and_created_at"
     t.index ["taker_id"], name: "index_trades_on_taker_id"
     t.index ["taker_order_id"], name: "index_trades_on_taker_order_id"
+    t.index ["taker_type"], name: "index_trades_on_taker_type"
   end
 
   create_table "trading_fees", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
