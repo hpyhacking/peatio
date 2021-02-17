@@ -28,6 +28,14 @@ module API
                    type: String,
                    allow_blank: false,
                    desc: 'Wallet address on the Blockchain.'
+          optional :time_from,
+                   allow_blank: { value: false, message: 'account.withdraw.empty_time_from' },
+                   type: { value: Integer, message: 'account.withdraw.non_integer_time_from' },
+                   desc: 'An integer represents the seconds elapsed since Unix epoch.'
+          optional :time_to,
+                   type: { value: Integer, message: 'account.withdraw.non_integer_time_to' },
+                   allow_blank: { value: false, message: 'account.withdraw.empty_time_to' },
+                   desc: 'An integer represents the seconds elapsed since Unix epoch.'
           optional :page,
                    type: { value: Integer, message: 'account.withdraw.non_integer_page' },
                    values: { value: -> (p){ p.try(:positive?) }, message: 'account.withdraw.non_positive_page'},
@@ -43,6 +51,8 @@ module API
                       .tap { |q| q.where!(currency: currency) if currency }
                       .tap { |q| q.where!(aasm_state: params[:state]) if params[:state] }
                       .tap { |q| q.where!(rid: params[:rid]) if params[:rid] }
+                      .tap { |q| q.where!('updated_at >= ?', Time.at(params[:time_from])) if params[:time_from].present? }
+                      .tap { |q| q.where!('updated_at <= ?', Time.at(params[:time_to])) if params[:time_to].present? }
                       .tap { |q| present paginate(q), with: API::V2::Entities::Withdraw }
         end
 

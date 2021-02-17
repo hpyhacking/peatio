@@ -12,8 +12,8 @@ describe API::V2::Account::Withdraws, type: :request do
   end
 
   describe 'GET /api/v2/account/withdraws' do
-    let!(:btc_withdraws) { create_list(:btc_withdraw, 20, :with_deposit_liability, member: member) }
-    let!(:usd_withdraws) { create_list(:usd_withdraw, 20, :with_deposit_liability, member: member) }
+    let!(:btc_withdraws) { create_list(:btc_withdraw, 20, :with_deposit_liability, member: member, updated_at: 5.days.ago) }
+    let!(:usd_withdraws) { create_list(:usd_withdraw, 20, :with_deposit_liability, member: member, updated_at: 2.hour.ago) }
 
     context 'unauthorized' do
       before do
@@ -51,6 +51,20 @@ describe API::V2::Account::Withdraws, type: :request do
       api_get '/api/v2/account/withdraws', params: { limit: 9999 }, token: token
       expect(response.code).to eq '422'
       expect(response).to include_api_error('account.withdraw.invalid_limit')
+    end
+
+    it 'validates time_from param' do
+      api_get '/api/v2/account/withdraws', params: { time_from: 'btc' }, token: token
+
+      expect(response.code).to eq '422'
+      expect(response).to include_api_error('account.withdraw.non_integer_time_from')
+    end
+
+    it 'validates time_to param' do
+      api_get '/api/v2/account/withdraws', params: { time_to: [] }, token: token
+
+      expect(response.code).to eq '422'
+      expect(response).to include_api_error('account.withdraw.non_integer_time_to')
     end
 
     it 'returns withdraws for all currencies by default' do
@@ -93,6 +107,22 @@ describe API::V2::Account::Withdraws, type: :request do
       result = JSON.parse(response.body)
 
       expect(result.size).to eq 2
+    end
+
+    it 'returns withdraws for the last two days' do
+      api_get '/api/v2/account/withdraws', params: { time_from: 2.days.ago.to_i }, token: token
+      result = JSON.parse(response.body)
+
+      expect(result.size).to eq 20
+      expect(response.headers.fetch('Total')).to eq '20'
+    end
+
+    it 'returns withdraws before 2 days ago' do
+      api_get '/api/v2/account/withdraws', params: { time_to: 2.days.ago.to_i }, token: token
+      result = JSON.parse(response.body)
+
+      expect(result.size).to eq 20
+      expect(response.headers.fetch('Total')).to eq '20'
     end
 
     it 'paginates withdraws' do

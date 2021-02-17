@@ -14,10 +14,10 @@ describe API::V2::Account::Deposits, type: :request do
 
   describe 'GET /api/v2/account/deposits' do
     before do
-      create(:deposit_btc, member: member)
-      create(:deposit_usd, member: member)
-      create(:deposit_usd, member: member, txid: 1, amount: 520)
-      create(:deposit_btc, member: member, created_at: 2.day.ago, txid: 'test', amount: 111)
+      create(:deposit_btc, member: member, updated_at: 5.days.ago)
+      create(:deposit_usd, member: member, updated_at: 5.days.ago)
+      create(:deposit_usd, member: member, txid: 1, amount: 520, updated_at: 5.hour.ago)
+      create(:deposit_btc, member: member, txid: 'test', amount: 111, updated_at: 2.hour.ago)
       create(:deposit_usd, member: other_member, txid: 10)
     end
 
@@ -82,6 +82,22 @@ describe API::V2::Account::Deposits, type: :request do
       expect(result.size).to eq 2
     end
 
+    it 'returns deposits for the last two days' do
+      api_get '/api/v2/account/deposits', params: { limit: 5, page: 1, time_from: 2.days.ago.to_i }, token: token
+      result = JSON.parse(response.body)
+
+      expect(result.size).to eq 2
+      expect(response.headers.fetch('Total')).to eq '2'
+    end
+
+    it 'returns deposits before 2 days ago' do
+      api_get '/api/v2/account/deposits', params: { time_to: 2.days.ago.to_i }, token: token
+      result = JSON.parse(response.body)
+
+      expect(result.size).to eq 2
+      expect(response.headers.fetch('Total')).to eq '2'
+    end
+
     it 'returns deposits for currency usd' do
       api_get '/api/v2/account/deposits', params: { currency: 'usd' }, token: token
       result = JSON.parse(response.body)
@@ -138,6 +154,22 @@ describe API::V2::Account::Deposits, type: :request do
       api_get '/api/v2/account/deposits', token: level_0_member_token
       expect(response.code).to eq '403'
       expect(response).to include_api_error('account.deposit.not_permitted')
+    end
+
+    context 'fail' do
+      it 'validates time_from param' do
+        api_get '/api/v2/account/deposits', params: { time_from: 'btc' }, token: token
+
+        expect(response.code).to eq '422'
+        expect(response).to include_api_error('account.deposit.non_integer_time_from')
+      end
+
+      it 'validates time_to param' do
+        api_get '/api/v2/account/deposits', params: { time_to: [] }, token: token
+
+        expect(response.code).to eq '422'
+        expect(response).to include_api_error('account.deposit.non_integer_time_to')
+      end
     end
 
     context 'unauthorized' do

@@ -26,6 +26,14 @@ module API
                    type: String,
                    allow_blank: false,
                    desc: 'Deposit transaction id.'
+          optional :time_from,
+                   allow_blank: { value: false, message: 'account.deposit.empty_time_from' },
+                   type: { value: Integer, message: 'account.deposit.non_integer_time_from' },
+                   desc: 'An integer represents the seconds elapsed since Unix epoch.'
+          optional :time_to,
+                   type: { value: Integer, message: 'account.deposit.non_integer_time_to' },
+                   allow_blank: { value: false, message: 'account.deposit.empty_time_to' },
+                   desc: 'An integer represents the seconds elapsed since Unix epoch.'
           optional :limit,
                    type: { value: Integer, message: 'account.deposit.non_integer_limit' },
                    values: { value: 1..100, message: 'account.deposit.invalid_limit' },
@@ -46,6 +54,8 @@ module API
                       .tap { |q| q.where!(currency: currency) if currency }
                       .tap { |q| q.where!(txid: params[:txid]) if params[:txid] }
                       .tap { |q| q.where!(aasm_state: params[:state]) if params[:state] }
+                      .tap { |q| q.where!('updated_at >= ?', Time.at(params[:time_from])) if params[:time_from].present? }
+                      .tap { |q| q.where!('updated_at <= ?', Time.at(params[:time_to])) if params[:time_to].present? }
                       .tap { |q| present paginate(q), with: API::V2::Entities::Deposit }
         end
 
