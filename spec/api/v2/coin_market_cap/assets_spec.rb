@@ -34,14 +34,12 @@ describe API::V2::CoinMarketCap::Assets, type: :request do
         it 'should return crypto assets' do
           get '/api/v2/coinmarketcap/assets'
           expect(response).to be_successful
-          result = JSON.parse(response.body)
-          expect(result.count).to eq Currency.coins.count
-          expect(result.first['BTC'].keys).to match_array %w[name unified_cryptoasset_id can_withdraw can_deposit min_withdraw]
-          expect(result.first['BTC']['name']).to eq 'Bitcoin'
-          expect(result.first['BTC']['unified_cryptoasset_id']).to eq 1
-          expect(result.first['BTC']['can_withdraw']).to eq true
-          expect(result.first['BTC']['can_deposit']).to eq true
-          expect(result.first['BTC']['min_withdraw']).to eq '0.0'
+          expect(response_body['BTC'].keys).to match_array %w[name unified_cryptoasset_id can_withdraw can_deposit min_withdraw]
+          expect(response_body['BTC']['name']).to eq 'Bitcoin'
+          expect(response_body['BTC']['unified_cryptoasset_id']).to eq 1
+          expect(response_body['BTC']['can_withdraw']).to eq true
+          expect(response_body['BTC']['can_deposit']).to eq true
+          expect(response_body['BTC']['min_withdraw']).to eq '0.0'
         end
       end
 
@@ -70,13 +68,11 @@ describe API::V2::CoinMarketCap::Assets, type: :request do
           get '/api/v2/coinmarketcap/assets'
 
           expect(response).to be_successful
-          result = JSON.parse(response.body)
-          expect(result.count).to eq Currency.coins.count
-          expect(result.first['BTC'].keys).to match_array %w[name can_withdraw can_deposit min_withdraw]
-          expect(result.first['BTC']['name']).to eq 'Bitcoin'
-          expect(result.first['BTC']['can_withdraw']).to eq true
-          expect(result.first['BTC']['can_deposit']).to eq true
-          expect(result.first['BTC']['min_withdraw']).to eq '0.0'
+          expect(response_body['BTC'].keys).to match_array %w[name can_withdraw can_deposit min_withdraw]
+          expect(response_body['BTC']['name']).to eq 'Bitcoin'
+          expect(response_body['BTC']['can_withdraw']).to eq true
+          expect(response_body['BTC']['can_deposit']).to eq true
+          expect(response_body['BTC']['min_withdraw']).to eq '0.0'
         end
 
         context 'with 500 error from Faraday' do
@@ -93,13 +89,11 @@ describe API::V2::CoinMarketCap::Assets, type: :request do
             get '/api/v2/coinmarketcap/assets'
 
             expect(response).to be_successful
-            result = JSON.parse(response.body)
-            expect(result.count).to eq Currency.coins.count
-            expect(result.first['BTC'].keys).to match_array %w[name can_withdraw can_deposit min_withdraw]
-            expect(result.first['BTC']['name']).to eq 'Bitcoin'
-            expect(result.first['BTC']['can_withdraw']).to eq true
-            expect(result.first['BTC']['can_deposit']).to eq true
-            expect(result.first['BTC']['min_withdraw']).to eq '0.0'
+            expect(response_body['BTC'].keys).to match_array %w[name can_withdraw can_deposit min_withdraw]
+            expect(response_body['BTC']['name']).to eq 'Bitcoin'
+            expect(response_body['BTC']['can_withdraw']).to eq true
+            expect(response_body['BTC']['can_deposit']).to eq true
+            expect(response_body['BTC']['min_withdraw']).to eq '0.0'
           end
         end
       end
@@ -112,8 +106,7 @@ describe API::V2::CoinMarketCap::Assets, type: :request do
         get '/api/v2/coinmarketcap/assets'
 
         expect(response).to be_successful
-        result = JSON.parse(response.body)
-        expect(result).to eq []
+        expect(response_body).to eq({})
       end
     end
   end

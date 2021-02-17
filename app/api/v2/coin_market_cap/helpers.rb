@@ -24,19 +24,20 @@ module API
           }
         end
 
-        def format_ticker(ticker, market)
-          unified_base_crypto_id = market.base.coin? ? unified_cryptoasset_id(market.base_unit) : nil
-          unified_quote_crypto_id = market.quote.coin? ? unified_cryptoasset_id(market.quote_unit) : nil
-          {
-            "#{market.underscore_name}": {
-              base_id:      unified_base_crypto_id,                    # recommended [integer]: The quote pair Unified Cryptoasset ID
-              quote_id:     unified_quote_crypto_id,                   # recommended [integer]: The base pair Unified Cryptoasset ID
-              last_price:   ticker[:last],                             # mandatory [decimal]: Last transacted price of base currency based on given quote currenc
-              base_volume:  ticker[:amount],                           # mandatory [decimal]: 24-hour trading volume denoted in BASE currency
-              quote_volume: ticker[:volume],                           # mandatory [decimal]: 24 hour trading volume denoted in QUOTE currency
-              isFrozen:     market.state == 'enabled' ? 0 : 1          # recommended [integer]: Indicates if the market is currently enabled (0) or disabled (1)
+        def format_tickers(markets)
+          markets.each_with_object({}) do |market, h|
+            ticker = TickersService[market].ticker
+            unified_base_crypto_id = market.base.coin? ? unified_cryptoasset_id(market.base_unit) : nil
+            unified_quote_crypto_id = market.quote.coin? ? unified_cryptoasset_id(market.quote_unit) : nil
+            h[market.underscore_name.to_s] = {
+              base_id: unified_base_crypto_id,            # recommended [integer]: The quote pair Unified Cryptoasset ID
+              quote_id: unified_quote_crypto_id,          # recommended [integer]: The base pair Unified Cryptoasset ID
+              last_price: ticker[:last],                  # mandatory [decimal]: Last transacted price of base currency based on given quote currenc
+              base_volume: ticker[:amount],               # mandatory [decimal]: 24-hour trading volume denoted in BASE currency
+              quote_volume: ticker[:volume],              # mandatory [decimal]: 24 hour trading volume denoted in QUOTE currency
+              isFrozen: market.state == 'enabled' ? 0 : 1 # recommended [integer]: Indicates if the market is currently enabled (0) or disabled (1)
             }.compact
-          }
+          end
         end
 
         def format_trade(trade)
@@ -58,16 +59,16 @@ module API
           }
         end
 
-        def format_currency(currency)
-          {
-            "#{currency.id.upcase}": {
-              name:                   currency.name,                       # recommended [string]: Full name of cryptocurrency
+        def format_currencies(currencies)
+          currencies.each_with_object({}) do |currency, h|
+            h[currency.id.upcase.to_s] = {
+              name: currency.name,                                         # recommended [string]: Full name of cryptocurrency
               unified_cryptoasset_id: unified_cryptoasset_id(currency.id), # recommended [integer]: Unique ID of cryptocurrency assigned by Unified Cryptoasset ID
-              can_withdraw:           currency.withdrawal_enabled,         # recommended [boolean]: Identifies whether withdrawals are enabled or disabled
-              can_deposit:            currency.deposit_enabled,            # recommended [boolean]: Identifies whether deposits are enabled or disabled
-              min_withdraw:           currency.min_withdraw_amount,        # recommended [decimal]: Identifies the single minimum withdrawal amount of a cryptocurrency
+              can_withdraw: currency.withdrawal_enabled,                   # recommended [boolean]: Identifies whether withdrawals are enabled or disabled
+              can_deposit: currency.deposit_enabled,                       # recommended [boolean]: Identifies whether deposits are enabled or disabled
+              min_withdraw: currency.min_withdraw_amount                   # recommended [decimal]: Identifies the single minimum withdrawal amount of a cryptocurrency
             }.compact
-          }
+          end
         end
 
         # Only for crypto currencies

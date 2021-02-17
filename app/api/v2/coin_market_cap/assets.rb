@@ -7,9 +7,7 @@ module API
         desc 'Details on crypto currencies available on the exchange'
         get '/assets' do
           Rails.cache.fetch(:currencies_cmc, expires_in: 600) do
-            Currency.visible.coins.ordered.map do |currency|
-              format_currency(currency)
-            end
+            format_currencies(Currency.visible.coins.ordered.map)
           end
         end
       end

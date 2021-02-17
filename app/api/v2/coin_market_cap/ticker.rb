@@ -7,9 +7,7 @@ module API
         desc 'Get 24-hour pricing and volume summary for each market pair'
         get '/ticker' do
           Rails.cache.fetch(:markets_tickers_cmc, expires_in: 60) do
-            ::Market.enabled.ordered.map do |market|
-              format_ticker(TickersService[market].ticker, market)
-            end
+            format_tickers(::Market.enabled.ordered)
           end
         end
       end

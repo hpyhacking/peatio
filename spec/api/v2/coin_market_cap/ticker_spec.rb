@@ -57,13 +57,12 @@ describe API::V2::CoinMarketCap::Ticker, type: :request do
           get '/api/v2/coinmarketcap/ticker'
           expect(response).to be_successful
 
-          result = JSON.parse(response.body)
           # crypto/fiat market
-          expect(result.first['BTC_USD'].keys).to match_array %w[base_id last_price base_volume quote_volume isFrozen]
-          expect(result.first['BTC_USD']).to include(expected_btc_usd_ticker)
+          expect(response_body['BTC_USD'].keys).to match_array %w[base_id last_price base_volume quote_volume isFrozen]
+          expect(response_body['BTC_USD']).to include(expected_btc_usd_ticker)
           # crypto/crypto market
-          expect(result.second['BTC_ETH'].keys).to match_array %w[base_id quote_id last_price base_volume quote_volume isFrozen]
-          expect(result.second['BTC_ETH']).to include(expected_btc_eth_ticker)
+          expect(response_body['BTC_ETH'].keys).to match_array %w[base_id quote_id last_price base_volume quote_volume isFrozen]
+          expect(response_body['BTC_ETH']).to include(expected_btc_eth_ticker)
         end
       end
 
@@ -93,10 +92,9 @@ describe API::V2::CoinMarketCap::Ticker, type: :request do
           get '/api/v2/coinmarketcap/ticker'
 
           expect(response).to be_successful
-          result = JSON.parse(response.body)
           # crypto/fiat market
-          expect(result.first['BTC_USD'].keys).to match_array %w[base_id last_price base_volume quote_volume isFrozen]
-          expect(result.first['BTC_USD']).to include(expected_btc_usd_ticker)
+          expect(response_body['BTC_USD'].keys).to match_array %w[base_id last_price base_volume quote_volume isFrozen]
+          expect(response_body['BTC_USD']).to include(expected_btc_usd_ticker)
         end
       end
 
@@ -119,10 +117,9 @@ describe API::V2::CoinMarketCap::Ticker, type: :request do
           get '/api/v2/coinmarketcap/ticker'
           expect(response).to be_successful
 
-          result = JSON.parse(response.body)
           # crypto/fiat market
-          expect(result.first['BTC_USD'].keys).to match_array %w[base_id last_price base_volume quote_volume isFrozen]
-          expect(result.first['BTC_USD']).to include(expected_btc_usd_ticker)
+          expect(response_body['BTC_USD'].keys).to match_array %w[base_id last_price base_volume quote_volume isFrozen]
+          expect(response_body['BTC_USD']).to include(expected_btc_usd_ticker)
         end
       end
     end
