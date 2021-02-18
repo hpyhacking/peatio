@@ -10,7 +10,7 @@ MAINTAINER lbellet@heliostech.fr
 # See https://docs.docker.com/engine/reference/commandline/build/#set-build-time-variables-build-arg
 #
 ARG RAILS_ENV=production
-ENV RAILS_ENV=${RAILS_ENV} APP_HOME=/home/app KAIGARA_VERSION=0.1.3
+ENV RAILS_ENV=${RAILS_ENV} APP_HOME=/home/app KAIGARA_VERSION=0.1.9
 
 # Allow customization of user ID and group ID (it's useful when you use Docker bind mounts)
 ARG UID=1000
@@ -22,7 +22,7 @@ ENV TZ=UTC
 # Create group "app" and user "app".
 RUN groupadd -r --gid ${GID} app \
   && useradd --system --create-home --home ${APP_HOME} --shell /sbin/nologin --no-log-init \
-      --gid ${GID} --uid ${UID} app
+  --gid ${GID} --uid ${UID} app
 
 # Install system dependencies.
 RUN apt-get update && apt-get upgrade -y
