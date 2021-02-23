@@ -9,13 +9,13 @@ describe API::V2::Admin::WhitelistedSmartContracts, type: :request do
   let(:test_file) { Rack::Test::UploadedFile.new(Rails.root.join('spec', 'resources', 'whitelisted_addresses', file_name), 'text/csv') }
   let(:file_name) { '1.csv' }
 
-  let!(:addresses_1) { create(:whitelisted_smart_contract, :address_1) }
-  let!(:addresses_2) { create(:whitelisted_smart_contract, :address_2) }
-  let!(:addresses_3) { create(:whitelisted_smart_contract, :address_3) }
-  let!(:addresses_4) { create(:whitelisted_smart_contract, :address_4) }
-  let!(:addresses_5) { create(:whitelisted_smart_contract, :address_5) }
-
   describe 'GET /api/v2/admin/whitelisted_smart_contract/:id' do
+    let!(:addresses_1) { create(:whitelisted_smart_contract, :address_1) }
+    let!(:addresses_2) { create(:whitelisted_smart_contract, :address_2) }
+    let!(:addresses_3) { create(:whitelisted_smart_contract, :address_3) }
+    let!(:addresses_4) { create(:whitelisted_smart_contract, :address_4) }
+    let!(:addresses_5) { create(:whitelisted_smart_contract, :address_5) }
+
     let(:whitelisted_address) { WhitelistedSmartContract.find(1) }
 
     it 'returns information about specified WhitelistedSmartContract' do
@@ -42,6 +42,12 @@ describe API::V2::Admin::WhitelistedSmartContracts, type: :request do
   end
 
   describe 'GET /api/v2/admin/whitelisted_smart_contracts' do
+    let!(:addresses_1) { create(:whitelisted_smart_contract, :address_1) }
+    let!(:addresses_2) { create(:whitelisted_smart_contract, :address_2) }
+    let!(:addresses_3) { create(:whitelisted_smart_contract, :address_3) }
+    let!(:addresses_4) { create(:whitelisted_smart_contract, :address_4) }
+    let!(:addresses_5) { create(:whitelisted_smart_contract, :address_5) }
+
     it 'lists of whitelisted_smart_contracts' do
       api_get '/api/v2/admin/whitelisted_smart_contracts', token: token
 
@@ -121,6 +127,8 @@ describe API::V2::Admin::WhitelistedSmartContracts, type: :request do
   end
 
   describe 'PUT /api/v2/admin/whitelisted_smart_contracts' do
+    let!(:addresses_1) { create(:whitelisted_smart_contract, :address_1) }
+
     it 'update WhitelistedSmartContract' do
       api_put '/api/v2/admin/whitelisted_smart_contracts', token: token, params: { id: WhitelistedSmartContract.first.id, address: 'test' }
       result = JSON.parse(response.body)

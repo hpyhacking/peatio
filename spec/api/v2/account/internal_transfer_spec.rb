@@ -60,7 +60,7 @@ describe API::V2::Account::InternalTransfers, type: :request do
     end
 
     it 'returns internal transfers of USD currency' do
-      api_get endpoint, params: { currency: 'USD' }, token: token
+      api_get endpoint, params: { currency: 'usd' }, token: token
       result = JSON.parse(response.body)
 
       expect(result.count).to eq 3
