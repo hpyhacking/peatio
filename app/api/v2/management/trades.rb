@@ -13,19 +13,24 @@ module API
         params do
           optional :uid,      type: String,  desc: 'The shared user ID.'
           optional :market, type: String,
-                   values: { value: -> { ::Market.active.ids },
+                   values: { value: -> { ::Market.active.pluck(:symbol) },
                    message: 'Market does not exist' }
+          optional :market_type,
+                   values: { value: -> { ::Market::TYPES }, message: 'market.market.invalid_market_type' },
+                   desc: -> { V2::Entities::Market.documentation[:type] },
+                   default: -> { ::Market::DEFAULT_TYPE }
           optional :page,     type: Integer, default: 1,   integer_gt_zero: true, desc: 'The page number (defaults to 1).'
           optional :limit,    type: Integer, default: 100, range: 1..1000, desc: 'The number of objects per page (defaults to 100, maximum is 1000).'
         end
         post '/trades' do
-          market = ::Market.find(params[:market]) if params[:market].present?
+          market = ::Market.find_by_symbol_and_type(params[:market], params[:market_type]) if params[:market].present?
           member = Member.find_by!(uid: params[:uid]) if params[:uid].present?
 
           Trade
             .order(id: :desc)
             .includes(:maker, :taker)
-            .tap { |q| q.where!(market: market) if market }
+            .tap { |q| q.where!(market_type: params[:market_type]) }
+            .tap { |q| q.where!(market: market) if market}
             .tap { |q| q.where!("maker_id = #{member.id} OR taker_id = #{member.id}") if member }
             .page(params[:page])
             .per(params[:limit])

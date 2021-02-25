@@ -11,16 +11,21 @@ module API
           is_array: true,
           success: API::V2::Entities::Order
         params do
+          # TODO: Would be cool to validate market based on the market_type
           optional :market,
-                   values: { value: ->(v) { (Array.wrap(v) - ::Market.active.ids).blank? }, message: 'market.market.doesnt_exist' },
-                   desc: -> { V2::Entities::Market.documentation[:id] }
+                   values: { value: ->(v) { (Array.wrap(v) - ::Market.active.pluck(:symbol)).blank? }, message: 'market.market.doesnt_exist' },
+                   desc: -> { V2::Entities::Market.documentation[:symbol] }
+          optional :market_type,
+                   values: { value: -> { ::Market::TYPES }, message: 'market.market.invalid_market_type' },
+                   desc: -> { V2::Entities::Market.documentation[:type] },
+                   default: -> { ::Market::DEFAULT_TYPE }
           optional :base_unit,
                    type: String,
                    values: { value: -> { ::Market.active.pluck(:base_unit) }, message: 'market.market.doesnt_exist' },
                    desc: -> { V2::Entities::Market.documentation[:base_unit] }
           optional :quote_unit,
                    type: String,
-                   values: { value: -> { ::Market.active.pluck(:quote_unit) }, message: 'market.market.doesnt_exist' },
+                   values: { value: -> { ::Market.active.pluck(:base_unit) }, message: 'market.market.doesnt_exist' },
                    desc: -> { V2::Entities::Market.documentation[:quote_unit] }
           optional :state,
                    values: { value: ->(v) { (Array.wrap(v) - Order.state.values).blank? }, message: 'market.order.invalid_state' },
@@ -63,6 +68,7 @@ module API
           user_authorize! :read, ::Order
 
           current_user.orders.order(updated_at: params[:order_by])
+                      .tap { |q| q.where!(market_type: params[:market_type]) }
                       .tap { |q| q.where!(market: params[:market]) if params[:market] }
                       .tap { |q| q.where!(ask: params[:base_unit]) if params[:base_unit] }
                       .tap { |q| q.where!(bid: params[:quote_unit]) if params[:quote_unit] }
@@ -116,9 +122,9 @@ module API
 
           begin
             if params[:id].match?(/\A[0-9]+\z/)
-              order = current_user.orders.find_by!(id: params[:id])
+              order = current_user.orders.spot.find_by!(id: params[:id])
             elsif UUID.validate(params[:id])
-              order = current_user.orders.find_by!(uuid: params[:id])
+              order = current_user.orders.spot.find_by!(uuid: params[:id])
             else
               error!({ errors: ['market.order.invaild_id_or_uuid'] }, 422)
             end
@@ -137,12 +143,16 @@ module API
         params do
           optional :market,
                    type: String,
-                   values: { value: -> { ::Market.active.ids }, message: 'market.market.doesnt_exist' },
-                   desc: -> { V2::Entities::Market.documentation[:id] }
+                   values: {  value: -> { ::Market.active.pluck(:symbol) }, message: 'market.market.doesnt_exist' },
+                   desc: -> { V2::Entities::Market.documentation[:symbol] }
+          optional :market_type,
+                   values: { value: -> { ::Market::TYPES }, message: 'market.market.invalid_market_type' },
+                   desc: -> { V2::Entities::Market.documentation[:type] },
+                   default: -> { ::Market::DEFAULT_TYPE }
           optional :side,
                    type: String,
                    values: %w(sell buy),
-                   desc: 'If present, only sell orders (asks) or buy orders (bids) will be canncelled.'
+                   desc: 'If present, only sell orders (asks) or buy orders (bids) will be cancelled.'
         end
         post '/orders/cancel' do
           user_authorize! :update, ::Order
@@ -150,6 +160,7 @@ module API
           begin
             orders = current_user.orders
                                  .with_state(:wait)
+                                 .tap { |q| q.where!(market_type: params[:market_type]) }
                                  .tap { |q| q.where!(market: params[:market]) if params[:market] }
             if params[:side].present?
               type = params[:side] == 'sell' ? 'OrderAsk' : 'OrderBid'

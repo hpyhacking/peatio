@@ -7,8 +7,8 @@ module API
         MILLISECONDS_IN_SECOND = 1000
 
         def format_summary(ticker, market)
-          lowest_ask = OrderAsk.get_depth(market.id)
-          highest_bid = OrderBid.get_depth(market.id)
+          lowest_ask = OrderAsk.get_depth(market.symbol)
+          highest_bid = OrderBid.get_depth(market.symbol)
           {
             trading_pairs:            market.underscore_name,            # mandatory [string]: Identifier of a ticker with delimiter to separate base/quote
             base_currency:            market.base_unit.upcase,           # recommended [string]: Symbol/currency code of base currency

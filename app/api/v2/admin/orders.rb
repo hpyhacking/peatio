@@ -15,8 +15,12 @@ module API
           success: API::V2::Admin::Entities::Order
         params do
           optional :market,
-                   values: { value: -> { ::Market.ids }, message: 'admin.market.doesnt_exist' },
+                   values: { value: -> { ::Market.pluck(:symbol) }, message: 'admin.market.doesnt_exist' },
                    desc: -> { API::V2::Admin::Entities::Market.documentation[:id][:desc] }
+          optional :market_type,
+                   values: { value: -> { ::Market::TYPES }, message: 'admin.market.invalid_market_type' },
+                   desc: -> { API::V2::Admin::Entities::Market.documentation[:type][:desc] },
+                   default: -> { ::Market::DEFAULT_TYPE }
           optional :state,
                    values: { value: -> { ::Order.state.values }, message: 'admin.order.invalid_state' },
                    desc: 'Filter order by state.'
@@ -50,7 +54,7 @@ module API
           end
 
           ransack_params = Helpers::RansackBuilder.new(params)
-                             .eq(:price, :origin_volume, :ord_type, :state, :member_id)
+                             .eq(:price, :origin_volume, :ord_type, :state, :member_id, :market_type)
                              .translate(market: :market_id)
                              .with_daterange
                              .merge({
@@ -77,6 +81,7 @@ module API
         post '/orders/:id/cancel' do
           admin_authorize! :update, ::Order
 
+          # This part won't work with Finex
           begin
             order = Order.find(params[:id])
             order.trigger_cancellation
@@ -84,7 +89,7 @@ module API
           rescue ActiveRecord::RecordNotFound => e
             # RecordNotFound in rescued by ExceptionsHandler.
             raise(e)
-          rescue
+          rescue StandardError => e
             error!({ errors: ['admin.order.cancel_error'] }, 422)
           end
         end
@@ -92,8 +97,8 @@ module API
         desc 'Cancel all orders.'
         params do
           requires :market,
-                   values: { value: -> { ::Market.active.ids }, message: 'admin.order.market_doesnt_exist' },
-                   desc: -> { API::V2::Admin::Entities::Order.documentation[:id][:desc] }
+                   values: { value: -> { ::Market.spot.active.pluck(:symbol) }, message: 'admin.order.market_doesnt_exist' },
+                   desc: -> { API::V2::Admin::Entities::Market.documentation[:id][:desc] }
           optional :side,
                    values: { value: %w(sell buy), message: 'admin.order.invalid_side' },
                    desc: 'If present, only sell orders (asks) or buy orders (bids) will be cancelled.'
@@ -103,7 +108,7 @@ module API
 
           begin
             ransack_params = Helpers::RansackBuilder.new(params)
-                                    .eq(state: 'wait')
+                                    .eq(state: 'wait', market_type: 'spot')
                                     .translate(market: :market_id)
                                     .merge({
                                       type_eq: params[:side].present? ? params[:side] == 'buy' ? 'OrderBid' : 'OrderAsk' : nil,

@@ -14,7 +14,7 @@ describe API::V2::Management::Orders, type: :request do
         write_orders: { permitted_signers: %i[alex jeff], mandatory_signers: %i[alex] }
       }
 
-    Market.find('btceth').update!(engine: finex_engine)
+    Market.find_spot_by_symbol('btceth').update!(engine: finex_engine)
   end
 
   describe 'POST /api/v2/management/orders' do
@@ -22,6 +22,8 @@ describe API::V2::Management::Orders, type: :request do
       create(:order_bid, :btcusd, member: member1, state: Order::CANCEL)
       create(:order_ask, :btcusd, member: member1, state: Order::WAIT)
       create(:order_ask, :btceth, member: member1, state: Order::DONE)
+      create(:order_ask, :btceth, member: member1, state: Order::WAIT)
+      create(:order_ask, :btceth_qe, member: member1, state: Order::DONE)
       create(:order_bid, :btcusd, member: member2, state: Order::CANCEL)
       create(:order_ask, :btcusd, member: member2, state: Order::WAIT)
       create(:order_ask, :btceth, member: member2, state: Order::DONE)
@@ -37,7 +39,7 @@ describe API::V2::Management::Orders, type: :request do
       request
 
       expect(response).to have_http_status 200
-      expect(response_body.count).to eq(Order.count)
+      expect(response_body.count).to eq(Order.spot.count)
     end
 
     context 'by member' do
@@ -47,7 +49,7 @@ describe API::V2::Management::Orders, type: :request do
         }
       end
 
-      it 'returns only member orders' do
+      it 'returns only member spot orders' do
         request
 
         expect(response).to have_http_status 200
@@ -59,19 +61,33 @@ describe API::V2::Management::Orders, type: :request do
       let(:data) do
         {
           uid: member1.uid,
-          market: 'btcusd',
+          market: 'btceth',
           state: 'wait',
           ord_type: 'limit'
         }
       end
 
-      it 'returns only member orders on specific market with specific state and order type' do
+      it 'returns only member orders on specific spot market with specific state and order type' do
         request
 
         expect(response).to have_http_status 200
         expect(response_body.pluck('member_id').uniq).to eq([member1.id])
         expect(response_body.pluck('state').uniq).to eq(['wait'])
-        expect(response_body.pluck('market').uniq).to eq(['btcusd'])
+        expect(response_body.pluck('market').uniq).to eq(['btceth'])
+        expect(response_body.pluck('market_type').uniq).to eq(['spot'])
+        expect(response_body.pluck('ord_type').uniq).to eq(['limit'])
+      end
+
+      it 'returns only member orders on specific qe market with specific state and order type' do
+        data[:state] = 'done'
+        data[:market_type] = 'qe'
+        request
+
+        expect(response).to have_http_status 200
+        expect(response_body.pluck('member_id').uniq).to eq([member1.id])
+        expect(response_body.pluck('state').uniq).to eq(['done'])
+        expect(response_body.pluck('market').uniq).to eq(['btceth'])
+        expect(response_body.pluck('market_type').uniq).to eq(['qe'])
         expect(response_body.pluck('ord_type').uniq).to eq(['limit'])
       end
     end
@@ -165,7 +181,7 @@ describe API::V2::Management::Orders, type: :request do
 
     context 'peatio order cancel' do
 
-      it 'cancels the orders on peatio market' do
+      it 'cancels the orders on peatio spot market' do
         data[:market] = 'btcusd'
 
         AMQP::Queue.expects(:enqueue).with(:matching, action: 'cancel', order: member1_peatio_order.to_matching_attributes)
@@ -176,7 +192,7 @@ describe API::V2::Management::Orders, type: :request do
         expect(response).to have_http_status 204
       end
 
-      it 'cancels the orders on peatio market' do
+      it 'cancels the orders on peatio spot market' do
         data[:market] = 'btcusd'
         data[:uid] = member1.uid
 
@@ -195,7 +211,7 @@ describe API::V2::Management::Orders, type: :request do
 
         AMQP::Queue.expects(:enqueue).with(:matching, action: 'cancel', order: member1_peatio_order.to_matching_attributes).never
         AMQP::Queue.expects(:enqueue).with(:matching, action: 'cancel', order: member2_peatio_order.to_matching_attributes).never
-        AMQP::Queue.expects(:publish).with(finex_engine.driver, data: { market_id: 'btceth' }, type: 4)
+        AMQP::Queue.expects(:publish).with(finex_engine.driver, data: { market_id: 'btceth', market_type: 'spot' }, type: 4)
 
         request
         expect(response).to have_http_status 204
@@ -206,7 +222,7 @@ describe API::V2::Management::Orders, type: :request do
         data[:uid] = member1.uid
 
         AMQP::Queue.expects(:enqueue).with(:matching, action: 'cancel', order: member1_peatio_order.to_matching_attributes).never
-        AMQP::Queue.expects(:publish).with(finex_engine.driver, data: { market_id: 'btceth', member_uid: member1.uid }, type: 4)
+        AMQP::Queue.expects(:publish).with(finex_engine.driver, data: { market_id: 'btceth', market_type: 'spot', member_uid: member1.uid }, type: 4)
 
         request
         expect(response).to have_http_status 204

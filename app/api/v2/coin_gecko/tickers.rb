@@ -8,7 +8,7 @@ module API
         desc 'Get list of all available trading pairs'
         get "/tickers" do
           tickers = Rails.cache.fetch(:markets_tickers_coingecko, expires_in: 60) do
-            ::Market.enabled.ordered.inject([]) do |hash, market|
+            ::Market.spot.enabled.ordered.inject([]) do |hash, market|
               hash << TickersService[market].ticker.merge(market: market)
             end
           end

@@ -1,11 +1,11 @@
-# encoding: UTF-8
 # frozen_string_literal: true
 
 FactoryBot.define do
   factory :market do
     engine { create(:engine) }
     trait :btcusd do
-      id                { 'btcusd' }
+      symbol            { 'btcusd' }
+      type              { 'spot' }
       base_currency     { 'btc' }
       quote_currency    { 'usd' }
       amount_precision  { 8 }
@@ -17,7 +17,8 @@ FactoryBot.define do
     end
 
     trait :btceth do
-      id                { 'btceth' }
+      symbol            { 'btceth' }
+      type              { 'spot' }
       base_currency     { 'btc' }
       quote_currency    { 'eth' }
       amount_precision  { 4 }
@@ -29,7 +30,8 @@ FactoryBot.define do
     end
 
     trait :btceur do
-      id                { 'btceur' }
+      symbol            { 'btceur' }
+      type              { 'spot' }
       base_currency     { 'btc' }
       quote_currency    { 'eur' }
       amount_precision  { 8 }
@@ -41,7 +43,8 @@ FactoryBot.define do
     end
 
     trait :ethusd do
-      id                { 'ethusd' }
+      symbol            { 'ethusd' }
+      type              { 'spot' }
       base_currency     { 'eth' }
       quote_currency    { 'usd' }
       amount_precision  { 6 }
@@ -53,7 +56,8 @@ FactoryBot.define do
     end
 
     trait :btctrst do
-      id                { 'btctrst' }
+      symbol            { 'btctrst' }
+      type              { 'spot' }
       base_currency     { 'btc' }
       quote_currency    { 'trst' }
       amount_precision  { 6 }
@@ -65,7 +69,8 @@ FactoryBot.define do
     end
 
     trait :xagm_cxusd do
-      id                { 'xagm.cxusd' }
+      symbol            { 'xagm.cxusd' }
+      type              { 'spot' }
       base_currency     { 'xagm.cx' }
       quote_currency    { 'usd' }
       amount_precision  { 6 }
@@ -73,6 +78,19 @@ FactoryBot.define do
       min_price         { 0.01 }
       min_amount        { 0.0001 }
       position          { 4 }
+      state             { :enabled }
+    end
+
+    trait :btceth_qe do
+      symbol            { 'btceth' }
+      type              { 'qe' }
+      base_currency     { 'btc' }
+      quote_currency    { 'eth' }
+      amount_precision  { 4 }
+      price_precision   { 6 }
+      min_price         { 0.000001 }
+      min_amount        { 0.0001 }
+      position          { 2 }
       state             { :enabled }
     end
   end

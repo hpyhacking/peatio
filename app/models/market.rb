@@ -17,6 +17,8 @@
 
 class Market < ApplicationRecord
 
+  self.inheritance_column = nil
+
   # == Constants ============================================================
 
   # Since we use decimal with 16 digits fractional part for storing numbers in DB
@@ -36,9 +38,14 @@ class Market < ApplicationRecord
   # sale - user can't view but can trade with market orders.
   # presale - user can't view and trade. Admin can trade.
 
+  TYPES = %w[spot qe].freeze
+  # spot - regular spot market
+  # qe - market used by Finex for quick exchange
+  DEFAULT_TYPE = 'spot'
+
   # == Attributes ===========================================================
 
-  attr_readonly :base_unit, :quote_unit
+  attr_readonly :base_unit, :quote_unit, :type
 
   # base_currency & quote_currency is preferred names instead of legacy
   # base_unit & quote_unit.
@@ -58,7 +65,7 @@ class Market < ApplicationRecord
   has_one :quote, class_name: 'Currency', foreign_key: :id, primary_key: :quote_unit
   belongs_to :engine, required: true
 
-  has_many :trading_fees, dependent: :delete_all
+  has_many :trading_fees, foreign_key: :market_id, primary_key: :symbol, dependent: :delete_all
 
   # == Validations ==========================================================
 
@@ -73,13 +80,15 @@ class Market < ApplicationRecord
       errors.add(:max, 'Market limit has been reached')
     end
 
-    if Market.where(base_currency: quote_currency, quote_currency: base_currency).present? ||
-       Market.where(base_currency: base_currency, quote_currency: quote_currency).present?
-      errors.add(:base, "#{base_currency.upcase}, #{quote_currency.upcase} market already exists")
+    if Market.where(base_currency: quote_currency, quote_currency: base_currency, type: type).present? ||
+       Market.where(base_currency: base_currency, quote_currency: quote_currency, type: type).present?
+      errors.add(:base, "#{base_currency.upcase}, #{quote_currency.upcase} #{type} market already exists")
     end
   end
 
-  validates :id, uniqueness: { case_sensitive: false }, presence: true
+  validates :symbol, uniqueness: { scope: :type, case_sensitive: false }, presence: true
+
+  validates :type, presence: true, inclusion: { in: TYPES }
 
   validates :base_currency, :quote_currency, presence: true
 
@@ -122,6 +131,8 @@ class Market < ApplicationRecord
 
   # == Scopes ===============================================================
 
+  scope :spot, -> { where(type: 'spot') }
+  scope :qe, -> { where(type: 'qe') }
   scope :ordered, -> { order(position: :asc) }
   scope :active, -> { where(state: %i[enabled hidden]) }
   scope :enabled, -> { where(state: :enabled) }
@@ -129,14 +140,30 @@ class Market < ApplicationRecord
   # == Callbacks ============================================================
 
   after_initialize :initialize_defaults, if: :new_record?
-  before_validation(on: :create) { self.id = "#{base_currency}#{quote_currency}" }
+  before_validation(on: :create) { self.symbol = "#{base_currency}#{quote_currency}" }
   before_validation(on: :create) { self.position = Market.count + 1 unless position.present? }
 
-  after_commit { AMQP::Queue.enqueue(:matching, action: 'new', market: id) }
+  after_commit { AMQP::Queue.enqueue(:matching, action: 'new', market: symbol) }
   after_commit :wipe_cache
   after_create { insert_position(self) }
 
   before_update { update_position(self) if position_changed? }
+
+  # == Class Methods ========================================================
+
+  class << self
+    def find_spot_by_symbol(market_symbol)
+      Market.find_by!(symbol: market_symbol, type: 'spot')
+    end
+
+    def find_qe_by_symbol(market_symbol)
+      Market.find_by!(symbol: market_symbol, type: 'qe')
+    end
+
+    def find_by_symbol_and_type(market_symbol, market_type)
+      Market.find_by!(symbol: market_symbol, type: market_type)
+    end
+  end
 
   # == Instance Methods =====================================================
 
@@ -196,11 +223,13 @@ class Market < ApplicationRecord
 end
 
 # == Schema Information
-# Schema version: 20200909083000
+# Schema version: 20210225123519
 #
 # Table name: markets
 #
-#  id               :string(20)       not null, primary key
+#  id               :bigint           not null, primary key
+#  symbol           :string(20)       not null
+#  type             :string(255)      default("spot"), not null
 #  base_unit        :string(10)       not null
 #  quote_unit       :string(10)       not null
 #  engine_id        :bigint           not null
@@ -217,9 +246,10 @@ end
 #
 # Indexes
 #
-#  index_markets_on_base_unit                 (base_unit)
-#  index_markets_on_base_unit_and_quote_unit  (base_unit,quote_unit) UNIQUE
-#  index_markets_on_engine_id                 (engine_id)
-#  index_markets_on_position                  (position)
-#  index_markets_on_quote_unit                (quote_unit)
+#  index_markets_on_base_unit                          (base_unit)
+#  index_markets_on_base_unit_and_quote_unit_and_type  (base_unit,quote_unit,type) UNIQUE
+#  index_markets_on_engine_id                          (engine_id)
+#  index_markets_on_position                           (position)
+#  index_markets_on_quote_unit                         (quote_unit)
+#  index_markets_on_symbol_and_type                    (symbol,type) UNIQUE
 #

@@ -29,11 +29,11 @@ class KLineService
   end
 
 
-  attr_accessor :market_id, :period
+  attr_accessor :market_symbol, :period
 
-  def initialize(marked_id, period)
-    @market_id = marked_id
-    @period    = humanize_period(period)
+  def initialize(market_symbol, period)
+    @market_symbol = market_symbol
+    @period        = humanize_period(period)
   end
 
   # OHCL - open, high, closing, and low prices.
@@ -46,14 +46,14 @@ class KLineService
     time_to = options[:time_to]
     offset = calculate_offset(options) if time_from.blank?
 
-    q = ["SELECT * FROM candles_#{@period} WHERE market='#{@market_id}'"]
+    q = ["SELECT * FROM candles_#{@period} WHERE market='#{@market_symbol}'"]
     q << "AND time >= #{time_from.to_i * 1_000_000_000}" if time_from.present?
     q << "AND time <= #{time_to.to_i * 1_000_000_000}" if time_to.present?
     q << "ORDER BY #{options[:order_by]}" if options[:order_by]
     q << "LIMIT #{options[:limit]}" if options[:limit]
     q << "OFFSET #{offset}" if offset.present? && options[:offset]
 
-    Peatio::InfluxDB.client(keyshard: @market_id, epoch: 's').query(q.join(' ')) do |_name, _tags, points|
+    Peatio::InfluxDB.client(keyshard: @market_symbol, epoch: 's').query(q.join(' ')) do |_name, _tags, points|
       return points.map do |point|
         [point['time'], point['open'], point['high'], point['low'], point['close'], point['volume']]
       end
@@ -61,9 +61,9 @@ class KLineService
   end
 
   def calculate_offset(options)
-    q = ["SELECT COUNT(high) FROM candles_#{@period} WHERE market='#{@market_id}'"]
+    q = ["SELECT COUNT(high) FROM candles_#{@period} WHERE market='#{@market_symbol}'"]
     q << "AND time <= #{options[:time_to].to_i * 1_000_000_000}" if options[:time_to].present?
-    Peatio::InfluxDB.client(keyshard: @market_id, epoch: 's').query(q.join(' ')) do |_, _, values|
+    Peatio::InfluxDB.client(keyshard: @market_symbol, epoch: 's').query(q.join(' ')) do |_, _, values|
       return options[:limit].to_i < values.first['count'] ? values.first['count'] - options[:limit] : 0
     end
   end

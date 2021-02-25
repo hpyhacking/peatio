@@ -18,8 +18,12 @@ module API
              success: API::V2::Entities::Trade
         params do
           optional :market,
-                   values: { value: ->(v) { (Array.wrap(v) - ::Market.active.ids).blank? }, message: 'market.market.doesnt_exist' },
-                   desc: -> { V2::Entities::Market.documentation[:id] }
+                   values: { value: ->(v) { (Array.wrap(v) - ::Market.active.pluck(:symbol)).blank? }, message: 'market.market.doesnt_exist' },
+                   desc: -> { V2::Entities::Market.documentation[:symbol] }
+          optional :market_type,
+                   values: { value: -> { ::Market::TYPES }, message: 'market.market.invalid_market_type' },
+                   desc: -> { V2::Entities::Market.documentation[:type] },
+                   default: -> { ::Market::DEFAULT_TYPE }
           use :trade_filters
         end
         get '/trades' do
@@ -28,6 +32,7 @@ module API
           current_user
             .trades
             .order(order_param)
+            .tap { |q| q.where!(market_type: params[:market_type]) }
             .tap { |q| q.where!('(taker_id = ? AND taker_type = ?) OR (maker_id = ? AND taker_type = ?)', current_user.id, params[:type], current_user.id, opposite_type_param) if params[:type] }
             .tap { |q| q.where!(market: params[:market]) if params[:market] }
             .tap { |q| q.where!('created_at >= ?', Time.at(params[:time_from])) if params[:time_from] }

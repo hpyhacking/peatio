@@ -132,10 +132,10 @@ module Jobs::Cron
       end
 
       def conversion_market(currency_id, pnl_currency_id)
-        market = Market.find_by(base_unit: currency_id, quote_unit: pnl_currency_id)
+        market = Market.spot.find_by(base_unit: currency_id, quote_unit: pnl_currency_id)
         raise Error, "There is no market #{currency_id}/#{pnl_currency_id}" unless market.present?
 
-        market.id
+        market.symbol
       end
 
       def price_at(currency_id, pnl_currency_id, at)

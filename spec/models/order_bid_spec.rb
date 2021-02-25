@@ -7,7 +7,7 @@ describe OrderBid do
   it { expect(subject.compute_locked).to eq subject.volume * subject.price }
 
   let(:market) do
-    Market.find(:btcusd).tap { |m| m.update(max_price: 1.0, min_amount: 0.1)}
+    Market.find_spot_by_symbol(:btcusd).tap { |m| m.update(max_price: 1.0, min_amount: 0.1)}
   end
 
   context 'compute locked for market order' do
@@ -40,13 +40,13 @@ describe OrderBid do
     end
 
     it 'should make sure price is less than max_price' do
-      bid = OrderBid.new(market_id: market.id, price: '10.0'.to_d, ord_type: 'limit')
+      bid = OrderBid.new(market_id: market.symbol, price: '10.0'.to_d, ord_type: 'limit')
       expect(bid).not_to be_valid
       expect(bid.errors[:price]).to include "must be less than or equal to #{market.max_price}"
     end
 
     it 'should make sure amount is greater than min_bid' do
-      bid_amount = OrderBid.new(market_id: market.id, origin_volume: '0.0'.to_d)
+      bid_amount = OrderBid.new(market_id: market.symbol, origin_volume: '0.0'.to_d)
       expect(bid_amount).not_to be_valid
       expect(bid_amount.errors[:origin_volume]).to include "must be greater than or equal to #{market.min_amount}"
     end

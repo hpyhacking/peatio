@@ -15,8 +15,12 @@ module API
                    values: { value: ->(v) { Member.exists?(uid: v) }, message: 'management.orders.uid_doesnt_exist' },
                    desc: 'Filter order by owner uid'
           optional :market,
-                   values: { value: -> { ::Market.ids }, message: 'management.orders.market_doesnt_exist' },
+                   values: { value: -> { ::Market.pluck(:symbol) }, message: 'management.orders.market_doesnt_exist' },
                    desc: -> { API::V2::Management::Entities::Market.documentation[:id][:desc] }
+          optional :market_type,
+                   values: { value: -> { ::Market::TYPES }, message: 'market.market.invalid_market_type' },
+                   desc: -> {  API::V2::Management::Entities::Market.documentation[:type][:desc] },
+                   default: -> { ::Market::DEFAULT_TYPE }
           optional :state,
                    values: { value: -> { ::Order.state.values }, message: 'management.orders.invalid_state' },
                    desc: 'Filter order by state.'
@@ -31,7 +35,7 @@ module API
           end
 
           ransack_params = API::V2::Admin::Helpers::RansackBuilder.new(params)
-                                                                  .eq(:ord_type, :state, :member_id)
+                                                                  .eq(:ord_type, :state, :member_id, :market_type)
                                                                   .translate(market: :market_id)
                                                                   .build
 
@@ -75,8 +79,12 @@ module API
                    values: { value: ->(v) { Member.exists?(uid: v) }, message: 'management.orders.uid_doesnt_exist' },
                    desc: 'Filter order by owner uid'
           requires :market,
-                   values: { value: -> { ::Market.active.ids }, message: 'management.order.market_doesnt_exist' },
+                   values: { value: -> { ::Market.active.pluck(:symbol) }, message: 'management.order.market_doesnt_exist' },
                    desc: -> { API::V2::Management::Entities::Market.documentation[:id][:desc] }
+          optional :market_type,
+                   values: { value: -> { ::Market::TYPES }, message: 'market.market.invalid_market_type' },
+                   desc: -> {  API::V2::Management::Entities::Market.documentation[:type][:desc] },
+                   default: -> { ::Market::DEFAULT_TYPE }
         end
 
         post '/orders/cancel' do
@@ -85,12 +93,12 @@ module API
             params.merge!(member_id: member.id) if member.present?
           end
 
-          market = ::Market.find(params[:market])
+          market = ::Market.find_by_symbol_and_type(params[:market], params[:market_type])
           market_engine = market.engine
 
           if market_engine.peatio_engine?
             ransack_params = API::V2::Admin::Helpers::RansackBuilder.new(params)
-                                                                    .eq(:member_id, state: 'wait')
+                                                                    .eq(:member_id, :market_type, state: 'wait')
                                                                     .translate(market: :market_id)
                                                                     .build
 
@@ -98,7 +106,8 @@ module API
             orders.map(&:trigger_internal_cancellation)
           else
             filters = {
-              market_id: market.id,
+              market_id: market.symbol,
+              market_type: market.type,
               member_uid: params[:uid]
             }.compact
 

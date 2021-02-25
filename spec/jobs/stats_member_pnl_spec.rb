@@ -50,7 +50,7 @@ describe Jobs::Cron::StatsMemberPnl do
 
     it 'when market exists' do
       market = Market.first
-      expect(Jobs::Cron::StatsMemberPnl.conversion_market(market.base_unit, market.quote_unit)).to eq market.id
+      expect(Jobs::Cron::StatsMemberPnl.conversion_market(market.base_unit, market.quote_unit)).to eq market.symbol
     end
   end
 
@@ -61,7 +61,7 @@ describe Jobs::Cron::StatsMemberPnl do
     let!(:liability) { create(:liability, member: member, credit: 0.4, reference_type: 'Deposit', reference_id: coin_deposit.id) }
 
     it 'when there is no trades' do
-      market = Market.find_by(base_unit: 'btc', quote_unit: 'usd')
+      market = Market.spot.find_by(base_unit: 'btc', quote_unit: 'usd')
       expect do
         Jobs::Cron::StatsMemberPnl.price_at(coin_deposit.currency_id, market.quote_unit, liability.created_at)
       end.to raise_error("There is no trades on market #{coin_deposit.currency_id}#{market.quote_unit}")

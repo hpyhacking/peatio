@@ -5,7 +5,7 @@ module Workers
   module AMQP
     class OrderProcessor < Base
       def initialize
-        Order.where(state: ::Order::PENDING).find_each do |order|
+        Order.spot.where(state: ::Order::PENDING).find_each do |order|
           Order.submit(order.id)
         rescue StandardError => e
           AMQPQueue.enqueue(:trade_error, e.message)

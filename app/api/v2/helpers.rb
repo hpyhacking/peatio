@@ -82,7 +82,7 @@ module API
       memoize :current_user
 
       def current_market
-        ::Market.active.find_by_id(params[:market])
+        ::Market.active.find_spot_by_symbol(params[:market])
       end
       memoize :current_market
 

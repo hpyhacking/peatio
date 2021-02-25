@@ -12,6 +12,7 @@ describe API::V2::Admin::Orders, type: :request do
       # NOTE: We specify updated_at attribute for testing order of Order.
       create(:order_bid, :btcusd, price: '11'.to_d, origin_volume: '123.12', member: admin, updated_at: Time.at(1548224524), created_at: Time.at(1548234524))
       create(:order_bid, :btceth, price: '11'.to_d, origin_volume: '123.12', member: admin, updated_at: Time.at(1548234524), created_at: Time.at(1548254524))
+      create(:order_bid, :btceth_qe, price: '11'.to_d, origin_volume: '123.12', member: admin, updated_at: Time.at(1548234524), created_at: Time.at(1548254524))
       create(:order_bid, :btcusd, price: '12'.to_d, origin_volume: '123.12', member: admin, state: Order::CANCEL, updated_at: Time.at(1548244524), created_at: Time.at(1548254524))
       create(:order_ask, :btcusd, price: '13'.to_d, origin_volume: '123.12', member: admin, state: Order::WAIT, updated_at: Time.at(1548254524), created_at: Time.at(1548254524))
       create(:order_ask, :btcusd, price: '14'.to_d, origin_volume: '123.12', member: admin, state: Order::DONE, created_at: Time.at(1548254524))
@@ -78,6 +79,26 @@ describe API::V2::Admin::Orders, type: :request do
 
       expect(response).to be_successful
       expect(result.size).to eq 4
+    end
+
+    it 'returns all my orders for btceth spot market' do
+      api_get '/api/v2/admin/orders', params: { market: 'btceth' }, token: token
+      expected = Order.spot.with_market('btceth').pluck(:market_type)
+      result = JSON.parse(response.body)
+
+      expect(response).to be_successful
+      expect(result.pluck('market_type')).to match_array expected
+      expect(result.size).to eq 1
+    end
+
+    it 'returns all my orders for btceth qe market' do
+      api_get '/api/v2/admin/orders', params: { market: 'btceth', market_type: 'qe' }, token: token
+      expected = Order.qe.with_market('btceth').pluck(:market_type)
+      result = JSON.parse(response.body)
+
+      expect(response).to be_successful
+      expect(result.pluck('market_type')).to match_array expected
+      expect(result.size).to eq 1
     end
 
     it 'returns orders with ord_type limit' do

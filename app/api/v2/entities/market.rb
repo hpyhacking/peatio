@@ -6,10 +6,19 @@ module API
     module Entities
       class Market < Base
         expose(
-          :id,
+          :symbol,
+          as: :id,
           documentation: {
             type: String,
-            desc: "Unique market id. It's always in the form of xxxyyy,"\
+            desc: "Id has been renamed to symbol. This field will be deprecated soon."
+          }
+        )
+
+        expose(
+          :symbol,
+          documentation: {
+            type: String,
+            desc: "Unique market ticker symbol. It's always in the form of xxxyyy,"\
                   "where xxx is the base currency code, yyy is the quote"\
                   "currency code, e.g. 'btcusd'. All available markets can"\
                   "be found at /api/v2/markets."
@@ -21,6 +30,14 @@ module API
           documentation: {
             type: String,
             desc: 'Market name.'
+          }
+        )
+
+        expose(
+          :type,
+          documentation: {
+            type: String,
+            desc: 'Market type.'
           }
         )
 

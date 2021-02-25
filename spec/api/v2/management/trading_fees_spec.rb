@@ -22,6 +22,7 @@ describe API::V2::Management::TradingFees, type: :request do
       create(:trading_fee, maker: 0.0005, taker: 0.001, market_id: :btcusd, group: 'vip-0')
       create(:trading_fee, maker: 0.0008, taker: 0.001, market_id: :any, group: 'vip-0')
       create(:trading_fee, maker: 0.001, taker: 0.0012, market_id: :btcusd, group: :any)
+      create(:trading_fee, maker: 0.001, taker: 0.0012, market_id: :btceth, market_type: 'qe', group: :any)
     end
 
     it 'returns all trading fees tables' do
@@ -39,6 +40,33 @@ describe API::V2::Management::TradingFees, type: :request do
         expect(JSON.parse(response.body).first['taker']).to eq('0.001')
         expect(JSON.parse(response.body).first['group']).to eq('vip-0')
         expect(JSON.parse(response.body).first['market_id']).to eq('btcusd')
+        expect(JSON.parse(response.body).first['market_type']).to eq('spot')
+        expect(response.headers.fetch('Total')).to eq('1')
+      end
+    end
+
+    context 'market_type' do
+      let(:data) { {} }
+      it 'returns trading fee with spot market_type' do
+        request
+        expect(response).to have_http_status(200)
+        expect(JSON.parse(response.body).first['maker']).to eq('0.001')
+        expect(JSON.parse(response.body).first['taker']).to eq('0.0012')
+        expect(JSON.parse(response.body).first['group']).to eq('any')
+        expect(JSON.parse(response.body).first['market_id']).to eq('btcusd')
+        expect(JSON.parse(response.body).first['market_type']).to eq('spot')
+        expect(response.headers.fetch('Total')).to eq('4')
+      end
+
+      it 'returns trading fee with qe market_type' do
+        data[:market_type] = 'qe'
+        request
+        expect(response).to have_http_status(200)
+        expect(JSON.parse(response.body).first['maker']).to eq('0.001')
+        expect(JSON.parse(response.body).first['taker']).to eq('0.0012')
+        expect(JSON.parse(response.body).first['group']).to eq('any')
+        expect(JSON.parse(response.body).first['market_id']).to eq('btceth')
+        expect(JSON.parse(response.body).first['market_type']).to eq('qe')
         expect(response.headers.fetch('Total')).to eq('1')
       end
     end

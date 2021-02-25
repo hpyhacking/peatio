@@ -84,6 +84,13 @@ module API
               }
           )
 
+          expose(
+            :market_type,
+            documentation: {
+              type: String,
+              desc: "Market type."
+            }
+          )
 
           expose(
               :created_at,

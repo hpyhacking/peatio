@@ -10,7 +10,7 @@ class Trade < ApplicationRecord
 
   # == Relationships ========================================================
 
-  belongs_to :market, required: true
+  belongs_to :market, ->(trade) { where(type: trade.market_type) }, foreign_key: :market_id, primary_key: :symbol, required: true
   belongs_to :maker_order, class_name: 'Order', foreign_key: :maker_order_id, required: true
   belongs_to :taker_order, class_name: 'Order', foreign_key: :taker_order_id, required: true
   belongs_to :maker, class_name: 'Member', foreign_key: :maker_id, required: true
@@ -20,10 +20,16 @@ class Trade < ApplicationRecord
 
   validates :price, :amount, :total, numericality: { greater_than_or_equal_to: 0.to_d }
 
+  validates :market_type,
+            presence: true,
+            inclusion: { in: Market::TYPES }
+
   # == Scopes ===============================================================
 
   scope :h24, -> { where('created_at > ?', 24.hours.ago) }
   scope :with_market, ->(market) { where(market_id: market) }
+  scope :spot, -> { where(market_type: 'spot') }
+  scope :qe, -> { where(market_type: 'qe') }
 
   # == Callbacks ============================================================
 
@@ -134,7 +140,7 @@ class Trade < ApplicationRecord
   def trigger_event
     ::AMQP::Queue.enqueue_event("private", maker.uid, "trade", for_notify(maker))
     ::AMQP::Queue.enqueue_event("private", taker.uid, "trade", for_notify(taker))
-    ::AMQP::Queue.enqueue_event("public", market.id, "trades", {trades: [for_global]})
+    ::AMQP::Queue.enqueue_event("public", market.symbol, "trades", {trades: [for_global]})
   end
 
   def for_notify(member = nil)
@@ -142,7 +148,7 @@ class Trade < ApplicationRecord
       price:          price.to_s  || ZERO,
       amount:         amount.to_s || ZERO,
       total:          total.to_s || ZERO,
-      market:         market.id,
+      market:         market.symbol,
       side:           side(member),
       taker_type:     taker_type,
       created_at:     created_at.to_i,
@@ -182,7 +188,7 @@ class Trade < ApplicationRecord
                     total:      total,
                     taker_type: taker_type,
                     created_at: created_at.to_i },
-      tags:       { market: market.id } }
+      tags:       { market: market.symbol } }
   end
 
   def write_to_influx
@@ -347,7 +353,7 @@ class Trade < ApplicationRecord
 end
 
 # == Schema Information
-# Schema version: 20210120133912
+# Schema version: 20210225123519
 #
 # Table name: trades
 #

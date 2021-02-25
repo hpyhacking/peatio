@@ -58,6 +58,7 @@ describe API::V2::Management::Trades, type: :request do
   let!(:btceth_ask_trade) { create(:trade, :btceth, maker_order: btceth_ask, created_at: 2.days.ago) }
   let!(:btcusd_bid_trade) { create(:trade, :btcusd, taker_order: btcusd_bid, created_at: 23.hours.ago) }
   let!(:btceth_bid_trade) { create(:trade, :btceth, taker_order: btceth_bid, created_at: 23.hours.ago) }
+  let!(:btceth_bid_qe_trade) { create(:trade, :btceth_qe, created_at: 23.hours.ago) }
 
   before do
     defaults_for_management_api_v1_security_configuration!
@@ -74,12 +75,21 @@ describe API::V2::Management::Trades, type: :request do
   let(:data) { {} }
   let(:signers) { %i[alex jeff] }
 
-  it 'returns all recent trades' do
+  it 'returns all recent spot trades' do
     request
     expect(response).to be_successful
 
     result = JSON.parse(response.body)
     expect(result.count).to eq 4
+  end
+
+  it 'returns all recent qe trades' do
+    data[:market_type] = 'qe'
+    request
+    expect(response).to be_successful
+
+    result = JSON.parse(response.body)
+    expect(result.count).to eq 1
   end
 
   it 'returns trades by uid of user' do
@@ -91,12 +101,21 @@ describe API::V2::Management::Trades, type: :request do
     expect(result.count).to eq 2
   end
 
-  it 'returns trades by market' do
+  it 'returns trades on spot market' do
     data.merge!(market: 'btcusd')
     request
     expect(response).to be_successful
 
     result = JSON.parse(response.body)
     expect(result.count).to eq 2
+  end
+
+  it 'returns trades on qe market' do
+    data.merge!(market: 'btceth', market_type: 'qe')
+    request
+    expect(response).to be_successful
+
+    result = JSON.parse(response.body)
+    expect(result.count).to eq 1
   end
 end

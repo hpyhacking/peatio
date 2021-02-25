@@ -17,6 +17,7 @@ FactoryBot.define do
 
     trait :with_market do
       market { Market.all.sample }
+      market_type { 'spot' }
     end
   end
 end

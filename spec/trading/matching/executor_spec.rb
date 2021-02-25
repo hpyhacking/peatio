@@ -4,7 +4,7 @@
 describe Matching::Executor do
   let(:alice)  { who_is_billionaire }
   let(:bob)    { who_is_billionaire }
-  let(:market) { Market.find('btcusd') }
+  let(:market) { Market.find_spot_by_symbol('btcusd') }
   let(:price)  { 10.to_d }
   let(:volume) { 5.to_d }
 
@@ -12,7 +12,7 @@ describe Matching::Executor do
     Matching::Executor.new(
       action: 'execute',
       trade: {
-        market_id:      market.id,
+        market_id:      market.symbol,
         maker_order_id: ask.id,
         taker_order_id: bid.id,
         strike_price:   price.to_s('F'),
@@ -120,7 +120,7 @@ describe Matching::Executor do
       executor = Matching::Executor.new(
         action: 'execute',
         trade: {
-          market_id:      market.id,
+          market_id:      market.symbol,
           maker_order_id: ask.id,
           taker_order_id: bid.id,
           strike_price:   '2.0'.to_d,
@@ -142,7 +142,7 @@ describe Matching::Executor do
       Matching::Executor.new(
         action: 'execute',
         trade: {
-          market_id:      market.id,
+          market_id:      market.symbol,
           maker_order_id: ask.id,
           taker_order_id: bid.id,
           strike_price:   price - 1, # so bid order only used (price-1)*volume

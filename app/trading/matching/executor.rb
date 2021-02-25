@@ -46,7 +46,7 @@ module Matching
 
     def execute!
       # NOTE: Run matching engine for disabled markets.
-      @market = Market.find(@trade_payload[:market_id])
+      @market = Market.find_spot_by_symbol(@trade_payload[:market_id])
       @price  = @trade_payload[:strike_price].to_d
       @amount = @trade_payload[:amount].to_d
       @total  = @trade_payload[:total].to_d
@@ -147,7 +147,7 @@ module Matching
       AMQP::Queue.publish :trade, @trade.as_json, {
         headers: {
           type:     :local,
-          market:   @market.id,
+          market:   @market.symbol,
           maker_id: @maker_id,
           taker_id: @taker_id
         }

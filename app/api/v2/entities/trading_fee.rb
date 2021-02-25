@@ -27,6 +27,14 @@ module API
         )
 
         expose(
+          :market_type,
+          documentation:{
+            type: String,
+            desc: 'Market type.'
+          }
+        )
+
+        expose(
           :maker,
           documentation:{
             type: BigDecimal,

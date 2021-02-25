@@ -5,7 +5,7 @@ require 'csv'
 
 class Order < ApplicationRecord
 
-  belongs_to :market, required: true
+  belongs_to :market, ->(order) { where(type: order.market_type) }, foreign_key: :market_id, primary_key: :symbol, required: true
   belongs_to :member, required: true
   attribute :uuid, :uuid if Rails.configuration.database_adapter.downcase != 'PostgreSQL'.downcase
 
@@ -27,6 +27,8 @@ class Order < ApplicationRecord
   belongs_to :ask_currency, class_name: 'Currency', foreign_key: :ask
   belongs_to :bid_currency, class_name: 'Currency', foreign_key: :bid
   after_commit :trigger_event
+
+  validates :market_type, presence: true, inclusion: { in: ->(_o) { Market::TYPES } }
 
   validates :ord_type, :volume, :origin_volume, :locked, :origin_locked, presence: true
   validates :price, numericality: { greater_than: 0 }, if: ->(order) { order.ord_type == 'limit' }
@@ -72,6 +74,8 @@ class Order < ApplicationRecord
   scope :done, -> { with_state(:done) }
   scope :active, -> { with_state(:wait) }
   scope :with_market, ->(market) { where(market_id: market) }
+  scope :spot, -> { where(market_type: 'spot') }
+  scope :qe, -> { where(market_type: 'qe') }
 
   # Custom ransackers.
 
@@ -83,7 +87,7 @@ class Order < ApplicationRecord
   # Since we can't predict fee types on order creation step and
   # Market fees configuration can change we need to store fees on Order creation.
   after_validation(on: :create, if: ->(o) { o.errors.blank? }) do
-    trading_fee = TradingFee.for(group: member.group, market_id: market_id)
+    trading_fee = TradingFee.for(group: member.group, market_id: market_id, market_type: market_type)
     self.maker_fee = trading_fee.maker
     self.taker_fee = trading_fee.taker
   end
@@ -153,7 +157,7 @@ class Order < ApplicationRecord
     end
 
     def to_csv
-      attributes = %w[id market_id ord_type side price volume origin_volume avg_price trades_count state created_at updated_at]
+      attributes = %w[id market_id market_type ord_type side price volume origin_volume avg_price trades_count state created_at updated_at]
 
       CSV.generate(headers: true) do |csv|
         csv << attributes
@@ -210,7 +214,7 @@ class Order < ApplicationRecord
   end
 
   def trades
-    Trade.where('maker_order_id = ? OR taker_order_id = ?', id, id)
+    Trade.where('market_type = ? AND (maker_order_id = ? OR taker_order_id = ?)', market_type, id, id)
   end
 
   def funds_used

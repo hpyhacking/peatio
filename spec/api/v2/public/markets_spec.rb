@@ -8,7 +8,7 @@ describe API::V2::Public::Markets, type: :request do
     before { create(:market, :ethusd) }
 
     let(:expected_keys) do
-      %w[id name base_unit quote_unit min_price max_price
+      %w[id symbol name type base_unit quote_unit min_price max_price
          min_amount amount_precision price_precision state]
     end
 
@@ -17,7 +17,7 @@ describe API::V2::Public::Markets, type: :request do
       expect(response).to be_successful
       result = JSON.parse(response.body)
 
-      expect(result.size).to eq Market.enabled.size
+      expect(result.size).to eq Market.spot.enabled.size
 
       result.each do |market|
         expect(market.keys).to contain_exactly(*expected_keys)
@@ -43,7 +43,7 @@ describe API::V2::Public::Markets, type: :request do
 
         expect(response).to be_successful
 
-        expect(response.headers.fetch('Total').to_i).to eq Market.enabled.size
+        expect(response.headers.fetch('Total').to_i).to eq Market.spot.enabled.size
         expect(result.size).to eq(2)
       end
     end
@@ -55,7 +55,7 @@ describe API::V2::Public::Markets, type: :request do
           expect(response).to be_successful
           result = JSON.parse(response.body)
 
-          expect(result.size).to eq Market.enabled.where(base_unit: :btc).size
+          expect(result.size).to eq Market.spot.enabled.where(base_unit: :btc).size
           result.each do |market|
             expect(market['base_unit']).to eq 'btc'
           end
@@ -66,7 +66,7 @@ describe API::V2::Public::Markets, type: :request do
           expect(response).to be_successful
           result = JSON.parse(response.body)
 
-          expect(result.size).to eq Market.enabled.where(quote_unit: :usd).size
+          expect(result.size).to eq Market.spot.enabled.where(quote_unit: :usd).size
           result.each do |market|
             expect(market['quote_unit']).to eq 'usd'
           end
@@ -77,7 +77,7 @@ describe API::V2::Public::Markets, type: :request do
           expect(response).to be_successful
           result = JSON.parse(response.body)
 
-          expect(result.size).to eq Market.enabled.size
+          expect(result.size).to eq Market.spot.enabled.size
         end
       end
 
@@ -195,7 +195,7 @@ describe API::V2::Public::Markets, type: :request do
       let!(:market) { create(:market, :xagm_cxusd) }
 
       it 'returns information about specified market' do
-        get "/api/v2/public/markets/#{market.id}/order-book"
+        get "/api/v2/public/markets/#{market.symbol}/order-book"
         expect(response).to be_successful
 
         result = JSON.parse(response.body)
@@ -261,7 +261,7 @@ describe API::V2::Public::Markets, type: :request do
       let!(:market) { create(:market, :xagm_cxusd) }
 
       it 'returns information about specified market' do
-        get "/api/v2/public/markets/#{market.id}/depth"
+        get "/api/v2/public/markets/#{market.symbol}/depth"
         expect(response).to be_successful
 
         result = JSON.parse(response.body)
@@ -603,7 +603,7 @@ describe API::V2::Public::Markets, type: :request do
         let!(:market) { create(:market, :xagm_cxusd) }
 
         it 'returns information about specified market' do
-          get "/api/v2/public/markets/#{market.id}/tickers"
+          get "/api/v2/public/markets/#{market.symbol}/tickers"
           expect(response).to be_successful
           expect(JSON.parse(response.body)['ticker']).to include(expected_ticker)
         end
@@ -710,7 +710,7 @@ describe API::V2::Public::Markets, type: :request do
       let!(:market) { create(:market, :xagm_cxusd) }
 
       it 'returns information about specified market' do
-        get "/api/v2/public/markets/#{market.id}/trades"
+        get "/api/v2/public/markets/#{market.symbol}/trades"
         expect(response).to be_successful
         expect(JSON.parse(response.body).size).to eq 0
       end

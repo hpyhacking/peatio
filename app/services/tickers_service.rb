@@ -14,18 +14,18 @@ class TickersService
     end
   end
 
-  attr_accessor :market_id
+  attr_accessor :market_symbol
 
   def initialize(market)
     if market.is_a? Market
-      @market_id = market.id
+      @market_symbol = market.symbol
     else
-      @market_id = market.to_s
+      @market_symbol = market.to_s
     end
   end
 
   def ticker
-    ticker = Trade.market_ticker_from_influx(market_id)
+    ticker = Trade.market_ticker_from_influx(market_symbol)
     format(ticker)
   end
 
@@ -36,7 +36,7 @@ class TickersService
   def format(ticker)
     if ticker.blank?
       ticker = default_ticker
-      last_trade = Trade.public_from_influx(market_id, 1).first
+      last_trade = Trade.public_from_influx(market_symbol, 1).first
       ticker[:last] = last_trade[:price] if last_trade.present?
     end
 

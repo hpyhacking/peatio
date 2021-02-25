@@ -72,7 +72,7 @@ module API
               desc: 'Current highest bid price.'
             }
           ) do |ticker|
-            OrderBid.get_depth(ticker[:market].id).flatten.first.to_d
+            OrderBid.get_depth(ticker[:market].symbol).flatten.first.to_d
           end
 
           expose(
@@ -82,7 +82,7 @@ module API
               desc: 'Current lowest ask price.'
             }
           ) do |ticker|
-            OrderAsk.get_depth(ticker[:market].id).flatten.first.to_d
+            OrderAsk.get_depth(ticker[:market].symbol).flatten.first.to_d
           end
 
           expose(

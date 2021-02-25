@@ -9,7 +9,7 @@ describe Serializers::EventAPI::OrderUpdated, OrderAsk do
     create :order_ask, \
       bid:           :usd,
       ask:           :btc,
-      market:        Market.find(:btcusd),
+      market:        Market.find_spot_by_symbol(:btcusd),
       state:         :wait,
       ord_type:      :limit,
       price:         '0.03'.to_d,
@@ -86,7 +86,7 @@ describe Serializers::EventAPI::OrderUpdated, OrderBid do
     create :order_bid, \
       bid:           :usd,
       ask:           :btc,
-      market:        Market.find(:btcusd),
+      market:        Market.find_spot_by_symbol(:btcusd),
       state:         :wait,
       ord_type:      :limit,
       price:         '0.03'.to_d,

@@ -30,7 +30,7 @@ describe API::V2::Management::Engines, type: :request do
         expect(response).to be_successful
 
         result = JSON.parse(response.body)
-        expect(result.size).to eq 2
+        expect(result.size).to eq 3
       end
     end
 
@@ -80,7 +80,7 @@ describe API::V2::Management::Engines, type: :request do
         result = JSON.parse(response.body)
 
         expect(response).to be_successful
-        expect(response.headers.fetch('Total')).to eq '2'
+        expect(response.headers.fetch('Total')).to eq '3'
         expect(result.size).to eq 1
 
         params[:page] = 2
@@ -88,7 +88,7 @@ describe API::V2::Management::Engines, type: :request do
         result = JSON.parse(response.body)
 
         expect(response).to be_successful
-        expect(response.headers.fetch('Total')).to eq '2'
+        expect(response.headers.fetch('Total')).to eq '3'
         expect(result.size).to eq 1
       end
     end

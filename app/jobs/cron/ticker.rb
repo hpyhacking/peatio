@@ -4,11 +4,11 @@ module Jobs
       def self.process
         @tickers = {}
         @cache_tickers = {}
-        Market.active.each do |market|
+        Market.spot.active.each do |market|
           service = TickersService[market]
           ticker = service.ticker
-          @tickers[market.id] = ticker
-          @cache_tickers[market.id] = format_ticker ticker
+          @tickers[market.symbol] = ticker
+          @cache_tickers[market.symbol] = format_ticker ticker
         end
         Rails.logger.info { "Publish tickers: #{@tickers}" }
         Rails.cache.write(:markets_tickers, @cache_tickers)

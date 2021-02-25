@@ -7,7 +7,7 @@ module Serializers
       def call(trade)
         {
           id: trade.id,
-          market: trade.market.id,
+          market: trade.market.symbol,
           price: trade.price.to_s('F'),
           amount: trade.amount.to_s('F'),
           completed_at: trade.created_at.iso8601

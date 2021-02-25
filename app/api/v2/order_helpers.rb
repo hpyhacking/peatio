@@ -11,6 +11,7 @@ module API
           ask:           current_market&.base_unit,
           bid:           current_market&.quote_unit,
           market:        current_market,
+          market_type:   ::Market::DEFAULT_TYPE,
           ord_type:      attrs[:ord_type] || 'limit',
           price:         attrs[:price],
           volume:        attrs[:volume],

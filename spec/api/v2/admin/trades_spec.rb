@@ -17,6 +17,8 @@ describe API::V2::Admin::Trades, type: :request do
         create(:trade, :btcusd, price: 25.0, amount: 5.0, created_at: 1.days.ago, maker: member),
         create(:trade, :btcusd, price: 6.0, amount: 5.0, created_at: 5.days.ago, taker: member),
         create(:trade, :btcusd, price: 5.0, amount: 6.0, created_at: 5.days.ago, taker: member),
+        create(:trade, :btceth, price: 5.0, amount: 6.0, created_at: 5.days.ago, taker: member),
+        create(:trade, :btceth_qe, price: 5.0, amount: 6.0, created_at: 5.days.ago, taker: member),
       ]
     end
 
@@ -24,7 +26,7 @@ describe API::V2::Admin::Trades, type: :request do
       api_get'/api/v2/admin/trades', token: token, params: { limit: 5 }
       result = JSON.parse(response.body).first
       keys = %w[id amount price total maker_order_email taker_order_email created_at maker_uid taker_uid
-        taker_type market maker_fee_currency maker_fee_amount taker_fee_currency taker_fee_amount]
+        taker_type market market_type maker_fee_currency maker_fee_amount taker_fee_currency taker_fee_amount]
 
       expect(result.keys).to match_array keys
       expect(result.values).not_to include nil
@@ -58,7 +60,7 @@ describe API::V2::Admin::Trades, type: :request do
         api_get'/api/v2/admin/trades', token: token
         result = JSON.parse(response.body)
 
-        expect(result.length).to eq trades.length
+        expect(result.length).to eq trades.length - ::Trade.qe.count
       end
 
       it 'validates limit' do
@@ -83,6 +85,7 @@ describe API::V2::Admin::Trades, type: :request do
         api_get'/api/v2/admin/trades', token: token, params: { limit: 5, page: 2 }
         result = JSON.parse(response.body)
         expected = trades[5...10]
+        expected.select! {|trade| trade.market_type == 'spot'}
 
         expect(result.map { |t| t['id'] }).to match_array expected.map(&:id)
       end
@@ -99,6 +102,8 @@ describe API::V2::Admin::Trades, type: :request do
         api_get'/api/v2/admin/trades', token: token, params: { order_by: 'price', ordering: 'asc' }
         result = JSON.parse(response.body)
         expected = trades.sort { |a, b| a.price <=> b.price }
+        expected.select! {|trade| trade.market_type == 'spot'}
+
         expect(result.map { |t| t['id'] }).to match_array expected.map(&:id)
       end
 
@@ -106,6 +111,7 @@ describe API::V2::Admin::Trades, type: :request do
         api_get'/api/v2/admin/trades', token: token, params: { order_by: 'amount', ordering: 'asc' }
         result = JSON.parse(response.body)
         expected = trades.sort { |a, b| b.amount <=> a.amount }
+        expected.select! {|trade| trade.market_type == 'spot'}
 
         expect(result.map { |t| t['id'] }).to match_array expected.map(&:id)
       end
@@ -118,7 +124,7 @@ describe API::V2::Admin::Trades, type: :request do
           expect(response).to include_api_error "admin.market.doesnt_exist"
         end
 
-        it 'filters by market' do
+        it 'filters by spot market' do
           api_get'/api/v2/admin/trades', token: token, params: { market: 'btcusd' }
           result = JSON.parse(response.body)
 
@@ -126,13 +132,41 @@ describe API::V2::Admin::Trades, type: :request do
 
           expect(result.map { |t| t['id'] }).to match_array expected.map(&:id)
         end
+
+        it 'filters by spot market' do
+          api_get'/api/v2/admin/trades', token: token, params: { market: 'btceth' }
+          result = JSON.parse(response.body)
+
+          expected = trades.select { |t| t.market_id == 'btceth' && t.market_type == 'spot' }
+
+          expect(result.map { |t| t['id'] }).to match_array expected.map(&:id)
+          expect(result.map { |t| t['market_type'] }).to match_array expected.map(&:market_type)
+        end
+
+        it 'filters by qe market' do
+          api_get'/api/v2/admin/trades', token: token, params: { market: 'btceth', market_type: 'qe' }
+          result = JSON.parse(response.body)
+
+          expected = trades.select { |t| t.market_id == 'btceth' && t.market_type == 'qe' }
+
+          expect(result.map { |t| t['id'] }).to match_array expected.map(&:id)
+          expect(result.map { |t| t['market_type'] }).to match_array expected.map(&:market_type)
+        end
       end
 
       context 'with uid' do
-        it 'returns orders for specific user (both maker and taker sides)' do
+        it 'returns spot trades for specific user (both maker and taker sides)' do
           api_get'/api/v2/admin/trades', token: token, params: { uid: member.uid }
           result = JSON.parse(response.body)
-          expected = member.trades
+          expected = member.trades.where(market_type: 'spot')
+
+          expect(result.map { |t| t['id'] }).to match_array expected.map(&:id)
+        end
+
+        it 'returns qe trades for specific user (both maker and taker sides)' do
+          api_get'/api/v2/admin/trades', token: token, params: { market_type: 'qe', uid: member.uid }
+          result = JSON.parse(response.body)
+          expected = member.trades.where(market_type: 'qe')
 
           expect(result.map { |t| t['id'] }).to match_array expected.map(&:id)
         end
@@ -163,7 +197,7 @@ describe API::V2::Admin::Trades, type: :request do
           api_get'/api/v2/admin/trades', token: token, params: { from: 4.days.ago }
 
           result = JSON.parse(response.body)
-          expected = trades.select { |t| t.created_at >= 4.days.ago }
+          expected = trades.select { |t| t.created_at >= 4.days.ago && t.market_type == 'spot' }
 
           expect(result.map { |t| t['id'] }).to match_array expected.map(&:id)
         end
@@ -172,7 +206,7 @@ describe API::V2::Admin::Trades, type: :request do
           api_get'/api/v2/admin/trades', token: token, params: { to: 2.days.ago }
 
           result = JSON.parse(response.body)
-          expected = trades.select { |t| t.created_at < 2.days.ago }
+          expected = trades.select { |t| t.created_at < 2.days.ago && t.market_type == 'spot' }
 
           expect(result.map { |t| t['id'] }).to match_array expected.map(&:id)
         end
@@ -197,7 +231,7 @@ describe API::V2::Admin::Trades, type: :request do
       api_get "/api/v2/admin/trades/#{trade.id}", token: token
       result = JSON.parse(response.body)
       keys = %w[id amount price total maker_order_email taker_order_email created_at maker_uid taker_uid taker_type
-        market maker_fee_currency maker_fee maker_fee_amount taker_fee_currency taker_fee taker_fee_amount maker_order taker_order]
+        market market_type maker_fee_currency maker_fee maker_fee_amount taker_fee_currency taker_fee taker_fee_amount maker_order taker_order]
 
       expect(result.keys).to match_array keys
       expect(result.values).not_to include nil

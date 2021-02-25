@@ -15,8 +15,12 @@ module API
           optional :market_id,
                    type: String,
                    desc: 'Market id',
-                   values: { value: -> { ::Market.ids.append(::TradingFee::ANY) },
+                   values: { value: -> { ::Market.pluck(:symbol).append(::TradingFee::ANY) },
                              message: 'Market does not exist' }
+          optional :market_type,
+                   values: { value: -> { ::Market::TYPES }, message: 'management.trading_fee.invalid_market_type' },
+                   desc: -> { API::V2::Admin::Entities::Market.documentation[:type] },
+                   default: -> { ::Market::DEFAULT_TYPE }
           optional :page, type: Integer, default: 1, integer_gt_zero: true, desc: 'The page number (defaults to 1).'
           optional :limit, type: Integer, default: 100, range: 1..1000, desc: 'The number of objects per page (defaults to 100, maximum is 1000).'
         end
@@ -24,6 +28,7 @@ module API
           TradingFee
             .order(id: :desc)
             .tap { |t| t.where!(market_id: params[:market_id]) if params[:market_id] }
+            .tap { |t| t.where!(market_type: params[:market_type]) }
             .tap { |t| t.where!(group: params[:group]) if params[:group] }
             .tap { |q| present paginate(q), with: API::V2::Entities::TradingFee }
           status 200

@@ -133,6 +133,23 @@ describe Order, 'precision validations', type: :model do
   end
 end
 
+describe Order, 'market_type validations', type: :model do
+  let(:order_bid) { build(:order_bid, :btcusd, price: '12.32'.to_d, volume: '123.123456789', market_type: '') }
+  let(:order_ask) { build(:order_ask, :btcusd, price: '12.326'.to_d, volume: '123.12345678', market_type: 'invalid') }
+
+  it 'validates market_type precense' do
+    record = order_bid
+    expect(record.save).to eq false
+    expect(record.errors[:market_type]).to include(/can\'t be blank/i)
+  end
+
+  it 'validates market_type value' do
+    record = order_ask
+    expect(record.save).to eq false
+    expect(record.errors[:market_type]).to include(/is not included in the list/i)
+  end
+end
+
 describe Order, '#done', type: :model do
   let(:ask_fee) { '0.003'.to_d }
   let(:bid_fee) { '0.001'.to_d }

@@ -38,6 +38,16 @@ describe API::V2::Market::Trades, type: :request do
     )
   end
 
+  let(:btceth_qe_ask) do
+    create(
+      :order_ask,
+      :btceth,
+      price: '12.32'.to_d,
+      volume: '123.1234',
+      member: member
+    )
+  end
+
   let(:btcusd_bid) do
     create(
       :order_bid,
@@ -88,10 +98,22 @@ describe API::V2::Market::Trades, type: :request do
     )
   end
 
+  let(:btceth_qe_bid) do
+    create(
+      :order_bid,
+      :btceth_qe,
+      price: '12.32'.to_d,
+      volume: '123.1234',
+      member: member
+    )
+  end
+
   let!(:btcusd_ask_trade) { create(:trade, :btcusd, maker_order: btcusd_ask, created_at: 2.days.ago) }
   let!(:btceth_ask_trade) { create(:trade, :btceth, maker_order: btceth_ask, created_at: 2.days.ago) }
+  let!(:btceth_qe_ask_trade) { create(:trade, :btceth_qe, maker_order: btceth_qe_ask, created_at: 2.days.ago) }
   let!(:btcusd_bid_trade) { create(:trade, :btcusd, taker_order: btcusd_bid, created_at: 23.hours.ago) }
   let!(:btceth_bid_trade) { create(:trade, :btceth, taker_order: btceth_bid, taker: member, created_at: 23.hours.ago) }
+  let!(:btceth_qe_bid_trade) { create(:trade, :btceth_qe, taker_order: btceth_qe_bid, taker: member, created_at: 23.hours.ago) }
 
   describe 'GET /api/v2/market/trades' do
     it 'requires authentication' do
@@ -100,7 +122,7 @@ describe API::V2::Market::Trades, type: :request do
       expect(response).to include_api_error('jwt.decode_and_verify')
     end
 
-    it 'returns all my recent trades' do
+    it 'returns all my recent spot trades' do
       api_get '/api/v2/market/trades', token: token
       expect(response).to be_successful
 
@@ -118,7 +140,7 @@ describe API::V2::Market::Trades, type: :request do
       expect(result.find { |t| t['id'] == btceth_bid_trade.id }['order_id']).to eq btceth_bid.id
     end
 
-    it 'returns all my recent trades for btcusd market' do
+    it 'returns all my recent spot trades for btcusd market' do
       api_get '/api/v2/market/trades', params: { market: 'btcusd' }, token: token
       expect(response).to be_successful
 
@@ -129,6 +151,34 @@ describe API::V2::Market::Trades, type: :request do
       expect(result.find { |t| t['id'] == btcusd_ask_trade.id }['order_id']).to eq btcusd_ask.id
       expect(result.find { |t| t['id'] == btcusd_bid_trade.id }['side']).to eq 'buy'
       expect(result.find { |t| t['id'] == btcusd_bid_trade.id }['order_id']).to eq btcusd_bid.id
+    end
+
+    it 'returns all my recent spot trades for btceth market' do
+      api_get '/api/v2/market/trades', params: { market: 'btceth' }, token: token
+      expect(response).to be_successful
+
+      result = JSON.parse(response.body)
+
+      expect(result.size).to eq 2
+      expect(result.find { |t| t['id'] == btceth_ask_trade.id }['side']).to eq 'sell'
+      expect(result.find { |t| t['id'] == btceth_ask_trade.id }['order_id']).to eq btceth_ask.id
+      expect(result.find { |t| t['id'] == btceth_bid_trade.id }['side']).to eq 'buy'
+      expect(result.find { |t| t['id'] == btceth_bid_trade.id }['order_id']).to eq btceth_bid.id
+    end
+
+    it 'returns all my recent qe trades for btceth market' do
+      api_get '/api/v2/market/trades', params: { market: 'btceth', market_type: 'qe' }, token: token
+      expect(response).to be_successful
+
+      result = JSON.parse(response.body)
+
+      expect(result.size).to eq 2
+      expect(result.find { |t| t['id'] == btceth_qe_ask_trade.id }['side']).to eq 'sell'
+      expect(result.find { |t| t['id'] == btceth_qe_ask_trade.id }['order_id']).to eq btceth_qe_ask.id
+      expect(result.find { |t| t['id'] == btceth_qe_ask_trade.id }['market_type']).to eq 'qe'
+      expect(result.find { |t| t['id'] == btceth_qe_bid_trade.id }['side']).to eq 'buy'
+      expect(result.find { |t| t['id'] == btceth_qe_bid_trade.id }['order_id']).to eq btceth_qe_bid.id
+      expect(result.find { |t| t['id'] == btceth_qe_bid_trade.id }['market_type']).to eq 'qe'
     end
 
     it 'returns trades for several markets' do

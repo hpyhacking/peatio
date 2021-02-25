@@ -10,7 +10,7 @@ describe Matching::Engine do
     end
   end
 
-  let(:market) { Market.find('btcusd') }
+  let(:market) { Market.find_spot_by_symbol('btcusd') }
   let(:price)  { 10.to_d }
   let(:volume) { 5.to_d }
   let(:ask)    { Matching.mock_limit_order(type: :ask, price: price, volume: volume) }
@@ -518,9 +518,9 @@ describe Matching::Engine do
     it 'should fill the market order completely' do
       mo = Matching.mock_market_order(type: :bid, locked: '6.0'.to_d, volume: '2.4'.to_d)
 
-      AMQP::Queue.expects(:enqueue).with(:trade_executor, { action: "execute", trade: { market_id: market.id, maker_order_id: ask1.id, taker_order_id: mo.id, strike_price: ask1.price, amount: ask1.volume, total: '1.0'.to_d } }, anything)
-      AMQP::Queue.expects(:enqueue).with(:trade_executor, { action: "execute", trade: { market_id: market.id, maker_order_id: ask2.id, taker_order_id: mo.id, strike_price: ask2.price, amount: ask2.volume, total: '2.0'.to_d } }, anything)
-      AMQP::Queue.expects(:enqueue).with(:trade_executor, { action: "execute", trade: { market_id: market.id, maker_order_id: ask3.id, taker_order_id: mo.id, strike_price: ask3.price, amount: '0.4'.to_d, total: '1.2'.to_d } }, anything)
+      AMQP::Queue.expects(:enqueue).with(:trade_executor, { action: "execute", trade: { market_id: market.symbol, maker_order_id: ask1.id, taker_order_id: mo.id, strike_price: ask1.price, amount: ask1.volume, total: '1.0'.to_d } }, anything)
+      AMQP::Queue.expects(:enqueue).with(:trade_executor, { action: "execute", trade: { market_id: market.symbol, maker_order_id: ask2.id, taker_order_id: mo.id, strike_price: ask2.price, amount: ask2.volume, total: '2.0'.to_d } }, anything)
+      AMQP::Queue.expects(:enqueue).with(:trade_executor, { action: "execute", trade: { market_id: market.symbol, maker_order_id: ask3.id, taker_order_id: mo.id, strike_price: ask3.price, amount: '0.4'.to_d, total: '1.2'.to_d } }, anything)
 
       subject.submit bid
       subject.submit ask1
@@ -538,8 +538,8 @@ describe Matching::Engine do
     it 'should fill the market order partially and cancel it' do
       mo = Matching.mock_market_order(type: :bid, locked: '6.0'.to_d, volume: '2.4'.to_d)
 
-      AMQP::Queue.expects(:enqueue).with(:trade_executor, { action: "execute", trade: { market_id: market.id, maker_order_id: ask1.id, taker_order_id: mo.id, strike_price: ask1.price, amount: ask1.volume, total: '1.0'.to_d } }, anything)
-      AMQP::Queue.expects(:enqueue).with(:trade_executor, { action: "execute", trade: { market_id: market.id, maker_order_id: ask2.id, taker_order_id: mo.id, strike_price: ask2.price, amount: ask2.volume, total: '2.0'.to_d } }, anything)
+      AMQP::Queue.expects(:enqueue).with(:trade_executor, { action: "execute", trade: { market_id: market.symbol, maker_order_id: ask1.id, taker_order_id: mo.id, strike_price: ask1.price, amount: ask1.volume, total: '1.0'.to_d } }, anything)
+      AMQP::Queue.expects(:enqueue).with(:trade_executor, { action: "execute", trade: { market_id: market.symbol, maker_order_id: ask2.id, taker_order_id: mo.id, strike_price: ask2.price, amount: ask2.volume, total: '2.0'.to_d } }, anything)
       AMQP::Queue.expects(:enqueue).with(:trade_executor, has_entries(action: 'cancel', order: has_entry(id: mo.id)), anything)
 
       subject.submit bid
@@ -556,7 +556,7 @@ describe Matching::Engine do
     context 'fully match incoming order' do
       it 'should execute trade' do
         AMQP::Queue.expects(:enqueue)
-                 .with(:trade_executor, { action: "execute", trade: { market_id: market.id, maker_order_id: ask.id, taker_order_id: bid.id, strike_price: price, amount: volume, total: '50.0'.to_d } }, anything)
+                 .with(:trade_executor, { action: "execute", trade: { market_id: market.symbol, maker_order_id: ask.id, taker_order_id: bid.id, strike_price: price, amount: volume, total: '50.0'.to_d } }, anything)
 
         subject.submit(ask)
         subject.submit(bid)
@@ -571,7 +571,7 @@ describe Matching::Engine do
 
       it 'should execute trade' do
         AMQP::Queue.expects(:enqueue)
-                 .with(:trade_executor, { action: "execute", trade: { market_id: market.id, maker_order_id: ask.id, taker_order_id: bid.id, strike_price: price, amount: 3.to_d, total: '30.0'.to_d } }, anything)
+                 .with(:trade_executor, { action: "execute", trade: { market_id: market.symbol, maker_order_id: ask.id, taker_order_id: bid.id, strike_price: price, amount: 3.to_d, total: '30.0'.to_d } }, anything)
 
         subject.submit(ask)
         subject.submit(bid)
@@ -617,7 +617,7 @@ describe Matching::Engine do
         subject.cancel(low_ask) # but it's canceled
 
         AMQP::Queue.expects(:enqueue)
-                 .with(:trade_executor, { action: "execute", trade: { market_id: market.id, maker_order_id: high_ask.id, taker_order_id: bid.id, strike_price: high_ask.price, amount: high_ask.volume, total: '30.0'.to_d } }, anything)
+                 .with(:trade_executor, { action: "execute", trade: { market_id: market.symbol, maker_order_id: high_ask.id, taker_order_id: bid.id, strike_price: high_ask.price, amount: high_ask.volume, total: '30.0'.to_d } }, anything)
         subject.submit(bid)
 
         expect(subject.ask_orders.limit_orders).to be_empty
@@ -651,7 +651,7 @@ describe Matching::Engine do
       expect(subject.bid_orders.limit_orders).to be_empty
 
       expect(subject.queue.size).to eq 1
-      expect(subject.queue.first).to eq [:trade_executor, { action: "execute", trade: { market_id: market.id, maker_order_id: ask.id, taker_order_id: bid.id, strike_price: price, amount: volume, total: '50.0'.to_d } }, { persistent: false }]
+      expect(subject.queue.first).to eq [:trade_executor, { action: "execute", trade: { market_id: market.symbol, maker_order_id: ask.id, taker_order_id: bid.id, strike_price: price, amount: volume, total: '50.0'.to_d } }, { persistent: false }]
     end
   end
 
@@ -659,11 +659,11 @@ describe Matching::Engine do
     before(:each) { subject.initializing = false }
 
     it 'should publish increment of orderbook' do
-      ::AMQP::Queue.expects(:enqueue_event).with("public", market.id, "ob-inc", { "asks" => ["10.0", "5.0"], "sequence" => 2, })
-      ::AMQP::Queue.expects(:enqueue_event).with("public", market.id, "ob-inc", { "bids" => ["10.0", "5.0"], "sequence" => 3, })
+      ::AMQP::Queue.expects(:enqueue_event).with("public", market.symbol, "ob-inc", { "asks" => ["10.0", "5.0"], "sequence" => 2, })
+      ::AMQP::Queue.expects(:enqueue_event).with("public", market.symbol, "ob-inc", { "bids" => ["10.0", "5.0"], "sequence" => 3, })
 
-      subject.publish_increment(market.id, :ask, ask.price, ask.volume)
-      subject.publish_increment(market.id, :bid, bid.price, bid.volume)
+      subject.publish_increment(market.symbol, :ask, ask.price, ask.volume)
+      subject.publish_increment(market.symbol, :bid, bid.price, bid.volume)
     end
   end
 
@@ -679,7 +679,7 @@ describe Matching::Engine do
       subject.submit(bid1)
       subject.submit(bid2)
 
-      ::AMQP::Queue.expects(:enqueue_event).with("public", market.id, "ob-snap", {
+      ::AMQP::Queue.expects(:enqueue_event).with("public", market.symbol, "ob-snap", {
         "asks" => [["12.0", "1.0"], ["14.0", "1.0"]],
         "bids" => [["11.0", "2.0"], ["10.0", "2.0"]],
         "sequence" => 1,
@@ -694,13 +694,13 @@ describe Matching::Engine do
         subject.snapshot_time = Time.now - 80.second
         subject.submit(ask1)
         subject.submit(bid1)
-        ::AMQP::Queue.expects(:enqueue_event).with("public", market.id, "ob-snap", {
+        ::AMQP::Queue.expects(:enqueue_event).with("public", market.symbol, "ob-snap", {
           "asks" => [["14.0", "1.0"]],
           "bids" => [["11.0", "2.0"]],
           "sequence" => 1,
         })
-        ::AMQP::Queue.expects(:enqueue_event).with("public", market.id, "ob-inc", { "asks" => ["11.0", "2.0"], "sequence" => 2 })
-        subject.publish_increment(market.id, :ask, bid1.price, bid1.volume)
+        ::AMQP::Queue.expects(:enqueue_event).with("public", market.symbol, "ob-inc", { "asks" => ["11.0", "2.0"], "sequence" => 2 })
+        subject.publish_increment(market.symbol, :ask, bid1.price, bid1.volume)
         expect(subject.increment_count).to eq(1)
       end
 
@@ -708,13 +708,13 @@ describe Matching::Engine do
         subject.snapshot_time = Time.now - 80.second
         subject.submit(ask1)
         subject.submit(bid1)
-        ::AMQP::Queue.expects(:enqueue_event).with("public", market.id, "ob-snap", {
+        ::AMQP::Queue.expects(:enqueue_event).with("public", market.symbol, "ob-snap", {
           "asks" => [["14.0", "1.0"]],
           "bids" => [["11.0", "2.0"]],
           "sequence" => 1,
         })
-        ::AMQP::Queue.expects(:enqueue_event).with("public", market.id, "ob-inc", { "asks" => ["11.0", "2.0"], "sequence" => 2 })
-        subject.publish_increment(market.id, :ask, bid1.price, bid1.volume)
+        ::AMQP::Queue.expects(:enqueue_event).with("public", market.symbol, "ob-inc", { "asks" => ["11.0", "2.0"], "sequence" => 2 })
+        subject.publish_increment(market.symbol, :ask, bid1.price, bid1.volume)
       end
 
       it 'should publish snapshot of orderbook (snapshot_time > 10s and increment count => 20)' do
@@ -722,26 +722,26 @@ describe Matching::Engine do
         subject.increment_count = 20
         subject.submit(ask1)
         subject.submit(bid1)
-        ::AMQP::Queue.expects(:enqueue_event).with("public", market.id, "ob-snap", {
+        ::AMQP::Queue.expects(:enqueue_event).with("public", market.symbol, "ob-snap", {
           "asks" => [["14.0", "1.0"]],
           "bids" => [["11.0", "2.0"]],
           "sequence" => 1
         })
-        ::AMQP::Queue.expects(:enqueue_event).with("public", market.id, "ob-inc", { "asks" => ["11.0", "2.0"], "sequence" => 2 })
-        subject.publish_increment(market.id, :ask, bid1.price, bid1.volume)
+        ::AMQP::Queue.expects(:enqueue_event).with("public", market.symbol, "ob-inc", { "asks" => ["11.0", "2.0"], "sequence" => 2 })
+        subject.publish_increment(market.symbol, :ask, bid1.price, bid1.volume)
       end
 
       it 'shouldnt publish snapshot of orderbook (snapshot_time <= 1m and increment count < 20)' do
         subject.snapshot_time = Time.now
         subject.submit(ask1)
         subject.submit(bid1)
-        ::AMQP::Queue.expects(:enqueue_event).with("public", market.id, "ob-snap", {
+        ::AMQP::Queue.expects(:enqueue_event).with("public", market.symbol, "ob-snap", {
           "asks" => [["14.0", "1.0"]],
           "bids" => [["11.0", "2.0"]],
           "sequence" => 1
         }).never
-        ::AMQP::Queue.expects(:enqueue_event).with("public", market.id, "ob-inc", { "asks" => ["11.0", "2.0"], "sequence" => 2 })
-        subject.publish_increment(market.id, :ask, bid1.price, bid1.volume)
+        ::AMQP::Queue.expects(:enqueue_event).with("public", market.symbol, "ob-inc", { "asks" => ["11.0", "2.0"], "sequence" => 2 })
+        subject.publish_increment(market.symbol, :ask, bid1.price, bid1.volume)
       end
 
       it 'shouldnt publish snapshot of orderbook (snapshot_time < 10s and increment count => 20)' do
@@ -749,12 +749,12 @@ describe Matching::Engine do
         subject.increment_count = 20
         subject.submit(ask1)
         subject.submit(bid1)
-        ::AMQP::Queue.expects(:enqueue_event).with("public", market.id, "ob-snap", {
+        ::AMQP::Queue.expects(:enqueue_event).with("public", market.symbol, "ob-snap", {
           "asks" => [["14.0", "1.0"]],
           "bids" => [["11.0", "2.0"]],
         }).never
-        ::AMQP::Queue.expects(:enqueue_event).with("public", market.id, "ob-inc", { "asks" => ["11.0", "2.0"], "sequence" => 2 })
-        subject.publish_increment(market.id, :ask, bid1.price, bid1.volume)
+        ::AMQP::Queue.expects(:enqueue_event).with("public", market.symbol, "ob-inc", { "asks" => ["11.0", "2.0"], "sequence" => 2 })
+        subject.publish_increment(market.symbol, :ask, bid1.price, bid1.volume)
       end
     end
   end

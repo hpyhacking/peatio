@@ -40,7 +40,7 @@ describe API::V2::Admin::Engines, type: :request do
       expect(response).to be_successful
 
       result = JSON.parse(response.body)
-      expect(result.size).to eq 2
+      expect(result.size).to eq 3
     end
 
     it 'returns engines by ascending order' do
@@ -56,14 +56,14 @@ describe API::V2::Admin::Engines, type: :request do
       result = JSON.parse(response.body)
 
       expect(response).to be_successful
-      expect(response.headers.fetch('Total')).to eq '2'
+      expect(response.headers.fetch('Total')).to eq '3'
       expect(result.size).to eq 1
 
       api_get '/api/v2/admin/engines', params: { limit: 1, page: 2 }, token: token
       result = JSON.parse(response.body)
 
       expect(response).to be_successful
-      expect(response.headers.fetch('Total')).to eq '2'
+      expect(response.headers.fetch('Total')).to eq '3'
       expect(result.size).to eq 1
     end
 

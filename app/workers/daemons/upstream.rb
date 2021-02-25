@@ -14,13 +14,13 @@ module Workers
             target = if market.data.present? && market.data['target'].present?
                        market.data['target']
                      else
-                       market.id
+                       market.symbol
                      end
 
-            configs = engine.data.merge('source' => market.id, 'amqp' => ::AMQP::Queue, 'target' => target)
+            configs = engine.data.merge('source' => market.symbol, 'amqp' => ::AMQP::Queue, 'target' => target)
 
             upstream.new(configs).ws_connect
-            Rails.logger.info "Upstream with driver #{engine.driver} for #{market.id} started"
+            Rails.logger.info "Upstream with driver #{engine.driver} for #{market.symbol} started"
           rescue StandardError => e
             report_exception(e)
             next

@@ -3,10 +3,10 @@
 
 describe Market do
   context 'market attributes' do
-    subject { Market.find(:btcusd) }
+    subject { Market.find_spot_by_symbol(:btcusd) }
 
-    it 'id' do
-      expect(subject.id).to eq 'btcusd'
+    it 'symbol' do
+      expect(subject.symbol).to eq 'btcusd'
     end
 
     it 'name' do
@@ -61,6 +61,18 @@ describe Market do
       record = Market.new(valid_attributes)
 
       expect(record.save).to eq true
+    end
+
+    it 'validates type precision' do
+      record = Market.new(valid_attributes.merge(type: ''))
+      record.save
+      expect(record.errors.full_messages).to include(/can\'t be blank/i)
+    end
+
+    it 'validates type value' do
+      record = Market.new(valid_attributes.merge(type: 'invalid'))
+      record.save
+      expect(record.errors.full_messages).to include(/is not included in the list/i)
     end
 
     it 'validates quote currency duplication' do
@@ -128,7 +140,7 @@ describe Market do
     end
 
     it 'validate position value on update' do
-      market = Market.find(:btcusd)
+      market = Market.find_spot_by_symbol(:btcusd)
       market.update(position: nil)
       expect(market.valid?).to eq false
       expect(market.errors[:position].size).to eq(2)
@@ -139,8 +151,8 @@ describe Market do
     end
 
     it 'allows to disable all markets' do
-      Market.where.not(id: :btcusd).update_all(state: :disabled)
-      market = Market.find(:btcusd)
+      Market.where.not(symbol: :btcusd).update_all(state: :disabled)
+      market = Market.find_spot_by_symbol(:btcusd)
       market.update(state: :disabled)
       market.valid?
       expect(market.errors[:market].size).to eq(0)
@@ -169,7 +181,7 @@ describe Market do
   end
 
   context 'relationships' do
-    subject { Market.find(:btcusd) }
+    subject { Market.find_spot_by_symbol(:btcusd) }
     before do
       create(:trading_fee, market_id: :btcusd)
       create(:trading_fee, market_id: :btceth)
@@ -207,62 +219,62 @@ describe Market do
     context 'after_create' do
 
       it 'move to the bottom if there is no position' do
-        expect(Market.all.ordered.pluck(:id, :position)).to eq [["btcusd", 1], ["btceth", 2]]
+        expect(Market.ordered.pluck(:symbol, :position)).to eq [["btcusd", 1], ["btceth", 2], ["btceth", 3],]
         Market.create(valid_attributes)
-        expect(Market.all.ordered.pluck(:id, :position)).to eq [["btcusd", 1], ["btceth", 2], ["btctrst", 3]]
+        expect(Market.ordered.pluck(:symbol, :position)).to eq [["btcusd", 1], ["btceth", 2], ["btceth", 3], ["btctrst", 4]]
       end
 
       it 'move to the bottom of all currencies' do
-        expect(Market.all.ordered.pluck(:id, :position)).to eq [["btcusd", 1], ["btceth", 2]]
-        Market.create(valid_attributes.merge(position: 3))
-        expect(Market.all.ordered.pluck(:id, :position)).to eq [["btcusd", 1], ["btceth", 2], ["btctrst", 3]]
+        expect(Market.ordered.pluck(:symbol, :position)).to eq [["btcusd", 1], ["btceth", 2], ["btceth", 3],]
+        Market.create(valid_attributes.merge(position: 4))
+        expect(Market.ordered.pluck(:symbol, :position)).to eq [["btcusd", 1], ["btceth", 2], ["btceth", 3], ["btctrst", 4]]
       end
 
       it 'move to the bottom when position is greater that currencies count' do
-        expect(Market.all.ordered.pluck(:id, :position)).to eq [["btcusd", 1], ["btceth", 2]]
-        Market.create(valid_attributes.merge(position: Market.all.count + 2))
-        expect(Market.all.ordered.pluck(:id, :position)).to eq [["btcusd", 1], ["btceth", 2], ["btctrst", 3]]
+        expect(Market.ordered.pluck(:symbol, :position)).to eq [["btcusd", 1], ["btceth", 2], ["btceth", 3],]
+        Market.create(valid_attributes.merge(position: Market.count + 2))
+        expect(Market.ordered.pluck(:symbol, :position)).to eq [["btcusd", 1], ["btceth", 2], ["btceth", 3], ["btctrst", 4]]
       end
 
       it 'move to the top of all currencies' do
-        expect(Market.all.ordered.pluck(:id, :position)).to eq [["btcusd", 1], ["btceth", 2]]
+        expect(Market.ordered.pluck(:symbol, :position)).to eq [["btcusd", 1], ["btceth", 2], ["btceth", 3],]
         Market.create(valid_attributes.merge(position: 1))
-        expect(Market.all.ordered.pluck(:id, :position)).to eq [["btctrst", 1], ["btcusd", 2], ["btceth", 3]]
+        expect(Market.ordered.pluck(:symbol, :position)).to eq [["btctrst", 1], ["btcusd", 2], ["btceth", 3], ["btceth", 4]]
       end
 
       it 'move to the middle of all currencies' do
-        expect(Market.all.ordered.pluck(:id, :position)).to eq [["btcusd", 1], ["btceth", 2]]
+        expect(Market.ordered.pluck(:symbol, :position)).to eq [["btcusd", 1], ["btceth", 2], ["btceth", 3],]
         Market.create(valid_attributes.merge(position: 2))
-        expect(Market.all.ordered.pluck(:id, :position)).to eq [["btcusd", 1], ["btctrst", 2], ["btceth", 3]]
+        expect(Market.ordered.pluck(:symbol, :position)).to eq [["btcusd", 1], ["btctrst", 2], ["btceth", 3], ["btceth", 4]]
       end
     end
 
     context 'before update' do
       let!(:btctrst) { Market.create(valid_attributes) }
-      let(:btceth) { Market.find(:btceth) }
+      let(:btceth) { Market.find_spot_by_symbol(:btceth) }
 
       it 'move to the bottom of all currencies' do
-        expect(Market.all.ordered.pluck(:id, :position)).to eq [["btcusd", 1], ["btceth", 2], ["btctrst", 3]]
-        btceth.update(position: 3)
-        expect(Market.all.ordered.pluck(:id, :position)).to eq [["btcusd", 1], ["btctrst", 2], ["btceth", 3]]
+        expect(Market.ordered.pluck(:symbol, :position)).to eq [["btcusd", 1], ["btceth", 2], ["btceth", 3], ["btctrst", 4]]
+        btceth.update(position: 4)
+        expect(Market.ordered.pluck(:symbol, :position)).to eq [["btcusd", 1], ["btceth", 2], ["btctrst", 3], ["btceth", 4]]
       end
 
       it 'move to the bottom when position is greater that markets count' do
-        expect(Market.all.ordered.pluck(:id, :position)).to eq [["btcusd", 1], ["btceth", 2], ["btctrst", 3]]
-        btceth.update(position: Market.all.count + 2)
-        expect(Market.all.ordered.pluck(:id, :position)).to eq [["btcusd", 1], ["btctrst", 2], ["btceth", 3]]
+        expect(Market.ordered.pluck(:symbol, :position)).to eq [["btcusd", 1], ["btceth", 2], ["btceth", 3], ["btctrst", 4]]
+        btceth.update(position: Market.count + 2)
+        expect(Market.ordered.pluck(:symbol, :position)).to eq [["btcusd", 1], ["btceth", 2], ["btctrst", 3], ["btceth", 4]]
       end
 
       it 'move to the top of all currencies' do
-        expect(Market.all.ordered.pluck(:id, :position)).to eq [["btcusd", 1], ["btceth", 2], ["btctrst", 3]]
+        expect(Market.ordered.pluck(:symbol, :position)).to eq [["btcusd", 1], ["btceth", 2], ["btceth", 3], ["btctrst", 4]]
         btceth.update(position: 1)
-        expect(Market.all.ordered.pluck(:id, :position)).to eq [["btceth", 1], ["btcusd", 2], ["btctrst", 3]]
+        expect(Market.ordered.pluck(:symbol, :position)).to eq [["btceth", 1], ["btcusd", 2], ["btceth", 3], ["btctrst", 4]]
       end
 
       it 'move to the middle of all currencies' do
-        expect(Market.all.ordered.pluck(:id, :position)).to eq [["btcusd", 1], ["btceth", 2], ["btctrst", 3]]
+        expect(Market.ordered.pluck(:symbol, :position)).to eq [["btcusd", 1], ["btceth", 2], ["btceth", 3], ["btctrst", 4]]
         btctrst.update(position: 2)
-        expect(Market.all.ordered.pluck(:id, :position)).to eq [["btcusd", 1], ["btctrst", 2], ["btceth", 3]]
+        expect(Market.ordered.pluck(:symbol, :position)).to eq [["btcusd", 1], ["btctrst", 2], ["btceth", 3], ["btceth", 4]]
       end
     end
   end

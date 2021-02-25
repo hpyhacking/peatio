@@ -6,7 +6,7 @@ describe 'Accounting' do
     create :order_ask, \
        bid:           :usd,
        ask:           :btc,
-       market:        Market.find(:btcusd),
+       market:        Market.find_spot_by_symbol(:btcusd),
        state:         :wait,
        ord_type:      :limit,
        price:         '1'.to_d,
@@ -21,7 +21,7 @@ describe 'Accounting' do
     create :order_bid, \
        bid:           :usd,
        ask:           :btc,
-       market:        Market.find(:btcusd),
+       market:        Market.find_spot_by_symbol(:btcusd),
        state:         :wait,
        ord_type:      :limit,
        price:         '1.2'.to_d,

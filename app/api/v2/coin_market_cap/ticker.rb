@@ -7,7 +7,7 @@ module API
         desc 'Get 24-hour pricing and volume summary for each market pair'
         get '/ticker' do
           Rails.cache.fetch(:markets_tickers_cmc, expires_in: 60) do
-            format_tickers(::Market.enabled.ordered)
+            format_tickers(::Market.enabled.spot.ordered)
           end
         end
       end

@@ -17,7 +17,7 @@ module Matching
 
     def initialize(market, options={})
       @market    = market
-      @orderbook = OrderBookManager.new(market.id, on_change: method(:publish_increment))
+      @orderbook = OrderBookManager.new(market.symbol, on_change: method(:publish_increment))
       @initializing = true
       @sequence_number = 1
       @increment_count = 0
@@ -130,7 +130,7 @@ module Matching
 
     def publish_snapshot
       @snapshot_time = Time.now
-      ::AMQP::Queue.enqueue_event("public", @market.id, "ob-snap", {
+      ::AMQP::Queue.enqueue_event("public", @market.symbol, "ob-snap", {
         "asks" => ask_orders.limit_orders.map{|k,v| [k.to_s, v.map(&:volume).sum.to_s]}[0..300],
         "bids" => bid_orders.limit_orders.map{|k,v| [k.to_s, v.map(&:volume).sum.to_s]}.reverse[0..300],
         "sequence" => @sequence_number,
@@ -168,12 +168,12 @@ module Matching
       amount = trade[1]
       total  = trade[2]
 
-      Rails.logger.info { "[#{@market.id}] new trade - maker_order: #{maker_order.label} taker_order: #{taker_order.label} price: #{price} amount: #{amount} total: #{total}" }
+      Rails.logger.info { "[#{@market.symbol}] new trade - maker_order: #{maker_order.label} taker_order: #{taker_order.label} price: #{price} amount: #{amount} total: #{total}" }
 
       @queue.enqueue(:trade_executor,
                      { action: 'execute',
                        trade: {
-                         market_id: @market.id,
+                         market_id: @market.symbol,
                          maker_order_id: maker_order.id,
                          taker_order_id: taker_order.id,
                          strike_price: price,

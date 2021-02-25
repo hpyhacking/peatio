@@ -34,6 +34,11 @@ module API
                      values: { value: -> (v){ ::Currency.exists?(v) },
                                message: 'public.markets.quote_unit_doesnt_exist' },
                      desc: 'Strict filter for quote unit'
+            optional :type,
+                     type: { value: String, message: 'public.market.non_string_market_type' },
+                     values: { value: -> { ::Market::TYPES }, message: 'public.market.invalid_market_type' },
+                     default: -> { ::Market::DEFAULT_TYPE },
+                     desc: 'Strict filter for market type'
             optional :search, type: JSON, default: {} do
               optional :base_code,
                        type: String,
@@ -56,6 +61,7 @@ module API
                               .merge(m: 'or')
 
             search = ::Market.active
+                             .where(type: params[:type])
                              .where(params.slice(:base_unit, :quote_unit))
                              .ransack(search_params)
 
@@ -73,8 +79,8 @@ module API
           params do
             requires :market,
                      type: String,
-                     values: { value: -> { ::Market.active.ids }, message: 'public.market.doesnt_exist' },
-                     desc: -> { V2::Entities::Market.documentation[:id] }
+                     values: { value: -> { ::Market.spot.active.pluck(:symbol) }, message: 'public.market.doesnt_exist' },
+                     desc: -> { V2::Entities::Market.documentation[:symbol] }
             optional :asks_limit,
                      type: { value: Integer, message: 'public.order_book.non_integer_ask_limit' },
                      values: { value: 1..200, message: 'public.order_book.invalid_ask_limit' },
@@ -86,6 +92,7 @@ module API
                      default: 20,
                      desc: 'Limit the number of returned buy orders. Default to 20.'
           end
+
           get ":market/order-book", requirements: { market: /[\w\.\-]+/ } do
             asks = OrderAsk.active.with_market(params[:market]).matching_rule.limit(params[:asks_limit])
             bids = OrderBid.active.with_market(params[:market]).matching_rule.limit(params[:bids_limit])
@@ -99,8 +106,8 @@ module API
           params do
             requires :market,
                      type: String,
-                     values: { value: -> { ::Market.active.ids }, message: 'public.market.doesnt_exist' },
-                     desc: -> { V2::Entities::Market.documentation[:id] }
+                     values: { value: -> { ::Market.spot.active.pluck(:symbol) }, message: 'public.market.doesnt_exist' },
+                     desc: -> { V2::Entities::Market.documentation[:symbol] }
             optional :limit,
                      type: { value: Integer, message: 'public.trade.non_integer_limit' },
                      values: { value: 1..1000, message: 'public.trade.invalid_limit' },
@@ -124,8 +131,8 @@ module API
           params do
             requires :market,
                      type: String,
-                     values: { value: -> { ::Market.active.ids }, message: 'public.market.doesnt_exist' },
-                     desc: -> { V2::Entities::Market.documentation[:id] }
+                     values: { value: -> { ::Market.spot.active.pluck(:symbol) }, message: 'public.market.doesnt_exist' },
+                     desc: -> { V2::Entities::Market.documentation[:symbol] }
             optional :limit,
                      type: { value: Integer, message: 'public.market_depth.non_integer_limit' },
                      values: { value: 1..1000, message: 'public.market_depth.invalid_limit' },
@@ -142,8 +149,8 @@ module API
           params do
             requires :market,
                      type: String,
-                     values: { value: -> { ::Market.active.ids }, message: 'public.market.doesnt_exist' },
-                     desc: -> { V2::Entities::Market.documentation[:id] }
+                     values: { value: -> { ::Market.spot.active.pluck(:symbol) }, message: 'public.market.doesnt_exist' },
+                     desc: -> { V2::Entities::Market.documentation[:symbol] }
             optional :period,
                      type: { value: Integer, message: 'public.k_line.non_integer_period' },
                      values: { value: KLineService::AVAILABLE_POINT_PERIODS, message: 'public.k_line.invalid_period' },
@@ -171,8 +178,8 @@ module API
           desc 'Get ticker of all markets (For response doc see /:market/tickers/ response).'
           get "/tickers" do
             Rails.cache.fetch(:markets_tickers, expires_in: 60) do
-              ::Market.active.ordered.inject({}) do |h, m|
-                h[m.id] = format_ticker TickersService[m].ticker
+              ::Market.spot.active.ordered.inject({}) do |h, m|
+                h[m.symbol] = format_ticker TickersService[m].ticker
                 h
               end
             end
@@ -183,8 +190,8 @@ module API
           params do
             requires :market,
                      type: String,
-                     values: { value: -> { ::Market.active.ids }, message: 'public.market.doesnt_exist' },
-                     desc: -> { V2::Entities::Market.documentation[:id] }
+                     values: { value: -> { ::Market.spot.active.pluck(:symbol) }, message: 'public.market.doesnt_exist' },
+                     desc: -> { V2::Entities::Market.documentation[:symbol] }
           end
           get "/:market/tickers/", requirements: { market: /[\w\.\-]+/ } do
             present format_ticker(TickersService[params[:market]].ticker),

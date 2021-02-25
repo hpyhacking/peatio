@@ -12,14 +12,14 @@ describe API::V2::Admin::TradingFees, type: :request do
     before do
       create(:trading_fee, maker: 0.0005, taker: 0.001, market_id: :btcusd, group: 'vip-0')
       create(:trading_fee, maker: 0.0008, taker: 0.001, market_id: :any, group: 'vip-0')
-      create(:trading_fee, maker: 0.001, taker: 0.0012, market_id: :btcusd, group: :any)
+      create(:trading_fee, maker: 0.001, taker: 0.0012, market_id: :btceth, market_type: 'qe', group: :any)
     end
 
     it 'returns all trading fees' do
       api_get '/api/v2/admin/trading_fees', token: token
 
       expect(response.status).to eq 200
-      expect(JSON.parse(response.body).length).to eq TradingFee.count
+      expect(JSON.parse(response.body).length).to eq TradingFee.spot.count
     end
 
     it 'pagination' do
@@ -32,7 +32,22 @@ describe API::V2::Admin::TradingFees, type: :request do
 
       result = JSON.parse(response.body)
       expect(result.map { |r| r['market_id'] }).to all eq 'btcusd'
+      expect(result.map { |r| r['market_type'] }).to all eq 'spot'
       expect(result.length).to eq TradingFee.where(market_id: 'btcusd').count
+    end
+
+    it 'filters by market_id and market_type' do
+      api_get '/api/v2/admin/trading_fees', token: token, params: { market_id: 'btceth' }
+
+      result = JSON.parse(response.body)
+      expect(result).to eq []
+
+      api_get '/api/v2/admin/trading_fees', token: token, params: { market_id: 'btceth', market_type: 'qe' }
+
+      result = JSON.parse(response.body)
+      expect(result.map { |r| r['market_id'] }).to all eq 'btceth'
+      expect(result.map { |r| r['market_type'] }).to all eq 'qe'
+      expect(result.length).to eq TradingFee.qe.where(market_id: 'btceth').count
     end
 
     it 'filters by group' do
@@ -61,6 +76,7 @@ describe API::V2::Admin::TradingFees, type: :request do
       expect(JSON.parse(response.body)['taker']).to eq('0.0015')
       expect(JSON.parse(response.body)['group']).to eq('any')
       expect(JSON.parse(response.body)['market_id']).to eq('btcusd')
+      expect(JSON.parse(response.body)['market_type']).to eq('spot')
     end
 
     it 'creates a table with default market' do
@@ -71,6 +87,7 @@ describe API::V2::Admin::TradingFees, type: :request do
       expect(JSON.parse(response.body)['taker']).to eq('0.0015')
       expect(JSON.parse(response.body)['group']).to eq('vip-1')
       expect(JSON.parse(response.body)['market_id']).to eq('any')
+      expect(JSON.parse(response.body)['market_type']).to eq('spot')
     end
 
     it 'returns created trading fee table' do
@@ -81,6 +98,7 @@ describe API::V2::Admin::TradingFees, type: :request do
       expect(JSON.parse(response.body)['taker']).to eq('0.0015')
       expect(JSON.parse(response.body)['group']).to eq('vip-1')
       expect(JSON.parse(response.body)['market_id']).to eq('btcusd')
+      expect(JSON.parse(response.body)['market_type']).to eq('spot')
     end
 
     context 'returns created trading fee table without group' do
@@ -92,6 +110,7 @@ describe API::V2::Admin::TradingFees, type: :request do
         expect(JSON.parse(response.body)['taker']).to eq('0.0015')
         expect(JSON.parse(response.body)['group']).to eq('any')
         expect(JSON.parse(response.body)['market_id']).to eq('btcusd')
+        expect(JSON.parse(response.body)['market_type']).to eq('spot')
       end
     end
 
@@ -104,6 +123,7 @@ describe API::V2::Admin::TradingFees, type: :request do
         expect(JSON.parse(response.body)['taker']).to eq('0.0015')
         expect(JSON.parse(response.body)['group']).to eq('vip-1')
         expect(JSON.parse(response.body)['market_id']).to eq('any')
+        expect(JSON.parse(response.body)['market_type']).to eq('spot')
       end
     end
 
@@ -113,6 +133,15 @@ describe API::V2::Admin::TradingFees, type: :request do
 
         expect(response).to have_http_status(422)
         expect(response).to include_api_error('admin.trading_fee.market_doesnt_exist')
+      end
+    end
+
+    context 'invalid market_type' do
+      it 'returns status 422 and error' do
+        api_post '/api/v2/admin/trading_fees/new', token: token, params: { maker: 0.001, taker: 0.0015, market_id: 'btcusd', market_type: 'invalid' }
+
+        expect(response).to have_http_status(422)
+        expect(response).to include_api_error('admin.trading_fee.invalid_market_type')
       end
     end
 
@@ -163,6 +192,16 @@ describe API::V2::Admin::TradingFees, type: :request do
       expect(JSON.parse(response.body)['maker']).to eq('0.0015')
       expect(JSON.parse(response.body)['taker']).to eq('0.0015')
       expect(JSON.parse(response.body)['group']).to eq('vip-1')
+      expect(JSON.parse(response.body)['market_id']).to eq('any')
+    end
+
+    it 'returns updated trading fee table with new market_type' do
+      api_post '/api/v2/admin/trading_fees/update', token: token, params: { market_type: 'qe', id: TradingFee.first.id }
+
+      expect(response).to have_http_status(201)
+      expect(JSON.parse(response.body)['maker']).to eq('0.0015')
+      expect(JSON.parse(response.body)['taker']).to eq('0.0015')
+      expect(JSON.parse(response.body)['market_type']).to eq('qe')
       expect(JSON.parse(response.body)['market_id']).to eq('any')
     end
 

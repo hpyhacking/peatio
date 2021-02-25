@@ -23,6 +23,20 @@ end
 describe TradingFee, 'Validations' do
   before(:each) { TradingFee.delete_all }
 
+  context 'market_type presence' do
+    context 'nil market_type' do
+      subject { build(:trading_fee, market_id: :btceth, market_type: '') }
+      it { expect(subject.valid?).to be_falsey }
+    end
+  end
+
+  context 'market_type inclusion' do
+    context 'nil market_type' do
+      subject { build(:trading_fee, market_id: :btceth, market_type: 'invalid') }
+      it { expect(subject.valid?).to be_falsey }
+    end
+  end
+
   context 'group presence' do
     context 'nil group' do
       subject { build(:trading_fee, market_id: :btceth, group: nil) }

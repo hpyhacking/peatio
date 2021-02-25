@@ -28,12 +28,12 @@ module API
                    coerce_with: ->(end_time) { Time.parse(end_time).to_i }
         end
         get '/historical_trades' do
-          market = ::Market.find(params[:ticker_id])
+          market = ::Market.find_spot_by_symbol(params[:ticker_id])
 
           filters = declared(params, include_missing: false)
                     .except(:ticker_id, :limit)
 
-          Trade.public_from_influx(market.id, params[:limit], filters).each_with_object({'buy' => [], 'sell' => []}) do |trade, hash|
+          Trade.public_from_influx(market.symbol, params[:limit], filters).each_with_object({'buy' => [], 'sell' => []}) do |trade, hash|
             hash[trade[:taker_type]] << format_trade(trade)
           end
         end

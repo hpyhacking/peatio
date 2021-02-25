@@ -29,7 +29,7 @@ module Peatio
     end
 
     def export_markets
-      export('Market').map { |m| m['engine_name'] = Engine.find(m['engine_id']).name; m.except('engine_id') }
+      export('Market').map { |m| m['engine_name'] = Engine.find(m['engine_id']).name; m.except('id', 'engine_id') }
     end
 
     def export_wallets

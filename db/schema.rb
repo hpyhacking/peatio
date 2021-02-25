@@ -208,7 +208,9 @@ ActiveRecord::Schema.define(version: 2021_03_02_120855) do
     t.index ["reference_type", "reference_id"], name: "index_liabilities_on_reference_type_and_reference_id"
   end
 
-  create_table "markets", id: :string, limit: 20, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+  create_table "markets", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.string "symbol", limit: 20, null: false
+    t.string "type", default: "spot", null: false
     t.string "base_unit", limit: 10, null: false
     t.string "quote_unit", limit: 10, null: false
     t.bigint "engine_id", null: false
@@ -222,11 +224,12 @@ ActiveRecord::Schema.define(version: 2021_03_02_120855) do
     t.string "state", limit: 32, default: "enabled", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["base_unit", "quote_unit"], name: "index_markets_on_base_unit_and_quote_unit", unique: true
+    t.index ["base_unit", "quote_unit", "type"], name: "index_markets_on_base_unit_and_quote_unit_and_type", unique: true
     t.index ["base_unit"], name: "index_markets_on_base_unit"
     t.index ["engine_id"], name: "index_markets_on_engine_id"
     t.index ["position"], name: "index_markets_on_position"
     t.index ["quote_unit"], name: "index_markets_on_quote_unit"
+    t.index ["symbol", "type"], name: "index_markets_on_symbol_and_type", unique: true
   end
 
   create_table "members", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
@@ -266,6 +269,7 @@ ActiveRecord::Schema.define(version: 2021_03_02_120855) do
     t.string "bid", limit: 10, null: false
     t.string "ask", limit: 10, null: false
     t.string "market_id", limit: 20, null: false
+    t.string "market_type", default: "spot", null: false
     t.decimal "price", precision: 32, scale: 16
     t.decimal "volume", precision: 32, scale: 16, null: false
     t.decimal "origin_volume", precision: 32, scale: 16, null: false
@@ -283,9 +287,9 @@ ActiveRecord::Schema.define(version: 2021_03_02_120855) do
     t.datetime "updated_at", null: false
     t.index ["member_id"], name: "index_orders_on_member_id"
     t.index ["state"], name: "index_orders_on_state"
-    t.index ["type", "market_id"], name: "index_orders_on_type_and_market_id"
+    t.index ["type", "market_id", "market_type"], name: "index_orders_on_type_and_market_id_and_market_type"
     t.index ["type", "member_id"], name: "index_orders_on_type_and_member_id"
-    t.index ["type", "state", "market_id"], name: "index_orders_on_type_and_state_and_market_id"
+    t.index ["type", "state", "market_id", "market_type"], name: "index_orders_on_type_and_state_and_market_id_and_market_type"
     t.index ["type", "state", "member_id"], name: "index_orders_on_type_and_state_and_member_id"
     t.index ["updated_at"], name: "index_orders_on_updated_at"
     t.index ["uuid"], name: "index_orders_on_uuid", unique: true
@@ -363,30 +367,33 @@ ActiveRecord::Schema.define(version: 2021_03_02_120855) do
     t.integer "maker_order_id", null: false
     t.integer "taker_order_id", null: false
     t.string "market_id", limit: 20, null: false
+    t.string "market_type", default: "spot", null: false
     t.integer "maker_id", null: false
     t.integer "taker_id", null: false
     t.string "taker_type", limit: 20, default: "", null: false
     t.datetime "created_at", precision: 3, null: false
     t.datetime "updated_at", precision: 3, null: false
     t.index ["created_at"], name: "index_trades_on_created_at"
+    t.index ["maker_id", "market_type", "created_at"], name: "index_trades_on_maker_id_and_market_type_and_created_at"
+    t.index ["maker_id", "market_type"], name: "index_trades_on_maker_id_and_market_type"
     t.index ["maker_id"], name: "index_trades_on_maker_id"
     t.index ["maker_order_id"], name: "index_trades_on_maker_order_id"
-    t.index ["market_id", "created_at"], name: "index_trades_on_market_id_and_created_at"
-    t.index ["taker_id"], name: "index_trades_on_taker_id"
+    t.index ["taker_id", "market_type"], name: "index_trades_on_taker_id_and_market_type"
     t.index ["taker_order_id"], name: "index_trades_on_taker_order_id"
     t.index ["taker_type"], name: "index_trades_on_taker_type"
   end
 
   create_table "trading_fees", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "market_id", limit: 20, default: "any", null: false
+    t.string "market_type", default: "spot", null: false
     t.string "group", limit: 32, default: "any", null: false
     t.decimal "maker", precision: 7, scale: 6, default: "0.0", null: false
     t.decimal "taker", precision: 7, scale: 6, default: "0.0", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["group"], name: "index_trading_fees_on_group"
-    t.index ["market_id", "group"], name: "index_trading_fees_on_market_id_and_group", unique: true
-    t.index ["market_id"], name: "index_trading_fees_on_market_id"
+    t.index ["market_id", "market_type", "group"], name: "index_trading_fees_on_market_id_and_market_type_and_group", unique: true
+    t.index ["market_id", "market_type"], name: "index_trading_fees_on_market_id_and_market_type"
   end
 
   create_table "transactions", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
