@@ -70,6 +70,14 @@ describe API::V2::Management::Deposits, type: :request do
       expect(response).to have_http_status(200)
       expect(JSON.parse(response.body).count).to eq Deposit.where(currency_id: :usd).count
     end
+
+    it 'returns with from_id' do
+      from_id = Deposit.count / 2
+      data.merge!(from_id: from_id)
+      request
+      expect(response).to have_http_status(200)
+      expect(JSON.parse(response.body).count).to eq Deposit.where('id > ?', from_id).count
+    end
   end
 
   describe 'create deposits' do

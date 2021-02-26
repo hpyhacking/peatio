@@ -12,6 +12,7 @@ module API
         end
         params do
           optional :uid,      type: String,  desc: 'The shared user ID.'
+          optional :from_id,  type: Integer,  desc: 'Unique blockchain identifier in database. Will return starting from given id.'
           optional :currency, type: String,  values: -> { Currency.codes(bothcase: true) }, desc: 'The currency code.'
           optional :page,     type: Integer, default: 1,   integer_gt_zero: true, desc: 'The page number (defaults to 1).'
           optional :limit,    type: Integer, default: 100, range: 1..1000, desc: 'The number of deposits per page (defaults to 100, maximum is 1000).'
@@ -25,6 +26,7 @@ module API
             .tap { |q| q.where!(currency: currency) if currency }
             .tap { |q| q.where!(member: member) if member }
             .tap { |q| q.where!(aasm_state: params[:state]) if params[:state] }
+            .tap { |q| q.where!('id > ?', params[:from_id]) if params[:from_id] }
             .includes(:member, :currency)
             .page(params[:page])
             .per(params[:limit])
