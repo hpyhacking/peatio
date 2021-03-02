@@ -157,7 +157,7 @@ CREATE TABLE `deposits` (
   `amount` decimal(32,16) NOT NULL,
   `fee` decimal(32,16) NOT NULL,
   `address` varchar(95) DEFAULT NULL,
-  `from_addresses` varchar(1000) DEFAULT NULL,
+  `from_addresses` text DEFAULT NULL,
   `txid` varchar(128) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
   `txout` int(11) DEFAULT NULL,
   `aasm_state` varchar(30) NOT NULL,
