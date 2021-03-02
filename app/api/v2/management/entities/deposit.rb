@@ -6,6 +6,7 @@ module API
     module Management
       module Entities
         class Deposit < Base
+          expose :id, documentation: { type: Integer, desc: 'Deposit ID.' }
           expose :tid, documentation: { type: Integer, desc: 'The shared transaction ID.' }
           expose :currency_id, as: :currency, documentation: { type: String, desc: 'The currency code.' }
           expose(:uid, documentation: { type: String, desc: 'The shared user ID.' }) { |w| w.member.uid }
