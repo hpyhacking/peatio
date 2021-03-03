@@ -80,7 +80,7 @@ You must know what you're doing, there's no shortcut. Please get prepared before
 * Designed as high performance crypto currency exchange
 * Built-in high performance matching-engine
 * Built-in multiple wallet support (e.g. deposit, hot, warm and cold)
-* Built-in [plugable coin API](docs/coins/development.md)
+* Built-in [plugable coin API](https://www.openware.com/sdk/2.6/docs/peatio/coins/development.html)
 * Build-in Management API - server-to-server API with high privileges
 * Build-in RabbitMQ Event API
 * Usability and scalability
@@ -96,7 +96,7 @@ You must know what you're doing, there's no shortcut. Please get prepared before
 
 ## Contribute
 
-Please see [CONTRIBUTING.md](CONTRIBUTING.md) for details on how to contribute
+Please see [CONTRIBUTING.md](https://www.openware.com/sdk/2.6/docs/peatio/contributing.html) for details on how to contribute
 issues, fixes, and patches to this project.
 
 ## Getting Started
