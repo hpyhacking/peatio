@@ -37,6 +37,21 @@ namespace :job do
       end
     end
 
+    desc 'Delete old cancelled orders without trades to the archive database.'
+    task delete: :environment do
+      Job.execute('delete_orders') do
+        count = 0
+        time = Time.now
+        exist = true
+        while exist
+          batch = Order.where(state: :cancel, trades_count: 0).where('updated_at < ?', time - 1.week).limit(1000).delete_all
+          count += batch
+          exist = false if batch.zero?
+        end
+        { pointer: time, counter: count }
+      end
+    end
+
     def order_insert
       'INSERT INTO orders (id, uuid, remote_id, bid, ask, market_id, price, ' \
       'volume, origin_volume, maker_fee, taker_fee, state, type, member_id, ord_type, ' \
