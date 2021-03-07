@@ -128,6 +128,7 @@ namespace :import do
       blockchain_key = row[:blockchain_key]
       description = row[:description]
       next if address.blank? || blockchain_key.blank? || ::Blockchain.pluck(:key).exclude?(blockchain_key)
+      next if Blockchain.find_by(key: blockchain_key).blank?
 
       ::WhitelistedSmartContract.create!(description: description, address: address,
                                      blockchain_key: blockchain_key, state: 'active')

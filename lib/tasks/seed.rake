@@ -113,6 +113,8 @@ namespace :seed do
     WhitelistedSmartContract.transaction do
       YAML.load_file(Rails.root.join('config/seed/whitelisted_smart_contracts.yml')).each do |hash|
         next if WhitelistedSmartContract.exists?(address: hash.fetch('address'), blockchain_key: hash.fetch('blockchain_key'))
+        next if Blockchain.find_by(key: blockchain_key).blank?
+
         WhitelistedSmartContract.create!(hash)
       end
     end
