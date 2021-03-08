@@ -42,4 +42,13 @@ engine = Engine.create(name: "BitFinex", driver: "bitfinex", uid: "UID", key: "K
 
 `data` field should contain a configuration for trade and orderbook proxy. Peatio Upstream daemon will connect to the remote platform via `rest` and `websocket` params in data and will forward latest trades and incremental orderbook updates to your platform.
 
-And do not forget to deposit some funds to remote platform :)
+And ***do not forget to deposit funds to remote platform*** :)
+
+:warning: When using an upstream engine, the market configuration needs to contain the target market id on the upstream (`target` field in `data` column).
+For example, for BTC/USDT market you need to configure `BTCUST` for Bitfinex in `market.data['target']`.
+
+You can add or modify a market target from the rails console like that:
+
+```ruby
+  Market.find("btcusdt").update(data: {"target"=>"BTCUST"})
+```
