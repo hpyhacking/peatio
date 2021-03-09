@@ -9,6 +9,7 @@ module API
           expose :id, documentation: { type: Integer, desc: 'Deposit ID.' }
           expose :tid, documentation: { type: Integer, desc: 'The shared transaction ID.' }
           expose :currency_id, as: :currency, documentation: { type: String, desc: 'The currency code.' }
+          expose :address, documentation: { type: String, desc: 'The deposit address.' }
           expose(:uid, documentation: { type: String, desc: 'The shared user ID.' }) { |w| w.member.uid }
           expose(:type, documentation: { type: String, desc: 'The deposit type (fiat or coin).' }) { |d| d.class.name.demodulize.underscore }
           expose :amount, documentation: { type: String, desc: 'The deposit amount.' }, format_with: :decimal
