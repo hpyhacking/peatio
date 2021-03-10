@@ -20,6 +20,10 @@ module API
                      allow_blank: false,
                      default: 1,
                      desc: 'Specify the page of paginated results.'
+            optional :name,
+                     type: String,
+                     coerce_with: ->(c) { c.strip.downcase },
+                     desc: -> { API::V2::Management::Entities::Engine.documentation[:name][:desc] }
             optional :ordering,
                      values: { value: %w(asc desc), message: 'management.pagination.invalid_ordering' },
                      default: 'asc',
@@ -29,8 +33,14 @@ module API
                      desc: 'Name of the field, which result will be ordered by.'
           end
           post '/get' do
-            result = ::Engine.order(params[:order_by] => params[:ordering])
-            present paginate(result), with: API::V2::Management::Entities::Engine
+            ransack_params = API::V2::Admin::Helpers::RansackBuilder.new(params)
+                               .eq(:name)
+                               .build
+
+            search = ::Engine.ransack(ransack_params)
+            search.sorts = "#{params[:order_by]} #{params[:ordering]}"
+
+            present paginate(search.result), with: API::V2::Management::Entities::Engine
           end
 
           desc 'Creates new engine' do
@@ -45,6 +55,11 @@ module API
                      desc: -> { API::V2::Management::Entities::Engine.documentation[:driver][:desc] }
             optional :uid,
                      desc: -> { API::V2::Management::Entities::Engine.documentation[:uid][:desc] }
+            optional :url,
+                     desc: -> { API::V2::Management::Entities::Engine.documentation[:url][:desc] }
+            optional :state,
+                     values: { value: ::Engine::STATES.values, message: 'management.engine.invalid_state' },
+                     desc: -> { API::V2::Management::Entities::Engine.documentation[:state][:desc] }
             optional :key,
                      desc: -> { 'Credentials for remote engine' }
             optional :secret,
@@ -52,8 +67,8 @@ module API
             optional :data,
                      desc: -> { 'Metadata for engine' }
           end
-          post do
-            engine = ::Engine.new(declared(params))
+          post '/new' do
+            engine = ::Engine.new(declared(params, include_missing: false))
             if engine.save
               present engine, with: API::V2::Management::Entities::Engine
               status 201
@@ -70,10 +85,14 @@ module API
           params do
             requires :id,
                      desc: -> { API::V2::Management::Entities::Engine.documentation[:id][:desc] }
+            optional :uid,
+                     desc: -> { API::V2::Management::Entities::Engine.documentation[:uid][:desc] }
             optional :name,
                      desc: -> { API::V2::Management::Entities::Engine.documentation[:name][:desc] }
             optional :driver,
                      desc: -> { API::V2::Management::Entities::Engine.documentation[:driver][:desc] }
+            optional :url,
+                     desc: -> { API::V2::Management::Entities::Engine.documentation[:url][:desc] }
             optional :key,
                      desc: -> { 'Credentials for remote engine' }
             optional :secret,

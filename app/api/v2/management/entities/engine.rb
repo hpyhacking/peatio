@@ -38,6 +38,14 @@ module API
           )
 
           expose(
+            :url,
+            documentation: {
+              type: String,
+              desc: 'Engine url'
+            }
+          )
+
+          expose(
             :state,
             documentation: {
               type: String,

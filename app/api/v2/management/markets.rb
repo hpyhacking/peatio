@@ -15,6 +15,9 @@ module API
           requires :id,
                    type: String,
                    desc: -> { API::V2::Management::Entities::Market.documentation[:id][:desc] }
+          optional :engine_id,
+                   type: Integer,
+                   desc: -> { API::V2::Management::Entities::Market.documentation[:engine_id][:desc] }
           optional :state,
                    type: String,
                    values: { value: ::Market::STATES },

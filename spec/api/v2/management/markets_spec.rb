@@ -19,6 +19,7 @@ describe API::V2::Management::Markets, type: :request do
     let(:data) { {} }
     let(:signers) { %i[alex jeff] }
     let(:market) { Market.find(:btcusd) }
+    let!(:engine) { create(:engine) }
 
     it 'should validate min_price param' do
       data.merge!(id: market.id, min_price: -10.0)
@@ -94,6 +95,19 @@ describe API::V2::Management::Markets, type: :request do
       expect(result.fetch('state')).to eq 'disabled'
       expect(result.fetch('min_amount')).to eq '0.1'
     end
+
+    it 'should update engine_id' do
+      prev_engine_id = market.engine_id
+      data.merge!(id: market.id, engine_id: engine.id)
+      request
+
+      expect(response).to have_http_status 200
+
+      result = JSON.parse(response.body)
+      expect(result.fetch('id')).to eq market.id
+      expect(result.fetch('id')).not_to eq prev_engine_id
+      expect(result.fetch('engine_id')).to eq engine.id
+    end
   end
 
   describe 'fetch markets list' do
@@ -107,7 +121,7 @@ describe API::V2::Management::Markets, type: :request do
 
     let(:expected_keys) do
       %w[id name base_unit quote_unit min_price max_price
-         min_amount amount_precision price_precision state position created_at updated_at]
+         min_amount amount_precision price_precision state position engine_id created_at updated_at]
     end
 
     it 'lists enabled markets' do

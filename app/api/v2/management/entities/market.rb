@@ -15,6 +15,14 @@ module API
           )
 
           expose(
+            :engine_id,
+            documentation: {
+              type: Integer,
+              desc: 'Engine ID .'
+            }
+          )
+
+          expose(
             :created_at,
             format_with: :iso8601,
             documentation: {

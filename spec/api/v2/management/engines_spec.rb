@@ -53,6 +53,23 @@ describe API::V2::Management::Engines, type: :request do
     context do
       let(:engines_params) do
         {
+          name: Engine.first.name
+        }
+      end
+
+      it 'returns engines by name' do
+        request
+        result = JSON.parse(response.body)
+
+        expect(response).to be_successful
+        expect(result.first['id']).to eq Engine.first.id
+        expect(result.first['name']).to eq Engine.first.name
+      end
+    end
+
+    context do
+      let(:engines_params) do
+        {
           limit: 1,
           page: 1
         }
@@ -77,9 +94,9 @@ describe API::V2::Management::Engines, type: :request do
     end
   end
 
-  describe 'POST /engines' do
+  describe 'POST /engines/new' do
     def request
-      post_json "/api/v2/management/engines", multisig_jwt_management_api_v1({ data: data }, *signers)
+      post_json "/api/v2/management/engines/new", multisig_jwt_management_api_v1({ data: data }, *signers)
     end
 
     let(:signers) { %i[alex jeff] }
@@ -97,16 +114,21 @@ describe API::V2::Management::Engines, type: :request do
           uid: 'UID123456',
           key: 'your_key',
           secret: 'your_secret',
+          url: 'your_url',
+          state: 1,
           data: { some_data: 'some data' }
         }
       end
 
       it 'creates new engine' do
         request
+
         result = JSON.parse(response.body)
         expect(response).to be_successful
         expect(result['name']).to eq 'new-engine'
         expect(result['data'].blank?).to eq true
+        expect(result['state']).to eq 'online'
+        expect(result['url']).to eq 'your_url'
 
         request
         expect(response).to have_http_status 422
