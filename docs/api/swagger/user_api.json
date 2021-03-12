@@ -10,7 +10,7 @@
     "license": {
       "url": "https://github.com/openware/peatio/blob/master/LICENSE.md"
     },
-    "version": "2.6.0"
+    "version": "2.7.0"
   },
   "swagger": "2.0",
   "produces": [
@@ -919,6 +919,122 @@
         "operationId": "getApiV2PeatioPublicCurrenciesId"
       }
     },
+    "/api/v2/peatio/account/internal_transfers": {
+      "post": {
+        "description": "Creates internal transfer.",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "formData",
+            "name": "currency",
+            "description": "The currency code.",
+            "type": "string",
+            "enum": [
+              "btc",
+              "eth",
+              "trst",
+              "usd",
+              "BTC",
+              "ETH",
+              "TRST",
+              "USD"
+            ],
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "amount",
+            "description": "The amount to transfer.",
+            "type": "number",
+            "format": "double",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "otp",
+            "description": "OTP to perform action",
+            "type": "integer",
+            "format": "int32",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "username_or_uid",
+            "description": "Receiver uid or username.",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Creates internal transfer."
+          }
+        },
+        "tags": [
+          "api"
+        ],
+        "operationId": "postApiV2PeatioAccountInternalTransfers"
+      },
+      "get": {
+        "description": "List your internal transfers as paginated collection.",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "currency",
+            "description": "Currency code.",
+            "type": "string",
+            "enum": [
+              "btc",
+              "eth",
+              "trst",
+              "usd",
+              "BTC",
+              "ETH",
+              "TRST",
+              "USD"
+            ],
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "state",
+            "description": "The state to filter by.",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "sender",
+            "description": "",
+            "type": "string",
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List your internal transfers as paginated collection.",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/InternalTransfer"
+              }
+            }
+          }
+        },
+        "tags": [
+          "api"
+        ],
+        "operationId": "getApiV2PeatioAccountInternalTransfers"
+      }
+    },
     "/api/v2/peatio/account/stats/pnl": {
       "get": {
         "description": "Get assets pnl calculated into one currency",
@@ -1175,6 +1291,22 @@
             "name": "rid",
             "description": "Wallet address on the Blockchain.",
             "type": "string",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "time_from",
+            "description": "An integer represents the seconds elapsed since Unix epoch.",
+            "type": "integer",
+            "format": "int32",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "time_to",
+            "description": "An integer represents the seconds elapsed since Unix epoch.",
+            "type": "integer",
+            "format": "int32",
             "required": false
           },
           {
@@ -1578,6 +1710,22 @@
           },
           {
             "in": "query",
+            "name": "time_from",
+            "description": "An integer represents the seconds elapsed since Unix epoch.",
+            "type": "integer",
+            "format": "int32",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "time_to",
+            "description": "An integer represents the seconds elapsed since Unix epoch.",
+            "type": "integer",
+            "format": "int32",
+            "required": false
+          },
+          {
+            "in": "query",
             "name": "limit",
             "description": "Number of deposits per page (defaults to 100, maximum is 100).",
             "type": "integer",
@@ -1754,6 +1902,17 @@
             "type": "integer",
             "format": "int32",
             "default": 1,
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "type",
+            "description": "To indicate nature of trade - buy/sell",
+            "type": "string",
+            "enum": [
+              "buy",
+              "sell"
+            ],
             "required": false
           },
           {
@@ -2852,6 +3011,53 @@
       },
       "description": "Get a currency"
     },
+    "InternalTransfer": {
+      "type": "object",
+      "properties": {
+        "currency": {
+          "type": "string",
+          "description": "The currency code."
+        },
+        "sender_username": {
+          "type": "string",
+          "description": "The internal transfer sender."
+        },
+        "receiver_username": {
+          "type": "string",
+          "description": "The internal transfer receiver."
+        },
+        "sender_uid": {
+          "type": "string",
+          "description": "The internal transfer sender."
+        },
+        "receiver_uid": {
+          "type": "string",
+          "description": "The internal transfer receiver."
+        },
+        "direction": {
+          "type": "string",
+          "description": "The internal transfer direction (incoming or outcoming internal transfer)."
+        },
+        "amount": {
+          "type": "number",
+          "format": "double",
+          "description": "Internal transfer Amount."
+        },
+        "status": {
+          "type": "string",
+          "description": "The internal transfer state."
+        },
+        "created_at": {
+          "type": "string",
+          "description": "The datetimes for the internal transfer."
+        },
+        "updated_at": {
+          "type": "string",
+          "description": "The datetimes for the internal transfer."
+        }
+      },
+      "description": "List your internal transfers as paginated collection."
+    },
     "Withdraw": {
       "type": "object",
       "properties": {
@@ -3026,9 +3232,39 @@
           "type": "number",
           "format": "double",
           "description": "Account locked funds."
+        },
+        "deposit_address": {
+          "$ref": "#/definitions/PaymentAddress",
+          "description": "User deposit address"
         }
       },
       "description": "Get list of user accounts"
+    },
+    "PaymentAddress": {
+      "type": "object",
+      "properties": {
+        "currencies": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "example": [
+              "btc",
+              "eth",
+              "trst",
+              "usd"
+            ]
+          },
+          "description": "Currencies codes."
+        },
+        "address": {
+          "type": "string",
+          "description": "Payment address."
+        },
+        "state": {
+          "type": "string",
+          "description": "Payment address state."
+        }
+      }
     },
     "Transactions": {
       "type": "object",

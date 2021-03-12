@@ -10,7 +10,7 @@
     "license": {
       "url": "https://github.com/openware/peatio/blob/master/LICENSE.md"
     },
-    "version": "2.6.0"
+    "version": "2.7.0"
   },
   "swagger": "2.0",
   "produces": [
@@ -164,6 +164,249 @@
           "api"
         ],
         "operationId": "postApiV2ManagementPeatioBeneficiariesList"
+      }
+    },
+    "/api/v2/management/peatio/engines/update": {
+      "post": {
+        "description": "Update engine",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "formData",
+            "name": "id",
+            "description": "Engine uniq id",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "uid",
+            "description": "Owner of a engine",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "name",
+            "description": "Engine name",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "driver",
+            "description": "Engine driver",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "url",
+            "description": "Engine url",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "key",
+            "description": "Credentials for remote engine",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "secret",
+            "description": "Credentials for remote engine",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "state",
+            "description": "Engine state",
+            "type": "string",
+            "default": 1,
+            "enum": [
+              1,
+              0
+            ],
+            "required": false
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Update engine",
+            "schema": {
+              "$ref": "#/definitions/Engine"
+            }
+          }
+        },
+        "tags": [
+          "api"
+        ],
+        "operationId": "postApiV2ManagementPeatioEnginesUpdate"
+      }
+    },
+    "/api/v2/management/peatio/engines/new": {
+      "post": {
+        "description": "Creates new engine",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "formData",
+            "name": "name",
+            "description": "Engine name",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "driver",
+            "description": "Engine driver",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "uid",
+            "description": "Owner of a engine",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "url",
+            "description": "Engine url",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "state",
+            "description": "Engine state",
+            "type": "string",
+            "enum": [
+              1,
+              0
+            ],
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "key",
+            "description": "Credentials for remote engine",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "secret",
+            "description": "Credentials for remote engine",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "data",
+            "description": "Metadata for engine",
+            "type": "string",
+            "required": false
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Creates new engine",
+            "schema": {
+              "$ref": "#/definitions/Engine"
+            }
+          }
+        },
+        "tags": [
+          "api"
+        ],
+        "operationId": "postApiV2ManagementPeatioEnginesNew"
+      }
+    },
+    "/api/v2/management/peatio/engines/get": {
+      "post": {
+        "description": "Get all engine, result is paginated.",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "formData",
+            "name": "limit",
+            "description": "Limit the number of returned paginations. Defaults to 100.",
+            "type": "integer",
+            "format": "int32",
+            "default": 100,
+            "minimum": 1,
+            "maximum": 1000,
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "page",
+            "description": "Specify the page of paginated results.",
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "name",
+            "description": "Engine name",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "ordering",
+            "description": "If set, returned values will be sorted in specific order, defaults to 'asc'.",
+            "type": "string",
+            "default": "asc",
+            "enum": [
+              "asc",
+              "desc"
+            ],
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "order_by",
+            "description": "Name of the field, which result will be ordered by.",
+            "type": "string",
+            "default": "id",
+            "required": false
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Get all engine, result is paginated.",
+            "schema": {
+              "$ref": "#/definitions/Engine"
+            }
+          }
+        },
+        "tags": [
+          "api"
+        ],
+        "operationId": "postApiV2ManagementPeatioEnginesGet"
       }
     },
     "/api/v2/management/peatio/accounts/balances": {
@@ -444,6 +687,14 @@
             "name": "uid",
             "description": "The shared user ID.",
             "type": "string",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "from_id",
+            "description": "Unique blockchain identifier in database. Will return starting from given id.",
+            "type": "integer",
+            "format": "int32",
             "required": false
           },
           {
@@ -2219,6 +2470,14 @@
           },
           {
             "in": "formData",
+            "name": "engine_id",
+            "description": "Engine ID .",
+            "type": "integer",
+            "format": "int32",
+            "required": false
+          },
+          {
+            "in": "formData",
             "name": "state",
             "description": "Market state defines if user can see/trade on current market.",
             "type": "string",
@@ -2294,6 +2553,62 @@
         ],
         "operationId": "putApiV2ManagementPeatioMarketsUpdate"
       }
+    },
+    "/api/v2/management/peatio/deposit_address/new": {
+      "post": {
+        "description": "Create payment address",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "formData",
+            "name": "uid",
+            "description": "The shared user ID.",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "currency",
+            "description": "Unique currency code.",
+            "type": "string",
+            "enum": [
+              "btc",
+              "eth",
+              "trst",
+              "usd",
+              "BTC",
+              "ETH",
+              "TRST",
+              "USD"
+            ],
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "remote",
+            "description": "Payment address remote creation (true/false).",
+            "type": "Boolean",
+            "required": false
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Create payment address",
+            "schema": {
+              "$ref": "#/definitions/PaymentAddress"
+            }
+          }
+        },
+        "tags": [
+          "api"
+        ],
+        "operationId": "postApiV2ManagementPeatioDepositAddressNew"
+      }
     }
   },
   "definitions": {
@@ -2336,6 +2651,37 @@
       },
       "description": "Get list of user beneficiaries"
     },
+    "Engine": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Engine uniq id"
+        },
+        "name": {
+          "type": "string",
+          "description": "Engine name"
+        },
+        "driver": {
+          "type": "string",
+          "description": "Engine driver"
+        },
+        "uid": {
+          "type": "string",
+          "description": "Owner of a engine"
+        },
+        "url": {
+          "type": "string",
+          "description": "Engine url"
+        },
+        "state": {
+          "type": "string",
+          "description": "Engine state"
+        }
+      },
+      "description": "Get all engine, result is paginated."
+    },
     "Balance": {
       "type": "object",
       "properties": {
@@ -2357,6 +2703,11 @@
     "Deposit": {
       "type": "object",
       "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Deposit ID."
+        },
         "tid": {
           "type": "integer",
           "format": "int32",
@@ -2365,6 +2716,10 @@
         "currency": {
           "type": "string",
           "description": "The currency code."
+        },
+        "address": {
+          "type": "string",
+          "description": "The deposit address."
         },
         "uid": {
           "type": "string",
@@ -2836,6 +3191,11 @@
           "format": "int32",
           "description": "Market position."
         },
+        "engine_id": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Engine ID ."
+        },
         "created_at": {
           "type": "string",
           "description": "Market created time in iso8601 format."
@@ -2846,6 +3206,41 @@
         }
       },
       "description": "Update market."
+    },
+    "PaymentAddress": {
+      "type": "object",
+      "properties": {
+        "currencies": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "example": [
+              "btc",
+              "eth",
+              "trst",
+              "usd"
+            ]
+          },
+          "description": "Currencies codes."
+        },
+        "address": {
+          "type": "string",
+          "description": "Payment address."
+        },
+        "state": {
+          "type": "string",
+          "description": "Payment address state."
+        },
+        "uid": {
+          "type": "string",
+          "description": "The shared user ID."
+        },
+        "remote": {
+          "type": "string",
+          "description": "Payment address remote creation (true/false)."
+        }
+      },
+      "description": "Create payment address"
     }
   }
 }

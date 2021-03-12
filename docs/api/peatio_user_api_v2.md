@@ -5,7 +5,7 @@ API for Peatio application.
 
 **Contact information:**  
 openware.com  
-<https://www.openware.com>
+<https://www.openware.com>  
 hello@openware.com  
 
 **License:** <https://github.com/openware/peatio/blob/master/LICENSE.md>
@@ -347,6 +347,47 @@ Get a currency
 | ---- | ----------- | ------ |
 | 200 | Get a currency | [Currency](#currency) |
 
+### /api/v2/peatio/account/internal_transfers
+
+#### POST
+##### Description
+
+Creates internal transfer.
+
+##### Parameters
+
+| Name | Located in | Description | Required | Schema |
+| ---- | ---------- | ----------- | -------- | ---- |
+| currency | formData | The currency code. | Yes | string |
+| amount | formData | The amount to transfer. | Yes | double |
+| otp | formData | OTP to perform action | Yes | integer |
+| username_or_uid | formData | Receiver uid or username. | Yes | string |
+
+##### Responses
+
+| Code | Description |
+| ---- | ----------- |
+| 201 | Creates internal transfer. |
+
+#### GET
+##### Description
+
+List your internal transfers as paginated collection.
+
+##### Parameters
+
+| Name | Located in | Description | Required | Schema |
+| ---- | ---------- | ----------- | -------- | ---- |
+| currency | query | Currency code. | No | string |
+| state | query | The state to filter by. | No | string |
+| sender | query |  | No | string |
+
+##### Responses
+
+| Code | Description | Schema |
+| ---- | ----------- | ------ |
+| 200 | List your internal transfers as paginated collection. | [ [InternalTransfer](#internaltransfer) ] |
+
 ### /api/v2/peatio/account/stats/pnl
 
 #### GET
@@ -429,6 +470,8 @@ List your withdraws as paginated collection.
 | limit | query | Number of withdraws per page (defaults to 100, maximum is 100). | No | integer |
 | state | query | Filter withdrawals by states. | No | string |
 | rid | query | Wallet address on the Blockchain. | No | string |
+| time_from | query | An integer represents the seconds elapsed since Unix epoch. | No | integer |
+| time_to | query | An integer represents the seconds elapsed since Unix epoch. | No | integer |
 | page | query | Page number (defaults to 1). | No | integer |
 
 ##### Responses
@@ -618,6 +661,8 @@ Get your deposits history.
 | currency | query | Currency code | No | string |
 | state | query | Filter deposits by states. | No | string |
 | txid | query | Deposit transaction id. | No | string |
+| time_from | query | An integer represents the seconds elapsed since Unix epoch. | No | integer |
+| time_to | query | An integer represents the seconds elapsed since Unix epoch. | No | integer |
 | limit | query | Number of deposits per page (defaults to 100, maximum is 100). | No | integer |
 | page | query | Page number (defaults to 1). | No | integer |
 
@@ -684,6 +729,7 @@ Get your executed trades. Trades are sorted in reverse creation order.
 | market | query |  | No | string |
 | limit | query | Limit the number of returned trades. Default to 100. | No | integer |
 | page | query | Specify the page of paginated results. | No | integer |
+| type | query | To indicate nature of trade - buy/sell | No | string |
 | time_from | query | An integer represents the seconds elapsed since Unix epoch.If set, only trades executed after the time will be returned. | No | integer |
 | time_to | query | An integer represents the seconds elapsed since Unix epoch.If set, only trades executed before the time will be returned. | No | integer |
 | order_by | query | If set, returned trades will be sorted in specific order, default to 'desc'. | No | string |
@@ -1100,6 +1146,23 @@ Get a currency
 | icon_url | string | Currency icon<br>_Example:_ `"https://upload.wikimedia.org/wikipedia/commons/0/05/Ethereum_logo_2014.svg"` | No |
 | min_confirmations | string | Number of confirmations required for confirming deposit or withdrawal | No |
 
+#### InternalTransfer
+
+List your internal transfers as paginated collection.
+
+| Name | Type | Description | Required |
+| ---- | ---- | ----------- | -------- |
+| currency | string | The currency code. | No |
+| sender_username | string | The internal transfer sender. | No |
+| receiver_username | string | The internal transfer receiver. | No |
+| sender_uid | string | The internal transfer sender. | No |
+| receiver_uid | string | The internal transfer receiver. | No |
+| direction | string | The internal transfer direction (incoming or outcoming internal transfer). | No |
+| amount | double | Internal transfer Amount. | No |
+| status | string | The internal transfer state. | No |
+| created_at | string | The datetimes for the internal transfer. | No |
+| updated_at | string | The datetimes for the internal transfer. | No |
+
 #### Withdraw
 
 List your withdraws as paginated collection.
@@ -1163,6 +1226,15 @@ Get list of user accounts
 | currency | string | Currency code. | No |
 | balance | double | Account balance. | No |
 | locked | double | Account locked funds. | No |
+| deposit_address | [PaymentAddress](#paymentaddress) | User deposit address | No |
+
+#### PaymentAddress
+
+| Name | Type | Description | Required |
+| ---- | ---- | ----------- | -------- |
+| currencies | [ string ] | Currencies codes. | No |
+| address | string | Payment address. | No |
+| state | string | Payment address state. | No |
 
 #### Transactions
 

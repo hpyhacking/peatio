@@ -5,7 +5,7 @@ Admin API high privileged API with RBAC.
 
 **Contact information:**  
 openware.com  
-<https://www.openware.com>
+<https://www.openware.com>  
 hello@openware.com  
 
 **License:** <https://github.com/openware/peatio/blob/master/LICENSE.md>
@@ -410,6 +410,7 @@ Update currency.
 | deposit_enabled | formData | Currency deposit possibility status (true/false). | No | Boolean |
 | withdrawal_enabled | formData | Currency withdrawal possibility status (true/false). | No | Boolean |
 | precision | formData | Currency precision. | No | integer |
+| price | formData | Currency price. | No | double |
 | icon_url | formData | Currency icon | No | string |
 | description | formData | Currency description | No | string |
 | homepage | formData | Currency homepage | No | string |
@@ -448,6 +449,7 @@ Create new currency.
 | deposit_enabled | formData | Currency deposit possibility status (true/false). | No | Boolean |
 | withdrawal_enabled | formData | Currency withdrawal possibility status (true/false). | No | Boolean |
 | precision | formData | Currency precision. | No | integer |
+| price | formData | Currency price. | No | double |
 | icon_url | formData | Currency icon | No | string |
 | description | formData | Currency description | No | string |
 | homepage | formData | Currency homepage | No | string |
@@ -1493,6 +1495,155 @@ Returns withdraw limits table as paginated collection
 | ---- | ----------- | ------ |
 | 200 | Returns withdraw limits table as paginated collection | [ [WithdrawLimit](#withdrawlimit) ] |
 
+### /api/v2/admin/peatio/airdrops
+
+#### POST
+##### Description
+
+Process user airdrop
+
+##### Parameters
+
+| Name | Located in | Description | Required | Schema |
+| ---- | ---------- | ----------- | -------- | ---- |
+| file | formData |  | Yes | file |
+
+##### Responses
+
+| Code | Description |
+| ---- | ----------- |
+| 201 | Process user airdrop |
+
+### /api/v2/admin/peatio/internal_transfers
+
+#### GET
+##### Description
+
+Get all internal transfers.
+
+##### Parameters
+
+| Name | Located in | Description | Required | Schema |
+| ---- | ---------- | ----------- | -------- | ---- |
+| sender | query | Sender uid or username. | No | string |
+| receiver | query | Receiver uid or username. | No | string |
+| currency | query | Deposit currency id. | No | string |
+| limit | query | Limit the number of returned paginations. Defaults to 100. | No | integer |
+| page | query | Specify the page of paginated results. | No | integer |
+| range | query | Date range picker, defaults to 'created'. | No | string |
+| from | query | An integer represents the seconds elapsed since Unix epoch.If set, only entities FROM the time will be retrieved. | No | dateTime |
+| to | query | An integer represents the seconds elapsed since Unix epoch.If set, only entities BEFORE the time will be retrieved. | No | dateTime |
+| ordering | query | If set, returned values will be sorted in specific order, defaults to 'asc'. | No | string |
+| order_by | query | Name of the field, which result will be ordered by. | No | string |
+
+##### Responses
+
+| Code | Description | Schema |
+| ---- | ----------- | ------ |
+| 200 | Get all internal transfers. | [ [InternalTransfer](#internaltransfer) ] |
+
+### /api/v2/admin/peatio/whitelisted_smart_contracts/csv
+
+#### POST
+##### Description
+
+Process whitelisted smart contracts from csv
+
+##### Parameters
+
+| Name | Located in | Description | Required | Schema |
+| ---- | ---------- | ----------- | -------- | ---- |
+| file | formData | CSV file with whitelisted smart contracts data | Yes | file |
+
+##### Responses
+
+| Code | Description | Schema |
+| ---- | ----------- | ------ |
+| 201 | Process whitelisted smart contracts from csv | [WhitelistedSmartContract](#whitelistedsmartcontract) |
+
+### /api/v2/admin/peatio/whitelisted_smart_contracts
+
+#### PUT
+##### Description
+
+Update whitelisted_smart_contract.
+
+##### Parameters
+
+| Name | Located in | Description | Required | Schema |
+| ---- | ---------- | ----------- | -------- | ---- |
+| id | formData | Unique whitelisted smart contract identifier in database. | Yes | integer |
+| blockchain_key | formData | Whitelisted smart contract blockchain key. | No | string |
+| description | formData | Whitelisted smart contract description. | No | string |
+| address | formData | Whitelisted smart contract address. | No | string |
+| state | formData | Whitelisted smart contract status (active/disabled). | No | string |
+
+##### Responses
+
+| Code | Description | Schema |
+| ---- | ----------- | ------ |
+| 200 | Update whitelisted_smart_contract. | [WhitelistedSmartContract](#whitelistedsmartcontract) |
+
+#### POST
+##### Description
+
+Creates new whitelisted address.
+
+##### Parameters
+
+| Name | Located in | Description | Required | Schema |
+| ---- | ---------- | ----------- | -------- | ---- |
+| blockchain_key | formData | Whitelisted smart contract blockchain key. | Yes | string |
+| address | formData | Whitelisted smart contract address. | Yes | string |
+| description | formData | Whitelisted smart contract description. | No | string |
+| state | formData | Whitelisted smart contract status (active/disabled). | No | string |
+
+##### Responses
+
+| Code | Description | Schema |
+| ---- | ----------- | ------ |
+| 201 | Creates new whitelisted address. | [WhitelistedSmartContract](#whitelistedsmartcontract) |
+
+#### GET
+##### Description
+
+Get all whitelisted addresses, result is paginated.
+
+##### Parameters
+
+| Name | Located in | Description | Required | Schema |
+| ---- | ---------- | ----------- | -------- | ---- |
+| blockchain_key | query | Whitelisted smart contract blockchain key. | No | string |
+| limit | query | Limit the number of returned paginations. Defaults to 100. | No | integer |
+| page | query | Specify the page of paginated results. | No | integer |
+| ordering | query | If set, returned values will be sorted in specific order, defaults to 'asc'. | No | string |
+| order_by | query | Name of the field, which result will be ordered by. | No | string |
+
+##### Responses
+
+| Code | Description | Schema |
+| ---- | ----------- | ------ |
+| 200 | Get all whitelisted addresses, result is paginated. | [ [WhitelistedSmartContract](#whitelistedsmartcontract) ] |
+
+### /api/v2/admin/peatio/whitelisted_smart_contract/{id}
+
+#### GET
+##### Description
+
+Get a whitelisted address.
+
+##### Parameters
+
+| Name | Located in | Description | Required | Schema |
+| ---- | ---------- | ----------- | -------- | ---- |
+| id | path | Unique whitelisted smart contract identifier in database. | Yes | integer |
+
+##### Responses
+
+| Code | Description | Schema |
+| ---- | ----------- | ------ |
+| 200 | Get a whitelisted address. | [WhitelistedSmartContract](#whitelistedsmartcontract) |
+
 ### Models
 
 #### Blockchain
@@ -1604,7 +1755,7 @@ Get list of currencies
 | name | string | Currency name<br>_Example:_ `"Bitcoin"` | No |
 | description | string | Currency description<br>_Example:_ `"btc"` | No |
 | homepage | string | Currency homepage<br>_Example:_ `"btc"` | No |
-| price | string | Currency current price | No |
+| price | double | Currency price. | No |
 | explorer_transaction | string | Currency transaction exprorer url template<br>_Example:_ `"https://testnet.blockchain.info/tx/"` | No |
 | explorer_address | string | Currency address exprorer url template<br>_Example:_ `"https://testnet.blockchain.info/address/"` | No |
 | type | string | Currency type<br>_Example:_ `"coin"` | No |
@@ -1782,6 +1933,7 @@ Get all members, result is paginated.
 | created_at | string | Member created time in iso8601 format. | No |
 | updated_at | string | Member updated time in iso8601 format. | No |
 | beneficiaries | [ [Beneficiary](#beneficiary) ] | Member Beneficiary. | No |
+| deposit_addresses | [ [PaymentAddress](#paymentaddress) ] | Member deposits addresses | No |
 
 #### Account
 
@@ -1790,6 +1942,15 @@ Get all members, result is paginated.
 | currency | string | Currency code. | No |
 | balance | double | Account balance. | No |
 | locked | double | Account locked funds. | No |
+| deposit_address | [PaymentAddress](#paymentaddress) | User deposit address | No |
+
+#### PaymentAddress
+
+| Name | Type | Description | Required |
+| ---- | ---- | ----------- | -------- |
+| currencies | [ string ] | Currencies codes. | No |
+| address | string | Payment address. | No |
+| state | string | Payment address state. | No |
 
 #### TradingFee
 
@@ -1830,3 +1991,35 @@ Returns withdraw limits table as paginated collection
 | limit_1_month | double | 1 month withdraw limit. | No |
 | created_at | string | Withdraw limit table created time in iso8601 format. | No |
 | updated_at | string | Withdraw limit table updated time in iso8601 format. | No |
+
+#### InternalTransfer
+
+Get all internal transfers.
+
+| Name | Type | Description | Required |
+| ---- | ---- | ----------- | -------- |
+| currency | string | The currency code. | No |
+| sender_username | string | The internal transfer sender. | No |
+| receiver_username | string | The internal transfer receiver. | No |
+| sender_uid | string | The internal transfer sender. | No |
+| receiver_uid | string | The internal transfer receiver. | No |
+| direction | string | The internal transfer direction (incoming or outcoming internal transfer). | No |
+| amount | double | Internal transfer Amount. | No |
+| status | string | The internal transfer state. | No |
+| created_at | string | The datetimes for the internal transfer. | No |
+| updated_at | string | The datetimes for the internal transfer. | No |
+| id | integer | Internal transfer uniq id | No |
+
+#### WhitelistedSmartContract
+
+Get a whitelisted address.
+
+| Name | Type | Description | Required |
+| ---- | ---- | ----------- | -------- |
+| id | integer | Unique whitelisted smart contract identifier in database. | No |
+| address | string | Whitelisted smart contract address. | No |
+| description | string | Whitelisted smart contract description. | No |
+| blockchain_key | string | Whitelisted smart contract blockchain key. | No |
+| state | string | Whitelisted smart contract status (active/disabled). | No |
+| created_at | string | Whitelisted smart contract created time in iso8601 format. | No |
+| updated_at | string | Whitelisted smart contract updated time in iso8601 format. | No |

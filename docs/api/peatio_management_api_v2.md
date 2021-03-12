@@ -5,7 +5,7 @@ Management API is server-to-server API with high privileges.
 
 **Contact information:**  
 openware.com  
-<https://www.openware.com>
+<https://www.openware.com>  
 hello@openware.com  
 
 **License:** <https://github.com/openware/peatio/blob/master/LICENSE.md>
@@ -54,6 +54,81 @@ Get list of user beneficiaries
 | Code | Description | Schema |
 | ---- | ----------- | ------ |
 | 201 | Get list of user beneficiaries | [Beneficiary](#beneficiary) |
+
+### /api/v2/management/peatio/engines/update
+
+#### POST
+##### Description
+
+Update engine
+
+##### Parameters
+
+| Name | Located in | Description | Required | Schema |
+| ---- | ---------- | ----------- | -------- | ---- |
+| id | formData | Engine uniq id | Yes | string |
+| uid | formData | Owner of a engine | No | string |
+| name | formData | Engine name | No | string |
+| driver | formData | Engine driver | No | string |
+| url | formData | Engine url | No | string |
+| key | formData | Credentials for remote engine | No | string |
+| secret | formData | Credentials for remote engine | No | string |
+| state | formData | Engine state | No | string |
+
+##### Responses
+
+| Code | Description | Schema |
+| ---- | ----------- | ------ |
+| 201 | Update engine | [Engine](#engine) |
+
+### /api/v2/management/peatio/engines/new
+
+#### POST
+##### Description
+
+Creates new engine
+
+##### Parameters
+
+| Name | Located in | Description | Required | Schema |
+| ---- | ---------- | ----------- | -------- | ---- |
+| name | formData | Engine name | Yes | string |
+| driver | formData | Engine driver | Yes | string |
+| uid | formData | Owner of a engine | No | string |
+| url | formData | Engine url | No | string |
+| state | formData | Engine state | No | string |
+| key | formData | Credentials for remote engine | No | string |
+| secret | formData | Credentials for remote engine | No | string |
+| data | formData | Metadata for engine | No | string |
+
+##### Responses
+
+| Code | Description | Schema |
+| ---- | ----------- | ------ |
+| 201 | Creates new engine | [Engine](#engine) |
+
+### /api/v2/management/peatio/engines/get
+
+#### POST
+##### Description
+
+Get all engine, result is paginated.
+
+##### Parameters
+
+| Name | Located in | Description | Required | Schema |
+| ---- | ---------- | ----------- | -------- | ---- |
+| limit | formData | Limit the number of returned paginations. Defaults to 100. | No | integer |
+| page | formData | Specify the page of paginated results. | No | integer |
+| name | formData | Engine name | No | string |
+| ordering | formData | If set, returned values will be sorted in specific order, defaults to 'asc'. | No | string |
+| order_by | formData | Name of the field, which result will be ordered by. | No | string |
+
+##### Responses
+
+| Code | Description | Schema |
+| ---- | ----------- | ------ |
+| 201 | Get all engine, result is paginated. | [Engine](#engine) |
 
 ### /api/v2/management/peatio/accounts/balances
 
@@ -171,6 +246,7 @@ Returns deposits as paginated collection.
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
 | uid | formData | The shared user ID. | No | string |
+| from_id | formData | Unique blockchain identifier in database. Will return starting from given id. | No | integer |
 | currency | formData | The currency code. | No | string |
 | page | formData | The page number (defaults to 1). | No | integer |
 | limit | formData | The number of deposits per page (defaults to 100, maximum is 1000). | No | integer |
@@ -751,6 +827,7 @@ Update market.
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
 | id | formData | Unique market id. It's always in the form of xxxyyy,where xxx is the base currency code, yyy is the quotecurrency code, e.g. 'btcusd'. All available markets canbe found at /api/v2/markets. | Yes | string |
+| engine_id | formData | Engine ID . | No | integer |
 | state | formData | Market state defines if user can see/trade on current market. | No | string |
 | min_price | formData | Minimum order price. | No | double |
 | min_amount | formData | Minimum order amount. | No | double |
@@ -764,6 +841,27 @@ Update market.
 | Code | Description | Schema |
 | ---- | ----------- | ------ |
 | 200 | Update market. | [Market](#market) |
+
+### /api/v2/management/peatio/deposit_address/new
+
+#### POST
+##### Description
+
+Create payment address
+
+##### Parameters
+
+| Name | Located in | Description | Required | Schema |
+| ---- | ---------- | ----------- | -------- | ---- |
+| uid | formData | The shared user ID. | Yes | string |
+| currency | formData | Unique currency code. | Yes | string |
+| remote | formData | Payment address remote creation (true/false). | No | Boolean |
+
+##### Responses
+
+| Code | Description | Schema |
+| ---- | ----------- | ------ |
+| 201 | Create payment address | [PaymentAddress](#paymentaddress) |
 
 ### Models
 
@@ -782,6 +880,19 @@ Get list of user beneficiaries
 | state | string | Defines either beneficiary active - user can use it to withdraw moneyor pending - requires beneficiary activation with pin. | No |
 | sent_at | string | Time when last pin was sent | No |
 
+#### Engine
+
+Get all engine, result is paginated.
+
+| Name | Type | Description | Required |
+| ---- | ---- | ----------- | -------- |
+| id | integer | Engine uniq id | No |
+| name | string | Engine name | No |
+| driver | string | Engine driver | No |
+| uid | string | Owner of a engine | No |
+| url | string | Engine url | No |
+| state | string | Engine state | No |
+
 #### Balance
 
 Queries the account balance for the given UID and currency.
@@ -798,8 +909,10 @@ Returns deposits as paginated collection.
 
 | Name | Type | Description | Required |
 | ---- | ---- | ----------- | -------- |
+| id | integer | Deposit ID. | No |
 | tid | integer | The shared transaction ID. | No |
 | currency | string | The currency code. | No |
+| address | string | The deposit address. | No |
 | uid | string | The shared user ID. | No |
 | type | string | The deposit type (fiat or coin). | No |
 | amount | string | The deposit amount. | No |
@@ -939,5 +1052,18 @@ Update market.
 | price_precision | double | Precision for order price. | No |
 | state | string | Market state defines if user can see/trade on current market. | No |
 | position | integer | Market position. | No |
+| engine_id | integer | Engine ID . | No |
 | created_at | string | Market created time in iso8601 format. | No |
 | updated_at | string | Market updated time in iso8601 format. | No |
+
+#### PaymentAddress
+
+Create payment address
+
+| Name | Type | Description | Required |
+| ---- | ---- | ----------- | -------- |
+| currencies | [ string ] | Currencies codes. | No |
+| address | string | Payment address. | No |
+| state | string | Payment address state. | No |
+| uid | string | The shared user ID. | No |
+| remote | string | Payment address remote creation (true/false). | No |

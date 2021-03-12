@@ -10,7 +10,7 @@
     "license": {
       "url": "https://github.com/openware/peatio/blob/master/LICENSE.md"
     },
-    "version": "2.6.0"
+    "version": "2.7.0"
   },
   "swagger": "2.0",
   "produces": [
@@ -1334,6 +1334,14 @@
           },
           {
             "in": "formData",
+            "name": "price",
+            "description": "Currency price.",
+            "type": "number",
+            "format": "double",
+            "required": false
+          },
+          {
+            "in": "formData",
             "name": "icon_url",
             "description": "Currency icon",
             "type": "string",
@@ -1531,6 +1539,14 @@
             "type": "integer",
             "format": "int32",
             "default": 8,
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "price",
+            "description": "Currency price.",
+            "type": "number",
+            "format": "double",
             "required": false
           },
           {
@@ -2286,7 +2302,9 @@
               "geth",
               "parity",
               "gnosis",
+              "ow_hdwallet",
               "opendax",
+              "opendax_cloud",
               "dashd",
               "litecoind",
               "bitcoincashd",
@@ -2441,7 +2459,9 @@
               "geth",
               "parity",
               "gnosis",
+              "ow_hdwallet",
               "opendax",
+              "opendax_cloud",
               "dashd",
               "litecoind",
               "bitcoincashd",
@@ -4142,15 +4162,15 @@
             "enum": [
               "superadmin",
               "admin",
-              "manager",
+              "technical",
               "accountant",
               "compliance",
               "support",
-              "technical",
               "member",
               "broker",
               "trader",
-              "maker"
+              "maker",
+              "sa_maker"
             ],
             "required": false
           },
@@ -4985,6 +5005,431 @@
         ],
         "operationId": "getApiV2AdminPeatioWithdrawLimits"
       }
+    },
+    "/api/v2/admin/peatio/airdrops": {
+      "post": {
+        "description": "Process user airdrop",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "formData",
+            "name": "file",
+            "description": "",
+            "type": "file",
+            "required": true
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Process user airdrop"
+          }
+        },
+        "tags": [
+          "api"
+        ],
+        "operationId": "postApiV2AdminPeatioAirdrops"
+      }
+    },
+    "/api/v2/admin/peatio/internal_transfers": {
+      "get": {
+        "description": "Get all internal transfers.",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "sender",
+            "description": "Sender uid or username.",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "receiver",
+            "description": "Receiver uid or username.",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "currency",
+            "description": "Deposit currency id.",
+            "type": "string",
+            "enum": [
+              "btc",
+              "eth",
+              "trst",
+              "usd",
+              "BTC",
+              "ETH",
+              "TRST",
+              "USD"
+            ],
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "description": "Limit the number of returned paginations. Defaults to 100.",
+            "type": "integer",
+            "format": "int32",
+            "default": 100,
+            "minimum": 1,
+            "maximum": 1000,
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "page",
+            "description": "Specify the page of paginated results.",
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "range",
+            "description": "Date range picker, defaults to 'created'.",
+            "type": "string",
+            "default": "created",
+            "enum": [
+              "created",
+              "updated",
+              "completed"
+            ],
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "from",
+            "description": "An integer represents the seconds elapsed since Unix epoch.If set, only entities FROM the time will be retrieved.",
+            "type": "string",
+            "format": "date-time",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "to",
+            "description": "An integer represents the seconds elapsed since Unix epoch.If set, only entities BEFORE the time will be retrieved.",
+            "type": "string",
+            "format": "date-time",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "ordering",
+            "description": "If set, returned values will be sorted in specific order, defaults to 'asc'.",
+            "type": "string",
+            "default": "asc",
+            "enum": [
+              "asc",
+              "desc"
+            ],
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "order_by",
+            "description": "Name of the field, which result will be ordered by.",
+            "type": "string",
+            "default": "id",
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Get all internal transfers.",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/InternalTransfer"
+              }
+            }
+          }
+        },
+        "tags": [
+          "api"
+        ],
+        "operationId": "getApiV2AdminPeatioInternalTransfers"
+      }
+    },
+    "/api/v2/admin/peatio/whitelisted_smart_contracts/csv": {
+      "post": {
+        "description": "Process whitelisted smart contracts from csv",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "formData",
+            "name": "file",
+            "description": "CSV file with whitelisted smart contracts data",
+            "type": "file",
+            "required": true
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Process whitelisted smart contracts from csv",
+            "schema": {
+              "$ref": "#/definitions/WhitelistedSmartContract"
+            }
+          }
+        },
+        "tags": [
+          "api"
+        ],
+        "operationId": "postApiV2AdminPeatioWhitelistedSmartContractsCsv"
+      }
+    },
+    "/api/v2/admin/peatio/whitelisted_smart_contracts": {
+      "put": {
+        "description": "Update whitelisted_smart_contract.",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "formData",
+            "name": "id",
+            "description": "Unique whitelisted smart contract identifier in database.",
+            "type": "integer",
+            "format": "int32",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "blockchain_key",
+            "description": "Whitelisted smart contract blockchain key.",
+            "type": "string",
+            "enum": [
+              "btc-testnet",
+              "eth-mainet",
+              "eth-rinkeby",
+              "prt-kovan"
+            ],
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "description",
+            "description": "Whitelisted smart contract description.",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "address",
+            "description": "Whitelisted smart contract address.",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "state",
+            "description": "Whitelisted smart contract status (active/disabled).",
+            "type": "string",
+            "enum": [
+              "active",
+              "disabled"
+            ],
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Update whitelisted_smart_contract.",
+            "schema": {
+              "$ref": "#/definitions/WhitelistedSmartContract"
+            }
+          }
+        },
+        "tags": [
+          "api"
+        ],
+        "operationId": "putApiV2AdminPeatioWhitelistedSmartContracts"
+      },
+      "post": {
+        "description": "Creates new whitelisted address.",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "formData",
+            "name": "blockchain_key",
+            "description": "Whitelisted smart contract blockchain key.",
+            "type": "string",
+            "enum": [
+              "btc-testnet",
+              "eth-mainet",
+              "eth-rinkeby",
+              "prt-kovan"
+            ],
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "address",
+            "description": "Whitelisted smart contract address.",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "description",
+            "description": "Whitelisted smart contract description.",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "state",
+            "description": "Whitelisted smart contract status (active/disabled).",
+            "type": "string",
+            "default": "active",
+            "enum": [
+              "active",
+              "disabled"
+            ],
+            "required": false
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Creates new whitelisted address.",
+            "schema": {
+              "$ref": "#/definitions/WhitelistedSmartContract"
+            }
+          }
+        },
+        "tags": [
+          "api"
+        ],
+        "operationId": "postApiV2AdminPeatioWhitelistedSmartContracts"
+      },
+      "get": {
+        "description": "Get all whitelisted addresses, result is paginated.",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "blockchain_key",
+            "description": "Whitelisted smart contract blockchain key.",
+            "type": "string",
+            "enum": [
+              "btc-testnet",
+              "eth-mainet",
+              "eth-rinkeby",
+              "prt-kovan"
+            ],
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "description": "Limit the number of returned paginations. Defaults to 100.",
+            "type": "integer",
+            "format": "int32",
+            "default": 100,
+            "minimum": 1,
+            "maximum": 1000,
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "page",
+            "description": "Specify the page of paginated results.",
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "ordering",
+            "description": "If set, returned values will be sorted in specific order, defaults to 'asc'.",
+            "type": "string",
+            "default": "asc",
+            "enum": [
+              "asc",
+              "desc"
+            ],
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "order_by",
+            "description": "Name of the field, which result will be ordered by.",
+            "type": "string",
+            "default": "id",
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Get all whitelisted addresses, result is paginated.",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/WhitelistedSmartContract"
+              }
+            }
+          }
+        },
+        "tags": [
+          "api"
+        ],
+        "operationId": "getApiV2AdminPeatioWhitelistedSmartContracts"
+      }
+    },
+    "/api/v2/admin/peatio/whitelisted_smart_contract/{id}": {
+      "get": {
+        "description": "Get a whitelisted address.",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "description": "Unique whitelisted smart contract identifier in database.",
+            "type": "integer",
+            "format": "int32",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Get a whitelisted address.",
+            "schema": {
+              "$ref": "#/definitions/WhitelistedSmartContract"
+            }
+          }
+        },
+        "tags": [
+          "api"
+        ],
+        "operationId": "getApiV2AdminPeatioWhitelistedSmartContractId"
+      }
     }
   },
   "definitions": {
@@ -5311,8 +5756,9 @@
           "description": "Currency homepage"
         },
         "price": {
-          "type": "string",
-          "description": "Currency current price"
+          "type": "number",
+          "format": "double",
+          "description": "Currency price."
         },
         "explorer_transaction": {
           "type": "string",
@@ -5923,6 +6369,13 @@
             "$ref": "#/definitions/Beneficiary"
           },
           "description": "Member Beneficiary."
+        },
+        "deposit_addresses": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/PaymentAddress"
+          },
+          "description": "Member deposits addresses"
         }
       },
       "description": "Get all members, result is paginated."
@@ -5943,6 +6396,36 @@
           "type": "number",
           "format": "double",
           "description": "Account locked funds."
+        },
+        "deposit_address": {
+          "$ref": "#/definitions/PaymentAddress",
+          "description": "User deposit address"
+        }
+      }
+    },
+    "PaymentAddress": {
+      "type": "object",
+      "properties": {
+        "currencies": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "example": [
+              "btc",
+              "eth",
+              "trst",
+              "usd"
+            ]
+          },
+          "description": "Currencies codes."
+        },
+        "address": {
+          "type": "string",
+          "description": "Payment address."
+        },
+        "state": {
+          "type": "string",
+          "description": "Payment address state."
         }
       }
     },
@@ -6046,6 +6529,93 @@
         }
       },
       "description": "Returns withdraw limits table as paginated collection"
+    },
+    "InternalTransfer": {
+      "type": "object",
+      "properties": {
+        "currency": {
+          "type": "string",
+          "description": "The currency code."
+        },
+        "sender_username": {
+          "type": "string",
+          "description": "The internal transfer sender."
+        },
+        "receiver_username": {
+          "type": "string",
+          "description": "The internal transfer receiver."
+        },
+        "sender_uid": {
+          "type": "string",
+          "description": "The internal transfer sender."
+        },
+        "receiver_uid": {
+          "type": "string",
+          "description": "The internal transfer receiver."
+        },
+        "direction": {
+          "type": "string",
+          "description": "The internal transfer direction (incoming or outcoming internal transfer)."
+        },
+        "amount": {
+          "type": "number",
+          "format": "double",
+          "description": "Internal transfer Amount."
+        },
+        "status": {
+          "type": "string",
+          "description": "The internal transfer state."
+        },
+        "created_at": {
+          "type": "string",
+          "description": "The datetimes for the internal transfer."
+        },
+        "updated_at": {
+          "type": "string",
+          "description": "The datetimes for the internal transfer."
+        },
+        "id": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Internal transfer uniq id"
+        }
+      },
+      "description": "Get all internal transfers."
+    },
+    "WhitelistedSmartContract": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Unique whitelisted smart contract identifier in database."
+        },
+        "address": {
+          "type": "string",
+          "description": "Whitelisted smart contract address."
+        },
+        "description": {
+          "type": "string",
+          "description": "Whitelisted smart contract description."
+        },
+        "blockchain_key": {
+          "type": "string",
+          "description": "Whitelisted smart contract blockchain key."
+        },
+        "state": {
+          "type": "string",
+          "description": "Whitelisted smart contract status (active/disabled)."
+        },
+        "created_at": {
+          "type": "string",
+          "description": "Whitelisted smart contract created time in iso8601 format."
+        },
+        "updated_at": {
+          "type": "string",
+          "description": "Whitelisted smart contract updated time in iso8601 format."
+        }
+      },
+      "description": "Get a whitelisted address."
     }
   }
 }
