@@ -13,9 +13,10 @@ module Withdraws
     end
 
     before_validation do
-      next if blockchain_api&.case_sensitive?
-      self.rid  = rid.try(:downcase)
-      self.txid = txid.try(:downcase)
+      if blockchain_api.present? && blockchain_api.case_sensitive? == false
+        self.rid  = rid.try(:downcase)
+        self.txid = txid.try(:downcase)
+      end
     end
 
     validate do

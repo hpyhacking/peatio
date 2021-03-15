@@ -12,9 +12,10 @@ module Deposits
     validates :txid, uniqueness: { scope: %i[currency_id txout] }
 
     before_validation do
-      next if blockchain_api&.case_sensitive?
-      self.txid = txid.try(:downcase)
-      self.address = address.try(:downcase)
+      if blockchain_api.present? && blockchain_api.case_sensitive? == false
+        self.txid = txid.try(:downcase)
+        self.address = address.try(:downcase)
+      end
     end
 
     before_validation do
