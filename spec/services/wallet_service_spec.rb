@@ -683,6 +683,7 @@ describe WalletService do
       subject { service.collect_deposit!(deposit, spread_deposit) }
 
       before do
+        deposit.member.payment_address(service.wallet.id).update(address: deposit.address)
         service.adapter.expects(:create_transaction!).returns(transaction.first)
       end
 
@@ -717,6 +718,7 @@ describe WalletService do
       subject { service.collect_deposit!(deposit, spread_deposit) }
 
       before do
+        deposit.member.payment_address(service.wallet.id).update(address: deposit.address)
         service.adapter.expects(:create_transaction!).with(spread_deposit.first, subtract_fee: true).returns(transaction.first)
         service.adapter.expects(:create_transaction!).with(spread_deposit.second, subtract_fee: true).returns(transaction.second)
       end

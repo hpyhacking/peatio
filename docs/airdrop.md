@@ -28,7 +28,7 @@ curl -X POST -F 'file=@spec/resources/airdrops/airdrop.csv' 'https://opendax.clo
 
 ### Rules and exceptions
 
-1. Admin who received deposit for the airdrop total amount shouldV process airdrop from HIS user. Example:
+1. Admin who received deposit for the airdrop total amount should process airdrop from HIS user. Example:
     - Admin with uid ID1000001 received 300 usdt on his deposit account.
     - Admin with uid ID1000001 login and load csv in airdrop tab.
     - Airdrop API will take this user as src account and distribute funds from this account.

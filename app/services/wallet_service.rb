@@ -60,7 +60,8 @@ class WalletService
   def collect_deposit!(deposit, deposit_spread)
     @adapter.configure(wallet:   @wallet.to_wallet_api_settings,
                        currency: deposit.currency.to_blockchain_api_settings)
-    pa = deposit.member.payment_address(@wallet.id)
+
+    pa = PaymentAddress.find_by(wallet_id: @wallet.id, member: deposit.member, address: deposit.address)
     # NOTE: Deposit wallet configuration is tricky because wallet UIR
     #       is saved on Wallet model but wallet address and secret
     #       are saved in PaymentAddress.
@@ -129,9 +130,8 @@ class WalletService
   end
 
   def trigger_webhook_event(event)
-    currency = Currency.find(event[:coin])
     @adapter.configure(wallet:   @wallet.to_wallet_api_settings,
-                       currency: currency.to_blockchain_api_settings)
+                       currency: @wallet.currencies.first.to_blockchain_api_settings)
     @adapter.trigger_webhook_event(event)
   end
 

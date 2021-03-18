@@ -148,7 +148,7 @@ GEM
       railties (>= 4.2.0)
     faker (1.9.6)
       i18n (>= 0.7)
-    faraday (0.17.3)
+    faraday (0.17.4)
       multipart-post (>= 1.2, < 3)
     faraday_middleware (0.13.1)
       faraday (>= 0.7.4, < 1.0)
@@ -263,7 +263,7 @@ GEM
     parallel (1.20.1)
     parser (3.0.0.0)
       ast (~> 2.4.1)
-    peatio (2.6.2)
+    peatio (2.6.3)
       activemodel (> 5.2, <= 6.0.0)
       amqp
       bunny
@@ -505,7 +505,7 @@ DEPENDENCIES
   mocha (~> 1.8)
   mysql2 (~> 0.5.2)
   net-http-persistent (~> 3.0.1)
-  peatio (~> 2.6.2)
+  peatio (~> 2.6.3)
   peatio-bitcoincash (~> 2.6.1)
   peatio-bitgo (~> 2.6.4)
   peatio-dash (~> 2.6.1)

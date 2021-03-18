@@ -38,6 +38,24 @@ FactoryBot.define do
     type { 'Withdraws::Coin' }
   end
 
+  factory :eth_withdraw, class: Withdraws::Coin do
+    currency { Currency.find(:eth) }
+    member { create(:member, :level_3) }
+    rid { Faker::Blockchain::Bitcoin.address }
+    sum { 10.to_d }
+    type { 'Withdraws::Coin' }
+
+    trait :with_beneficiary do
+      beneficiary do
+        create(:beneficiary,
+               currency: currency,
+               member: member,
+               state: :active)
+      end
+      rid { nil }
+    end
+  end
+
   factory :usd_withdraw, class: Withdraws::Fiat do
 
     # We need to have valid Liability-based balance to spend funds.
