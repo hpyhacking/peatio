@@ -135,4 +135,143 @@ describe API::V2::Management::Markets, type: :request do
       end
     end
   end
+
+  describe 'get market by ID' do
+    def request
+      post_json "/api/v2/management/markets/#{market.id}", multisig_jwt_management_api_v1({ data: {} }, *signers)
+    end
+
+    let(:signers) { %i[alex jeff] }
+
+    let(:market) { Market.find_by(id: 'btcusd') }
+
+    it 'returns information about specified market' do
+      request
+      expect(response).to be_successful
+
+      result = JSON.parse(response.body)
+      expect(result.fetch('id')).to eq market.id
+      expect(result.fetch('base_unit')).to eq market.base_currency
+      expect(result.fetch('quote_unit')).to eq market.quote_currency
+    end
+
+    context 'invalid id' do
+      let(:market) { OpenStruct.new(id: 0) }
+      it 'returns error in case of invalid id' do
+        request
+
+        expect(response.code).to eq '404'
+        expect(response.body).to match(/Couldn't find record./i)
+      end
+    end
+  end
+
+
+  describe 'create market' do
+    def request
+      post_json '/api/v2/management/markets/new', multisig_jwt_management_api_v1({ data: data }, *signers)
+    end
+
+    let(:data) { {} }
+    let(:signers) { %i[alex jeff] }
+
+    let(:engine) { create(:engine) }
+    let(:valid_params) do
+      {
+        base_currency: 'trst',
+        quote_currency: 'btc',
+        engine_id: engine.id,
+        price_precision: 2,
+        amount_precision: 2,
+        min_price: 0.01,
+        min_amount: 0.01,
+        data: {
+          upstream: {
+            driver: :opendax
+          }
+        }
+      }
+    end
+
+    context do
+      it 'creates new market' do
+        data.merge!(valid_params)
+        request
+        result = JSON.parse(response.body)
+        expect(response).to be_successful
+        expect(result['id']).to eq 'trstbtc'
+        expect(result['engine_id']).to eq Market.last.engine_id
+      end
+    end
+
+    context do
+      it 'create new market with engine name param' do
+        data.merge!(valid_params.except(:engine_id).merge(engine_name: engine.name))
+        request
+        result = JSON.parse(response.body)
+        expect(response).to be_successful
+        expect(result['id']).to eq 'trstbtc'
+        expect(result['engine_id']).to eq Market.last.engine_id
+      end
+    end
+
+    context do
+      it 'validate base_currency param' do
+        data.merge!(valid_params.merge(base_currency: 'test'))
+        request
+
+        expect(response).to have_http_status 422
+        expect(response.body).to match(/management.market.currency_doesnt_exist./i)
+      end
+    end
+
+    context do
+      it 'validate quote_currency param' do
+        data.merge!(valid_params.merge(quote_currency: 'test'))
+        request
+
+        expect(response).to have_http_status 422
+        expect(response.body).to match(/management.market.currency_doesnt_exist./i)
+      end
+    end
+
+    context do
+      it 'validate enabled param' do
+        data.merge!(valid_params.merge(state: '123'))
+        request
+
+        expect(response).to have_http_status 422
+        expect(response.body).to match(/management.market.invalid_state./i)
+      end
+    end
+
+    context do
+      it 'validate engine name param' do
+        data.merge!(valid_params.except(:engine_id).merge(engine_name: 'test'))
+        request
+
+        expect(response).to have_http_status 422
+        expect(response.body).to match(/management.market.engine_doesnt_exist./i)
+      end
+    end
+
+    context do
+      it 'checked exactly_one_ofr params' do
+        data.merge!(valid_params.merge(engine_name: 'test'))
+        request
+
+        expect(response).to have_http_status 422
+        expect(response.body).to match(/management.market.one_of_engine_id_engine_name_fields./i)
+      end
+    end
+
+    context do
+      it 'checked required params' do
+        request
+
+        expect(response).to have_http_status 422
+        expect(response.body).to match(/base_currency is missing, base_currency management.market.currency_doesnt_exist, quote_currency is missing, quote_currency management.market.currency_doesnt_exist, min_price is missing, min_price management.market.invalid_min_price, min_amount is missing, min_amount management.market.invalid_min_amount, engine_id, engine_name management.market.one_of_engine_id_engine_name_fields./i)
+      end
+    end
+  end
 end
