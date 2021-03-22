@@ -2,9 +2,13 @@
 
 class Account < ApplicationRecord
   AccountError = Class.new(StandardError)
+  DEFAULT_TYPE = Peatio::App.config.default_account_type
 
   self.primary_keys = :currency_id, :member_id
 
+  TYPES = Peatio::App.config.account_types.split(',') << DEFAULT_TYPE
+
+  self.inheritance_column = nil
   belongs_to :currency, required: true
   belongs_to :member, required: true
 
@@ -12,7 +16,7 @@ class Account < ApplicationRecord
 
   ZERO = 0.to_d
 
-  validates :member_id, uniqueness: { scope: :currency_id }
+  validates :member_id, uniqueness: { scope: %i[currency_id type] }
   validates :balance, :locked, numericality: { greater_than_or_equal_to: 0.to_d }
 
   scope :visible, -> { joins(:currency).merge(Currency.visible) }

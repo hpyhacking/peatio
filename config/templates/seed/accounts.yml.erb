@@ -12,35 +12,63 @@
   type:           asset
   kind:           main
   currency_type:  coin
-  description:    Main Crypto Assets Account
+  description:    Main Digital Assets Account
   scope:          platform
 
 - code:           201
   type:           liability
   kind:           main
   currency_type:  fiat
-  description:    Main Fiat Liabilities Account
+  description:    Main Fiat Spot Liabilities Account
   scope:          member
 
 - code:           202
   type:           liability
   kind:           main
   currency_type:  coin
-  description:    Main Crypto Liabilities Account
+  description:    Main Digital Asset Spot Liabilities Account
   scope:          member
 
 - code:           211
   type:           liability
   kind:           locked
   currency_type:  fiat
-  description:    Locked Fiat Liabilities Account
+  description:    Locked Fiat Spot Liabilities Account
   scope:          member
 
 - code:           212
   type:           liability
   kind:           locked
   currency_type:  coin
-  description:    Locked Crypto Liabilities Account
+  description:    Locked Digital Asset Spot Liabilities Account
+  scope:          member
+
+- code:           221
+  type:           liability
+  kind:           main
+  currency_type:  fiat
+  description:    Main Fiat P2P Liabilities Account
+  scope:          member
+
+- code:           222
+  type:           liability
+  kind:           main
+  currency_type:  coin
+  description:    Main Digital Asset P2P Liabilities Account
+  scope:          member
+
+- code:           231
+  type:           liability
+  kind:           locked
+  currency_type:  fiat
+  description:    Locked Fiat P2P Liabilities Account
+  scope:          member
+
+- code:           232
+  type:           liability
+  kind:           locked
+  currency_type:  coin
+  description:    Locked Digital Asset P2P Liabilities Account
   scope:          member
 
 - code:           301
@@ -54,7 +82,7 @@
   type:           revenue
   kind:           main
   currency_type:  coin
-  description:    Main Crypto Revenues Account
+  description:    Main Digital Asset Revenues Account
   scope:          platform
 
 - code:           401
@@ -68,6 +96,6 @@
   type:           expense
   kind:           main
   currency_type:  coin
-  description:    Main Crypto Expenses Account
+  description:    Main Digital Asset Expenses Account
   scope:          platform
 <% end %>

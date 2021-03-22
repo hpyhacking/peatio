@@ -54,6 +54,7 @@ describe Operations::Account do
       account.kind          = :main
       account.type          = :asset
       account.currency_type = :fiat
+      account.code = 101
       account.valid?
       expect(account.errors[:kind]).to include("has already been taken")
 

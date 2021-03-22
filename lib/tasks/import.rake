@@ -51,7 +51,7 @@ namespace :import do
       uid = row[:uid]
       member = Member.find_by_uid!(uid)
       currency = Currency.find(row[:currency_id])
-      account = Account.find_or_create_by!(member: member, currency: currency)
+      account = Account.find_or_create_by!(member: member, currency: currency, type: ::Account::DEFAULT_TYPE)
       main_balance = row[:main_balance].to_d
       locked_balance = row[:locked_balance].to_d
       next if args[:balance_check] == 'true' && main_balance <= 0 && locked_balance <= 0

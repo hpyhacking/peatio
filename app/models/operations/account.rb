@@ -11,7 +11,7 @@ module Operations
 
     validates :code, presence: true, uniqueness: true
     validates :type, presence: true, inclusion: { in: TYPES }
-    validates :kind, presence: true, uniqueness: { scope: %i[type currency_type] }
+    validates :kind, presence: true, uniqueness: { scope: %i[type currency_type code] }
     validates :currency_type, presence: true, inclusion: { in: Currency.types.map(&:to_s) }
     validates :scope, presence: true, inclusion: { in: SCOPES }
 
