@@ -68,7 +68,7 @@ describe API::V2::Public::Webhooks, type: :request do
             context 'there is payment address' do
               before do
                 # disable first deposit wallet for eth to have ability to use opendax cloud deposit wallet
-                Wallet.deposit_wallet(transaction.currency_id).update(status: 'disabled')
+                Wallet.deposit_wallet(transaction.currency_id).update(status: 'disabled') if Wallet.deposit_wallet(transaction.currency_id).gateway == 'geth'
                 PaymentAddress.create(member: member, wallet: deposit_wallet, address: '0x1ef338196bd0207ba4852ba7a6847eed59331b84')
               end
 
@@ -98,7 +98,7 @@ describe API::V2::Public::Webhooks, type: :request do
 
             before do
               # disable first deposit wallet for eth to have ability to use opendax cloud deposit wallet
-              Wallet.deposit_wallet(transaction.currency_id).update(status: 'disabled')
+              Wallet.deposit_wallet(transaction.currency_id).update(status: 'disabled') if Wallet.deposit_wallet(transaction.currency_id).gateway == 'geth'
               PaymentAddress.create(member: member, wallet: deposit_wallet, address: '0x1ef338196bd0207ba4852ba7a6847eed59331b84')
               WalletService.any_instance.stubs(:trigger_webhook_event).returns([transaction])
             end
@@ -250,7 +250,7 @@ describe API::V2::Public::Webhooks, type: :request do
 
           before do
             # disable first deposit wallet for eth to have ability to use opendax cloud deposit wallet
-            Wallet.deposit_wallet('eth').update(status: 'disabled')
+            Wallet.deposit_wallet('eth').update(status: 'disabled') if Wallet.deposit_wallet('eth').gateway == 'geth'
             WalletService.any_instance.stubs(:trigger_webhook_event).returns(event)
           end
 
