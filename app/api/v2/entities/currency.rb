@@ -16,13 +16,13 @@ module API
         )
 
         expose(
-            :name,
-            documentation: {
-                type: String,
-                desc: 'Currency name',
-                example: -> { ::Currency.visible.first.name }
-            },
-            if: -> (currency){ currency.name.present? }
+          :name,
+          documentation: {
+              type: String,
+              desc: 'Currency name',
+              example: -> { ::Currency.visible.first.name }
+          },
+          if: -> (currency){ currency.name.present? }
         )
 
         expose(
@@ -39,8 +39,18 @@ module API
           documentation: {
             type: String,
             desc: 'Currency homepage',
-            example: -> { ::Currency.visible.first.id }
+            example: -> { ::Currency.visible.first.homepage }
           }
+        )
+
+        expose(
+          :parent_id,
+          documentation: {
+            type: String,
+            desc: 'Currency parent id',
+            example: -> { ::Currency.visible.first.parent_id }
+          },
+          if: -> (currency){ currency.parent_id.present? }
         )
 
         expose(

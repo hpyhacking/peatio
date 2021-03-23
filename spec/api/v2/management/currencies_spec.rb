@@ -34,6 +34,148 @@ describe API::V2::Management::Currencies, type: :request do
     end
   end
 
+  describe 'create currency' do
+    def request
+      post_json '/api/v2/management/currencies/create', multisig_jwt_management_api_v1({ data: data }, *signers)
+    end
+
+    let(:data) { {} }
+    let(:signers) { %i[alex jeff] }
+
+    it 'create coin' do
+      data.merge!(code: 'test', blockchain_key: 'btc-testnet')
+      request
+      result = JSON.parse(response.body)
+      expect(response).to be_successful
+      expect(result['type']).to eq 'coin'
+    end
+
+    it 'create token' do
+      data.merge!(code: 'test', blockchain_key: 'btc-testnet', parent_id: 'btc')
+      request
+      result = JSON.parse(response.body)
+
+      expect(response).to be_successful
+      expect(result['type']).to eq 'coin'
+      expect(result['parent_id']).to eq 'btc'
+    end
+
+    it 'create fiat' do
+      data.merge!(code: 'test', type: 'fiat')
+      request
+      result = JSON.parse(response.body)
+
+      expect(response).to be_successful
+      expect(result['type']).to eq 'fiat'
+    end
+
+    it 'validate blockchain_key param' do
+      data.merge!(code: 'test', blockchain_key: 'test-blockchain')
+      request
+      expect(response).to have_http_status 422
+      expect(response.body).to match(/management.currency.blockchain_key_doesnt_exist/i)
+    end
+
+    it 'validate type param' do
+      data.merge!(code: 'test', blockchain_key: 'test-blockchain' , type: 'test')
+      request
+
+      expect(response).to have_http_status 422
+      expect(response.body).to match(/management.currency.invalid_type/i)
+    end
+
+    it 'validate visible param' do
+      data.merge!(code: 'test', type: 'fiat', visible: '123')
+      request
+
+      expect(response).to have_http_status 422
+      expect(response.body).to match(/management.currency.non_boolean_visible/i)
+    end
+
+    it 'validate parent_id param' do
+      data.merge!(code: 'test', type: 'coin', parent_id: 'trst')
+      request
+
+      expect(response).to have_http_status 422
+      expect(response.body).to match(/management.currency.parent_id_doesnt_exist/i)
+    end
+
+    it 'validate deposit_enabled param' do
+      data.merge!(code: Currency.first.id, deposit_enabled: '123')
+      request
+
+      expect(response).to have_http_status 422
+      expect(response.body).to match(/management.currency.non_boolean_deposit_enabled/i)
+    end
+
+    it 'validate withdrawal_enabled param' do
+      data.merge!(code: Currency.first.id, withdrawal_enabled: '123')
+      request
+
+      expect(response).to have_http_status 422
+      expect(response.body).to match(/management.currency.non_boolean_withdrawal_enabled/i)
+    end
+
+    it 'validate options param' do
+      data.merge!(code: 'test', type: 'fiat', options: 'test')
+      request
+
+      expect(response).to have_http_status 422
+      expect(response.body).to match(/management.currency.non_json_options/i)
+    end
+
+    it 'verifies subunits >= 0' do
+      data.merge!(code: 'test', blockchain_key: 'btc-testnet', subunits: -1)
+      request
+
+      expect(response.body).to match(/management.currency.invalid_subunits/i)
+      expect(response).not_to be_successful
+    end
+
+    it 'verifies subunits <= 18' do
+      data.merge!(code: 'test', blockchain_key: 'btc-testnet', subunits: 19)
+      request
+
+      expect(response.body).to match(/management.currency.invalid_subunits/i)
+      expect(response).not_to be_successful
+    end
+
+    it 'creates 1_000_000_000_000_000_000 base_factor' do
+      data.merge!(code: 'test', blockchain_key: 'btc-testnet', subunits: 18)
+      request
+
+      result = JSON.parse(response.body)
+      expect(response).to be_successful
+      expect(result['base_factor']).to eq 1_000_000_000_000_000_000
+      expect(result['subunits']).to eq 18
+    end
+
+    it 'return error while putting base_factor and subunit params' do
+      data.merge!(code: 'test', blockchain_key: 'btc-testnet', subunits: 18, base_factor: 1)
+      request
+
+      expect(response.code).to eq '422'
+      expect(response.body).to match(/management.currency.one_of_base_factor_subunits_fields/i)
+    end
+
+    it 'creates currency with 1000 base_factor' do
+      data.merge!(code: 'test', blockchain_key: 'btc-testnet', base_factor: 1000)
+      request
+
+      result = JSON.parse(response.body)
+      expect(response).to be_successful
+      expect(result['base_factor']).to eq 1000
+      expect(result['subunits']).to eq 3
+    end
+
+    it 'checked required params' do
+      request
+
+      expect(response).to have_http_status 422
+      expect(response.body).to match(/code is missing/i)
+    end
+  end
+
   describe 'update currency' do
     def request
       put_json '/api/v2/management/currencies/update', multisig_jwt_management_api_v1({ data: data }, *signers)
@@ -46,7 +188,6 @@ describe API::V2::Management::Currencies, type: :request do
     it 'should validate deposit_fee param' do
       data.merge!(id: currency.id, deposit_fee: -10.0)
       request
-
 
       expect(response).to have_http_status 422
       expect(response.body).to match(/management.currency.invalid_deposit_fee/i)
