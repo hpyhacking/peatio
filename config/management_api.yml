@@ -1,0 +1,68 @@
+# Be sure to restart your server when you modify this file.
+#
+# This file keeps all the security configuration variables for «Management API v1».
+#
+# Keeps all the public keys used to validate signatures.
+# All values must be presented in PEM format and be URL-safe Base64 encoded.
+#
+# Example:
+#
+#   keychain:
+#     backend-1.mycompany.example:
+#       algorithm: RS256
+#       value: <%= ENV['BACKEND1_PUBLIC_KEY'] %>"
+#     backend-2.mycompany.example:
+#       algorithm: HS384
+#       value: "<%= ENV['BACKEND2_PUBLIC_KEY'] %>"
+#     backend-3.mycompany.example:
+#       algorithm: RS512
+#       value: "<%= ENV['BACKEND3_PUBLIC_KEY'] %>"
+#
+#
+keychain: {}
+
+#
+# Keeps all the JWT verification options.
+# The documentation is available at https://github.com/jwt/ruby-jwt#support-for-reserved-claim-names.
+# Check lib/jwt/default_options.rb for the default options.
+#
+jwt: {}
+
+#
+# Keep all the API security scopes.
+#
+# The API security scope consists of scope name, list of permitted and mandatory signers.
+# The scope name is associated with API actions. For example, write_deposits is associated with
+# ability to create deposits and accept them. The scopes which have «write» in the name are supposed
+# to be dangerous so they must require more signatures then read-only scopes
+#
+# Each scope must include list of permitted and mandatory signers.
+# Peatio validates JWT signatures against permitted keys and doesn't trust
+# JWTs which don't include signatures from all mandatory signers.
+#
+# Example:
+#  scopes:
+#    read_deposits:
+#      permitted_signers: ['backend-1.mycompany.example', 'backend-2.mycompany.example']
+#      mandatory_signers: ['backend-1.mycompany.example']
+#    write_deposits:
+#      permitted_signers: ['backend-1.mycompany.example', 'backend-2.mycompany.example']
+#      mandatory_signers: ['backend-1.mycompany.example', 'backend-2.mycompany.example']
+#
+# The available scopes include:
+#   – read_deposits
+#   – write_deposits
+#   – read_withdraws
+#   – write_withdraws
+#   – read_operations
+#   – write_operations
+#   – read_transfers
+#   – write_transfers
+#   – write_members
+#   – read_currencies
+#   – write_currencies
+#   – read_markets
+#   – write_markets
+#   – tools
+#
+scopes: {}
