@@ -124,7 +124,7 @@ module API
                    desc: -> { API::V2::Admin::Entities::Currency.documentation[:visible][:desc] }
         end
         get '/currencies' do
-          admin_authorize! :read, Currency
+          admin_authorize! :read, ::Currency
 
           ransack_params = Helpers::RansackBuilder.new(params)
             .eq(:type, :deposit_enabled, :withdrawal_enabled, :visible)
@@ -147,7 +147,7 @@ module API
                    desc: -> { API::V2::Admin::Entities::Currency.documentation[:code][:desc] }
         end
         get '/currencies/:code', requirements: { code: /[\w\.\-]+/ } do
-          admin_authorize! :read, Currency
+          admin_authorize! :read, ::Currency
 
           present Currency.find(params[:code]), with: API::V2::Admin::Entities::Currency
         end
@@ -184,7 +184,7 @@ module API
           mutually_exclusive :base_factor, :subunits, message: 'admin.currency.one_of_base_factor_subunits_fields'
         end
         post '/currencies/new' do
-          admin_authorize! :create, Currency
+          admin_authorize! :create, ::Currency
 
           currency = Currency.new(declared(params, include_missing: false))
           if currency.save
@@ -218,7 +218,7 @@ module API
           end
         end
         post '/currencies/update' do
-          admin_authorize! :update, Currency, params.except(:code)
+          admin_authorize! :update, ::Currency, params.except(:code)
 
           currency = Currency.find(params[:code])
           if currency.update(declared(params, include_missing: false))

@@ -42,7 +42,7 @@ module API
           use :ordering
         end
         get '/orders' do
-          admin_authorize! :read, Order
+          admin_authorize! :read, ::Order
 
           if params[:uid].present? || params[:email].present?
             member = Member.find_by('uid = ? OR email = ?', params[:uid], params[:email])

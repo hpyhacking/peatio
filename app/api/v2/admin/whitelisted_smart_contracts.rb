@@ -18,7 +18,7 @@ module API
           use :ordering
         end
         get '/whitelisted_smart_contracts' do
-          admin_authorize! :read, WhitelistedSmartContract
+          admin_authorize! :read, ::WhitelistedSmartContract
 
           ransack_params = Helpers::RansackBuilder.new(params).eq(:blockchain_key).build
 
@@ -41,7 +41,7 @@ module API
                    desc: -> { API::V2::Admin::Entities::WhitelistedSmartContract.documentation[:id][:desc] }
         end
         get '/whitelisted_smart_contract/:id' do
-          admin_authorize! :read, WhitelistedSmartContract
+          admin_authorize! :read, ::WhitelistedSmartContract
 
           present ::WhitelistedSmartContract.find(params[:id]), with: API::V2::Admin::Entities::WhitelistedSmartContract
         end
@@ -63,7 +63,7 @@ module API
                    desc: -> { API::V2::Admin::Entities::WhitelistedSmartContract.documentation[:state][:desc] }
         end
         post '/whitelisted_smart_contracts' do
-          admin_authorize! :create, WhitelistedSmartContract
+          admin_authorize! :create, ::WhitelistedSmartContract
 
           whitelisted_address = ::WhitelistedSmartContract.new(declared(params))
           if whitelisted_address.save
@@ -93,7 +93,7 @@ module API
                    desc: -> { API::V2::Admin::Entities::WhitelistedSmartContract.documentation[:state][:desc] }
         end
         put '/whitelisted_smart_contracts' do
-          admin_authorize! :update, WhitelistedSmartContract
+          admin_authorize! :update, ::WhitelistedSmartContract
           whitelisted_address = ::WhitelistedSmartContract.find(params[:id])
           declared_params = declared(params, include_missing: false)
 
@@ -114,7 +114,7 @@ module API
                    desc: -> {'CSV file with whitelisted smart contracts data'}
         end
         post '/whitelisted_smart_contracts/csv' do
-          admin_authorize! :create, WhitelistedSmartContract
+          admin_authorize! :create, ::WhitelistedSmartContract
           count = 0
 
           CSV.parse(params[:file][:tempfile], headers: true, quote_empty: false).each do |row|

@@ -25,7 +25,7 @@ module API
           use :ordering
         end
         get '/members' do
-          admin_authorize! :read, Member
+          admin_authorize! :read, ::Member
 
           ransack_params = Helpers::RansackBuilder.new(params)
                              .eq(:uid, :email, :state, :role, :group)
@@ -40,7 +40,7 @@ module API
         desc 'Get available members groups.',
           is_array: true
         get '/members/groups' do
-          admin_authorize! :read, Member
+          admin_authorize! :read, ::Member
 
           Member.groups
         end
@@ -54,7 +54,7 @@ module API
                    desc: 'The shared user ID.'
         end
         get '/members/:uid' do
-          admin_authorize! :read, Member
+          admin_authorize! :read, ::Member
 
           present Member.find_by!(uid: params[:uid]), with: API::V2::Admin::Entities::Member
         end
@@ -72,7 +72,7 @@ module API
                    desc: 'User gruop'
         end
         put '/members/:uid' do
-          admin_authorize! :update, Member
+          admin_authorize! :update, ::Member
           declared_params = declared(params)
 
           member = Member.find_by!(uid: declared_params[:uid])

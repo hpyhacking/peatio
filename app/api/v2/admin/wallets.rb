@@ -54,7 +54,7 @@ module API
           use :ordering
         end
         get '/wallets' do
-          admin_authorize! :read, Wallet
+          admin_authorize! :read, ::Wallet
 
           ransack_params = Helpers::RansackBuilder.new(params)
                              .eq(:blockchain_key)
@@ -86,7 +86,7 @@ module API
                    desc: -> { API::V2::Admin::Entities::Wallet.documentation[:id][:desc] }
         end
         get '/wallets/:id' do
-          admin_authorize! :read, Wallet
+          admin_authorize! :read, ::Wallet
 
           present ::Wallet.find(params[:id]), with: API::V2::Admin::Entities::Wallet
         end
@@ -131,7 +131,7 @@ module API
           exactly_one_of :currencies, :currency, message: 'admin.wallet.currencies_field_is_missing'
         end
         post '/wallets/new' do
-          admin_authorize! :create, Wallet
+          admin_authorize! :create, ::Wallet
 
           wallet = ::Wallet.new(declared(params))
           if wallet.save
@@ -179,7 +179,7 @@ module API
           end
         end
         post '/wallets/update' do
-          admin_authorize! :update, Wallet
+          admin_authorize! :update, ::Wallet
           wallet = ::Wallet.find(params[:id])
 
           declared_params = declared(params, include_missing: false)

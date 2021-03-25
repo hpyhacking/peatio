@@ -22,7 +22,7 @@ module API
           use :ordering
         end
         get '/internal_transfers' do
-          admin_authorize! :read, InternalTransfer
+          admin_authorize! :read, ::InternalTransfer
 
           if params[:sender].present?
             sender = Member.find_by('uid = ? OR username = ?', params[:sender], params[:sender])

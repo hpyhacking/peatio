@@ -33,7 +33,7 @@ module API
           use :ordering
         end
         get '/deposits' do
-          admin_authorize! :read, Deposit
+          admin_authorize! :read, ::Deposit
 
           ransack_params = Helpers::RansackBuilder.new(params)
                              .eq(:id, :txid, :tid, :address)
@@ -66,7 +66,7 @@ module API
           end
         end
         post '/deposits/actions' do
-          admin_authorize! :update, Deposit
+          admin_authorize! :update, ::Deposit
 
           deposit = Deposit.find(params[:id])
 
@@ -122,7 +122,7 @@ module API
                    desc: -> { API::V2::Admin::Entities::Refund.documentation[:address][:desc] }
         end
         post '/deposits/:id/refund' do
-          admin_authorize! :wrrie, Deposit
+          admin_authorize! :wrrie, ::Deposit
 
           deposit = Deposit.find(params[:id])
 
@@ -155,7 +155,7 @@ module API
           end
         end
         post '/deposit_address' do
-          admin_authorize! :create, PaymentAddress
+          admin_authorize! :create, ::PaymentAddress
 
           member   = Member.find_by!(uid: params[:uid])
           currency = Currency.find_by!(id: params[:currency_id])

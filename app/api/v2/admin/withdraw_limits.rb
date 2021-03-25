@@ -21,7 +21,7 @@ module API
           use :ordering
         end
         get '/withdraw_limits' do
-          admin_authorize! :read, WithdrawLimit
+          admin_authorize! :read, ::WithdrawLimit
 
           ransack_params = Helpers::RansackBuilder.new(params)
                                                   .eq(:group, :kyc_level)
@@ -54,7 +54,7 @@ module API
                    desc: -> { API::V2::Entities::WithdrawLimit.documentation[:kyc_level][:desc] }
         end
         post '/withdraw_limits' do
-          admin_authorize! :create, WithdrawLimit
+          admin_authorize! :create, ::WithdrawLimit
 
           withdraw_limit = ::WithdrawLimit.new(declared(params))
           if withdraw_limit.save
@@ -89,7 +89,7 @@ module API
                    desc: -> { API::V2::Entities::WithdrawLimit.documentation[:group][:desc] }
         end
         put '/withdraw_limits' do
-          admin_authorize! :update, WithdrawLimit
+          admin_authorize! :update, ::WithdrawLimit
 
           withdraw_limit = ::WithdrawLimit.find(params[:id])
           if withdraw_limit.update(declared(params, include_missing: false))
@@ -108,7 +108,7 @@ module API
                    desc: -> { API::V2::Entities::WithdrawLimit.documentation[:id][:desc] }
         end
         delete '/withdraw_limits/:id' do
-          admin_authorize! :delete, WithdrawLimit
+          admin_authorize! :delete, ::WithdrawLimit
 
           present WithdrawLimit.destroy(params[:id]), with: API::V2::Entities::WithdrawLimit
         end
