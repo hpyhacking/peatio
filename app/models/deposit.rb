@@ -28,7 +28,7 @@ class Deposit < ApplicationRecord
             numericality: {
               greater_than_or_equal_to:
                 -> (deposit){ deposit.currency.min_deposit_amount }
-            }
+            }, on: :create
 
   scope :recent, -> { order(id: :desc) }
 
