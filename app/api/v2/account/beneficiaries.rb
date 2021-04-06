@@ -5,6 +5,7 @@ module API
   module V2
     module Account
       class Beneficiaries < Grape::API
+        helpers ::API::V2::ParamHelpers
 
         before { withdraws_must_be_permitted! }
 
@@ -14,6 +15,7 @@ module API
                success: API::V2::Entities::Beneficiary
 
           params do
+            use :pagination
             optional :currency,
                      type: String,
                      values: { value: -> { Currency.visible.codes(bothcase: true) }, message: 'account.currency.doesnt_exist' },

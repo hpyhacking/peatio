@@ -49,6 +49,20 @@ describe API::V2::Account::Beneficiaries, 'GET', type: :request do
       total_for_member = pending_beneficiaries_for_member.count + active_beneficiaries_for_member.count
       expect(response_body.size).to eq total_for_member
     end
+
+    context 'pagination' do
+      it 'should return paginated result' do
+        api_get endpoint, token: token, params: { page: 1, limit: 1 }
+        expect(response.status).to eq 200
+        result = JSON.parse(response.body)
+        expect(result.count).to eq 1
+
+        api_get endpoint, token: token, params: { page: 2, limit: 1 }
+        expect(response.status).to eq 200
+        result = JSON.parse(response.body)
+        expect(result.count).to eq 1
+      end
+    end
   end
 
   context 'non-existing currency' do
