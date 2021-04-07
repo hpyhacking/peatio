@@ -10,7 +10,7 @@
     "license": {
       "url": "https://github.com/openware/peatio/blob/master/LICENSE.md"
     },
-    "version": "2.7.0"
+    "version": "3.0.0"
   },
   "swagger": "2.0",
   "produces": [
@@ -111,9 +111,9 @@
         "operationId": "getApiV2PeatioPublicWithdrawLimits"
       }
     },
-    "/api/v2/peatio/public/webhooks/{event}": {
+    "/api/v2/peatio/public/webhooks/{adapter}/{event}": {
       "post": {
-        "description": "Bitgo Webhook",
+        "description": "Webhook controller",
         "produces": [
           "application/json"
         ],
@@ -123,74 +123,33 @@
         "parameters": [
           {
             "in": "path",
+            "name": "adapter",
+            "description": "Name of adapter for process webhook",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "path",
             "name": "event",
             "description": "Name of event can be deposit or withdraw",
             "type": "string",
             "enum": [
               "deposit",
-              "withdraw"
+              "withdraw",
+              "deposit_address"
             ],
-            "required": true
-          },
-          {
-            "in": "formData",
-            "name": "type",
-            "description": "Type of event.",
-            "type": "string",
-            "required": true
-          },
-          {
-            "in": "formData",
-            "name": "hash",
-            "description": "Address txid.",
-            "type": "string",
-            "required": true
-          },
-          {
-            "in": "formData",
-            "name": "transfer",
-            "description": "Transfer id.",
-            "type": "string",
-            "required": true
-          },
-          {
-            "in": "formData",
-            "name": "coin",
-            "description": "Currency code.",
-            "type": "string",
-            "required": true
-          },
-          {
-            "in": "formData",
-            "name": "wallet",
-            "description": "Wallet id.",
-            "type": "string",
-            "required": true
-          },
-          {
-            "in": "formData",
-            "name": "address",
-            "description": "User Address.",
-            "type": "string",
-            "required": true
-          },
-          {
-            "in": "formData",
-            "name": "walletId",
-            "description": "Wallet id.",
-            "type": "string",
             "required": true
           }
         ],
         "responses": {
           "201": {
-            "description": "Bitgo Webhook"
+            "description": "Webhook controller"
           }
         },
         "tags": [
           "api"
         ],
-        "operationId": "postApiV2PeatioPublicWebhooksEvent"
+        "operationId": "postApiV2PeatioPublicWebhooksAdapterEvent"
       }
     },
     "/api/v2/peatio/public/trading_fees": {
@@ -214,12 +173,20 @@
             "type": "string",
             "enum": [
               "btcusd",
-              "ethusd",
-              "trstusd",
-              "ethbtc",
-              "trstbtc",
-              "trsteth",
               "any"
+            ],
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "market_type",
+            "description": "",
+            "type": "string",
+            "default": {
+            },
+            "enum": [
+              "spot",
+              "qe"
             ],
             "required": false
           },
@@ -379,12 +346,7 @@
             "description": "",
             "type": "string",
             "enum": [
-              "btcusd",
-              "ethbtc",
-              "ethusd",
-              "trstbtc",
-              "trsteth",
-              "trstusd"
+              "btcusd"
             ],
             "required": true
           }
@@ -436,12 +398,7 @@
             "description": "",
             "type": "string",
             "enum": [
-              "btcusd",
-              "ethbtc",
-              "ethusd",
-              "trstbtc",
-              "trsteth",
-              "trstusd"
+              "btcusd"
             ],
             "required": true
           },
@@ -520,12 +477,7 @@
             "description": "",
             "type": "string",
             "enum": [
-              "btcusd",
-              "ethbtc",
-              "ethusd",
-              "trstbtc",
-              "trsteth",
-              "trstusd"
+              "btcusd"
             ],
             "required": true
           },
@@ -565,12 +517,7 @@
             "description": "",
             "type": "string",
             "enum": [
-              "btcusd",
-              "ethbtc",
-              "ethusd",
-              "trstbtc",
-              "trsteth",
-              "trstusd"
+              "btcusd"
             ],
             "required": true
           },
@@ -636,12 +583,7 @@
             "description": "",
             "type": "string",
             "enum": [
-              "btcusd",
-              "ethbtc",
-              "ethusd",
-              "trstbtc",
-              "trsteth",
-              "trstusd"
+              "btcusd"
             ],
             "required": true
           },
@@ -748,6 +690,19 @@
             "name": "quote_unit",
             "description": "Strict filter for quote unit",
             "type": "string",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "type",
+            "description": "Strict filter for market type",
+            "type": "string",
+            "default": {
+            },
+            "enum": [
+              "spot",
+              "qe"
+            ],
             "required": false
           },
           {
@@ -1549,6 +1504,26 @@
         "parameters": [
           {
             "in": "query",
+            "name": "limit",
+            "description": "Limit the number of returned paginations. Defaults to 100.",
+            "type": "integer",
+            "format": "int32",
+            "default": 100,
+            "minimum": 1,
+            "maximum": 1000,
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "page",
+            "description": "Specify the page of paginated results.",
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "required": false
+          },
+          {
+            "in": "query",
             "name": "currency",
             "description": "Beneficiary currency code.",
             "type": "string",
@@ -1886,6 +1861,19 @@
           },
           {
             "in": "query",
+            "name": "market_type",
+            "description": "",
+            "type": "string",
+            "default": {
+            },
+            "enum": [
+              "spot",
+              "qe"
+            ],
+            "required": false
+          },
+          {
+            "in": "query",
             "name": "limit",
             "description": "Limit the number of returned trades. Default to 100.",
             "type": "integer",
@@ -1977,19 +1965,27 @@
             "description": "",
             "type": "string",
             "enum": [
-              "btcusd",
-              "ethbtc",
-              "ethusd",
-              "trstbtc",
-              "trsteth",
-              "trstusd"
+              "btcusd"
+            ],
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "market_type",
+            "description": "",
+            "type": "string",
+            "default": {
+            },
+            "enum": [
+              "spot",
+              "qe"
             ],
             "required": false
           },
           {
             "in": "formData",
             "name": "side",
-            "description": "If present, only sell orders (asks) or buy orders (bids) will be canncelled.",
+            "description": "If present, only sell orders (asks) or buy orders (bids) will be cancelled.",
             "type": "string",
             "enum": [
               "sell",
@@ -2057,12 +2053,7 @@
             "description": "",
             "type": "string",
             "enum": [
-              "btcusd",
-              "ethbtc",
-              "ethusd",
-              "trstbtc",
-              "trsteth",
-              "trstusd"
+              "btcusd"
             ],
             "required": true
           },
@@ -2134,16 +2125,24 @@
           },
           {
             "in": "query",
+            "name": "market_type",
+            "description": "",
+            "type": "string",
+            "default": {
+            },
+            "enum": [
+              "spot",
+              "qe"
+            ],
+            "required": false
+          },
+          {
+            "in": "query",
             "name": "base_unit",
             "description": "",
             "type": "string",
             "enum": [
-              "btc",
-              "eth",
-              "eth",
-              "trst",
-              "trst",
-              "trst"
+              "btc"
             ],
             "required": false
           },
@@ -2153,12 +2152,7 @@
             "description": "",
             "type": "string",
             "enum": [
-              "usd",
-              "btc",
-              "usd",
-              "btc",
-              "eth",
-              "usd"
+              "btc"
             ],
             "required": false
           },
@@ -2596,6 +2590,10 @@
           "type": "string",
           "description": "Market id for define maker/taker fee."
         },
+        "market_type": {
+          "type": "string",
+          "description": "Market type."
+        },
         "maker": {
           "type": "number",
           "format": "double",
@@ -2727,6 +2725,10 @@
           "type": "string",
           "description": "Trade market id."
         },
+        "market_type": {
+          "type": "string",
+          "description": "Market type."
+        },
         "created_at": {
           "type": "string",
           "description": "Trade create time in iso8601 format."
@@ -2805,6 +2807,10 @@
           "type": "string",
           "description": "The market in which the order is placed, e.g. 'btcusd'.All available markets can be found at /api/v2/markets."
         },
+        "market_type": {
+          "type": "string",
+          "description": "Market type."
+        },
         "created_at": {
           "type": "string",
           "description": "Order create time in iso8601 format."
@@ -2856,13 +2862,17 @@
     "Market": {
       "type": "object",
       "properties": {
-        "id": {
+        "symbol": {
           "type": "string",
-          "description": "Unique market id. It's always in the form of xxxyyy,where xxx is the base currency code, yyy is the quotecurrency code, e.g. 'btcusd'. All available markets canbe found at /api/v2/markets."
+          "description": "Unique market ticker symbol. It's always in the form of xxxyyy,where xxx is the base currency code, yyy is the quotecurrency code, e.g. 'btcusd'. All available markets canbe found at /api/v2/markets."
         },
         "name": {
           "type": "string",
           "description": "Market name."
+        },
+        "type": {
+          "type": "string",
+          "description": "Market type."
         },
         "base_unit": {
           "type": "string",
@@ -2924,8 +2934,13 @@
         },
         "homepage": {
           "type": "string",
-          "example": "btc",
+          "example": null,
           "description": "Currency homepage"
+        },
+        "parent_id": {
+          "type": "string",
+          "example": null,
+          "description": "Currency parent id"
         },
         "price": {
           "type": "string",

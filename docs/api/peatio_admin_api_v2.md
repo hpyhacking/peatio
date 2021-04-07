@@ -1,7 +1,7 @@
 # Peatio Admin API v2
 Admin API high privileged API with RBAC.
 
-## Version: 2.7.0
+## Version: 3.0.0
 
 **Contact information:**  
 openware.com  
@@ -325,7 +325,7 @@ Cancel all orders.
 
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
-| market | formData | Unique order id. | Yes | string |
+| market | formData | Id has been renamed to symbol. This field will be deprecated soon. | Yes | string |
 | side | formData | If present, only sell orders (asks) or buy orders (bids) will be cancelled. | No | string |
 
 ##### Responses
@@ -364,7 +364,8 @@ Get all orders, result is paginated.
 
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
-| market | query | Unique market id. It's always in the form of xxxyyy,where xxx is the base currency code, yyy is the quotecurrency code, e.g. 'btcusd'. All available markets canbe found at /api/v2/markets. | No | string |
+| market | query | Id has been renamed to symbol. This field will be deprecated soon. | No | string |
+| market_type | query | Market type. | No | string |
 | state | query | Filter order by state. | No | string |
 | ord_type | query | Filter order by ord_type. | No | string |
 | price | query | Price for each unit. e.g.If you want to sell/buy 1 btc at 3000 usd, the price is '3000.0' | No | double |
@@ -528,7 +529,9 @@ Update market.
 | max_price | formData | Maximum order price. | No | double |
 | data | formData | Market additional data. | No | json |
 | state | formData | Market state defines if user can see/trade on current market. | No | string |
-| id | formData | Unique market id. It's always in the form of xxxyyy,where xxx is the base currency code, yyy is the quotecurrency code, e.g. 'btcusd'. All available markets canbe found at /api/v2/markets. | Yes | string |
+| id | formData | Id has been renamed to symbol. This field will be deprecated soon. | No | string |
+| symbol | formData | Unique market ticker symbol. It's always in the form of xxxyyy,where xxx is the base currency code, yyy is the quotecurrency code, e.g. 'btcusd'. All available markets canbe found at /api/v2/markets. | No | string |
+| type | formData |  | No | string |
 | engine_id | formData | Engine id for this market. | No | integer |
 | position | formData | Market position. | No | integer |
 | min_price | formData | Minimum order price. | No | double |
@@ -560,6 +563,7 @@ Create new market.
 | quote_currency | formData | Market Quote unit. | Yes | string |
 | min_price | formData | Minimum order price. | Yes | double |
 | min_amount | formData | Minimum order amount. | Yes | double |
+| type | formData |  | No | string |
 | engine_id | formData | Engine id for this market. | No | integer |
 | position | formData | Market position. | No | integer |
 | engine_name | formData | Engine name | No | string |
@@ -570,7 +574,7 @@ Create new market.
 | ---- | ----------- | ------ |
 | 201 | Create new market. | [Market](#market) |
 
-### /api/v2/admin/peatio/markets/{id}
+### /api/v2/admin/peatio/markets/{symbol}
 
 #### GET
 ##### Description
@@ -581,7 +585,8 @@ Get market.
 
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
-| id | path | Unique market id. It's always in the form of xxxyyy,where xxx is the base currency code, yyy is the quotecurrency code, e.g. 'btcusd'. All available markets canbe found at /api/v2/markets. | Yes | string |
+| symbol | path | Unique market ticker symbol. It's always in the form of xxxyyy,where xxx is the base currency code, yyy is the quotecurrency code, e.g. 'btcusd'. All available markets canbe found at /api/v2/markets. | Yes | string |
+| type | query |  | No | string |
 
 ##### Responses
 
@@ -602,6 +607,7 @@ Get all markets, result is paginated.
 | ---- | ---------- | ----------- | -------- | ---- |
 | limit | query | Limit the number of returned paginations. Defaults to 100. | No | integer |
 | page | query | Specify the page of paginated results. | No | integer |
+| type | query |  | No | string |
 | ordering | query | If set, returned values will be sorted in specific order, defaults to 'asc'. | No | string |
 | order_by | query | Name of the field, which result will be ordered by. | No | string |
 
@@ -1020,7 +1026,8 @@ Get all trades, result is paginated.
 
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
-| market | query | Unique market id. It's always in the form of xxxyyy,where xxx is the base currency code, yyy is the quotecurrency code, e.g. 'btcusd'. All available markets canbe found at /api/v2/markets. | No | string |
+| market | query | Id has been renamed to symbol. This field will be deprecated soon. | No | string |
+| market_type | query |  | No | string |
 | order_id | query | Unique order id. | No | integer |
 | uid | query | Member UID. | No | string |
 | range | query | Date range picker, defaults to 'created'. | No | string |
@@ -1269,6 +1276,7 @@ It updates trading fees record
 | taker | formData | Market taker fee. | No | double |
 | group | formData | Member group for define maker/taker fee. | No | string |
 | market_id | formData | Market id for define maker/taker fee. | No | string |
+| market_type | formData |  | No | string |
 
 ##### Responses
 
@@ -1291,6 +1299,7 @@ It creates trading fees record
 | taker | formData | Market taker fee. | Yes | double |
 | group | formData | Member group for define maker/taker fee. | No | string |
 | market_id | formData | Market id for define maker/taker fee. | No | string |
+| market_type | formData |  | No | string |
 
 ##### Responses
 
@@ -1311,6 +1320,7 @@ Returns trading_fees table as paginated collection
 | ---- | ---------- | ----------- | -------- | ---- |
 | group | query | Member group for define maker/taker fee. | No | string |
 | market_id | query | Market id for define maker/taker fee. | No | string |
+| market_type | query |  | No | string |
 | limit | query | Limit the number of returned paginations. Defaults to 100. | No | integer |
 | page | query | Specify the page of paginated results. | No | integer |
 | ordering | query | If set, returned values will be sorted in specific order, defaults to 'asc'. | No | string |
@@ -1735,6 +1745,7 @@ Get all orders, result is paginated.
 | avg_price | double | Average execution price, average of price in trades. | No |
 | state | string | One of 'wait', 'done', or 'cancel'.An order in 'wait' is an active order, waiting fulfillment;a 'done' order is an order fulfilled;'cancel' means the order has been canceled. | No |
 | market | string | The market in which the order is placed, e.g. 'btcusd'.All available markets can be found at /api/v2/markets. | No |
+| market_type | string | Market type. | No |
 | created_at | string | Order create time in iso8601 format. | No |
 | updated_at | string | Order updated time in iso8601 format. | No |
 | origin_volume | double | The amount user want to sell/buy.An order could be partially executed,e.g. an order sell 5 btc can be matched with a buy 3 btc order,left 2 btc to be sold; in this case the order's volume would be '5.0',its remaining_volume would be '2.0', its executed volume is '3.0'. | No |
@@ -1754,7 +1765,8 @@ Get list of currencies
 | ---- | ---- | ----------- | -------- |
 | name | string | Currency name<br>_Example:_ `"Bitcoin"` | No |
 | description | string | Currency description<br>_Example:_ `"btc"` | No |
-| homepage | string | Currency homepage<br>_Example:_ `"btc"` | No |
+| homepage | string | Currency homepage<br>_Example:_ `{}` | No |
+| parent_id | string | Parent currency id. | No |
 | price | double | Currency price. | No |
 | explorer_transaction | string | Currency transaction exprorer url template<br>_Example:_ `"https://testnet.blockchain.info/tx/"` | No |
 | explorer_address | string | Currency address exprorer url template<br>_Example:_ `"https://testnet.blockchain.info/address/"` | No |
@@ -1774,7 +1786,6 @@ Get list of currencies
 | min_confirmations | string | Number of confirmations required for confirming deposit or withdrawal | No |
 | code | string | Unique currency code. | No |
 | blockchain_key | string | Associated blockchain key which will perform transactions synchronization for currency. | No |
-| parent_id | string | Parent currency id. | No |
 | min_collection_amount | double | Minimal collection amount. | No |
 | visible | string | Currency display status (true/false). | No |
 | subunits | integer | Fraction of the basic monetary unit. | No |
@@ -1788,8 +1799,9 @@ Get all markets, result is paginated.
 
 | Name | Type | Description | Required |
 | ---- | ---- | ----------- | -------- |
-| id | string | Unique market id. It's always in the form of xxxyyy,where xxx is the base currency code, yyy is the quotecurrency code, e.g. 'btcusd'. All available markets canbe found at /api/v2/markets. | No |
+| symbol | string | Unique market ticker symbol. It's always in the form of xxxyyy,where xxx is the base currency code, yyy is the quotecurrency code, e.g. 'btcusd'. All available markets canbe found at /api/v2/markets. | No |
 | name | string | Market name. | No |
+| type | string | Market type. | No |
 | base_unit | string | Market Base unit. | No |
 | quote_unit | string | Market Quote unit. | No |
 | min_price | double | Minimum order price. | No |
@@ -1901,6 +1913,7 @@ Get all trades, result is paginated.
 | amount | double | Trade amount. | No |
 | total | double | Trade total (Amount * Price). | No |
 | market | string | Trade market id. | No |
+| market_type | string | Market type. | No |
 | created_at | string | Trade create time in iso8601 format. | No |
 | taker_type | string | Trade taker order type (sell or buy). | No |
 | maker_order_email | string | Trade maker member email. | No |
@@ -1961,6 +1974,7 @@ Returns trading_fees table as paginated collection
 | id | integer | Unique trading fee table identifier in database. | No |
 | group | string | Member group for define maker/taker fee. | No |
 | market_id | string | Market id for define maker/taker fee. | No |
+| market_type | string | Market type. | No |
 | maker | double | Market maker fee. | No |
 | taker | double | Market taker fee. | No |
 | created_at | string | Trading fee table created time in iso8601 format. | No |

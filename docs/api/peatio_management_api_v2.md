@@ -1,7 +1,7 @@
 # Peatio Management API v2
 Management API is server-to-server API with high privileges.
 
-## Version: 2.7.0
+## Version: 3.0.0
 
 **Contact information:**  
 openware.com  
@@ -566,7 +566,8 @@ Cancel all open orders
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
 | uid | formData | Filter order by owner uid | No | string |
-| market | formData | Unique market id. It's always in the form of xxxyyy,where xxx is the base currency code, yyy is the quotecurrency code, e.g. 'btcusd'. All available markets canbe found at /api/v2/markets. | Yes | string |
+| market | formData | Id has been renamed to symbol. This field will be deprecated soon. | Yes | string |
+| market_type | formData | Market type. | No | string |
 
 ##### Responses
 
@@ -605,7 +606,8 @@ Returns orders
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
 | uid | formData | Filter order by owner uid | No | string |
-| market | formData | Unique market id. It's always in the form of xxxyyy,where xxx is the base currency code, yyy is the quotecurrency code, e.g. 'btcusd'. All available markets canbe found at /api/v2/markets. | No | string |
+| market | formData | Id has been renamed to symbol. This field will be deprecated soon. | No | string |
+| market_type | formData | Market type. | No | string |
 | state | formData | Filter order by state. | No | string |
 | ord_type | formData | Filter order by ord_type. | No | string |
 
@@ -655,6 +657,7 @@ Returns trades as paginated collection.
 | ---- | ---------- | ----------- | -------- | ---- |
 | uid | formData | The shared user ID. | No | string |
 | market | formData |  | No | string |
+| market_type | formData |  | No | string |
 | page | formData | The page number (defaults to 1). | No | integer |
 | limit | formData | The number of objects per page (defaults to 100, maximum is 1000). | No | integer |
 
@@ -721,6 +724,7 @@ Returns trading_fees table as paginated collection
 | ---- | ---------- | ----------- | -------- | ---- |
 | group | formData | Member group | No | string |
 | market_id | formData | Market id | No | string |
+| market_type | formData |  | No | string |
 | page | formData | The page number (defaults to 1). | No | integer |
 | limit | formData | The number of objects per page (defaults to 100, maximum is 1000). | No | integer |
 
@@ -735,7 +739,7 @@ Returns trading_fees table as paginated collection
 #### PUT
 ##### Description
 
-Update  currency.
+Update currency.
 
 ##### Parameters
 
@@ -762,7 +766,7 @@ Update  currency.
 
 | Code | Description | Schema |
 | ---- | ----------- | ------ |
-| 200 | Update  currency. | [Currency](#currency) |
+| 200 | Update currency. | [Currency](#currency) |
 
 ### /api/v2/management/peatio/currencies/{code}
 
@@ -783,6 +787,48 @@ Returns currency by code.
 | ---- | ----------- | ------ |
 | 201 | Returns currency by code. | [Currency](#currency) |
 
+### /api/v2/management/peatio/currencies/create
+
+#### POST
+##### Description
+
+Create currency.
+
+##### Parameters
+
+| Name | Located in | Description | Required | Schema |
+| ---- | ---------- | ----------- | -------- | ---- |
+| name | formData | Currency name | No | string |
+| deposit_fee | formData | Currency deposit fee | No | double |
+| min_deposit_amount | formData | Minimal deposit amount | No | double |
+| min_collection_amount | formData | Minimal deposit amount that will be collected | No | double |
+| withdraw_fee | formData | Currency withdraw fee | No | double |
+| min_withdraw_amount | formData | Minimal withdraw amount | No | double |
+| withdraw_limit_24h | formData | Currency 24h withdraw limit | No | double |
+| withdraw_limit_72h | formData | Currency 72h withdraw limit | No | double |
+| options | formData | Currency options. | No | json |
+| visible | formData | Currency display possibility status (true/false). | No | Boolean |
+| deposit_enabled | formData | Currency deposit possibility status (true/false). | No | Boolean |
+| withdrawal_enabled | formData | Currency withdrawal possibility status (true/false). | No | Boolean |
+| precision | formData | Currency precision | No | integer |
+| price | formData | Currency current price | No | double |
+| icon_url | formData | Currency icon | No | string |
+| description | formData | Currency description | No | string |
+| homepage | formData | Currency homepage | No | string |
+| code | formData | Unique currency code. | Yes | string |
+| type | formData | Currency type | No | string |
+| base_factor | formData | Currency base factor | No | integer |
+| position | formData | Currency position. | No | integer |
+| subunits | formData | Fraction of the basic monetary unit. | No | integer |
+| blockchain_key | formData | Associated blockchain key which will perform transactions synchronization for currency. | No | string |
+| parent_id | formData | Currency parent id | No | string |
+
+##### Responses
+
+| Code | Description | Schema |
+| ---- | ----------- | ------ |
+| 201 | Create currency. | [Currency](#currency) |
+
 ### /api/v2/management/peatio/currencies/list
 
 #### POST
@@ -802,18 +848,44 @@ Return currencies list.
 | ---- | ----------- | ------ |
 | 201 | Return currencies list. | [Currency](#currency) |
 
-### /api/v2/management/peatio/markets/list
+### /api/v2/management/peatio/markets/{symbol}
 
 #### POST
 ##### Description
 
-Return markets list.
+Returns market by symbol.
+
+##### Parameters
+
+| Name | Located in | Description | Required | Schema |
+| ---- | ---------- | ----------- | -------- | ---- |
+| symbol | path | Id has been renamed to symbol. This field will be deprecated soon. | Yes | string |
+| type | formData |  | No | string |
 
 ##### Responses
 
 | Code | Description | Schema |
 | ---- | ----------- | ------ |
-| 201 | Return markets list. | [Market](#market) |
+| 201 | Returns market by symbol. | [Market](#market) |
+
+### /api/v2/management/peatio/markets/list
+
+#### POST
+##### Description
+
+Return list of the markets.
+
+##### Parameters
+
+| Name | Located in | Description | Required | Schema |
+| ---- | ---------- | ----------- | -------- | ---- |
+| type | formData |  | No | string |
+
+##### Responses
+
+| Code | Description | Schema |
+| ---- | ----------- | ------ |
+| 201 | Return list of the markets. | [Market](#market) |
 
 ### /api/v2/management/peatio/markets/update
 
@@ -826,8 +898,10 @@ Update market.
 
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
-| id | formData | Unique market id. It's always in the form of xxxyyy,where xxx is the base currency code, yyy is the quotecurrency code, e.g. 'btcusd'. All available markets canbe found at /api/v2/markets. | Yes | string |
+| id | formData | Id has been renamed to symbol. This field will be deprecated soon. | No | string |
+| symbol | formData | Unique market ticker symbol. It's always in the form of xxxyyy,where xxx is the base currency code, yyy is the quotecurrency code, e.g. 'btcusd'. All available markets canbe found at /api/v2/markets. | No | string |
 | engine_id | formData | Engine ID . | No | integer |
+| type | formData |  | No | string |
 | state | formData | Market state defines if user can see/trade on current market. | No | string |
 | min_price | formData | Minimum order price. | No | double |
 | min_amount | formData | Minimum order amount. | No | double |
@@ -841,6 +915,35 @@ Update market.
 | Code | Description | Schema |
 | ---- | ----------- | ------ |
 | 200 | Update market. | [Market](#market) |
+
+### /api/v2/management/peatio/markets/new
+
+#### POST
+##### Description
+
+Create market.
+
+##### Parameters
+
+| Name | Located in | Description | Required | Schema |
+| ---- | ---------- | ----------- | -------- | ---- |
+| amount_precision | formData | Precision for order amount. | No | integer |
+| price_precision | formData | Precision for order price. | No | integer |
+| max_price | formData | Maximum order price. | No | double |
+| state | formData | Market state defines if user can see/trade on current market. | No | string |
+| base_currency | formData | Market Base unit. | Yes | string |
+| quote_currency | formData | Market Quote unit. | Yes | string |
+| min_price | formData | Minimum order price. | Yes | double |
+| min_amount | formData | Minimum order amount. | Yes | double |
+| engine_id | formData | Engine ID . | No | integer |
+| position | formData | Market position. | No | integer |
+| engine_name | formData | Engine name | No | string |
+
+##### Responses
+
+| Code | Description | Schema |
+| ---- | ----------- | ------ |
+| 201 | Create market. | [Market](#market) |
 
 ### /api/v2/management/peatio/deposit_address/new
 
@@ -909,7 +1012,6 @@ Returns deposits as paginated collection.
 
 | Name | Type | Description | Required |
 | ---- | ---- | ----------- | -------- |
-| id | integer | Deposit ID. | No |
 | tid | integer | The shared transaction ID. | No |
 | currency | string | The currency code. | No |
 | address | string | The deposit address. | No |
@@ -971,6 +1073,7 @@ Returns orders
 | avg_price | double | Average execution price, average of price in trades. | No |
 | state | string | One of 'wait', 'done', or 'cancel'.An order in 'wait' is an active order, waiting fulfillment;a 'done' order is an order fulfilled;'cancel' means the order has been canceled. | No |
 | market | string | The market in which the order is placed, e.g. 'btcusd'.All available markets can be found at /api/v2/markets. | No |
+| market_type | string | Market type. | No |
 | created_at | string | Order create time in iso8601 format. | No |
 | updated_at | string | Order updated time in iso8601 format. | No |
 | origin_volume | double | The amount user want to sell/buy.An order could be partially executed,e.g. an order sell 5 btc can be matched with a buy 3 btc order,left 2 btc to be sold; in this case the order's volume would be '5.0',its remaining_volume would be '2.0', its executed volume is '3.0'. | No |
@@ -995,6 +1098,7 @@ Returns trades as paginated collection.
 | fee | double | Percentage of fee user was charged for performed trade. | No |
 | fee_amount | double | Amount of fee user was charged for performed trade. | No |
 | market | string | Trade market id. | No |
+| market_type | string | Market type. | No |
 | created_at | string | Trade create time in iso8601 format. | No |
 | taker_type | string | Trade taker order type (sell or buy). | No |
 | side | string | Trade side. | No |
@@ -1009,7 +1113,8 @@ Return currencies list.
 | id | string | Currency code.<br>_Example:_ `"btc"` | No |
 | name | string | Currency name<br>_Example:_ `"Bitcoin"` | No |
 | description | string | Currency description<br>_Example:_ `"btc"` | No |
-| homepage | string | Currency homepage<br>_Example:_ `"btc"` | No |
+| homepage | string | Currency homepage<br>_Example:_ `{}` | No |
+| parent_id | string | Currency parent id<br>_Example:_ `{}` | No |
 | price | string | Currency current price | No |
 | explorer_transaction | string | Currency transaction exprorer url template<br>_Example:_ `"https://testnet.blockchain.info/tx/"` | No |
 | explorer_address | string | Currency address exprorer url template<br>_Example:_ `"https://testnet.blockchain.info/address/"` | No |
@@ -1037,12 +1142,13 @@ Return currencies list.
 
 #### Market
 
-Update market.
+Create market.
 
 | Name | Type | Description | Required |
 | ---- | ---- | ----------- | -------- |
-| id | string | Unique market id. It's always in the form of xxxyyy,where xxx is the base currency code, yyy is the quotecurrency code, e.g. 'btcusd'. All available markets canbe found at /api/v2/markets. | No |
+| symbol | string | Unique market ticker symbol. It's always in the form of xxxyyy,where xxx is the base currency code, yyy is the quotecurrency code, e.g. 'btcusd'. All available markets canbe found at /api/v2/markets. | No |
 | name | string | Market name. | No |
+| type | string | Market type. | No |
 | base_unit | string | Market Base unit. | No |
 | quote_unit | string | Market Quote unit. | No |
 | min_price | double | Minimum order price. | No |

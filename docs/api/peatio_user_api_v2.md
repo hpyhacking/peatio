@@ -1,7 +1,7 @@
 # Peatio User API v2
 API for Peatio application.
 
-## Version: 2.7.0
+## Version: 3.0.0
 
 **Contact information:**  
 openware.com  
@@ -42,31 +42,25 @@ Returns withdraw limits table as paginated collection
 | ---- | ----------- | ------ |
 | 200 | Returns withdraw limits table as paginated collection | [ [WithdrawLimit](#withdrawlimit) ] |
 
-### /api/v2/peatio/public/webhooks/{event}
+### /api/v2/peatio/public/webhooks/{adapter}/{event}
 
 #### POST
 ##### Description
 
-Bitgo Webhook
+Webhook controller
 
 ##### Parameters
 
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
+| adapter | path | Name of adapter for process webhook | Yes | string |
 | event | path | Name of event can be deposit or withdraw | Yes | string |
-| type | formData | Type of event. | Yes | string |
-| hash | formData | Address txid. | Yes | string |
-| transfer | formData | Transfer id. | Yes | string |
-| coin | formData | Currency code. | Yes | string |
-| wallet | formData | Wallet id. | Yes | string |
-| address | formData | User Address. | Yes | string |
-| walletId | formData | Wallet id. | Yes | string |
 
 ##### Responses
 
 | Code | Description |
 | ---- | ----------- |
-| 201 | Bitgo Webhook |
+| 201 | Webhook controller |
 
 ### /api/v2/peatio/public/trading_fees
 
@@ -81,6 +75,7 @@ Returns trading_fees table as paginated collection
 | ---- | ---------- | ----------- | -------- | ---- |
 | group | query | Member group for define maker/taker fee. | No | string |
 | market_id | query | Market id for define maker/taker fee. | No | string |
+| market_type | query |  | No | string |
 | limit | query | Limit the number of returned paginations. Defaults to 100. | No | integer |
 | page | query | Specify the page of paginated results. | No | integer |
 | ordering | query | If set, returned values will be sorted in specific order, defaults to 'asc'. | No | string |
@@ -292,6 +287,7 @@ Get all available markets.
 | order_by | query | Name of the field, which result will be ordered by. | No | string |
 | base_unit | query | Strict filter for base unit | No | string |
 | quote_unit | query | Strict filter for quote unit | No | string |
+| type | query | Strict filter for market type | No | string |
 | search | query |  | No | json |
 | search[base_code] | query | Search base currency code using LIKE | No | string |
 | search[quote_code] | query | Search qoute currency code using LIKE | No | string |
@@ -599,6 +595,8 @@ Get list of user beneficiaries
 
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
+| limit | query | Limit the number of returned paginations. Defaults to 100. | No | integer |
+| page | query | Specify the page of paginated results. | No | integer |
 | currency | query | Beneficiary currency code. | No | string |
 | state | query | Defines either beneficiary active - user can use it to withdraw moneyor pending - requires beneficiary activation with pin. | No | string |
 
@@ -727,6 +725,7 @@ Get your executed trades. Trades are sorted in reverse creation order.
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
 | market | query |  | No | string |
+| market_type | query |  | No | string |
 | limit | query | Limit the number of returned trades. Default to 100. | No | integer |
 | page | query | Specify the page of paginated results. | No | integer |
 | type | query | To indicate nature of trade - buy/sell | No | string |
@@ -752,7 +751,8 @@ Cancel all my orders.
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
 | market | formData |  | No | string |
-| side | formData | If present, only sell orders (asks) or buy orders (bids) will be canncelled. | No | string |
+| market_type | formData |  | No | string |
+| side | formData | If present, only sell orders (asks) or buy orders (bids) will be cancelled. | No | string |
 
 ##### Responses
 
@@ -812,6 +812,7 @@ Get your orders, result is paginated.
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
 | market | query |  | No | string |
+| market_type | query |  | No | string |
 | base_unit | query |  | No | string |
 | quote_unit | query |  | No | string |
 | state | query | Filter order by state. | No | string |
@@ -1020,6 +1021,7 @@ Returns trading_fees table as paginated collection
 | id | integer | Unique trading fee table identifier in database. | No |
 | group | string | Member group for define maker/taker fee. | No |
 | market_id | string | Market id for define maker/taker fee. | No |
+| market_type | string | Market type. | No |
 | maker | double | Market maker fee. | No |
 | taker | double | Market taker fee. | No |
 | created_at | string | Trading fee table created time in iso8601 format. | No |
@@ -1063,6 +1065,7 @@ Get recent trades on market
 | fee | double | Percentage of fee user was charged for performed trade. | No |
 | fee_amount | double | Amount of fee user was charged for performed trade. | No |
 | market | string | Trade market id. | No |
+| market_type | string | Market type. | No |
 | created_at | string | Trade create time in iso8601 format. | No |
 | taker_type | string | Trade taker order type (sell or buy). | No |
 | side | string | Trade side. | No |
@@ -1091,6 +1094,7 @@ Get your orders, result is paginated.
 | avg_price | double | Average execution price, average of price in trades. | No |
 | state | string | One of 'wait', 'done', or 'cancel'.An order in 'wait' is an active order, waiting fulfillment;a 'done' order is an order fulfilled;'cancel' means the order has been canceled. | No |
 | market | string | The market in which the order is placed, e.g. 'btcusd'.All available markets can be found at /api/v2/markets. | No |
+| market_type | string | Market type. | No |
 | created_at | string | Order create time in iso8601 format. | No |
 | updated_at | string | Order updated time in iso8601 format. | No |
 | origin_volume | double | The amount user want to sell/buy.An order could be partially executed,e.g. an order sell 5 btc can be matched with a buy 3 btc order,left 2 btc to be sold; in this case the order's volume would be '5.0',its remaining_volume would be '2.0', its executed volume is '3.0'. | No |
@@ -1107,8 +1111,9 @@ Get all available markets.
 
 | Name | Type | Description | Required |
 | ---- | ---- | ----------- | -------- |
-| id | string | Unique market id. It's always in the form of xxxyyy,where xxx is the base currency code, yyy is the quotecurrency code, e.g. 'btcusd'. All available markets canbe found at /api/v2/markets. | No |
+| symbol | string | Unique market ticker symbol. It's always in the form of xxxyyy,where xxx is the base currency code, yyy is the quotecurrency code, e.g. 'btcusd'. All available markets canbe found at /api/v2/markets. | No |
 | name | string | Market name. | No |
+| type | string | Market type. | No |
 | base_unit | string | Market Base unit. | No |
 | quote_unit | string | Market Quote unit. | No |
 | min_price | double | Minimum order price. | No |
@@ -1127,7 +1132,8 @@ Get a currency
 | id | string | Currency code.<br>_Example:_ `"btc"` | No |
 | name | string | Currency name<br>_Example:_ `"Bitcoin"` | No |
 | description | string | Currency description<br>_Example:_ `"btc"` | No |
-| homepage | string | Currency homepage<br>_Example:_ `"btc"` | No |
+| homepage | string | Currency homepage<br>_Example:_ `{}` | No |
+| parent_id | string | Currency parent id<br>_Example:_ `{}` | No |
 | price | string | Currency current price | No |
 | explorer_transaction | string | Currency transaction exprorer url template<br>_Example:_ `"https://testnet.blockchain.info/tx/"` | No |
 | explorer_address | string | Currency address exprorer url template<br>_Example:_ `"https://testnet.blockchain.info/address/"` | No |

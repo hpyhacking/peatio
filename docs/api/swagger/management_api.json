@@ -10,7 +10,7 @@
     "license": {
       "url": "https://github.com/openware/peatio/blob/master/LICENSE.md"
     },
-    "version": "2.7.0"
+    "version": "3.0.0"
   },
   "swagger": "2.0",
   "produces": [
@@ -1703,17 +1703,25 @@
           {
             "in": "formData",
             "name": "market",
-            "description": "Unique market id. It's always in the form of xxxyyy,where xxx is the base currency code, yyy is the quotecurrency code, e.g. 'btcusd'. All available markets canbe found at /api/v2/markets.",
+            "description": "Id has been renamed to symbol. This field will be deprecated soon.",
             "type": "string",
             "enum": [
-              "btcusd",
-              "ethbtc",
-              "ethusd",
-              "trstbtc",
-              "trsteth",
-              "trstusd"
+              "btcusd"
             ],
             "required": true
+          },
+          {
+            "in": "formData",
+            "name": "market_type",
+            "description": "Market type.",
+            "type": "string",
+            "default": {
+            },
+            "enum": [
+              "spot",
+              "qe"
+            ],
+            "required": false
           }
         ],
         "responses": {
@@ -1782,15 +1790,23 @@
           {
             "in": "formData",
             "name": "market",
-            "description": "Unique market id. It's always in the form of xxxyyy,where xxx is the base currency code, yyy is the quotecurrency code, e.g. 'btcusd'. All available markets canbe found at /api/v2/markets.",
+            "description": "Id has been renamed to symbol. This field will be deprecated soon.",
             "type": "string",
             "enum": [
-              "btcusd",
-              "ethusd",
-              "trstusd",
-              "ethbtc",
-              "trstbtc",
-              "trsteth"
+              "btcusd"
+            ],
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "market_type",
+            "description": "Market type.",
+            "type": "string",
+            "default": {
+            },
+            "enum": [
+              "spot",
+              "qe"
             ],
             "required": false
           },
@@ -1997,12 +2013,20 @@
             "description": "",
             "type": "string",
             "enum": [
-              "btcusd",
-              "ethbtc",
-              "ethusd",
-              "trstbtc",
-              "trsteth",
-              "trstusd"
+              "btcusd"
+            ],
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "market_type",
+            "description": "",
+            "type": "string",
+            "default": {
+            },
+            "enum": [
+              "spot",
+              "qe"
             ],
             "required": false
           },
@@ -2164,12 +2188,20 @@
             "type": "string",
             "enum": [
               "btcusd",
-              "ethusd",
-              "trstusd",
-              "ethbtc",
-              "trstbtc",
-              "trsteth",
               "any"
+            ],
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "market_type",
+            "description": "",
+            "type": "string",
+            "default": {
+            },
+            "enum": [
+              "spot",
+              "qe"
             ],
             "required": false
           },
@@ -2205,7 +2237,7 @@
     },
     "/api/v2/management/peatio/currencies/update": {
       "put": {
-        "description": "Update  currency.",
+        "description": "Update currency.",
         "produces": [
           "application/json"
         ],
@@ -2348,7 +2380,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Update  currency.",
+            "description": "Update currency.",
             "schema": {
               "$ref": "#/definitions/Currency"
             }
@@ -2392,6 +2424,239 @@
         "operationId": "postApiV2ManagementPeatioCurrenciesCode"
       }
     },
+    "/api/v2/management/peatio/currencies/create": {
+      "post": {
+        "description": "Create currency.",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "formData",
+            "name": "name",
+            "description": "Currency name",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "deposit_fee",
+            "description": "Currency deposit fee",
+            "type": "number",
+            "format": "double",
+            "default": 0.0,
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "min_deposit_amount",
+            "description": "Minimal deposit amount",
+            "type": "number",
+            "format": "double",
+            "default": 0.0,
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "min_collection_amount",
+            "description": "Minimal deposit amount that will be collected",
+            "type": "number",
+            "format": "double",
+            "default": 0.0,
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "withdraw_fee",
+            "description": "Currency withdraw fee",
+            "type": "number",
+            "format": "double",
+            "default": 0.0,
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "min_withdraw_amount",
+            "description": "Minimal withdraw amount",
+            "type": "number",
+            "format": "double",
+            "default": 0.0,
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "withdraw_limit_24h",
+            "description": "Currency 24h withdraw limit",
+            "type": "number",
+            "format": "double",
+            "default": 0.0,
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "withdraw_limit_72h",
+            "description": "Currency 72h withdraw limit",
+            "type": "number",
+            "format": "double",
+            "default": 0.0,
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "options",
+            "description": "Currency options.",
+            "type": "json",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "visible",
+            "description": "Currency display possibility status (true/false).",
+            "type": "Boolean",
+            "default": true,
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "deposit_enabled",
+            "description": "Currency deposit possibility status (true/false).",
+            "type": "Boolean",
+            "default": true,
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "withdrawal_enabled",
+            "description": "Currency withdrawal possibility status (true/false).",
+            "type": "Boolean",
+            "default": true,
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "precision",
+            "description": "Currency precision",
+            "type": "integer",
+            "format": "int32",
+            "default": 8,
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "price",
+            "description": "Currency current price",
+            "type": "number",
+            "format": "double",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "icon_url",
+            "description": "Currency icon",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "description",
+            "description": "Currency description",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "homepage",
+            "description": "Currency homepage",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "code",
+            "description": "Unique currency code.",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "type",
+            "description": "Currency type",
+            "type": "string",
+            "default": "coin",
+            "enum": [
+              "fiat",
+              "coin"
+            ],
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "base_factor",
+            "description": "Currency base factor",
+            "type": "integer",
+            "format": "int32",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "position",
+            "description": "Currency position.",
+            "type": "integer",
+            "format": "int32",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "subunits",
+            "description": "Fraction of the basic monetary unit.",
+            "type": "integer",
+            "format": "int32",
+            "minimum": 0,
+            "maximum": 18,
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "blockchain_key",
+            "description": "Associated blockchain key which will perform transactions synchronization for currency.",
+            "type": "string",
+            "enum": [
+              "btc-testnet",
+              "eth-mainet",
+              "eth-rinkeby",
+              "prt-kovan"
+            ],
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "parent_id",
+            "description": "Currency parent id",
+            "type": "string",
+            "enum": [
+              "btc",
+              "eth"
+            ],
+            "required": false
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Create currency.",
+            "schema": {
+              "$ref": "#/definitions/Currency"
+            }
+          }
+        },
+        "tags": [
+          "api"
+        ],
+        "operationId": "postApiV2ManagementPeatioCurrenciesCreate"
+      }
+    },
     "/api/v2/management/peatio/currencies/list": {
       "post": {
         "description": "Return currencies list.",
@@ -2428,18 +2693,78 @@
         "operationId": "postApiV2ManagementPeatioCurrenciesList"
       }
     },
-    "/api/v2/management/peatio/markets/list": {
+    "/api/v2/management/peatio/markets/{symbol}": {
       "post": {
-        "description": "Return markets list.",
+        "description": "Returns market by symbol.",
         "produces": [
           "application/json"
         ],
         "consumes": [
           "application/json"
         ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "symbol",
+            "description": "Id has been renamed to symbol. This field will be deprecated soon.",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "type",
+            "description": "",
+            "type": "string",
+            "default": {
+            },
+            "enum": [
+              "spot",
+              "qe"
+            ],
+            "required": false
+          }
+        ],
         "responses": {
           "201": {
-            "description": "Return markets list.",
+            "description": "Returns market by symbol.",
+            "schema": {
+              "$ref": "#/definitions/Market"
+            }
+          }
+        },
+        "tags": [
+          "api"
+        ],
+        "operationId": "postApiV2ManagementPeatioMarketsSymbol"
+      }
+    },
+    "/api/v2/management/peatio/markets/list": {
+      "post": {
+        "description": "Return list of the markets.",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "formData",
+            "name": "type",
+            "description": "",
+            "type": "string",
+            "default": {
+            },
+            "enum": [
+              "spot",
+              "qe"
+            ],
+            "required": false
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Return list of the markets.",
             "schema": {
               "$ref": "#/definitions/Market"
             }
@@ -2464,9 +2789,22 @@
           {
             "in": "formData",
             "name": "id",
-            "description": "Unique market id. It's always in the form of xxxyyy,where xxx is the base currency code, yyy is the quotecurrency code, e.g. 'btcusd'. All available markets canbe found at /api/v2/markets.",
+            "description": "Id has been renamed to symbol. This field will be deprecated soon.",
             "type": "string",
-            "required": true
+            "enum": [
+              "btcusd"
+            ],
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "symbol",
+            "description": "Unique market ticker symbol. It's always in the form of xxxyyy,where xxx is the base currency code, yyy is the quotecurrency code, e.g. 'btcusd'. All available markets canbe found at /api/v2/markets.",
+            "type": "string",
+            "enum": [
+              "btcusd"
+            ],
+            "required": false
           },
           {
             "in": "formData",
@@ -2474,6 +2812,19 @@
             "description": "Engine ID .",
             "type": "integer",
             "format": "int32",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "type",
+            "description": "",
+            "type": "string",
+            "default": {
+            },
+            "enum": [
+              "spot",
+              "qe"
+            ],
             "required": false
           },
           {
@@ -2552,6 +2903,144 @@
           "api"
         ],
         "operationId": "putApiV2ManagementPeatioMarketsUpdate"
+      }
+    },
+    "/api/v2/management/peatio/markets/new": {
+      "post": {
+        "description": "Create market.",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "formData",
+            "name": "amount_precision",
+            "description": "Precision for order amount.",
+            "type": "integer",
+            "format": "int32",
+            "default": 4,
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "price_precision",
+            "description": "Precision for order price.",
+            "type": "integer",
+            "format": "int32",
+            "default": 4,
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "max_price",
+            "description": "Maximum order price.",
+            "type": "number",
+            "format": "double",
+            "default": 0.0,
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "state",
+            "description": "Market state defines if user can see/trade on current market.",
+            "type": "string",
+            "default": "enabled",
+            "enum": [
+              "enabled",
+              "disabled",
+              "hidden",
+              "locked",
+              "sale",
+              "presale"
+            ],
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "base_currency",
+            "description": "Market Base unit.",
+            "type": "string",
+            "enum": [
+              "btc",
+              "eth",
+              "trst",
+              "usd"
+            ],
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "quote_currency",
+            "description": "Market Quote unit.",
+            "type": "string",
+            "enum": [
+              "btc",
+              "eth",
+              "trst",
+              "usd"
+            ],
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "min_price",
+            "description": "Minimum order price.",
+            "type": "number",
+            "format": "double",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "min_amount",
+            "description": "Minimum order amount.",
+            "type": "number",
+            "format": "double",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "engine_id",
+            "description": "Engine ID .",
+            "type": "integer",
+            "format": "int32",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "position",
+            "description": "Market position.",
+            "type": "integer",
+            "format": "int32",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "engine_name",
+            "description": "Engine name",
+            "type": "string",
+            "enum": [
+              "peatio-default-engine",
+              "local-finex-spot-engine",
+              "opendax-finex-spote-engine"
+            ],
+            "required": false
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Create market.",
+            "schema": {
+              "$ref": "#/definitions/Market"
+            }
+          }
+        },
+        "tags": [
+          "api"
+        ],
+        "operationId": "postApiV2ManagementPeatioMarketsNew"
       }
     },
     "/api/v2/management/peatio/deposit_address/new": {
@@ -2703,11 +3192,6 @@
     "Deposit": {
       "type": "object",
       "properties": {
-        "id": {
-          "type": "integer",
-          "format": "int32",
-          "description": "Deposit ID."
-        },
         "tid": {
           "type": "integer",
           "format": "int32",
@@ -2892,6 +3376,10 @@
           "type": "string",
           "description": "The market in which the order is placed, e.g. 'btcusd'.All available markets can be found at /api/v2/markets."
         },
+        "market_type": {
+          "type": "string",
+          "description": "Market type."
+        },
         "created_at": {
           "type": "string",
           "description": "Order create time in iso8601 format."
@@ -2981,6 +3469,10 @@
           "type": "string",
           "description": "Trade market id."
         },
+        "market_type": {
+          "type": "string",
+          "description": "Market type."
+        },
         "created_at": {
           "type": "string",
           "description": "Trade create time in iso8601 format."
@@ -3021,8 +3513,13 @@
         },
         "homepage": {
           "type": "string",
-          "example": "btc",
+          "example": null,
           "description": "Currency homepage"
+        },
+        "parent_id": {
+          "type": "string",
+          "example": null,
+          "description": "Currency parent id"
         },
         "price": {
           "type": "string",
@@ -3141,13 +3638,17 @@
     "Market": {
       "type": "object",
       "properties": {
-        "id": {
+        "symbol": {
           "type": "string",
-          "description": "Unique market id. It's always in the form of xxxyyy,where xxx is the base currency code, yyy is the quotecurrency code, e.g. 'btcusd'. All available markets canbe found at /api/v2/markets."
+          "description": "Unique market ticker symbol. It's always in the form of xxxyyy,where xxx is the base currency code, yyy is the quotecurrency code, e.g. 'btcusd'. All available markets canbe found at /api/v2/markets."
         },
         "name": {
           "type": "string",
           "description": "Market name."
+        },
+        "type": {
+          "type": "string",
+          "description": "Market type."
         },
         "base_unit": {
           "type": "string",
@@ -3205,7 +3706,7 @@
           "description": "Market updated time in iso8601 format."
         }
       },
-      "description": "Update market."
+      "description": "Create market."
     },
     "PaymentAddress": {
       "type": "object",

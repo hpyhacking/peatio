@@ -10,7 +10,7 @@
     "license": {
       "url": "https://github.com/openware/peatio/blob/master/LICENSE.md"
     },
-    "version": "2.7.0"
+    "version": "3.0.0"
   },
   "swagger": "2.0",
   "produces": [
@@ -983,15 +983,10 @@
           {
             "in": "formData",
             "name": "market",
-            "description": "Unique order id.",
+            "description": "Id has been renamed to symbol. This field will be deprecated soon.",
             "type": "string",
             "enum": [
-              "btcusd",
-              "ethbtc",
-              "ethusd",
-              "trstbtc",
-              "trsteth",
-              "trstusd"
+              "btcusd"
             ],
             "required": true
           },
@@ -1058,15 +1053,23 @@
           {
             "in": "query",
             "name": "market",
-            "description": "Unique market id. It's always in the form of xxxyyy,where xxx is the base currency code, yyy is the quotecurrency code, e.g. 'btcusd'. All available markets canbe found at /api/v2/markets.",
+            "description": "Id has been renamed to symbol. This field will be deprecated soon.",
             "type": "string",
             "enum": [
-              "btcusd",
-              "ethusd",
-              "trstusd",
-              "ethbtc",
-              "trstbtc",
-              "trsteth"
+              "btcusd"
+            ],
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "market_type",
+            "description": "Market type.",
+            "type": "string",
+            "default": {
+            },
+            "enum": [
+              "spot",
+              "qe"
             ],
             "required": false
           },
@@ -1849,9 +1852,35 @@
           {
             "in": "formData",
             "name": "id",
-            "description": "Unique market id. It's always in the form of xxxyyy,where xxx is the base currency code, yyy is the quotecurrency code, e.g. 'btcusd'. All available markets canbe found at /api/v2/markets.",
+            "description": "Id has been renamed to symbol. This field will be deprecated soon.",
             "type": "string",
-            "required": true
+            "enum": [
+              "btcusd"
+            ],
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "symbol",
+            "description": "Unique market ticker symbol. It's always in the form of xxxyyy,where xxx is the base currency code, yyy is the quotecurrency code, e.g. 'btcusd'. All available markets canbe found at /api/v2/markets.",
+            "type": "string",
+            "enum": [
+              "btcusd"
+            ],
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "type",
+            "description": "",
+            "type": "string",
+            "default": {
+            },
+            "enum": [
+              "spot",
+              "qe"
+            ],
+            "required": false
           },
           {
             "in": "formData",
@@ -2004,6 +2033,19 @@
           },
           {
             "in": "formData",
+            "name": "type",
+            "description": "",
+            "type": "string",
+            "default": {
+            },
+            "enum": [
+              "spot",
+              "qe"
+            ],
+            "required": false
+          },
+          {
+            "in": "formData",
             "name": "engine_id",
             "description": "Engine id for this market.",
             "type": "integer",
@@ -2045,7 +2087,7 @@
         "operationId": "postApiV2AdminPeatioMarketsNew"
       }
     },
-    "/api/v2/admin/peatio/markets/{id}": {
+    "/api/v2/admin/peatio/markets/{symbol}": {
       "get": {
         "description": "Get market.",
         "produces": [
@@ -2054,10 +2096,23 @@
         "parameters": [
           {
             "in": "path",
-            "name": "id",
-            "description": "Unique market id. It's always in the form of xxxyyy,where xxx is the base currency code, yyy is the quotecurrency code, e.g. 'btcusd'. All available markets canbe found at /api/v2/markets.",
+            "name": "symbol",
+            "description": "Unique market ticker symbol. It's always in the form of xxxyyy,where xxx is the base currency code, yyy is the quotecurrency code, e.g. 'btcusd'. All available markets canbe found at /api/v2/markets.",
             "type": "string",
             "required": true
+          },
+          {
+            "in": "query",
+            "name": "type",
+            "description": "",
+            "type": "string",
+            "default": {
+            },
+            "enum": [
+              "spot",
+              "qe"
+            ],
+            "required": false
           }
         ],
         "responses": {
@@ -2071,7 +2126,7 @@
         "tags": [
           "api"
         ],
-        "operationId": "getApiV2AdminPeatioMarketsId"
+        "operationId": "getApiV2AdminPeatioMarketsSymbol"
       }
     },
     "/api/v2/admin/peatio/markets": {
@@ -2099,6 +2154,19 @@
             "type": "integer",
             "format": "int32",
             "default": 1,
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "type",
+            "description": "",
+            "type": "string",
+            "default": {
+            },
+            "enum": [
+              "spot",
+              "qe"
+            ],
             "required": false
           },
           {
@@ -3412,15 +3480,23 @@
           {
             "in": "query",
             "name": "market",
-            "description": "Unique market id. It's always in the form of xxxyyy,where xxx is the base currency code, yyy is the quotecurrency code, e.g. 'btcusd'. All available markets canbe found at /api/v2/markets.",
+            "description": "Id has been renamed to symbol. This field will be deprecated soon.",
             "type": "string",
             "enum": [
-              "btcusd",
-              "ethusd",
-              "trstusd",
-              "ethbtc",
-              "trstbtc",
-              "trsteth"
+              "btcusd"
+            ],
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "market_type",
+            "description": "",
+            "type": "string",
+            "default": {
+            },
+            "enum": [
+              "spot",
+              "qe"
             ],
             "required": false
           },
@@ -4370,12 +4446,20 @@
             "type": "string",
             "enum": [
               "btcusd",
-              "ethusd",
-              "trstusd",
-              "ethbtc",
-              "trstbtc",
-              "trsteth",
               "any"
+            ],
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "market_type",
+            "description": "",
+            "type": "string",
+            "default": {
+            },
+            "enum": [
+              "spot",
+              "qe"
             ],
             "required": false
           }
@@ -4436,12 +4520,20 @@
             "default": "any",
             "enum": [
               "btcusd",
-              "ethusd",
-              "trstusd",
-              "ethbtc",
-              "trstbtc",
-              "trsteth",
               "any"
+            ],
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "market_type",
+            "description": "",
+            "type": "string",
+            "default": {
+            },
+            "enum": [
+              "spot",
+              "qe"
             ],
             "required": false
           }
@@ -4481,12 +4573,20 @@
             "type": "string",
             "enum": [
               "btcusd",
-              "ethusd",
-              "trstusd",
-              "ethbtc",
-              "trstbtc",
-              "trsteth",
               "any"
+            ],
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "market_type",
+            "description": "",
+            "type": "string",
+            "default": {
+            },
+            "enum": [
+              "spot",
+              "qe"
             ],
             "required": false
           },
@@ -5688,6 +5788,10 @@
           "type": "string",
           "description": "The market in which the order is placed, e.g. 'btcusd'.All available markets can be found at /api/v2/markets."
         },
+        "market_type": {
+          "type": "string",
+          "description": "Market type."
+        },
         "created_at": {
           "type": "string",
           "description": "Order create time in iso8601 format."
@@ -5752,8 +5856,12 @@
         },
         "homepage": {
           "type": "string",
-          "example": "btc",
+          "example": null,
           "description": "Currency homepage"
+        },
+        "parent_id": {
+          "type": "string",
+          "description": "Parent currency id."
         },
         "price": {
           "type": "number",
@@ -5845,10 +5953,6 @@
           "type": "string",
           "description": "Associated blockchain key which will perform transactions synchronization for currency."
         },
-        "parent_id": {
-          "type": "string",
-          "description": "Parent currency id."
-        },
         "min_collection_amount": {
           "type": "number",
           "format": "double",
@@ -5881,13 +5985,17 @@
     "Market": {
       "type": "object",
       "properties": {
-        "id": {
+        "symbol": {
           "type": "string",
-          "description": "Unique market id. It's always in the form of xxxyyy,where xxx is the base currency code, yyy is the quotecurrency code, e.g. 'btcusd'. All available markets canbe found at /api/v2/markets."
+          "description": "Unique market ticker symbol. It's always in the form of xxxyyy,where xxx is the base currency code, yyy is the quotecurrency code, e.g. 'btcusd'. All available markets canbe found at /api/v2/markets."
         },
         "name": {
           "type": "string",
           "description": "Market name."
+        },
+        "type": {
+          "type": "string",
+          "description": "Market type."
         },
         "base_unit": {
           "type": "string",
@@ -6254,6 +6362,10 @@
           "type": "string",
           "description": "Trade market id."
         },
+        "market_type": {
+          "type": "string",
+          "description": "Market type."
+        },
         "created_at": {
           "type": "string",
           "description": "Trade create time in iso8601 format."
@@ -6444,6 +6556,10 @@
         "market_id": {
           "type": "string",
           "description": "Market id for define maker/taker fee."
+        },
+        "market_type": {
+          "type": "string",
+          "description": "Market type."
         },
         "maker": {
           "type": "number",
