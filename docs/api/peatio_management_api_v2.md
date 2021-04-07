@@ -1,7 +1,7 @@
 # Peatio Management API v2
 Management API is server-to-server API with high privileges.
 
-## Version: 3.0.0
+## Version: 3.1.0
 
 **Contact information:**  
 openware.com  
