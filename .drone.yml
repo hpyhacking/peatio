@@ -530,7 +530,7 @@ steps:
   detach: true
 
 - name: "Update global OpenDAX version"
-  image: quay.io/openware/goci:0.0.10
+  image: quay.io/openware/goci:0.0.11
   environment:
     GIT_TOKEN:
       from_secret: kite_bot_key
