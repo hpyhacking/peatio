@@ -309,6 +309,22 @@ describe API::V2::Admin::Adjustments, type: :request do
       }.not_to change { member.get_account(adjustment.currency).balance }
     end
 
+    context 'adjustment without member' do
+      let!(:adjustment) { create(:adjustment, currency_id: 'btc', receiving_account_number: "btc-402-") }
+
+      it 'should accept adjustment' do
+        adjustment.update(amount: -10000000.0)
+
+        expect {
+          api_post '/api/v2/admin/adjustments/action', token: token, params: { id: adjustment.id, action: :accept }
+        }.to change { adjustment.reload.state }.to('accepted')
+        .and change { Operations::Asset.count }.by(1)
+        .and change { Operations::Expense.count }.by(1)
+
+        expect(response).to be_successful
+      end
+    end
+
     context 'already accepted' do
       let!(:adjustment) { create(:adjustment, currency_id: 'btc', receiving_account_number: "btc-202-#{member.uid}").tap { |a| a.accept!(validator: member) } }
 
