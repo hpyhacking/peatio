@@ -1,7 +1,7 @@
 # encoding: UTF-8
 # frozen_string_literal: true
 
-describe API::V2::Management::Deposits, type: :request do
+describe API::V2::Management::Accounts, type: :request do
   before do
     defaults_for_management_api_v1_security_configuration!
     management_api_v1_security_configuration.merge! \
@@ -58,7 +58,7 @@ describe API::V2::Management::Deposits, type: :request do
     end
 
     it 'paginates' do
-      balances = Account.order(id: :asc).pluck(:balance)
+      balances = Account.pluck(:balance)
       data.merge!(page: 1, limit: 4)
       request
       expect(response).to have_http_status(200)
@@ -71,7 +71,7 @@ describe API::V2::Management::Deposits, type: :request do
 
     it 'contains the correct response data' do
       request
-      expect(JSON.parse(response.body).map { |x| x.fetch('balance').to_f }).to eq Account.order(id: :asc).pluck(:balance).map(&:to_f)
+      expect(JSON.parse(response.body).map { |x| x.fetch('balance').to_f }).to eq Account.pluck(:balance).map(&:to_f)
     end
   end
 end

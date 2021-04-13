@@ -17,6 +17,8 @@ module Peatio
     # Eager loading app dir.
     config.eager_load_paths += Dir[Rails.root.join('app')]
 
+    config.autoload_paths += Dir["#{config.root}/db/migrate/concerns/**/"]
+
     # Eager load constants from lib/peatio
     # There is a lot of constants used over the whole application.
     #   lib/peatio/aasm/locking.rb => AASM::Locking

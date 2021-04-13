@@ -87,7 +87,7 @@ module Matching
 
         accounts_table = Account
           .lock
-          .select(:id, :member_id, :currency_id, :balance, :locked)
+          .select(:member_id, :currency_id, :balance, :locked)
           .where(member_id: [@maker_order.member_id, @taker_order .member_id].uniq, currency_id: [@market.base_unit, @market.quote_unit])
           .each_with_object({}) { |record, memo| memo["#{record.currency_id}:#{record.member_id}"] = record }
 
@@ -109,7 +109,15 @@ module Matching
           table     = record.class.arel_table
           statement = Arel::UpdateManager.new
           statement.table(table)
-          statement.where(table[:id].eq(record.id))
+
+          if record.composite?
+            record.class.primary_key.each do |key|
+              statement.where(table[key].eq(record[key]))
+            end
+          else
+            statement.where(table[:id].eq(record.id))
+          end
+
           updates = record.changed_attributes.map do |(attribute, _)|
             if Order === record
               value = record.public_send(attribute)
@@ -119,6 +127,7 @@ module Matching
             end
           end
           statement.set updates
+
           statement.to_sql
         end.join('; ').tap do |sql|
           Rails.logger.debug { sql }

@@ -3,6 +3,8 @@
 class Account < ApplicationRecord
   AccountError = Class.new(StandardError)
 
+  self.primary_keys = :currency_id, :member_id
+
   belongs_to :currency, required: true
   belongs_to :member, required: true
 
@@ -18,7 +20,6 @@ class Account < ApplicationRecord
 
   def as_json_for_event_api
     {
-      id: id,
       member_id: member_id,
       currency_id: currency_id,
       balance: balance,
@@ -39,7 +40,7 @@ class Account < ApplicationRecord
 
   def attributes_after_plus_funds!(amount)
     if amount <= ZERO
-      raise AccountError, "Cannot add funds (account id: #{id}, amount: #{amount}, balance: #{balance})."
+      raise AccountError, "Cannot add funds (member id: #{member_id}, currency id: #{currency_id}, amount: #{amount}, balance: #{balance})."
     end
 
     { balance: balance + amount }
@@ -56,7 +57,7 @@ class Account < ApplicationRecord
 
   def attributes_after_plus_locked_funds!(amount)
     if amount <= ZERO
-      raise AccountError, "Cannot add funds (account id: #{id}, amount: #{amount}, locked: #{locked})."
+      raise AccountError, "Cannot add funds (member id: #{member_id}, currency id: #{currency_id}, amount: #{amount}, locked: #{locked})."
     end
 
     { locked: locked + amount }
@@ -73,7 +74,7 @@ class Account < ApplicationRecord
 
   def attributes_after_sub_funds!(amount)
     if amount <= ZERO || amount > balance
-      raise AccountError, "Cannot subtract funds (account id: #{id}, amount: #{amount}, balance: #{balance})."
+      raise AccountError, "Cannot subtract funds (member id: #{member_id}, currency id: #{currency_id}, amount: #{amount}, balance: #{balance})."
     end
 
     { balance: balance - amount }
@@ -90,7 +91,7 @@ class Account < ApplicationRecord
 
   def attributes_after_lock_funds!(amount)
     if amount <= ZERO || amount > balance
-      raise AccountError, "Cannot lock funds (account id: #{id}, amount: #{amount}, balance: #{balance}, locked: #{locked})."
+      raise AccountError, "Cannot lock funds (member id: #{member_id}, currency id: #{currency_id}, amount: #{amount}, balance: #{balance}, locked: #{locked})."
     end
 
     { balance: balance - amount, locked: locked + amount }
@@ -107,7 +108,7 @@ class Account < ApplicationRecord
 
   def attributes_after_unlock_funds!(amount)
     if amount <= ZERO || amount > locked
-      raise AccountError, "Cannot unlock funds (account id: #{id}, amount: #{amount}, balance: #{balance} locked: #{locked})."
+      raise AccountError, "Cannot unlock funds (member id: #{member_id}, currency id: #{currency_id}, amount: #{amount}, balance: #{balance} locked: #{locked})."
     end
 
     { balance: balance + amount, locked: locked - amount }
@@ -124,7 +125,7 @@ class Account < ApplicationRecord
 
   def attributes_after_unlock_and_sub_funds!(amount)
     if amount <= ZERO || amount > locked
-      raise AccountError, "Cannot unlock and sub funds (account id: #{id}, amount: #{amount}, locked: #{locked})."
+      raise AccountError, "Cannot unlock and sub funds (member id: #{member_id}, currency id: #{currency_id}, amount: #{amount}, locked: #{locked})."
     end
 
     { locked: locked - amount }

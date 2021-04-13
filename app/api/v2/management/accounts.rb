@@ -9,12 +9,10 @@ module API
           @settings[:scope] = :read_accounts
           success API::V2::Management::Entities::Balance
         end
-
         params do
           requires :uid, type: String, desc: 'The shared user ID.'
           requires :currency, type: String, values: -> { Currency.codes(bothcase: true) }, desc: 'The currency code.'
         end
-
         post '/accounts/balance' do
           member = Member.find_by!(uid: params[:uid])
           account = member.get_account(params[:currency])
@@ -36,7 +34,6 @@ module API
         post '/accounts/balances' do
           accounts = ::Account.where("currency_id = ? AND (balance > 0 OR locked > 0)", params[:currency])
           accounts
-            .order(id: :asc)
             .page(params[:page])
             .per(params[:limit])
             .tap { |q| present q, with: API::V2::Management::Entities::Balance }
