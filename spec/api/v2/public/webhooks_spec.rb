@@ -242,9 +242,7 @@ describe API::V2::Public::Webhooks, type: :request do
             {
               address: 'Address',
               currency_id: 'eth',
-              details: {
-                address_id: 12
-              }
+              address_id: 12,
             }
           end
 

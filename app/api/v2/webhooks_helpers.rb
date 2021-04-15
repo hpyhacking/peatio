@@ -23,7 +23,7 @@ module API
 
           next unless event.present?
 
-          create_address(event[:details], event[:address], event[:currency_id])
+          create_address(event[:address_id], event[:address], event[:currency_id])
         end
       end
 
@@ -135,13 +135,11 @@ module API
       end
 
       # This method will update payment address by specific detail value
-      def create_address(details, address, currency_id)
+      def create_address(address_id, address, currency_id)
         Rails.logger.info { "Address detected: #{address}" }
 
-        key_name = details.keys.first.to_s
-        key_value = details.values.first
         payment_address = PaymentAddress.where(address: nil, wallet: Wallet.deposit_wallet(currency_id))
-                                        .find { |address| address.details[key_name] == key_value }
+                                        .find { |address| address.details['address_id'] == address_id }
 
         payment_address.update!(address: address) if payment_address.present?
       end
