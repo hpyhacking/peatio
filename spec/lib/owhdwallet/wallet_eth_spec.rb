@@ -1,5 +1,9 @@
-describe OWHDWallet::Wallet do
-  let(:wallet) { OWHDWallet::Wallet.new }
+describe OWHDWallet::WalletETH do
+  let(:wallet) { OWHDWallet::WalletETH.new }
+  let(:infura_url) { 'https://rinkeby.infura.io/v3/08825a23f9454f998e6e7ba60bb6f023' }
+  let(:hdwallet_url) { 'http://127.0.0.1:8000/api/v2/hdwallet' }
+  let(:hdwallet_wallet_new_url) { hdwallet_url + '/wallet/new' }
+  let(:hdwallet_wallet_balance_url) { hdwallet_url + '/wallet/balance' }
 
   context :configure do
     let(:settings) { { wallet: {}, currency: {} } }
@@ -17,7 +21,7 @@ describe OWHDWallet::Wallet do
 
     it 'sets settings attribute' do
       wallet.configure(settings)
-      expect(wallet.settings).to eq(settings.slice(*Ethereum::Wallet::SUPPORTED_SETTINGS))
+      expect(wallet.settings).to eq(settings.slice(*Ethereum::Eth::Wallet::SUPPORTED_SETTINGS))
     end
   end
 
@@ -32,14 +36,12 @@ describe OWHDWallet::Wallet do
       Currency.find_by(id: :eth)
     end
 
-    let(:uri) { 'http://127.0.0.1:8000/api/v2/hdwallet' }
-
     let(:settings) do
       {
-        wallet:
-          { address:     'something',
-            uri:         uri
-          },
+        wallet: {
+           address: 'something',
+           uri:     hdwallet_url
+        },
         currency: eth.to_blockchain_api_settings
       }
     end
@@ -58,7 +60,7 @@ describe OWHDWallet::Wallet do
     end
 
     it 'should create an address' do
-      stub_request(:post, uri + '/wallet/new')
+      stub_request(:post, hdwallet_wallet_new_url)
         .with(body: {coin_type: 'eth'}.to_json)
         .to_return(body: uri_result.to_json)
 
@@ -75,10 +77,10 @@ describe OWHDWallet::Wallet do
 
       let(:settings) do
         {
-          wallet:
-            { address:     'something',
-              uri:         uri
-            },
+          wallet: {
+            address: 'something',
+            uri:     hdwallet_url
+          },
           currency: trst.to_blockchain_api_settings
         }
       end
@@ -88,7 +90,7 @@ describe OWHDWallet::Wallet do
       end
 
       it 'should create address for erc-20 coin' do
-        stub_request(:post, uri + '/wallet/new')
+        stub_request(:post, hdwallet_wallet_new_url)
           .with(body: {coin_type: 'eth'}.to_json)
           .to_return(body: uri_result.to_json)
 
@@ -100,7 +102,7 @@ describe OWHDWallet::Wallet do
     end
 
     it 'should return error' do
-      stub_request(:post, uri + '/wallet/new')
+      stub_request(:post, hdwallet_wallet_new_url)
         .with(body: {coin_type: 'eth'}.to_json)
         .to_return(status: 422, body: {'error': 'wallet sealed'}.to_json)
 
@@ -114,8 +116,6 @@ describe OWHDWallet::Wallet do
       example.run
       WebMock.allow_net_connect!
     end
-
-    let(:url) { 'http://127.0.0.1:8000/api/v2/hdwallet' }
 
     let(:fee_wallet) { Wallet.joins(:currencies).find_by(currencies: { id: :eth }, kind: :fee) }
 
@@ -132,13 +132,11 @@ describe OWHDWallet::Wallet do
          currency_id: trst.id }]
     end
 
-    let(:infura_url) { 'https://rinkeby.infura.io/v3/08825a23f9454f998e6e7ba60bb6f023' }
-
     let(:settings) do
       {
         wallet: {
           address: fee_wallet.address,
-          uri: url,
+          uri: hdwallet_url,
           gateway_url: infura_url,
           wallet_index: 1,
           secret: 'changeme'
@@ -176,7 +174,7 @@ describe OWHDWallet::Wallet do
     end
 
     it do
-      stub_request(:post, url + '/tx/before_collect')
+      stub_request(:post, hdwallet_url + '/tx/before_collect')
         .with(body: request_params.to_json)
         .to_return(body: response.to_json)
 
@@ -223,19 +221,16 @@ describe OWHDWallet::Wallet do
     let(:deposit_wallet_trst) { Wallet.joins(:currencies).find_by(currencies: { id: :eth }, kind: :deposit) }
     let(:hot_wallet_trst) { Wallet.joins(:currencies).find_by(currencies: { id: :eth }, kind: :hot) }
 
-    let(:uri) { 'http://127.0.0.1:8000/api/v2/hdwallet' }
-
     let(:transaction) do
       Peatio::Transaction.new(amount: 1.1.to_d, to_address: '0x6d6cabaa7232d7f45b143b445114f7e92350a2aa')
     end
 
-    let(:infura_url) { 'https://rinkeby.infura.io/v3/08825a23f9454f998e6e7ba60bb6f023' }
     context 'eth transaction' do
       let(:settings) do
         {
           wallet: {
             settings:     deposit_wallet_eth.settings,
-            uri:          uri,
+            uri:          hdwallet_url,
             address:      deposit_wallet_eth.address,
             secret:       'changeme',
             wallet_index: 1,
@@ -270,7 +265,7 @@ describe OWHDWallet::Wallet do
       end
 
       it 'should create transaction' do
-        stub_request(:post, uri + '/tx/send')
+        stub_request(:post, hdwallet_url + '/tx/send')
           .with(body: request_params.to_json)
           .to_return(body: uri_result.to_json)
 
@@ -287,7 +282,7 @@ describe OWHDWallet::Wallet do
         {
           wallet: {
             settings:     deposit_wallet_trst.settings,
-            uri:          uri,
+            uri:          hdwallet_url,
             address:      deposit_wallet_trst.address,
             secret:       'changeme',
             wallet_index: 1,
@@ -323,54 +318,7 @@ describe OWHDWallet::Wallet do
       end
 
       it 'should create transaction' do
-        stub_request(:post, uri + '/tx/send')
-          .with(body: request_params.to_json)
-          .to_return(body: uri_result.to_json)
-
-        result = wallet.create_transaction!(transaction)
-        expect(result.as_json.symbolize_keys).to eq(amount: 1.1.to_s,
-                                                    to_address: '0x6d6cabaa7232d7f45b143b445114f7e92350a2aa',
-                                                    hash: '0xa56316b637a94c4cc0331c73ef26389d6c097506d581073f927275e7a6ece0bc',
-                                                    status: 'pending')
-      end
-    end
-
-    context 'btc transaction' do
-      let(:settings) do
-        {
-          wallet:
-            { address:      'something',
-              uri:          uri,
-              secret:       'changeme',
-              wallet_index: 1,
-              gateway_url:  infura_url },
-          currency: btc.to_blockchain_api_settings
-        }
-      end
-
-      before do
-        wallet.configure(settings)
-      end
-
-      let(:uri_result) do
-        {
-          'tx': '0xa56316b637a94c4cc0331c73ef26389d6c097506d581073f927275e7a6ece0bc'
-        }
-      end
-
-      let(:request_params) do
-        {
-          coin_type:    'btc',
-          to:           transaction.to_address,
-          amount:       (transaction.amount.to_d * btc.base_factor).to_i,
-          gateway_url:  infura_url,
-          wallet_index: 1,
-          passphrase:   'changeme'
-        }
-      end
-
-      it 'should create transaction' do
-        stub_request(:post, uri + '/tx/send')
+        stub_request(:post, hdwallet_url + '/tx/send')
           .with(body: request_params.to_json)
           .to_return(body: uri_result.to_json)
 
@@ -394,24 +342,18 @@ describe OWHDWallet::Wallet do
       Currency.find_by(id: :eth)
     end
 
-    let(:btc) do
-      Currency.find_by(id: :btc)
-    end
-
     let(:trst) do
       Currency.find_by(id: :trst)
     end
 
-    let(:uri) { 'http://127.0.0.1:8000/api/v2/hdwallet' }
-    let(:infura_url) { 'https://rinkeby.infura.io/v3/08825a23f9454f998e6e7ba60bb6f023' }
-
     context 'eth load_balance' do
       let(:settings) do
         {
-          wallet:
-            { address:     'something',
-              uri:         uri,
-              gateway_url:  infura_url},
+          wallet: {
+            address:     'something',
+            uri:         hdwallet_url,
+            gateway_url: infura_url
+          },
           currency: eth.to_blockchain_api_settings
         }
       end
@@ -435,7 +377,7 @@ describe OWHDWallet::Wallet do
       end
 
       it 'should return wallet balance' do
-        stub_request(:post, uri + '/wallet/balance')
+        stub_request(:post, hdwallet_wallet_balance_url)
           .with(body: request_params.to_json)
           .to_return(body: uri_result.to_json)
 
@@ -451,7 +393,7 @@ describe OWHDWallet::Wallet do
         {
           wallet:
             { address:     'something',
-              uri:          uri,
+              uri:          hdwallet_url,
               gateway_url:  infura_url},
           currency: trst.to_blockchain_api_settings
         }
@@ -477,7 +419,7 @@ describe OWHDWallet::Wallet do
       end
 
       it 'should return wallet balance' do
-        stub_request(:post, uri + '/wallet/balance')
+        stub_request(:post, hdwallet_wallet_balance_url)
             .with(body: request_params.to_json)
             .to_return(body: uri_result.to_json)
 
@@ -485,47 +427,6 @@ describe OWHDWallet::Wallet do
         result = wallet.load_balance!
         expect(result).to be_a(BigDecimal)
         expect(result).to eq('0.1'.to_d)
-      end
-    end
-
-    context 'btc load balance' do
-      let(:settings) do
-        {
-          wallet:
-            { address:     'something',
-              uri:         uri,
-              gateway_url:  infura_url},
-          currency: btc.to_blockchain_api_settings
-        }
-      end
-
-      let(:uri_result) do
-        {
-          'balance': 23.2
-        }
-      end
-
-      let(:request_params) do
-        {
-          coin_type:   'btc',
-          gateway_url: infura_url,
-          address:     'something',
-        }
-      end
-
-      before do
-        wallet.configure(settings)
-      end
-
-      it 'should return wallet balance' do
-        stub_request(:post, uri + '/wallet/balance')
-          .with(body: request_params.to_json)
-          .to_return(body: uri_result.to_json)
-
-        wallet.configure(settings)
-        result = wallet.load_balance!
-        expect(result).to be_a(BigDecimal)
-        expect(result).to eq('23.2'.to_d)
       end
     end
   end

@@ -36,8 +36,6 @@ class Blockchain < ApplicationRecord
 
   def blockchain_api
     BlockchainService.new(self)
-  rescue StandardError
-    return
   end
 
   # The latest block which blockchain worker has processed

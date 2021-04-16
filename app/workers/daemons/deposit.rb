@@ -37,7 +37,7 @@ module Workers
           process_deposit(deposit)
         end
 
-        # Process deposits with `fee_processing` state that already collected fees for collection
+        # Process deposits in `fee_processing` state that already transfered fees for collection
         ::Deposit.fee_processing.where('updated_at < ?', 5.minute.ago).each do |deposit|
           Rails.logger.info { "Starting processing token deposit with id: #{deposit.id}." }
 

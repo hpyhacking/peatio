@@ -1,4 +1,4 @@
-describe Ethereum::Blockchain do
+describe Ethereum::Eth::Blockchain do
 
   let(:eth) do
     Currency.find_by(id: :eth)
@@ -23,7 +23,7 @@ describe Ethereum::Blockchain do
   let!(:address_5) { create(:whitelisted_smart_contract, :address_5) }
 
   let(:blockchain) do
-    Ethereum::Blockchain.new.tap { |b| b.configure(server: server, currencies: [eth.to_blockchain_api_settings, trst.to_blockchain_api_settings, ring.to_blockchain_api_settings, tom.to_blockchain_api_settings], whitelisted_addresses: [address_1, address_2, address_3, address_4, address_5]) }
+    Ethereum::Eth::Blockchain.new.tap { |b| b.configure(server: server, currencies: [eth.to_blockchain_api_settings, trst.to_blockchain_api_settings, ring.to_blockchain_api_settings, tom.to_blockchain_api_settings], whitelisted_addresses: [address_1, address_2, address_3, address_4, address_5]) }
   end
 
   let(:server) { 'http://127.0.0.1:8545' }
@@ -31,23 +31,23 @@ describe Ethereum::Blockchain do
 
   context :features do
     it 'defaults' do
-      blockchain1 = Ethereum::Blockchain.new
-      expect(blockchain1.features).to eq Ethereum::Blockchain::DEFAULT_FEATURES
+      blockchain1 = Ethereum::Eth::Blockchain.new
+      expect(blockchain1.features).to eq Ethereum::Eth::Blockchain::DEFAULT_FEATURES
     end
 
     it 'override defaults' do
-      blockchain2 = Ethereum::Blockchain.new(cash_addr_format: true)
+      blockchain2 = Ethereum::Eth::Blockchain.new(cash_addr_format: true)
       expect(blockchain2.features[:cash_addr_format]).to be_truthy
     end
 
     it 'custom feautures' do
-      blockchain3 = Ethereum::Blockchain.new(custom_feature: :custom)
-      expect(blockchain3.features.keys).to contain_exactly(*Ethereum::Blockchain::SUPPORTED_FEATURES)
+      blockchain3 = Ethereum::Eth::Blockchain.new(custom_feature: :custom)
+      expect(blockchain3.features.keys).to contain_exactly(*Ethereum::Eth::Blockchain::SUPPORTED_FEATURES)
     end
   end
 
   context :configure do
-    let(:blockchain) { Ethereum::Blockchain.new }
+    let(:blockchain) { Ethereum::Eth::Blockchain.new }
     it 'default settings' do
       expect(blockchain.settings).to eq({})
     end
@@ -70,7 +70,7 @@ describe Ethereum::Blockchain do
     end
 
     let(:blockchain) do
-      Ethereum::Blockchain.new.tap { |b| b.configure(server: server) }
+      Ethereum::Eth::Blockchain.new.tap { |b| b.configure(server: server) }
     end
 
     let(:method) { :eth_blockNumber }
@@ -262,6 +262,83 @@ describe Ethereum::Blockchain do
         expect(subject.all?(&:valid?)).to be_truthy
       end
     end
+
+    context 'whitelist smart contract address' do
+      let(:transaction_receipt_data) do
+        Rails.root.join('spec', 'resources', 'ethereum-data', 'rinkeby/whitelist-transaction-receipts', block_file_name)
+            .yield_self { |file_path| File.open(file_path) }
+            .yield_self { |file| JSON.load(file) }
+      end
+
+      let!(:address_6) { create(:whitelisted_smart_contract, :address_6, address: '0xb4bb6260f4a5c76609e8f1cb62bf0a4a59dce729') }
+
+      let(:blockchain) do
+        Ethereum::Eth::Blockchain.new.tap { |b| b.configure(server: server,
+          # Lets assume that currency with 0xb4bb6260f4a5c76609e8f1cb62bf0a4a59dce729 is trst
+          currencies: [
+            eth.to_blockchain_api_settings,
+            trst.to_blockchain_api_settings.merge(options: {:gas_limit=>90000, :gas_price=>1000000000, :erc20_contract_address=>"0xb4bb6260f4a5c76609e8f1cb62bf0a4a59dce729"})],
+          whitelisted_addresses: [address_6]) }
+      end
+
+      let(:expected_transactions) do
+        [
+          {
+            :hash=>"0xe3af1015e5910b8cc7c1d1c8effcb834a4052be630fbf8fe6b413640c98305cf",
+            :amount=>2.to_d,
+            :to_address=>"0xf482ad3ad112aca9e0847911ed832e158c525b33",
+            :from_addresses=>['0x3760868c53f570fdfb19413170736f34e5506229'],
+            :txout=>39,
+            :block_number=>2621840,
+            :status=>"success",
+            :currency_id=>trst.id
+          },
+          {
+            :hash=>"0xb60e22c6eed3dc8cd7bc5c7e38c50aa355c55debddbff5c1c4837b995b8ee96d",
+            :amount=>1.to_d,
+            :to_address=>"0xe3cb6897d83691a8eb8458140a1941ce1d6e6daa",
+            :from_addresses=>['0xb3ebc7b5b631e8d145f383c8cd07f0f00dd56a30'],
+            :txout=>26,
+            :block_number=>2621840,
+            :status=>"pending",
+            :currency_id=>eth.id
+          }
+        ]
+      end
+
+      subject { blockchain.fetch_block!(start_block) }
+
+      it 'detects whitelist smart contract address' do
+        subject.transactions.each_with_index do |t, i|
+          expect(t.as_json).to eq(expected_transactions[i].as_json)
+        end
+      end
+    end
+
+    context 'withdraw of ERC20' do
+      before do
+        Wallet.find_by(blockchain_key: 'eth-rinkeby', kind: 'hot').update(address: '0x3760868c53f570fdfb19413170736f34e5506229')
+      end
+
+      let(:expected_transactions) do
+        [{:hash=>"0xb60e22c6eed3dc8cd7bc5c7e38c50aa355c55debddbff5c1c4837b995b8ee96d",
+          :amount=>1.to_d,
+          :to_address=>"0xe3cb6897d83691a8eb8458140a1941ce1d6e6daa",
+          :from_addresses=>['0xb3ebc7b5b631e8d145f383c8cd07f0f00dd56a30'],
+          :txout=>26,
+          :block_number=>2621840,
+          :status=>"pending",
+          :currency_id=>eth.id}]
+      end
+
+      subject { blockchain.fetch_block!(start_block) }
+
+      it 'detects withdraw transactions' do
+        subject.transactions.each_with_index do |t, i|
+          expect(t.as_json).to eq(expected_transactions[i].as_json)
+        end
+      end
+    end
   end
 
   context :build_transaction do
@@ -438,7 +515,7 @@ describe Ethereum::Blockchain do
       end
 
       it 'raise undefined currency error' do
-        expect { blockchain.load_balance_of_address!('something', :usdt).to raise(Ethereum::Blockchain::UndefinedCurrencyError) }
+        expect { blockchain.load_balance_of_address!('something', :usdt).to raise(Ethereum::Eth::Blockchain::UndefinedCurrencyError) }
       end
     end
 

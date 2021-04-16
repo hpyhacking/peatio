@@ -1,5 +1,5 @@
-describe Ethereum::Wallet do
-  let(:wallet) { Ethereum::Wallet.new }
+describe Ethereum::Eth::Wallet do
+  let(:wallet) { Ethereum::Eth::Wallet.new }
 
   context :configure do
     let(:settings) { { wallet: {}, currency: {} } }
@@ -17,7 +17,7 @@ describe Ethereum::Wallet do
 
     it 'sets settings attribute' do
       wallet.configure(settings)
-      expect(wallet.settings).to eq(settings.slice(*Ethereum::Wallet::SUPPORTED_SETTINGS))
+      expect(wallet.settings).to eq(settings.slice(*Ethereum::Eth::Wallet::SUPPORTED_SETTINGS))
     end
   end
 

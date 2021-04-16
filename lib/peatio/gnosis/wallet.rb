@@ -1,5 +1,5 @@
 module Gnosis
-  class Wallet < Ethereum::Wallet
+  class Wallet < Ethereum::Eth::Wallet
     def create_address!(_options = {})
       method_not_implemented
     end

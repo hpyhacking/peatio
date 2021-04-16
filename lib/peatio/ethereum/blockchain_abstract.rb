@@ -1,9 +1,10 @@
 module Ethereum
-  class Blockchain < Peatio::Blockchain::Abstract
+  class BlockchainAbstract < Peatio::Blockchain::Abstract
 
     UndefinedCurrencyError = Class.new(StandardError)
 
     TOKEN_EVENT_IDENTIFIER = '0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef'
+    ZERO_ADDRESS = '0x0000000000000000000000000000000000000000'
     SUCCESS = '0x1'
     FAILED = '0x0'
 
@@ -14,10 +15,15 @@ module Ethereum
       @settings = {}
     end
 
+    def contract_address_option
+      :"#{token_name}_contract_address"
+    end
+
     def configure(settings = {})
       # Clean client state during configure.
       @client = nil
-      @erc20 = []; @eth = []
+      @erc20 = []
+      @eth = nil
       @whitelisted_addresses = if settings[:whitelisted_addresses].present?
                                  settings[:whitelisted_addresses].pluck(:address).to_set
                                else
@@ -26,10 +32,14 @@ module Ethereum
 
       @settings.merge!(settings.slice(*SUPPORTED_SETTINGS))
       @settings[:currencies]&.each do |c|
-        if c.dig(:options, :erc20_contract_address).present?
+        if c.dig(:options, contract_address_option).present?
           @erc20 << c
+        elsif c[:id] == native_currency_id
+          raise "Unexpected duplicated native token #{c[:id]}" unless @eth.nil?
+
+          @eth = c
         else
-          @eth << c
+          Rails.logger.error "Currency #{c[:id]} doesn't have option #{contract_address_option}"
         end
       end
     end
@@ -44,15 +54,42 @@ module Ethereum
         if tx.fetch('input').hex <= 0
           next if invalid_eth_transaction?(tx)
         else
-          next if @erc20.find do |c|
-            # Check `to` and `input` options to find erc-20 smart contract contract 
-            c.dig(:options, :erc20_contract_address) == normalize_address(tx.fetch('to')) ||
-            c.dig(:options, :erc20_contract_address) == '0x' + tx.fetch('input')[34...74].to_s ||
-            # Check if `to` in whitelisted smart contracts
-            @whitelisted_addresses.include?(tx.fetch('to'))
-          end.blank?
+          process_tx = false
 
-          tx = client.json_rpc(:eth_getTransactionReceipt, [normalize_txid(tx.fetch('hash'))])
+          # 1. Check if the smart contract destination is in whitelist
+          #    The common case is a withdraw from a known smart contract of a major exchange
+          if @whitelisted_addresses.include?(tx.fetch('to'))
+            process_tx = true
+          else
+            # 2. Check if the transaction is one of our currencies smart contract
+            @erc20.each do |c|
+              contract_address = normalize_address(c.dig(:options, contract_address_option))
+              next if contract_address != normalize_address(tx.fetch('to'))
+
+              # Check if the tx is from one of our wallets (to confirm withdrawals)
+              if Wallet.withdraw.where(address: normalize_address(tx.fetch('from'))).present?
+                process_tx = true
+                break
+              end
+
+              input = tx.fetch('input')
+              # The usual case is a function call transfer(address,uint256) with footprint 'a9059cbb'
+
+              # Check if one of the first params of the function call is one of our deposit addresses
+              args = ["0x#{input[34...74]}", "0x#{input[75...115]}"]
+              args.delete(ZERO_ADDRESS)
+              if PaymentAddress.where(address: args).present?
+                process_tx = true
+                break
+              end
+            end
+          end
+
+          next unless process_tx
+
+          tx_id = normalize_txid(tx.fetch('hash'))
+          Rails.logger.debug "Fetching tx receipt #{tx_id}"
+          tx = client.json_rpc(:eth_getTransactionReceipt, [tx_id])
           next if tx.nil? || tx.fetch('to').blank?
         end
 
@@ -76,13 +113,15 @@ module Ethereum
       currency = settings[:currencies].find { |c| c[:id] == currency_id.to_s }
       raise UndefinedCurrencyError unless currency
 
-      if currency.dig(:options, :erc20_contract_address).present?
+      if currency.dig(:options, contract_address_option).present?
         load_erc20_balance(address, currency)
-      else
+      elsif currency_id.to_s == native_currency_id
         client.json_rpc(:eth_getBalance, [normalize_address(address), 'latest'])
               .hex
               .to_d
               .yield_self { |amount| convert_from_base_unit(amount, currency) }
+      else
+        raise Peatio::Blockchain::ClientError.new("Currency #{currency_id} doesn't have option #{contract_address_option}")
       end
     rescue Ethereum::Client::Error => e
       raise Peatio::Blockchain::ClientError, e
@@ -91,8 +130,9 @@ module Ethereum
     def fetch_transaction(transaction)
       currency = settings[:currencies].find { |c| c.fetch(:id) == transaction.currency_id }
       return if currency.blank?
+
       txn_receipt = client.json_rpc(:eth_getTransactionReceipt, [transaction.hash])
-      if currency.in?(@eth)
+      if currency[:id] == @eth[:id]
         txn_json = client.json_rpc(:eth_getTransactionByHash, [transaction.hash])
         attributes = {
           amount: convert_from_base_unit(txn_json.fetch('value').hex, currency),
@@ -116,7 +156,7 @@ module Ethereum
       transaction
     end
 
-    private
+    protected
 
     def load_erc20_balance(address, currency)
       data = abi_encode('balanceOf(address)', normalize_address(address))
@@ -151,16 +191,18 @@ module Ethereum
     end
 
     def build_eth_transactions(block_txn)
-      @eth.map do |currency|
-        { hash:           normalize_txid(block_txn.fetch('hash')),
-          amount:         convert_from_base_unit(block_txn.fetch('value').hex, currency),
+      [
+        {
+          hash:           normalize_txid(block_txn.fetch('hash')),
+          amount:         convert_from_base_unit(block_txn.fetch('value').hex, @eth),
           from_addresses: [normalize_address(block_txn['from'])],
           to_address:     normalize_address(block_txn['to']),
           txout:          block_txn.fetch('transactionIndex').to_i(16),
           block_number:   block_txn.fetch('blockNumber').to_i(16),
-          currency_id:    currency.fetch(:id),
-          status:         transaction_status(block_txn) }
-      end
+          currency_id:    @eth.fetch(:id),
+          status:         transaction_status(block_txn)
+        }
+      ]
     end
 
     def build_erc20_transactions(txn_receipt)
@@ -170,12 +212,14 @@ module Ethereum
       end
 
       txn_receipt.fetch('logs').each_with_object([]) do |log, formatted_txs|
-
         next if log['blockHash'].blank? && log['blockNumber'].blank?
         next if log.fetch('topics').blank? || log.fetch('topics')[0] != TOKEN_EVENT_IDENTIFIER
 
         # Skip if ERC20 contract address doesn't match.
-        currencies = @erc20.select { |c| c.dig(:options, :erc20_contract_address) == log.fetch('address') }
+        currencies = @erc20.select do |c|
+          normalize_address(c.dig(:options, contract_address_option)) == normalize_address(log.fetch('address'))
+        end
+
         next if currencies.blank?
 
         destination_address = normalize_address('0x' + log.fetch('topics').last[-40..-1])
@@ -194,7 +238,7 @@ module Ethereum
     end
 
     def build_invalid_erc20_transaction(txn_receipt)
-      currencies = @erc20.select { |c| c.dig(:options, :erc20_contract_address) == txn_receipt.fetch('to') }
+      currencies = @erc20.select { |c| c.dig(:options, contract_address_option) == txn_receipt.fetch('to') }
       return if currencies.blank?
 
       currencies.each_with_object([]) do |currency, invalid_txs|
@@ -221,7 +265,7 @@ module Ethereum
     end
 
     def contract_address(currency)
-      normalize_address(currency.dig(:options, :erc20_contract_address))
+      normalize_address(currency.dig(:options, contract_address_option))
     end
 
     def abi_encode(method, *args)

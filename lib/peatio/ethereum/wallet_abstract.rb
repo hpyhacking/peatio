@@ -1,5 +1,5 @@
 module Ethereum
-  class Wallet < Peatio::Wallet::Abstract
+  class WalletAbstract < Peatio::Wallet::Abstract
 
     DEFAULT_ETH_FEE = { gas_limit: 21_000, gas_price: :standard }.freeze
 
@@ -7,11 +7,15 @@ module Ethereum
 
     DEFAULT_FEATURES = { skip_deposit_collection: false }.freeze
 
-    GAS_PRICE_THRESHOLDS = { standard: 1, safelow: 0.9, fast: 1.1 }.freeze
+    GAS_SPEEDS = { standard: 1, safelow: 0.9, fast: 1.1 }.freeze
 
     def initialize(custom_features = {})
       @features = DEFAULT_FEATURES.merge(custom_features).slice(*SUPPORTED_FEATURES)
       @settings = {}
+    end
+
+    def contract_address_option
+      :"#{token_name}_contract_address"
     end
 
     def configure(settings = {})
@@ -40,10 +44,12 @@ module Ethereum
     end
 
     def create_transaction!(transaction, options = {})
-      if @currency.dig(:options, :erc20_contract_address).present?
+      if @currency.dig(:options, contract_address_option).present?
         create_erc20_transaction!(transaction)
-      else
+      elsif @currency[:id] == native_currency_id
         create_eth_transaction!(transaction, options)
+      else
+        raise Peatio::Wallet::ClientError.new("Currency #{@currency[:id]} doesn't have option #{contract_address_option}")
       end
     rescue Ethereum::Client::Error => e
       raise Peatio::Wallet::ClientError, e
@@ -51,7 +57,7 @@ module Ethereum
 
     def prepare_deposit_collection!(transaction, deposit_spread, deposit_currency)
       # Don't prepare for deposit_collection in case of eth deposit.
-      return [] if deposit_currency.dig(:options, :erc20_contract_address).blank?
+      return [] if deposit_currency.dig(:options, contract_address_option).blank?
       return [] if deposit_spread.blank?
 
       options = DEFAULT_ERC20_FEE.merge(deposit_currency.fetch(:options).slice(:gas_limit, :gas_price))
@@ -81,19 +87,21 @@ module Ethereum
     end
 
     def load_balance!
-      if @currency.dig(:options, :erc20_contract_address).present?
+      if @currency.dig(:options, contract_address_option).present?
         load_erc20_balance(@wallet.fetch(:address))
-      else
+      elsif @currency[:id] == native_currency_id
         client.json_rpc(:eth_getBalance, [normalize_address(@wallet.fetch(:address)), 'latest'])
         .hex
         .to_d
         .yield_self { |amount| convert_from_base_unit(amount) }
+      else
+        raise Peatio::Wallet::ClientError.new("Currency #{@currency[:id]} doesn't have option #{contract_address_option}")
       end
     rescue Ethereum::Client::Error => e
       raise Peatio::Wallet::ClientError, e
     end
 
-    private
+    protected
 
     def load_erc20_balance(address)
       data = abi_encode('balanceOf(address)', normalize_address(address))
@@ -140,7 +148,7 @@ module Ethereum
     end
 
     def create_erc20_transaction!(transaction, options = {})
-      currency_options = @currency.fetch(:options).slice(:gas_limit, :gas_price, :erc20_contract_address)
+      currency_options = @currency.fetch(:options).slice(:gas_limit, :gas_price, contract_address_option)
       options.merge!(DEFAULT_ERC20_FEE, currency_options)
 
       amount = convert_to_base_unit(transaction.amount)
@@ -157,7 +165,7 @@ module Ethereum
       txid = client.json_rpc(:personal_sendTransaction,
                 [{
                     from:     normalize_address(@wallet.fetch(:address)),
-                    to:       options.fetch(:erc20_contract_address),
+                    to:       options.fetch(contract_address_option),
                     data:     data,
                     gas:      '0x' + options.fetch(:gas_limit).to_i.to_s(16),
                     gasPrice: '0x' + options.fetch(:gas_price).to_i.to_s(16)
@@ -181,7 +189,7 @@ module Ethereum
     end
 
     def contract_address
-      normalize_address(@currency.dig(:options, :erc20_contract_address))
+      normalize_address(@currency.dig(:options, contract_address_option))
     end
 
     def valid_txid?(txid)
@@ -214,7 +222,7 @@ module Ethereum
       Rails.logger.info { "Current gas price #{gas_price.to_i(16)}" }
 
       # Apply thresholds depending on currency configs by default it will be standard
-      (gas_price.to_i(16) * GAS_PRICE_THRESHOLDS.fetch(options[:gas_price].try(:to_sym), 1)).to_i
+      (gas_price.to_i(16) * GAS_SPEEDS.fetch(options[:gas_price].try(:to_sym), 1)).to_i
     end
 
     def client

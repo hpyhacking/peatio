@@ -37,5 +37,12 @@ FactoryBot.define do
       address            { '0x87099add3bcc0821b5b151307c147215f839a110' }
       state              { 'active' }
     end
+
+    trait :address_6 do
+      id                 { 6 }
+      blockchain_key     { 'eth-rinkeby' }
+      address            { '0xb4bb6260f4a5c76609e8f1cb62bf0a4a59dce729' }
+      state              { 'active' }
+    end
   end
 end

@@ -133,7 +133,7 @@ module API
         post '/wallets/new' do
           admin_authorize! :create, ::Wallet
 
-          wallet = ::Wallet.new(declared(params))
+          wallet = ::Wallet.new(params)
           if wallet.save
             present wallet, with: API::V2::Admin::Entities::Wallet
             status 201

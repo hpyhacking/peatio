@@ -19,7 +19,7 @@ describe OpendaxCloud::Wallet do
 
     it 'sets settings attribute' do
       wallet.configure(settings)
-      expect(wallet.settings).to eq(settings.slice(*Ethereum::Wallet::SUPPORTED_SETTINGS))
+      expect(wallet.settings).to eq(settings.slice(*Ethereum::Eth::Wallet::SUPPORTED_SETTINGS))
     end
   end
 
