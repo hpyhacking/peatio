@@ -57,5 +57,26 @@ describe Blockchain do
       expect(subject).to_not be_valid
       expect(subject.errors.full_messages).to eq ["Server is not a valid URL"]
     end
+
+    it 'saves server in encrypted column' do
+      subject.save
+      expect {
+        subject.server = 'http://parity:8545/'
+        subject.save
+      }.to change { subject.server_encrypted }
+    end
+
+    it 'does not update server_encrypted before model is saved' do
+      subject.save
+      expect {
+        subject.server = 'http://geth:8545/'
+      }.not_to change { subject.server_encrypted }
+    end
+
+    it 'updates server field' do
+      expect {
+        subject.server = 'http://geth:8545/'
+      }.to change { subject.server }.to 'http://geth:8545/'
+    end
   end
 end

@@ -72,7 +72,7 @@ ActiveRecord::Schema.define(version: 2021_04_26_083359) do
     t.string "key", null: false
     t.string "name"
     t.string "client", null: false
-    t.string "server"
+    t.string "server_encrypted", limit: 1024
     t.bigint "height", null: false
     t.string "explorer_address"
     t.string "explorer_transaction"

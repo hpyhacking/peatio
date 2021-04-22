@@ -45,6 +45,16 @@ path "transit/encrypt/opendax_wallets_*" {
   capabilities = [ "create", "read", "update" ]
 }
 
+# Encrypt blockchains server
+path "transit/encrypt/opendax_blockchains_*" {
+  capabilities = [ "create", "read", "update" ]
+}
+
+# Decrypt blockchains server
+path "transit/decrypt/opendax_blockchains_*" {
+  capabilities = [ "create", "read", "update" ]
+}
+
 # Encrypt beneficiaries data
 path "transit/encrypt/opendax_beneficiaries_*" {
   capabilities = [ "create", "read", "update" ]
