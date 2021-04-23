@@ -387,6 +387,13 @@ describe API::V2::Admin::Adjustments, type: :request do
       }.not_to change { Operations::Asset.count }
     end
 
+    it 'does reject of negative amount' do
+      adjustment.update(amount: -10000000.0)
+      api_post '/api/v2/admin/adjustments/action', token: token, params: { id: adjustment.id, action: :reject }
+
+      expect(response.code).to eq '201'
+    end
+
     context 'already rejected' do
       let!(:adjustment) { create(:adjustment, currency_id: 'btc', receiving_account_number: "btc-202-#{member.uid}").tap { |a| a.reject!(validator: member) } }
 
