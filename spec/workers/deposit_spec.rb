@@ -149,7 +149,7 @@ describe Workers::Daemons::Deposit do
 
     it 'process one eth deposit' do
       subject.process
-      expect(eth_deposit.reload.processing?).to be_truthy
+      expect(eth_deposit.reload.errored?).to be_truthy
     end
   end
 end

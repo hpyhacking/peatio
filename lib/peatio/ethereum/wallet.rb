@@ -26,7 +26,7 @@ module Ethereum
 
       @currency = @settings.fetch(:currency) do
         raise Peatio::Wallet::MissingSettingError, :currency
-      end.slice(:id, :base_factor, :options)
+      end.slice(:id, :base_factor, :min_collection_amount, :options)
     end
 
     def create_address!(options = {})
@@ -61,7 +61,18 @@ module Ethereum
       # We collect fees depending on the number of spread deposit size
       # Example: if deposit spreads on three wallets need to collect eth fee for 3 transactions
       fees = convert_from_base_unit(options.fetch(:gas_limit).to_i * options.fetch(:gas_price).to_i)
-      transaction.amount = fees * deposit_spread.size
+      amount = fees * deposit_spread.size
+
+      # If fee amount is greater than min collection amount
+      # system will detect fee collection as deposit
+      # To prevent this system will raise an error
+      min_collection_amount = @currency.fetch(:min_collection_amount).to_d
+      if amount > min_collection_amount
+        raise Ethereum::Client::Error, \
+              "Fee amount(#{amount}) is greater than min collection amount(#{min_collection_amount})."
+      end
+
+      transaction.amount = amount
       transaction.options = options
 
       [create_eth_transaction!(transaction)]

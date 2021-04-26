@@ -26,6 +26,8 @@ module Workers
             rescue StandardError => e
               Rails.logger.error { "Failed to collect deposit fee #{deposit.id}. See exception details below." }
               report_exception(e)
+              deposit.err! e
+
               raise e if is_db_connection_error?(e)
 
               next

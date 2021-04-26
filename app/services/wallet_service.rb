@@ -62,7 +62,7 @@ class WalletService
                        currency: deposit.currency.to_blockchain_api_settings)
 
     pa = PaymentAddress.find_by(wallet_id: @wallet.id, member: deposit.member, address: deposit.address)
-    # NOTE: Deposit wallet configuration is tricky because wallet UIR
+    # NOTE: Deposit wallet configuration is tricky because wallet URI
     #       is saved on Wallet model but wallet address and secret
     #       are saved in PaymentAddress.
     @adapter.configure(

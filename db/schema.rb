@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_04_14_105529) do
+ActiveRecord::Schema.define(version: 2021_04_26_083359) do
 
   create_table "accounts", primary_key: ["currency_id", "member_id"], options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.bigint "member_id", null: false
@@ -137,6 +137,7 @@ ActiveRecord::Schema.define(version: 2021_04_14_105529) do
     t.integer "transfer_type"
     t.string "tid", limit: 64, null: false, collation: "utf8_bin"
     t.string "spread", limit: 1000
+    t.json "error"
     t.datetime "created_at", precision: 3, null: false
     t.datetime "updated_at", precision: 3, null: false
     t.datetime "completed_at", precision: 3

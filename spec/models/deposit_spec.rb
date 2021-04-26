@@ -219,7 +219,6 @@ describe Deposit do
     end
   end
 
-
   context :processing do
     let(:crypto_deposit) { create(:deposit_btc, amount: 3.7) }
 
@@ -259,6 +258,7 @@ describe Deposit do
       expect(crypto_deposit.aasm_state).to eq('skipped')
     end
   end
+
   context :dispatch do
     let(:crypto_deposit) { create(:deposit_btc, amount: 3.7) }
 
@@ -324,6 +324,20 @@ describe Deposit do
           expect(account.code).to eq liabilities.first.code
         end
       end
+    end
+  end
+
+  context :err do
+    let(:crypto_deposit) { create(:deposit_btc, amount: 3.7) }
+
+    subject { crypto_deposit }
+    it 'transitions to :errored after calling #err!' do
+      subject.accept!
+      subject.process!
+      subject.err! StandardError.new "This is an exception"
+
+      expect(subject.errored?).to be true
+      expect(subject.error).to eq [{"class"=>"StandardError", "message"=>"This is an exception"}]
     end
   end
 end

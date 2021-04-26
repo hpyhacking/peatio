@@ -237,7 +237,7 @@ class Withdraw < ApplicationRecord
       blockchain_txid: txid }
   end
 
-private
+  private
 
   # @deprecated
   def lock_funds

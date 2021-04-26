@@ -363,7 +363,7 @@ describe Ethereum::Wallet do
       let(:settings) do
         {
           wallet: fee_wallet.to_wallet_api_settings,
-          currency: eth.to_blockchain_api_settings
+          currency: eth.to_blockchain_api_settings.merge(min_collection_amount: '1.0')
         }
       end
 
@@ -457,6 +457,38 @@ describe Ethereum::Wallet do
 
         it do
           expect(wallet.send(:calculate_gas_price, {})).to eq gas_price
+        end
+      end
+
+      context 'unsuccessful' do
+        let(:settings) do
+          {
+            wallet: fee_wallet.to_wallet_api_settings,
+            currency: eth.to_blockchain_api_settings
+          }
+        end
+
+        before do
+          wallet.configure(settings)
+        end
+
+        it 'should raise an error' do
+          txid = '0xab6ada9608f4cebf799ee8be20fe3fb84b0d08efcdb0d962df45d6fce70cb017'
+
+          stub_request(:post, uri)
+            .with(body: eth_GasPrice.to_json)
+            .to_return(body: { result: gas_price_hex,
+                              error: nil,
+                              id: 1 }.to_json)
+
+          stub_request(:post, uri)
+            .with(body: request_body.to_json)
+            .to_return(body: { result: txid,
+                              error: nil,
+                              id: 1 }.to_json)
+          expect {
+            wallet.prepare_deposit_collection!(transaction, spread_deposit, trst.to_blockchain_api_settings)
+          }.to raise_error(Peatio::Wallet::ClientError)
         end
       end
     end
