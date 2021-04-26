@@ -82,6 +82,13 @@ module API
               body errors: internal_transfer.errors.full_messages
               status 422
             end
+
+          rescue ::Account::AccountError => e
+            report_api_error(e, request)
+            error!({ errors: [e.to_s] }, 422)
+          rescue => e
+            report_exception(e)
+            error!({ errors: ['account.internal_transfer.create_error'] }, 422)
           end
         end
       end
