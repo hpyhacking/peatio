@@ -17,7 +17,7 @@ module API
               desc: -> { API::V2::Admin::Entities::Wallet.documentation[:max_balance][:desc] }
             },
             status: {
-              values: { value: %w(active disabled), message: 'admin.wallet.invalid_status' },
+              values: { value: Wallet::STATES, message: 'admin.wallet.invalid_status' },
               default: 'active',
               desc: -> { API::V2::Admin::Entities::Wallet.documentation[:status][:desc] }
             },

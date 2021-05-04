@@ -104,7 +104,7 @@ namespace :import do
       row = row.to_h.compact.symbolize_keys!
       uid = row[:uid]
       member = Member.find_by_uid!(uid)
-      wallet = Wallet.deposit_wallet(row[:currency_id])
+      wallet = Wallet.active_deposit_wallet(row[:currency_id])
       PaymentAddress.create(member_id: member.id, wallet_id: wallet.id, address: row[:address], secret: row[:secret], details: row[:details])
       count += 1
     rescue StandardError => e

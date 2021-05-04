@@ -165,9 +165,10 @@ module API
 
           member   = Member.find_by!(uid: params[:uid])
           currency = Currency.find_by!(id: params[:currency_id])
+
           blockchain_currency = BlockchainCurrency.find_by!(currency_id: currency.id,
                                                             blockchain_key: params[:blockchain_key])
-          wallet   = Wallet.deposit_wallet(currency.id, blockchain_currency.blockchain_key)
+          wallet = Wallet.active_deposit_wallet(currency.id, blockchain_currency.blockchain_key)
 
           unless wallet.present?
             error!({ errors: ['admin.deposit.wallet_not_found'] }, 422)

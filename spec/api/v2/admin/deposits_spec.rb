@@ -300,7 +300,7 @@ describe API::V2::Admin::Deposits, type: :request do
     context 'successful' do
       context 'eth address' do
         let(:currency) { :eth }
-        let(:wallet) { Wallet.deposit_wallet(currency) }
+        let(:wallet) { Wallet.active_deposit_wallet(currency) }
         before { level_3_member.payment_address(wallet.id).update!(address: '2N2wNXrdo4oEngp498XGnGCbru29MycHogR') }
 
         it 'expose data about eth address' do

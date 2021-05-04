@@ -42,7 +42,7 @@ module API
             type: String
           }
         ) do |account, options|
-          deposit_wallets = Wallet.deposit_wallets(account.currency_id)
+          deposit_wallets = Wallet.active_deposit_wallets(account.currency_id)
           ::PaymentAddress.where(wallet: deposit_wallets, member: options[:current_user], remote: false)
         end
       end

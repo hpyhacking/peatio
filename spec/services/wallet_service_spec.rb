@@ -24,6 +24,7 @@ describe WalletService do
                      .returns(fake_wallet_adapter.class)
                      .at_least_once
 
+
     Blockchain.any_instance.stubs(:blockchain_api).returns(BlockchainService.new(blockchain))
   end
 
@@ -526,6 +527,13 @@ describe WalletService do
   end
 
   context :spread_deposit do
+    before do
+      Peatio::Blockchain.registry.expects(:[])
+                        .with(:bitcoin)
+                        .returns(fake_blockchain_adapter.class)
+                        .at_least_once
+    end
+
     let!(:deposit_wallet) { create(:wallet, :fake_deposit) }
     let!(:hot_wallet) { create(:wallet, :fake_hot) }
     let!(:cold_wallet) { create(:wallet, :fake_cold) }
@@ -551,7 +559,7 @@ describe WalletService do
       end
 
       it 'spreads everything to cold wallet' do
-        expect(Wallet.active.withdraw.joins(:currencies).where(currencies: { id: deposit.currency_id }).count).to eq 2
+        expect(Wallet.active_retired.withdraw.joins(:currencies).where(currencies: { id: deposit.currency_id }).count).to eq 2
 
         expect(subject.map(&:as_json).map(&:symbolize_keys)).to contain_exactly(*expected_spread)
         expect(subject).to all(be_a(Peatio::Transaction))
@@ -566,7 +574,7 @@ describe WalletService do
       end
 
       it 'skips warm wallet and spreads everything to cold wallet' do
-        expect(Wallet.active.withdraw.joins(:currencies).where(currencies: { id: deposit.currency_id }).count).to eq 3
+        expect(Wallet.active_retired.withdraw.joins(:currencies).where(currencies: { id: deposit.currency_id }).count).to eq 3
 
         expect(subject.map(&:as_json).map(&:symbolize_keys)).to contain_exactly(*expected_spread)
         expect(subject).to all(be_a(Peatio::Transaction))
@@ -658,6 +666,13 @@ describe WalletService do
   end
 
   context :collect_deposit do
+    before do
+      Peatio::Blockchain.registry.expects(:[])
+                        .with(:bitcoin)
+                        .returns(fake_blockchain_adapter.class)
+                        .at_least_once
+    end
+
     let!(:deposit_wallet) { create(:wallet, :fake_deposit) }
     let!(:hot_wallet) { create(:wallet, :fake_hot) }
     let!(:cold_wallet) { create(:wallet, :fake_cold) }
@@ -734,6 +749,13 @@ describe WalletService do
   end
 
   context :deposit_collection_fees do
+    before do
+      Peatio::Blockchain.registry.expects(:[])
+                        .with(:bitcoin)
+                        .returns(fake_blockchain_adapter.class)
+                        .at_least_once
+    end
+
     let!(:fee_wallet) { create(:wallet, :fake_fee) }
     let!(:deposit_wallet) { create(:wallet, :fake_deposit) }
 
@@ -808,12 +830,14 @@ describe WalletService do
                         .with(:bitcoin)
                         .returns(fake_blockchain_adapter.class)
                         .at_least_once
+
+      create(:blockchain_currency, :btc_network, blockchain_key: 'fake-testnet')
     end
 
     let!(:deposit_wallet) { create(:wallet, :fake_deposit) }
 
     let(:amount) { 2 }
-    let(:refund_deposit) { create(:deposit_btc, amount: amount, currency: currency) }
+    let(:refund_deposit) { create(:deposit_btc, blockchain_key: 'fake-testnet', amount: amount, currency: currency) }
 
     let(:fake_wallet_adapter) { FakeWallet.new }
     let(:service) { WalletService.new(deposit_wallet) }

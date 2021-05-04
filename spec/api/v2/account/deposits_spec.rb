@@ -237,7 +237,7 @@ describe API::V2::Account::Deposits, type: :request do
       context 'eth address' do
         let(:currency) { :eth }
         let(:blockchain_key) { 'eth-rinkeby' }
-        let(:wallet) { Wallet.deposit.joins(:currencies).find_by(currencies: { id: currency }) }
+        let(:wallet) { Wallet.active_deposit_wallet(currency) }
         before { member.payment_address(wallet.id).update!(address: '2N2wNXrdo4oEngp498XGnGCbru29MycHogR') }
 
         it 'expose data about eth address' do

@@ -16,9 +16,8 @@ module API
       end
 
       def process_generic_event(request)
-        Wallet.where(status: :active, kind: :deposit, gateway: request.params[:adapter]).each do |w|
+        Wallet.active_retired.where(kind: :deposit, gateway: request.params[:adapter]).each do |w|
           service = w.service
-
           next unless service.adapter.respond_to?(:trigger_webhook_event)
 
           transactions = service.trigger_webhook_event(request)
@@ -54,7 +53,7 @@ module API
 
       def process_deposit_event(request)
         # For deposit events we use only Deposit wallets.
-        Wallet.where(status: :active, kind: :deposit, gateway: request.params[:adapter]).each do |w|
+        Wallet.active_retired.where(kind: :deposit, gateway: request.params[:adapter]).each do |w|
           service = w.service
 
           next unless service.adapter.respond_to?(:trigger_webhook_event)
@@ -72,7 +71,7 @@ module API
 
       def process_withdraw_event(request)
         # For withdraw events we use only Withdraw events.
-        Wallet.where(status: :active, kind: :hot, gateway: request.params[:adapter]).each do |w|
+        Wallet.active_retired.where(kind: :hot, gateway: request.params[:adapter]).each do |w|
           service = w.service
 
           next unless service.adapter.respond_to?(:trigger_webhook_event)
@@ -94,7 +93,7 @@ module API
 
       def find_or_create_deposit!(transactions, blockchain_key)
         transactions.map do |transaction|
-          payment_address = PaymentAddress.find_by(wallet: Wallet.deposit_wallet(transaction.currency_id, blockchain_key), address: transaction.to_address)
+          payment_address = PaymentAddress.find_by(wallet: Wallet.deposit_wallets(transaction.currency_id, blockchain_key), address: transaction.to_address)
           next if payment_address.blank?
 
           Rails.logger.info { "Deposit transaction detected: #{transaction.inspect}" }
@@ -198,7 +197,7 @@ module API
       def create_address(address_id, address, currency_id, blockchain_key)
         Rails.logger.info { "Address detected: #{address}" }
 
-        payment_address = PaymentAddress.where(address: nil, wallet: Wallet.deposit_wallet(currency_id, blockchain_key))
+        payment_address = PaymentAddress.where(address: nil, wallet: Wallet.deposit_wallets(currency_id, blockchain_key))
                                         .find { |address| address.details['address_id'] == address_id }
 
         payment_address.update!(address: address) if payment_address.present?

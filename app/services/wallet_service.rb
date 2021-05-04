@@ -135,8 +135,10 @@ class WalletService
   end
 
   def refund!(refund)
+    blockchain_currency = BlockchainCurrency.find_by(currency: refund.deposit.currency,
+                                                     blockchain_key: @wallet.blockchain_key)
     @adapter.configure(wallet:   @wallet.to_wallet_api_settings,
-                       currency: refund.deposit.currency.to_blockchain_api_settings)
+                       currency: blockchain_currency.to_blockchain_api_settings)
 
     pa = PaymentAddress.find_by(wallet_id: @wallet.id, member: refund.deposit.member, address: refund.deposit.address)
     # NOTE: Deposit wallet configuration is tricky because wallet URI

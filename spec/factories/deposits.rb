@@ -9,7 +9,7 @@ FactoryBot.define do
     factory :deposit_btc, class: Deposits::Coin do
       currency { Currency.find(:btc) }
       blockchain_key { 'btc-testnet' }
-      address { Faker::Blockchain::Bitcoin.address }
+      address { create(:payment_address, :btc_address).address }
       txid { Faker::Lorem.characters(64) }
       txout { 0 }
       block_number { rand(1..1349999) }
@@ -23,7 +23,7 @@ FactoryBot.define do
       type { Deposits::Coin }
       blockchain_key { 'btc-testnet' }
       currency { Currency.find(:btc) }
-      address { Faker::Blockchain::Bitcoin.address }
+      address { create(:payment_address, :btc_address).address  }
       txid { Faker::Lorem.characters(64) }
       txout { 0 }
     end
@@ -33,7 +33,7 @@ FactoryBot.define do
       currency { Currency.find(:eth) }
       blockchain_key { 'eth-rinkeby' }
       member { create(:member, :level_3, :barong) }
-      address { Faker::Blockchain::Bitcoin.address }
+      address { create(:payment_address, :eth_address).address  }
       txid { Faker::Lorem.characters(64) }
       txout { 0 }
     end
@@ -43,7 +43,7 @@ FactoryBot.define do
       currency { Currency.find(:trst) }
       blockchain_key { 'eth-rinkeby' }
       member { create(:member, :level_3, :barong) }
-      address { Faker::Blockchain::Bitcoin.address }
+      address { create(:payment_address, :trst_address).address  }
       txid { Faker::Lorem.characters(64) }
       txout { 0 }
     end
@@ -53,7 +53,7 @@ FactoryBot.define do
       currency { Currency.find(:ring) }
       blockchain_key { 'eth-rinkeby' }
       member { create(:member, :level_3, :barong) }
-      address { Faker::Blockchain::Bitcoin.address }
+      address { create(:payment_address, :trst_address).address  }
       txid { Faker::Lorem.characters(64) }
       txout { 0 }
     end

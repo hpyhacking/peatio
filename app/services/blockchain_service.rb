@@ -105,7 +105,7 @@ class BlockchainService
     transaction = adapter.fetch_transaction(transaction) if @adapter.respond_to?(:fetch_transaction) && transaction.status.pending?
     return unless transaction.status.success?
 
-    address = PaymentAddress.find_by(wallet: Wallet.deposit_wallet(transaction.currency_id, @blockchain.key), address: transaction.to_address)
+    address = PaymentAddress.find_by(wallet: Wallet.deposit_wallets(transaction.currency_id, @blockchain.key), address: transaction.to_address)
     return if address.blank?
 
     # Skip deposit tx if there is tx for deposit collection process

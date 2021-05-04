@@ -43,4 +43,44 @@ describe PaymentAddress do
       }.to raise_error ActiveRecord::ValueTooLong
     end
   end
+
+  context 'methods' do
+    context 'status' do
+      let(:member)  { create(:member, :level_3) }
+      let!(:account) { member.get_account(:btc) }
+      let!(:wallet) { Wallet.joins(:currencies).find_by(currencies: { id: :btc }) }
+
+      context 'pending' do
+        let!(:addr) { create(:payment_address, :btc_address, address: nil, wallet_id: wallet.id) }
+
+        it { expect(addr.status).to eq 'pending' }
+      end
+
+      context 'active' do
+        let!(:addr) { create(:payment_address, :btc_address, wallet_id: wallet.id) }
+
+        it { expect(addr.status).to eq 'active' }
+      end
+
+      context 'disabled' do
+        before do
+          wallet.update(status: 'disabled')
+        end
+
+        let!(:addr) { create(:payment_address, :btc_address, wallet_id: wallet.id) }
+
+        it { expect(addr.status).to eq 'disabled' }
+      end
+
+      context 'retired' do
+        before do
+          wallet.update(status: 'retired')
+        end
+
+        let!(:addr) { create(:payment_address, :btc_address, wallet_id: wallet.id) }
+
+        it { expect(addr.status).to eq 'retired' }
+      end
+    end
+  end
 end

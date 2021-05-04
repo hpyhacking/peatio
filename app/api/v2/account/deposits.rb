@@ -110,8 +110,7 @@ module API
             error!({ errors: ['account.currency.deposit_disabled'] }, 422)
           end
 
-          wallet = Wallet.deposit_wallet(currency.id, blockchain_currency.blockchain_key)
-
+          wallet = Wallet.active_deposit_wallet(currency.id, blockchain_currency.blockchain_key)
           unless wallet.present?
             error!({ errors: ['account.wallet.not_found'] }, 422)
           end

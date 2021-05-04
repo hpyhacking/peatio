@@ -184,7 +184,7 @@ class Deposit < ApplicationRecord
   def spread_between_wallets!
     return false if spread.present?
 
-    spread = WalletService.new(Wallet.deposit_wallet(currency_id, blockchain_key)).spread_deposit(self)
+    spread = WalletService.new(Wallet.active_deposit_wallet(currency_id, blockchain_key)).spread_deposit(self)
     update!(spread: spread.map(&:as_json))
   end
 
@@ -204,6 +204,16 @@ class Deposit < ApplicationRecord
     self.member = Member.find_by_uid(uid)
   end
 
+  def wallet_state
+    if currency.coin?
+      payment_address = PaymentAddress.find_by_address(address)
+      # In case when wallet was deleted and payment address still exists in DB
+      payment_address.wallet.present? ? payment_address.wallet.status : ''
+    else
+      ''
+    end
+  end
+
   def as_json_for_event_api
     { tid:                      tid,
       user:                     { uid: member.uid, email: member.email },
@@ -211,6 +221,7 @@ class Deposit < ApplicationRecord
       currency:                 currency_id,
       amount:                   amount.to_s('F'),
       state:                    aasm_state,
+      wallet_state:             wallet_state,
       created_at:               created_at.iso8601,
       updated_at:               updated_at.iso8601,
       completed_at:             completed_at&.iso8601,

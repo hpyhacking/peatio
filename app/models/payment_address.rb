@@ -53,6 +53,15 @@ class PaymentAddress < ApplicationRecord
     CashAddr::Converter.to_cash_address(address)
   end
 
+  def status
+    if address.present?
+      # In case when wallet was deleted and payment address still exists in DB
+      wallet.present? ? wallet.status : ''
+    else
+      'pending'
+    end
+  end
+
   def trigger_address_event
     ::AMQP::Queue.enqueue_event('private', member.uid, :deposit_address, type: :create,
                                 currencies: wallet.currencies.codes,
