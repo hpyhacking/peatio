@@ -181,6 +181,13 @@ describe API::V2::Admin::Adjustments, type: :request do
       expect(response).to include_api_error('admin.adjustment.non_decimal_amount')
     end
 
+    it 'checks amount presence' do
+      api_post '/api/v2/admin/adjustments/new', token: token, params: params.merge(amount: '')
+
+      expect(response).not_to be_successful
+      expect(response).to include_api_error('admin.adjustment.empty_amount')
+    end
+
     it 'checks right asset_account_code' do
       api_post '/api/v2/admin/adjustments/new', token: token, params: params.merge(asset_account_code: 111)
 

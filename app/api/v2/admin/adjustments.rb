@@ -68,6 +68,7 @@ module API
                     desc: -> { API::V2::Admin::Entities::Adjustment.documentation[:category][:desc] }
             requires :amount,
                     type: { value: BigDecimal, message: 'admin.adjustment.non_decimal_amount' },
+                    allow_blank: false,
                     desc: -> { API::V2::Admin::Entities::Adjustment.documentation[:amount][:desc] }
             requires :currency_id,
                     type: String,
