@@ -207,6 +207,14 @@ describe Withdraw do
         expect(subject.rejected?).to be true
       end
 
+      it 'transitions from :under_review to :rejected after calling #reject!' do
+        subject.process!
+        subject.review!
+        subject.reject!
+
+        expect(subject.rejected?).to be true
+      end
+
       context 'from to_rejected' do
         before do
           subject.update(aasm_state: :to_reject)
@@ -265,6 +273,15 @@ describe Withdraw do
       end
 
       it 'transitions from :confirming to :success after calling #success!' do
+        subject.success!
+
+        expect(subject.succeed?).to be true
+      end
+
+      it 'transitions from :under_review to :success after calling #success!' do
+        subject.accept!
+        subject.process!
+        subject.review!
         subject.success!
 
         expect(subject.succeed?).to be true
@@ -387,6 +404,17 @@ describe Withdraw do
         end
       end
 
+      context 'from under_review' do
+        before do
+          subject.update!(aasm_state: :under_review)
+        end
+
+        it do
+          subject.fail!
+          expect(subject.failed?).to be true
+        end
+      end
+
       context 'with archived beneficiary' do
         let(:member) { create(:member) }
         let(:address) { Faker::Blockchain::Ethereum.address }
@@ -412,6 +440,20 @@ describe Withdraw do
           subject.fail!
           expect(subject.failed?).to be true
         end
+      end
+    end
+
+    context :review do
+      before do
+        subject.accept!
+      end
+
+      it 'transitions from :processing to :under_review after calling #review!' do
+        subject.process!
+        subject.review!
+
+
+        expect(subject.under_review?).to be true
       end
     end
   end

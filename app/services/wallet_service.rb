@@ -9,7 +9,7 @@ class WalletService
   def create_address!(uid, pa_details)
     blockchain_currency = BlockchainCurrency.find_by(currency_id: @wallet.currencies.map(&:id),
                                                      blockchain_key: @wallet.blockchain_key)
-          
+
     @adapter.configure(wallet:   @wallet.to_wallet_api_settings,
                        currency: blockchain_currency.to_blockchain_api_settings)
     @adapter.create_address!(uid: uid, pa_details: pa_details)
@@ -96,13 +96,21 @@ class WalletService
   def deposit_collection_fees!(deposit, deposit_spread)
     blockchain_currency = BlockchainCurrency.find_by(currency: deposit.currency,
                                                      blockchain_key: @wallet.blockchain_key)
-    @adapter.configure(wallet:   @wallet.to_wallet_api_settings,
-                       currency: blockchain_currency.to_blockchain_api_settings(withdrawal_gas_speed=false))
-    deposit_transaction = Peatio::Transaction.new(hash:           deposit.txid,
-                                                  txout:          deposit.txout,
-                                                  to_address:     deposit.address,
-                                                  block_number:   deposit.block_number,
-                                                  amount:         deposit.amount)
+    configs = {
+      wallet:   @wallet.to_wallet_api_settings,
+      currency: blockchain_currency.to_blockchain_api_settings(withdrawal_gas_speed=false)
+    }
+
+    if blockchain_currency.parent_id?
+      configs.merge!(parent_currency: blockchain_currency.parent.to_blockchain_api_settings)
+    end
+
+    @adapter.configure(configs)
+    deposit_transaction = Peatio::Transaction.new(hash:         deposit.txid,
+                                                  txout:        deposit.txout,
+                                                  to_address:   deposit.address,
+                                                  block_number: deposit.block_number,
+                                                  amount:       deposit.amount)
 
     transactions = @adapter.prepare_deposit_collection!(deposit_transaction,
                                                         # In #spread_deposit valid transactions saved with pending state

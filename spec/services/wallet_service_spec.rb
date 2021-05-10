@@ -770,6 +770,23 @@ describe WalletService do
       end
     end
 
+    context 'Adapter collect fees for erc20 transaction with parent_id configuration' do
+      let(:currency) { Currency.find('trst') }
+
+      subject { service.deposit_collection_fees!(deposit, spread_deposit) }
+
+      before do
+        deposit.update!(spread: spread_deposit.map(&:as_json))
+        service.adapter.expects(:prepare_deposit_collection!).returns(transactions)
+      end
+
+      it 'returns transaction' do
+        expect(subject).to contain_exactly(*transactions)
+        expect(subject).to all(be_a(Peatio::Transaction))
+        deposit.spread.map { |s| s.key?(:options) }
+      end
+    end
+
     context "Adapter doesn't perform any actions before collect deposit" do
 
       it 'retunrs empty array' do

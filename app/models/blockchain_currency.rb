@@ -33,6 +33,7 @@ class BlockchainCurrency < ApplicationRecord
 
   belongs_to :currency, required: true
   belongs_to :blockchain, foreign_key: :blockchain_key, primary_key: :key
+  belongs_to :parent, class_name: :BlockchainCurrency, foreign_key: %i[parent_id blockchain_key], primary_key: %i[currency_id blockchain_key]
 
   # == Validations ==========================================================
 

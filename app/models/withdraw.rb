@@ -13,7 +13,7 @@ class Withdraw < ApplicationRecord
                errored
                confirming].freeze
   COMPLETED_STATES = %i[succeed rejected canceled failed].freeze
-  SUCCEED_PROCESSING_STATES = %i[prepared accepted skipped processing errored confirming succeed].freeze
+  SUCCEED_PROCESSING_STATES = %i[prepared accepted skipped processing errored confirming succeed under_review].freeze
 
   include AASM
   include AASM::Locking
@@ -72,6 +72,7 @@ class Withdraw < ApplicationRecord
     state :to_reject
     state :rejected
     state :processing
+    state :under_review
     state :succeed
     state :failed
     state :errored
@@ -100,7 +101,7 @@ class Withdraw < ApplicationRecord
     end
 
     event :reject do
-      transitions from: %i[to_reject accepted confirming], to: :rejected
+      transitions from: %i[to_reject accepted confirming under_review], to: :rejected
       after do
         unlock_funds
         record_cancel_operations!
@@ -127,8 +128,12 @@ class Withdraw < ApplicationRecord
       end
     end
 
+    event :review do
+      transitions from: :processing, to: :under_review
+    end
+
     event :dispatch do
-      transitions from: :processing, to: :confirming do
+      transitions from: %i[processing under_review], to: :confirming do
         # Validate txid presence on coin withdrawal dispatch.
         guard do
           currency.fiat? || txid?
@@ -137,7 +142,7 @@ class Withdraw < ApplicationRecord
     end
 
     event :success do
-      transitions from: %i[confirming errored], to: :succeed do
+      transitions from: %i[confirming errored under_review], to: :succeed do
         guard do
           currency.fiat? || txid?
         end
@@ -153,7 +158,7 @@ class Withdraw < ApplicationRecord
     end
 
     event :fail do
-      transitions from: %i[processing confirming skipped errored], to: :failed
+      transitions from: %i[processing confirming skipped errored under_review], to: :failed
       after do
         unlock_funds
         record_cancel_operations!

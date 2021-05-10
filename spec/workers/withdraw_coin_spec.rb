@@ -123,4 +123,29 @@ describe Workers::AMQP::WithdrawCoin do
       expect(processing_withdrawal.txid).to eq('hash-1')
     end
   end
+
+  context 'transaction with remote_id field' do
+    before do
+      WalletService.any_instance
+                   .expects(:load_balance!)
+                   .returns(withdrawal.amount)
+
+      transaction = Peatio::Transaction.new(amount: withdrawal.amount,
+                                            to_address: withdrawal.rid,
+                                            options: {
+                                              'remote_id': 'd12331-12312d-34234'
+                                            }.stringify_keys)
+
+      WalletService.any_instance
+                   .expects(:build_withdrawal!)
+                   .with(instance_of(Withdraws::Coin))
+                   .returns(transaction)
+    end
+
+    it 'returns true and dispatch withdrawal' do
+      Workers::AMQP::WithdrawCoin.new.process(processing_withdrawal.as_json)
+      expect(processing_withdrawal.reload.under_review?).to be_truthy
+      expect(processing_withdrawal.remote_id).to eq('d12331-12312d-34234')
+    end
+  end
 end

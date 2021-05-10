@@ -10,6 +10,31 @@ module API
           process_withdraw_event(request)
         elsif request.params[:event] == 'deposit_address'
           process_deposit_address_event(request)
+        elsif request.params[:event] == 'generic'
+          process_generic_event(request)
+        end
+      end
+
+      def process_generic_event(request)
+        Wallet.where(status: :active, kind: :deposit, gateway: request.params[:adapter]).each do |w|
+          service = w.service
+
+          next unless service.adapter.respond_to?(:trigger_webhook_event)
+
+          transactions = service.trigger_webhook_event(request)
+          next unless transactions.present?
+
+          # Process all deposit transactions
+          accepted_deposits = []
+          ActiveRecord::Base.transaction do
+            accepted_deposits = process_deposit(transactions)
+          end
+          accepted_deposits.each(&:process!) if accepted_deposits.present?
+
+          # Process all withdrawal transactions
+          ActiveRecord::Base.transaction do
+            update_generic_withdrawal(transactions)
+          end
         end
       end
 
@@ -82,6 +107,12 @@ module API
             end
           end
 
+          if transaction.options.present? &&
+             transaction.options[:remote_id].present? &&
+             transaction.hash.empty?
+            next
+          end
+
           deposit =
             Deposits::Coin.find_or_create_by!(
               currency_id: transaction.currency_id,
@@ -131,6 +162,34 @@ module API
             withdrawal.success!
           elsif transaction.status.rejected?
             withdrawal.reject!
+          end
+        end
+      end
+
+      def update_generic_withdrawal(transactions)
+        transactions.each do |transaction|
+          withdraw = Withdraws::Coin.find_by(remote_id: transaction.options[:remote_id])
+
+          if withdraw.blank?
+            Rails.logger.info { "Skipped withdrawal: #{transaction.hash}." }
+            next
+          end
+
+          if transaction.options.present? && transaction.options[:remote_id].present?
+            if withdraw.txid.blank? && transaction.hash.present?
+              withdraw.txid = transaction.hash
+              withdraw.save!
+              withdraw.dispatch!
+            end
+          end
+
+          Rails.logger.info { "Withdraw transaction detected: #{transaction.inspect}" }
+          if transaction.status.failed?
+            withdraw.fail!
+          elsif transaction.status.success?
+            withdraw.success!
+          elsif transaction.status.rejected?
+            withdraw.reject!
           end
         end
       end

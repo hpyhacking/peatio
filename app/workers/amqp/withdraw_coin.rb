@@ -74,9 +74,21 @@ module Workers
           @logger.warn id: withdraw.id,
                        message: 'Updating withdraw state in database.'
 
-          withdraw.txid = transaction.hash
-          withdraw.dispatch
-          withdraw.save!
+          if transaction.hash.present?
+            withdraw.txid = transaction.hash
+            withdraw.dispatch
+            withdraw.save!
+          elsif transaction.options.present? && transaction.options['remote_id'].present?
+            withdraw.remote_id = transaction.options['remote_id']
+            withdraw.review
+            withdraw.save!
+
+            @logger.warn id: withdraw.id,
+                         currency: withdraw.currency.code.upcase,
+                         amount: withdraw.amount.to_s,
+                         message: 'The withdraw is under review, waiting for admin to approve transaction.'
+            return
+          end
 
           @logger.warn id: withdraw.id, message: 'Withdrawal has processed'
 

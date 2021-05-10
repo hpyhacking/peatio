@@ -16,7 +16,7 @@ module API
           requires :event,
                    type: String,
                    desc: 'Name of event can be deposit or withdraw',
-                   values: { value: -> { %w[deposit withdraw deposit_address] }, message: 'public.webhook.invalid_event' }
+                   values: { value: -> { %w[deposit withdraw deposit_address generic] }, message: 'public.webhook.invalid_event' }
         end
         # e.g. /webhooks/bitgo/deposit
         post '/webhooks/:adapter/:event' do
