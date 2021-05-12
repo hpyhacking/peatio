@@ -91,14 +91,16 @@ describe WalletService do
           [{ address: 'destination-wallet-1',
             balance: 8.8,
             max_balance: 10,
-            min_collection_amount: 1 }]
+            min_collection_amount: 1,
+            plain_settings: { external_wallet_id: 1 }}]
         end
 
         let(:expected_spread) do
           [{ to_address: 'destination-wallet-1',
              status: 'pending',
              amount: deposit.amount,
-             currency_id: currency.id }.as_json].map(&:symbolize_keys)
+             currency_id: currency.id,
+             options: { external_wallet_id: 1 } }.as_json].map(&:symbolize_keys)
         end
 
         subject { service.send(:spread_between_wallets, deposit, destination_wallets) }

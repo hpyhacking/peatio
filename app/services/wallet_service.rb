@@ -46,7 +46,8 @@ class WalletService
           # Wallet max_balance will be in the platform currency
           max_balance:             (w.max_balance / deposit.currency.get_price.to_d).round(deposit.currency.precision, BigDecimal::ROUND_DOWN),
           min_collection_amount:   blockchain_currency.min_collection_amount,
-          skip_deposit_collection: w.service.skip_deposit_collection? }
+          skip_deposit_collection: w.service.skip_deposit_collection?,
+          plain_settings:          w.plain_settings }
       end
     raise StandardError, "destination wallets don't exist" if destination_wallets.blank?
 
@@ -193,9 +194,13 @@ class WalletService
         left_amount = 0
       end
 
-      transaction = Peatio::Transaction.new(to_address:     dw[:address],
-                                            amount:         amount_for_wallet.to_d,
-                                            currency_id:    deposit.currency_id)
+      transaction_params = { to_address:  dw[:address],
+                             amount: amount_for_wallet.to_d,
+                             currency_id: deposit.currency_id,
+                             options:     dw[:plain_settings]
+                           }.compact
+
+      transaction = Peatio::Transaction.new(transaction_params)
 
       # Tx will not be collected to this destination wallet
       transaction.status = :skipped if dw[:skip_deposit_collection]
