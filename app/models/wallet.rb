@@ -116,6 +116,14 @@ class Wallet < ApplicationRecord
     def deposit_wallets(currency_id)
       Wallet.active.deposit.joins(:currencies).where(currencies: { id: currency_id })
     end
+
+    def uniq(array)
+      if ActiveRecord::Base.connection.adapter_name == "PostgreSQL"
+        array.select("DISTINCT ON (wallets.id) wallets.*")
+      else
+        array.distinct
+      end
+    end
   end
 
   delegate :protocol, to: :blockchain

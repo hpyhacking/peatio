@@ -73,7 +73,8 @@ module API
 
           search = ::Wallet.ransack(ransack_params)
           search.sorts = "#{params[:order_by]} #{params[:ordering]}"
-          present paginate(search.result.includes(:currencies).distinct), with: API::V2::Admin::Entities::Wallet
+
+          present paginate(::Wallet.uniq(search.result.includes(:currencies))), with: API::V2::Admin::Entities::Wallet
         end
 
         desc 'List wallet kinds.'

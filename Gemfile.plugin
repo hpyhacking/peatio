@@ -1,6 +1,4 @@
 source 'https://rubygems.org'
-git_source(:github) { |repo_slug| "https://github.com/#{repo_slug}" }
-
 # List your plugins here.
 
 gem 'peatio-dash', '~> 2.6.1'
