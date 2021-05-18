@@ -34,10 +34,10 @@ module FeeChargeable
       validates :sum,
                 presence: true,
                 numericality: { greater_than: 0.to_d },
-                precision: { less_than_or_eq_to: ->(w) { w.currency.precision } }
+                precision: { less_than_or_eq_to: ->(w) { w.currency.subunits } }
 
       validates :amount,
-                precision: { less_than_or_eq_to: ->(w) { w.currency.precision } }
+                precision: { less_than_or_eq_to: ->(w) { w.currency.subunits } }
 
       validate on: :create do
         next if !account || [sum, amount, fee].any?(&:blank?)
