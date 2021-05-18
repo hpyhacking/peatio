@@ -145,6 +145,23 @@ describe AdminAbility do
     end
   end
 
+  context 'abilities for reporter' do
+    let(:member) { create(:member, role: 'reporter') }
+    subject(:ability) { AdminAbility.new(member) }
+
+    it do
+      is_expected.to be_able_to(:read, Deposit.new)
+      is_expected.to be_able_to(:read, Operations::Account.new)
+      is_expected.to be_able_to(:read, Operations::Asset.new)
+      is_expected.to be_able_to(:read, Operations::Expense.new)
+      is_expected.to be_able_to(:read, Operations::Liability.new)
+      is_expected.to be_able_to(:read, Withdraw.new)
+      is_expected.to be_able_to(:read, Currency.new)
+      is_expected.to be_able_to(:read, Wallet.new)
+      is_expected.to be_able_to(:read, Blockchain.new)
+    end
+  end
+
   context 'abilities for accountant' do
     let(:member) { create(:member, role: 'accountant') }
     subject(:ability) { AdminAbility.new(member) }

@@ -44,6 +44,13 @@ describe UserAbility do
     it { is_expected.to be_able_to(:manage, :all) }
   end
 
+  context 'abilities for reporter' do
+    let(:member) { create(:member, role: 'reporter') }
+    subject(:ability) { UserAbility.new(member) }
+
+    it { is_expected.to be_able_to(:manage, :all) }
+  end
+
   context 'abilities for accountant' do
     let(:member) { create(:member, role: 'accountant') }
     subject(:ability) { UserAbility.new(member) }

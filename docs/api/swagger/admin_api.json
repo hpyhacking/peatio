@@ -4182,6 +4182,7 @@
                             "broker",
                             "trader",
                             "maker",
+                            "reporter",
                             "sa_maker"
                         ],
                         "required": false
