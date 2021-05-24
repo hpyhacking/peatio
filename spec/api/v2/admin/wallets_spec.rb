@@ -278,7 +278,7 @@ describe API::V2::Admin::Wallets, type: :request do
 
   describe 'POST /api/v2/admin/wallets/new' do
     it 'create wallet' do
-      api_post '/api/v2/admin/wallets/new', params: { name: 'Test', kind: 'deposit', currencies: 'eth', address: 'blank', blockchain_key: 'btc-testnet', gateway: 'geth', settings: { uri: 'http://127.0.0.1:18332'}}, token: token
+      api_post '/api/v2/admin/wallets/new', params: { name: 'Test', kind: 'deposit', currencies: 'eth', address: 'blank', blockchain_key: 'btc-testnet', gateway: 'geth', plain_settings: {external_wallet_id: 1}, settings: { uri: 'http://127.0.0.1:18332'}}, token: token
       result = JSON.parse(response.body)
 
       expect(response).to be_successful
@@ -286,7 +286,7 @@ describe API::V2::Admin::Wallets, type: :request do
     end
 
     it 'create wallet' do
-      api_post '/api/v2/admin/wallets/new', params: { name: 'Test', kind: 'deposit', currencies: ['eth','trst'], address: 'blank', blockchain_key: 'btc-testnet', gateway: 'geth', settings: { uri: 'http://127.0.0.1:18332'}}, token: token
+      api_post '/api/v2/admin/wallets/new', params: { name: 'Test', kind: 'deposit', currencies: ['eth','trst'], address: 'blank', blockchain_key: 'btc-testnet', gateway: 'geth', plain_settings: {external_wallet_id: 1}, settings: { uri: 'http://127.0.0.1:18332'}}, token: token
       result = JSON.parse(response.body)
 
       expect(response).to be_successful
@@ -306,42 +306,42 @@ describe API::V2::Admin::Wallets, type: :request do
     end
 
     it 'validate status' do
-      api_post '/api/v2/admin/wallets/new', params: { name: 'Test', kind: 'deposit', currencies: 'eth', address: 'blank', blockchain_key: 'btc-testnet', gateway: 'geth', settings: { uri: 'http://127.0.0.1:18332'}, status: 'disable' }, token: token
+      api_post '/api/v2/admin/wallets/new', params: { name: 'Test', kind: 'deposit', currencies: 'eth', address: 'blank', blockchain_key: 'btc-testnet', gateway: 'geth', plain_settings: {external_wallet_id: 1}, settings: { uri: 'http://127.0.0.1:18332'}, status: 'disable' }, token: token
 
       expect(response.code).to eq '422'
       expect(response).to include_api_error('admin.wallet.invalid_status')
     end
 
     it 'validate gateway' do
-      api_post '/api/v2/admin/wallets/update', params: { name: 'Test', kind: 'deposit', currencies: 'eth', address: 'blank', blockchain_key: 'btc-testnet', settings: { uri: 'http://127.0.0.1:18332'}, gateway: 'test' }, token: token
+      api_post '/api/v2/admin/wallets/update', params: { name: 'Test', kind: 'deposit', currencies: 'eth', address: 'blank', blockchain_key: 'btc-testnet', plain_settings: {external_wallet_id: 1}, settings: { uri: 'http://127.0.0.1:18332'}, gateway: 'test' }, token: token
 
       expect(response.code).to eq '422'
       expect(response).to include_api_error('admin.wallet.gateway_doesnt_exist')
     end
 
     it 'validate kind' do
-      api_post '/api/v2/admin/wallets/update', params: { name: 'Test', kind: 'test', currencies: 'eth', address: 'blank', blockchain_key: 'btc-testnet', settings: { uri: 'http://127.0.0.1:18332'}, gateway: 'geth' }, token: token
+      api_post '/api/v2/admin/wallets/update', params: { name: 'Test', kind: 'test', currencies: 'eth', address: 'blank', blockchain_key: 'btc-testnet', plain_settings: {external_wallet_id: 1}, settings: { uri: 'http://127.0.0.1:18332'}, gateway: 'geth' }, token: token
 
       expect(response.code).to eq '422'
       expect(response).to include_api_error('admin.wallet.invalid_kind')
     end
 
     it 'validate currency_id' do
-      api_post '/api/v2/admin/wallets/update', params: { id: 1, name: 'Test', kind: 'deposit', address: 'blank', blockchain_key: 'btc-testnet', gateway: 'geth', settings: { uri: 'http://127.0.0.1:18332'}, currencies: 'test' }, token: token
+      api_post '/api/v2/admin/wallets/update', params: { id: 1, name: 'Test', kind: 'deposit', address: 'blank', blockchain_key: 'btc-testnet', gateway: 'geth', plain_settings: {external_wallet_id: 1}, settings: { uri: 'http://127.0.0.1:18332'}, currencies: 'test' }, token: token
 
       expect(response.code).to eq '422'
       expect(response).to include_api_error('admin.wallet.currency_doesnt_exist')
     end
 
     it 'validate uri' do
-      api_post '/api/v2/admin/wallets/new', params: { name: 'Test', kind: 'hot', currencies: 'eth', address: 'blank', blockchain_key: 'btc-testnet', settings: { uri: 'invalid_uri'}, gateway: 'geth' }, token: token
+      api_post '/api/v2/admin/wallets/new', params: { name: 'Test', kind: 'hot', currencies: 'eth', address: 'blank', blockchain_key: 'btc-testnet', plain_settings: {external_wallet_id: 1}, settings: { uri: 'invalid_uri'}, gateway: 'geth' }, token: token
 
       expect(response.code).to eq '422'
       expect(response).to include_api_error('admin.wallet.invalid_uri_setting')
     end
 
     it 'return error in case of not permitted ability' do
-      api_post '/api/v2/admin/wallets/new', params: { name: 'Test', kind: 'deposit', currencies: 'eth', address: 'blank', blockchain_key: 'btc-testnet', gateway: 'geth', settings: { uri: 'http://127.0.0.1:18332'}}, token: level_3_member_token
+      api_post '/api/v2/admin/wallets/new', params: { name: 'Test', kind: 'deposit', currencies: 'eth', address: 'blank', blockchain_key: 'btc-testnet', gateway: 'geth', plain_settings: {external_wallet_id: 1}, settings: { uri: 'http://127.0.0.1:18332'}}, token: level_3_member_token
 
       expect(response.code).to eq '403'
       expect(response).to include_api_error('admin.ability.not_permitted')

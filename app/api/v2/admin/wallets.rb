@@ -138,6 +138,9 @@ module API
             optional :secret,
                      desc: -> { 'Wallet secret setting' }
           end
+          optional :plain_settings, type: JSON,
+                                    default: {},
+                                    desc: -> { 'Wallet plain settings (external_wallet_id)' }
           exactly_one_of :currencies, :currency, message: 'admin.wallet.currencies_field_is_missing'
         end
         post '/wallets/new' do
@@ -179,6 +182,9 @@ module API
                    types: [String, Array], coerce_with: ->(c) { Array.wrap(c) },
                    as: :currency_ids,
                    desc: -> { API::V2::Admin::Entities::Wallet.documentation[:currencies][:desc] }
+          optional :plain_settings, type: JSON,
+                   default: {},
+                   desc: -> { 'Wallet plain settings (external_wallet_id)' }
           optional :settings, type: JSON,
                               desc: -> { 'Wallet settings' } do
             optional :uri,
