@@ -119,7 +119,16 @@ class WalletService
                                                         blockchain_currency.to_blockchain_api_settings)
 
     if transactions.present?
-      deposit.update(spread: deposit.spread.map { |s| s.merge(options: transactions.first.options) })
+      updated_spread = deposit.spread.map do |s|
+        deposit_options = s.fetch(:options, {}).symbolize_keys
+        transaction_options = transactions.first.options.presence || {}
+        general_options = deposit_options.merge(transaction_options)
+
+        s.merge(options: general_options)
+      end
+
+      deposit.update(spread: updated_spread)
+
       transactions.each { |t| save_transaction(t.as_json.merge(from_address: @wallet.address), deposit) }
     end
     transactions

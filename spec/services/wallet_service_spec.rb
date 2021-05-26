@@ -746,7 +746,8 @@ describe WalletService do
     let(:spread_deposit) do
       [Peatio::Transaction.new(to_address: 'fake-cold',
                                amount: '2.0',
-                               currency_id: currency.id)]
+                               currency_id: currency.id,
+                               options: { external_wallet_id: 1})]
     end
 
     let(:transactions) do
@@ -769,6 +770,7 @@ describe WalletService do
         expect(subject).to contain_exactly(*transactions)
         expect(subject).to all(be_a(Peatio::Transaction))
         deposit.spread.map { |s| s.key?(:options) }
+        expect(deposit.spread[0].fetch(:options)).to include :external_wallet_id
       end
     end
 
