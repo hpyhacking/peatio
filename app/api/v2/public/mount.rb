@@ -14,6 +14,7 @@ module API
         mount Public::TradingFees
         mount Public::Webhooks
         mount Public::WithdrawLimits
+        mount Public::Config
       end
     end
   end

@@ -18,6 +18,9 @@ class Deposit < ApplicationRecord
 
   belongs_to :currency, required: true
   belongs_to :member, required: true
+  belongs_to :blockchain, foreign_key: :blockchain_key, primary_key: :key
+  belongs_to :blockchain_coin_currency, -> { where.not(blockchain_key: nil) }, class_name: 'BlockchainCurrency', foreign_key: %i[blockchain_key currency_id], primary_key: %i[blockchain_key currency_id]
+  belongs_to :blockchain_fiat_currency, -> { where(blockchain_key: nil) }, class_name: 'BlockchainCurrency', foreign_key: :currency_id, primary_key: :currency_id
 
   acts_as_eventable prefix: 'deposit', on: %i[create update]
 
@@ -28,7 +31,9 @@ class Deposit < ApplicationRecord
   validates :amount,
             numericality: {
               greater_than_or_equal_to:
-                -> (deposit){ deposit.currency.min_deposit_amount }
+                -> (deposit) {
+                  deposit.currency.coin? ? deposit.blockchain_coin_currency.min_deposit_amount : deposit.blockchain_fiat_currency.min_deposit_amount
+                }
             }, on: :create
 
   scope :recent, -> { order(id: :desc) }
@@ -128,8 +133,10 @@ class Deposit < ApplicationRecord
     true
   end
 
+  delegate :protocol, :warning, to: :blockchain
+
   def blockchain_api
-    currency.blockchain_api
+    blockchain.blockchain_api
   end
 
   def confirmations
@@ -194,6 +201,10 @@ class Deposit < ApplicationRecord
     !submitted?
   end
 
+  def blockchain_currency
+    currency.coin? ? blockchain_coin_currency : blockchain_fiat_currency
+  end
+
   private
 
   # Creates dependant operations for deposit.
@@ -242,17 +253,18 @@ class Deposit < ApplicationRecord
 end
 
 # == Schema Information
-# Schema version: 20200827105929
+# Schema version: 20210609094033
 #
 # Table name: deposits
 #
-#  id             :integer          not null, primary key
-#  member_id      :integer          not null
+#  id             :bigint           not null, primary key
+#  member_id      :bigint           not null
 #  currency_id    :string(10)       not null
+#  blockchain_key :string(255)
 #  amount         :decimal(32, 16)  not null
 #  fee            :decimal(32, 16)  not null
 #  address        :string(95)
-#  from_addresses :string(1000)
+#  from_addresses :text(65535)
 #  txid           :string(128)
 #  txout          :integer
 #  aasm_state     :string(30)       not null
@@ -261,6 +273,7 @@ end
 #  transfer_type  :integer
 #  tid            :string(64)       not null
 #  spread         :string(1000)
+#  error          :json
 #  created_at     :datetime         not null
 #  updated_at     :datetime         not null
 #  completed_at   :datetime

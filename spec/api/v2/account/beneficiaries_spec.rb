@@ -101,6 +101,15 @@ describe API::V2::Account::Beneficiaries, 'GET', type: :request do
     end
   end
 
+  context 'blockchain key' do
+    let!(:beneficiary) { create_list(:beneficiary, 3, member: member, blockchain_key: 'btc-testnet', state: :active) }
+    it do
+      api_get endpoint, params: { blockchain_key: 'btc-testnet' }, token: token
+      expect(response.status).to eq 200
+      expect(response_body.all? { |b| b['blockchain_key'] == 'btc-testnet' }).to be_truthy
+    end
+  end
+
   context 'both currency and state' do
     let!(:active_btc_beneficiaries_for_member) do
       create_list(:beneficiary, 3, member: member, state: :active)
@@ -229,6 +238,7 @@ describe API::V2::Account::Beneficiaries, 'POST', type: :request do
   let(:beneficiary_data) do
     {
       currency: :btc,
+      blockchain_key: 'btc-testnet',
       name: 'Personal Bitcoin wallet',
       description: 'Multisignature Bitcoin Wallet',
       data: {
@@ -289,6 +299,22 @@ describe API::V2::Account::Beneficiaries, 'POST', type: :request do
       end
     end
 
+    context 'invalid blockchain_key' do
+      it do
+        api_post endpoint, params: beneficiary_data.merge(blockchain_key: ''), token: token
+        expect(response.status).to eq 422
+        expect(response).to include_api_error('account.beneficiary.blockchain_key_doesnt_exist')
+      end
+    end
+
+    context 'missing blockchain_key' do
+      it do
+        api_post endpoint, params: beneficiary_data.except(:blockchain_key), token: token
+        expect(response.status).to eq 422
+        expect(response).to include_api_error('account.beneficiary.missing_blockchain_key')
+      end
+    end
+
     context 'description is too long' do
       it do
         api_post endpoint, params: beneficiary_data.merge(description: Faker::String.random(256)), token: token
@@ -328,8 +354,9 @@ describe API::V2::Account::Beneficiaries, 'POST', type: :request do
 
       context 'disabled withdrawal for currency' do
         let(:currency) { Currency.find(:btc) }
+        let(:blockchain_currency) { BlockchainCurrency.find_by(currency_id: :btc)}
         before do
-          currency.update(withdrawal_enabled: false)
+          blockchain_currency.update(withdrawal_enabled: false)
         end
         it do
           api_post endpoint, params: beneficiary_data, token: token
@@ -354,6 +381,7 @@ describe API::V2::Account::Beneficiaries, 'POST', type: :request do
           before do
             create(:beneficiary,
                    member: member,
+                   blockchain_key: beneficiary_data[:blockchain_key],
                    currency_id: beneficiary_data[:currency],
                    data: {address: beneficiary_data.dig(:data, :address)})
           end
@@ -370,6 +398,7 @@ describe API::V2::Account::Beneficiaries, 'POST', type: :request do
             create(:beneficiary,
                    member: member,
                    currency_id: :eth,
+                   blockchain_key: 'eth-rinkeby',
                    data: {address: beneficiary_data.dig(:data, :address)})
           end
 

@@ -85,6 +85,14 @@ describe API::V2::Account::Withdraws, type: :request do
       expect(result.map { |x| x['currency'] }.uniq.sort).to eq %w[ btc ]
     end
 
+    it 'returns withdraws with blockchain key filter' do
+      api_get '/api/v2/account/withdraws', params: { blockchain_key: btc_withdraws.first.blockchain_key }, token: token
+      result = JSON.parse(response.body)
+
+      expect(response).to be_successful
+      expect(result.size).to eq 20
+      expect(result.all? { |d| d['blockchain_key'] == 'btc-testnet' }).to be_truthy
+    end
 
     it 'returns withdraws with txid filter' do
       api_get '/api/v2/account/withdraws', params: { rid: btc_withdraws.first.rid }, token: token
@@ -151,6 +159,7 @@ describe API::V2::Account::Withdraws, type: :request do
       result = JSON.parse(response.body)
 
       expect(result.map { |x| x['id'] }).to eq ordered_withdraws.map(&:id)
+      expect(result.map { |x| x['protocol'] }).to eq ordered_withdraws.map(&:protocol)
     end
 
     it 'denies access to unverified member' do
@@ -183,7 +192,7 @@ describe API::V2::Account::Withdraws, type: :request do
     before { Vault::TOTP.stubs(:validate?).returns(true) }
 
     context 'extremely precise values' do
-      before { Currency.any_instance.stubs(:withdraw_fee).returns(BigDecimal(0)) }
+      before { BlockchainCurrency.any_instance.stubs(:withdraw_fee).returns(BigDecimal(0)) }
       before { Currency.any_instance.stubs(:precision).returns(16) }
       it 'keeps precision for amount' do
         data[:amount] = '0.0000000123456789'
@@ -310,9 +319,11 @@ describe API::V2::Account::Withdraws, type: :request do
     end
 
     context 'disabled withdrawal for currency' do
-      let(:currency) { Currency.find('btc') }
+      let(:blockchain_currency) { BlockchainCurrency.find_by(currency_id: 'usd') }
 
-      before { currency.update!(withdrawal_enabled: false) }
+      before do
+        blockchain_currency.update!(withdrawal_enabled: false)
+      end
 
       it 'returns error' do
         api_post '/api/v2/account/withdraws', params: data, token: token
@@ -327,6 +338,7 @@ describe API::V2::Account::Withdraws, type: :request do
       expect(response).to have_http_status(201)
       record = Withdraw.last
       expect(record.sum).to eq amount
+      expect(record.blockchain_key).to eq Withdraw.last.beneficiary.blockchain_key
       expect(record.aasm_state).to eq 'accepted'
       expect(record.account).to eq account
       expect(record.account.balance).to eq(1.2 - amount)

@@ -30,11 +30,12 @@ module API
           success API::V2::Management::Entities::Withdraw
         end
         params do
-          optional :uid,      type: String,  desc: 'The shared user ID.'
+          optional :uid, type: String,  desc: 'The shared user ID.'
           optional :currency, type: String,  values: -> { Currency.codes(bothcase: true) }, desc: 'The currency code.'
-          optional :page,     type: Integer, default: 1,   integer_gt_zero: true, desc: 'The page number (defaults to 1).'
-          optional :limit,    type: Integer, default: 100, range: 1..1000, desc: 'The number of objects per page (defaults to 100, maximum is 1000).'
-          optional :state,    type: String,  values: -> { Withdraw::STATES.map(&:to_s) }, desc: 'The state to filter by.'
+          optional :page, type: Integer, default: 1, integer_gt_zero: true, desc: 'The page number (defaults to 1).'
+          optional :blockchain_key, type: String, values: -> { ::Blockchain.pluck(:key) }, desc: 'Blockchain key of the requested withdrawal'
+          optional :limit, type: Integer, default: 100, range: 1..1000, desc: 'The number of objects per page (defaults to 100, maximum is 1000).'
+          optional :state, type: String,  values: -> { Withdraw::STATES.map(&:to_s) }, desc: 'The state to filter by.'
         end
         post '/withdraws' do
           currency = Currency.find(params[:currency]) if params[:currency].present?
@@ -46,6 +47,7 @@ module API
             .tap { |q| q.where!(currency: currency) if currency }
             .tap { |q| q.where!(member: member) if member }
             .tap { |q| q.where!(aasm_state: params[:state]) if params[:state] }
+            .tap { |q| q.where!(blockchain_key: params[:blockchain_key]) if params[:blockchain_key] }
             .page(params[:page])
             .per(params[:limit])
             .tap { |q| present q, with: API::V2::Management::Entities::Withdraw }
@@ -83,6 +85,7 @@ module API
           optional :tid,            type: String, desc: 'The shared transaction ID. Must not exceed 64 characters. Peatio will generate one automatically unless supplied.'
           optional :rid,            type: String, desc: 'The beneficiary ID or wallet address on the Blockchain.'
           optional :beneficiary_id, type: String, desc: 'ID of Active Beneficiary belonging to user.'
+          optional :blockchain_key, type: String, values: -> { ::Blockchain.pluck(:key) }, desc: 'Blockchain key of the requested withdrawal'
           requires :currency,       type: String, values: -> { Currency.codes(bothcase: true) }, desc: 'The currency code.'
           requires :amount,         type: BigDecimal, desc: 'The amount to withdraw.'
           optional :note,           type: String, desc: 'The note for withdraw.'
@@ -92,20 +95,24 @@ module API
                                     desc: -> { API::V2::Admin::Entities::Withdraw.documentation[:transfer_type][:desc] }
 
           exactly_one_of :rid, :beneficiary_id
+          exactly_one_of :beneficiary_id, :blockchain_key
         end
         post '/withdraws/new' do
           member = Member.find_by(uid: params[:uid])
-
-          currency = Currency.find(params[:currency])
-          unless currency.withdrawal_enabled?
-            error!({ errors: ['management.currency.withdrawal_disabled'] }, 422)
-          end
 
           beneficiary = Beneficiary.find_by(id: params[:beneficiary_id]) if params[:beneficiary_id].present?
           if params[:rid].blank? && beneficiary.blank?
             error!({ errors: ['management.beneficiary.doesnt_exist'] }, 422)
           elsif params[:rid].blank? && !beneficiary&.active?
             error!({ errors: ['management.beneficiary.invalid_state_for_withdrawal'] }, 422)
+          end
+
+          currency = Currency.find(params[:currency])
+          blockchain_key = beneficiary.present? ? beneficiary.blockchain_key : params[:blockchain_key]
+          blockchain_currency = BlockchainCurrency.find_by!(currency_id: params[:currency],
+                                                            blockchain_key: blockchain_key)
+          unless blockchain_currency.withdrawal_enabled?
+            error!({ errors: ['management.currency.withdrawal_disabled'] }, 422)
           end
 
           if params[:tid].present?
@@ -116,7 +123,8 @@ module API
             sum: params[:amount],
             member: member,
             currency: currency,
-            tid: params[:tid]
+            tid: params[:tid],
+            blockchain_key: blockchain_key
           )
 
           declared_params.merge!(beneficiary: beneficiary) if params[:beneficiary_id].present?

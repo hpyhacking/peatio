@@ -37,11 +37,12 @@ module Workers
                        amount: withdraw.amount.to_s('F'),
                        fee: withdraw.fee.to_s('F'),
                        currency: withdraw.currency.code.upcase,
+                       blockchain_key: withdraw.blockchain_key,
                        rid: withdraw.rid,
                        message: 'Sending witdraw.'
 
           wallet = Wallet.active.joins(:currencies)
-                         .find_by(currencies: { id: withdraw.currency_id }, kind: :hot)
+                         .find_by(currencies: { id: withdraw.currency_id }, kind: :hot, blockchain_key: withdraw.blockchain_key)
 
           unless wallet
             @logger.warn id: withdraw.id,

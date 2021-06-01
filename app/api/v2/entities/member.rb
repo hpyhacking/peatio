@@ -22,16 +22,12 @@ module API
         )
 
         expose(
-          :accounts,
-          using: API::V2::Entities::Account,
+          :group,
           documentation: {
-            type: 'API::V2::Entities::Account',
-            is_array: true,
-            desc: 'Member accounts.'
+            type: String,
+            desc: 'Member\'s group.'
           }
-        ) do |m|
-            m.accounts.includes(:currency)
-          end
+        )
       end
     end
   end

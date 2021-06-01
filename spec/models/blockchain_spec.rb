@@ -34,6 +34,12 @@ describe Blockchain do
       expect(subject.errors.full_messages).to include "Client can't be blank"
     end
 
+    it 'validates presence of protocol' do
+      subject.protocol = nil
+      expect(subject).to_not be_valid
+      expect(subject.errors.full_messages).to include "Protocol can't be blank"
+    end
+
     it 'validates inclusion of status' do
       subject.status = 'abc'
       expect(subject).to_not be_valid

@@ -11,12 +11,13 @@ module API
           success API::V2::Management::Entities::Deposit
         end
         params do
-          optional :uid,      type: String,  desc: 'The shared user ID.'
-          optional :from_id,  type: Integer,  desc: 'Unique blockchain identifier in database. Will return starting from given id.'
+          optional :uid, type: String,  desc: 'The shared user ID.'
+          optional :from_id, type: Integer,  desc: 'Unique blockchain identifier in database. Will return starting from given id.'
           optional :currency, type: String,  values: -> { Currency.codes(bothcase: true) }, desc: 'The currency code.'
-          optional :page,     type: Integer, default: 1,   integer_gt_zero: true, desc: 'The page number (defaults to 1).'
-          optional :limit,    type: Integer, default: 100, range: 1..1000, desc: 'The number of deposits per page (defaults to 100, maximum is 1000).'
-          optional :state,    type: String, values: -> { ::Deposit.aasm.states.map(&:name).map(&:to_s) }, desc: 'The state to filter by.'
+          optional :blockchain_key, type: String, values: -> { ::Blockchain.pluck(:key) }, desc: 'Blockchain key of the requested deposit'
+          optional :page, type: Integer, default: 1, integer_gt_zero: true, desc: 'The page number (defaults to 1).'
+          optional :limit, type: Integer, default: 100, range: 1..1000, desc: 'The number of deposits per page (defaults to 100, maximum is 1000).'
+          optional :state, type: String, values: -> { ::Deposit.aasm.states.map(&:name).map(&:to_s) }, desc: 'The state to filter by.'
         end
         post '/deposits' do
           currency = Currency.find(params[:currency]) if params[:currency].present?
@@ -27,6 +28,7 @@ module API
             .tap { |q| q.where!(member: member) if member }
             .tap { |q| q.where!(aasm_state: params[:state]) if params[:state] }
             .tap { |q| q.where!('id > ?', params[:from_id]) if params[:from_id] }
+            .tap { |q| q.where!(blockchain_key: params[:blockchain_key]) if params[:blockchain_key] }
             .includes(:member, :currency)
             .page(params[:page])
             .per(params[:limit])
@@ -64,8 +66,9 @@ module API
         post '/deposits/new' do
           member   = Member.find_by(uid: params[:uid])
           currency = Currency.find(params[:currency])
+          blockchain_currency = BlockchainCurrency.find_by!(currency_id: currency.id, blockchain_key: nil)
 
-          unless currency.deposit_enabled?
+          unless blockchain_currency.deposit_enabled?
             error!({ errors: ['management.currency.deposit_disabled'] }, 422)
           end
 

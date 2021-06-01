@@ -20,12 +20,14 @@ module API
                       values: { value: -> { Currency.visible.codes(bothcase: true) }, message: 'management.currency.doesnt_exist' },
                       as: :currency_id,
                       desc: 'Beneficiary currency code.'
+            optional :blockchain_key,
+                      values: { value: -> { ::Blockchain.pluck(:key) }, message: 'management.beneficiary.blockchain_key_doesnt_exist' },
+                      desc: 'Blockchain key of the requested beneficiary'
             optional :state,
                       type: String,
                       values: { value: -> { ::Beneficiary::STATES_AVAILABLE_FOR_MEMBER.map(&:to_s) }, message: 'management.beneficiary.invalid_state'},
                       desc: 'Defines either beneficiary active - user can use it to withdraw money'\
                             'or pending - requires beneficiary activation with pin.'
-
           end
           post '/list' do
             member  = Member.find_by!(uid: params[:uid])
@@ -35,6 +37,7 @@ module API
               .available_to_member
               .tap { |q| q.where!(currency_id: params[:currency_id]) if params[:currency_id].present? }
               .tap {|q| q.where!(state: params[:state]) if params[:state].present? }
+              .tap { |q| q.where!(blockchain_key: params[:blockchain_key]) if params[:blockchain_key].present? }
               .yield_self { |b| present paginate(b), with: API::V2::Management::Entities::Beneficiary }
 
             status 200
@@ -50,6 +53,12 @@ module API
                     values: { value: -> { Currency.visible.codes(bothcase: true) }, message: 'management.currency.doesnt_exist' },
                     as: :currency_id,
                     desc: 'Beneficiary currency code.'
+            given currency_id: ->(currency_id) { currency_id.in?(Currency.coins.codes) } do
+              requires :blockchain_key,
+                      values: { value: -> { ::Blockchain.pluck(:key) }, message: 'management.beneficiary.blockchain_key_doesnt_exist' },
+                      allow_blank: false,
+                      desc: 'Blockchain key of the requested beneficiary'
+            end
             requires :name,
                     type: String,
                     allow_blank: false,
@@ -76,8 +85,9 @@ module API
             declared_params = declared(params)
             member   = Member.find_by!(uid: params[:uid])
             currency = Currency.find_by!(id: params[:currency_id])
-
-            if !currency.withdrawal_enabled?
+            blockchain_currency = BlockchainCurrency.find_by!(currency_id: params[:currency_id],
+                                                              blockchain_key: params[:blockchain_key])
+            if !blockchain_currency.withdrawal_enabled?
               error!({ errors: ['management.currency.withdrawal_disabled'] }, 422)
             elsif currency.coin? && declared_params.dig(:data, :address).blank?
               error!({ errors: ['management.beneficiary.missing_address_in_data'] }, 422)

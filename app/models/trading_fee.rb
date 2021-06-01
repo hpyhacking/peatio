@@ -124,21 +124,22 @@ class TradingFee < ApplicationRecord
 end
 
 # == Schema Information
-# Schema version: 20201125134745
+# Schema version: 20210609094033
 #
 # Table name: trading_fees
 #
-#  id         :bigint           not null, primary key
-#  market_id  :string(20)       default("any"), not null
-#  group      :string(32)       default("any"), not null
-#  maker      :decimal(7, 6)    default(0.0), not null
-#  taker      :decimal(7, 6)    default(0.0), not null
-#  created_at :datetime         not null
-#  updated_at :datetime         not null
+#  id          :bigint           not null, primary key
+#  market_id   :string(20)       default("any"), not null
+#  market_type :string(255)      default("spot"), not null
+#  group       :string(32)       default("any"), not null
+#  maker       :decimal(7, 6)    default(0.0), not null
+#  taker       :decimal(7, 6)    default(0.0), not null
+#  created_at  :datetime         not null
+#  updated_at  :datetime         not null
 #
 # Indexes
 #
-#  index_trading_fees_on_group                (group)
-#  index_trading_fees_on_market_id            (market_id)
-#  index_trading_fees_on_market_id_and_group  (market_id,group) UNIQUE
+#  index_trading_fees_on_group                                (group)
+#  index_trading_fees_on_market_id_and_market_type            (market_id,market_type)
+#  index_trading_fees_on_market_id_and_market_type_and_group  (market_id,market_type,group) UNIQUE
 #

@@ -23,6 +23,13 @@ describe Beneficiary, 'Relationships' do
       it { expect(subject.valid?).to be_falsey }
     end
   end
+
+  context 'belongs to blockchain' do
+    context 'null blockchain_key' do
+      subject { build(:beneficiary, currency: Currency.find(:eth), blockchain_key: nil) }
+      it { expect(subject.valid?).to be_falsey }
+    end
+  end
 end
 
 describe Beneficiary, 'Validations' do
@@ -71,9 +78,15 @@ describe Beneficiary, 'Validations' do
     end
 
     context 'coin' do
+      let(:coin) { Currency.find(:btc)}
+
       context 'blank address' do
-        let(:coin) { Currency.find(:btc)}
         subject { build(:beneficiary, currency_id: coin).tap { |b| b.data.delete('address') } }
+        it { expect(subject.valid?).to be_falsey }
+      end
+
+      context 'blank blockchain key' do
+        subject { build(:beneficiary, currency_id: coin).tap { |b| b.data.delete('blockchain_key') } }
         it { expect(subject.valid?).to be_falsey }
       end
     end

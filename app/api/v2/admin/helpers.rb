@@ -53,6 +53,53 @@ module API
           end
         end
 
+        class WalletOverviewBuilder
+          def initialize(currencies, blockchain_currencies)
+            @currencies = currencies
+            @blockchain_currencies = blockchain_currencies
+          end
+
+          def info
+            result = []
+            # Select from active currencies ordered by position
+            @currencies.ordered.each_with_index do |currency, index|
+              result[index] = { id: index + 1, name: currency.name, code: currency.code }
+
+              # Initialize blockchains
+              result[index][:blockhains] = []
+              # Select all currency active networks
+              @blockchain_currencies.where(currency_id: currency).each_with_index do |b_currency, b_index|
+                result[index][:blockhains].push({ blockchain_key: b_currency.blockchain_key,
+                                                  blockchain_name: b_currency.blockchain.name })
+                # Initialize blockchain balances
+                result[index][:blockhains][b_index][:balances] = []
+                # Select wallets linked to currency
+                wallet_ids = CurrencyWallet.where(currency_id: currency.id).pluck(:wallet_id)
+                Wallet.active.where(id: wallet_ids, blockchain_key: b_currency.blockchain_key).each do |w|
+                  balance = w.balance.present? ? w.balance[currency.id] : nil
+                  current_balance = balance == Wallet::NOT_AVAILABLE || balance == nil ? 0 : balance.to_d
+                  wallet_obj = { kind: w.kind, balance: current_balance }
+                  # Expose updated_at in case of late balance update
+                  wallet_obj.merge!(updated_at: w.updated_at) if w.updated_at < 5.minute.ago
+
+                  result[index][:blockhains][b_index][:balances].push(wallet_obj)
+                end
+
+                # Calculate total_balance/estimated_total per each network
+                total = result[index][:blockhains][b_index][:balances].inject(0) {|sum, hash| sum + hash[:balance]}
+                result[index][:blockhains][b_index].merge!(total: total, estimated_total: currency.price * total)
+              end
+
+              # Calculate total balance per each currency
+              total = result[index][:blockhains].inject(0) {|sum, hash| sum + hash[:total]}
+              estimated_total = result[index][:blockhains].inject(0) {|sum, hash| sum + hash[:estimated_total]}
+              result[index].merge!(total: total, estimated_total: estimated_total)
+            end
+
+            result
+          end
+        end
+
         params :currency_type do
           optional :type,
                    type: String,

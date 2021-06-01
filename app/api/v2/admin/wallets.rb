@@ -36,6 +36,13 @@ module API
           end
         end
 
+        desc 'Get wallets overview'
+        get '/wallets/overview' do
+          admin_authorize! :read, ::Wallet
+
+          Helpers::WalletOverviewBuilder.new(::Currency.active, ::BlockchainCurrency.active).info
+        end
+
         desc 'Get all wallets, result is paginated.',
           is_array: true,
           success: API::V2::Admin::Entities::Wallet

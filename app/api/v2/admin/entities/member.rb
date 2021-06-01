@@ -30,14 +30,6 @@ module API
           )
 
           expose(
-            :group,
-            documentation: {
-              type: String,
-              desc: 'Member\'s group.'
-            }
-          )
-
-          expose(
             :state,
             documentation: {
               type: String,

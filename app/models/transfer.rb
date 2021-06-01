@@ -56,11 +56,11 @@ class Transfer < ApplicationRecord
 end
 
 # == Schema Information
-# Schema version: 20190905050444
+# Schema version: 20210609094033
 #
 # Table name: transfers
 #
-#  id          :integer          not null, primary key
+#  id          :bigint           not null, primary key
 #  key         :string(30)       not null
 #  category    :integer          not null
 #  description :string(255)      default("")

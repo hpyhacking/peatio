@@ -34,6 +34,7 @@ describe API::V2::Admin::Deposits, type: :request do
       expect(actual.map { |a| a['state'] }).to match_array expected.map(&:aasm_state)
       expect(actual.map { |a| a['id'] }).to match_array expected.map(&:id)
       expect(actual.map { |a| a['currency'] }).to match_array expected.map(&:currency_id)
+      expect(actual.map { |a| a['blockchain_key'] }).to match_array expected.map(&:blockchain_key)
       expect(actual.map { |a| a['member'] }).to match_array expected.map(&:member_id)
       expect(actual.map { |a| a['type'] }).to match_array(expected.map { |d| d.currency.coin? ? 'coin' : 'fiat' })
       expect(actual.map { |a| a['uid'] }).to match_array(expected.map { |d| d.member.uid })
@@ -70,6 +71,8 @@ describe API::V2::Admin::Deposits, type: :request do
     end
 
     context 'filtering' do
+      let(:blockchain_key) { 'btc-testnet' }
+
       it 'by member' do
         api_get url, token: token, params: { uid: level_3_member.uid }
 
@@ -80,7 +83,24 @@ describe API::V2::Admin::Deposits, type: :request do
         expect(actual.map { |a| a['state'] }).to match_array expected.map(&:aasm_state)
         expect(actual.map { |a| a['id'] }).to match_array expected.map(&:id)
         expect(actual.map { |a| a['currency'] }).to match_array expected.map(&:currency_id)
+        expect(actual.map { |a| a['blockchain_key'] }).to match_array expected.map(&:blockchain_key)
         expect(actual.map { |a| a['member'] }).to all eq level_3_member.id
+        expect(actual.map { |a| a['type'] }).to match_array(expected.map { |d| d.currency.coin? ? 'coin' : 'fiat' })
+        expect(actual.map { |a| a['uid'] }).to match_array(expected.map { |d| d.member.uid })
+        expect(actual.map { |a| a['email'] }).to match_array(expected.map { |d| d.member.email })
+      end
+
+      it 'by blockchain_key' do
+        api_get url, token: token, params: { blockchain_key: blockchain_key }
+
+        actual = JSON.parse(response.body)
+        expected = coin_deposits.select { |d| d.blockchain_key == blockchain_key }
+
+        expect(actual.length).to eq expected.length
+        expect(actual.map { |a| a['state'] }).to match_array expected.map(&:aasm_state)
+        expect(actual.map { |a| a['id'] }).to match_array expected.map(&:id)
+        expect(actual.map { |a| a['currency'] }).to match_array expected.map(&:currency_id)
+        expect(actual.map { |a| a['blockchain_key'] }).to match_array expected.map(&:blockchain_key)
         expect(actual.map { |a| a['type'] }).to match_array(expected.map { |d| d.currency.coin? ? 'coin' : 'fiat' })
         expect(actual.map { |a| a['uid'] }).to match_array(expected.map { |d| d.member.uid })
         expect(actual.map { |a| a['email'] }).to match_array(expected.map { |d| d.member.email })
@@ -97,6 +117,7 @@ describe API::V2::Admin::Deposits, type: :request do
         expect(actual.map { |a| a['id'] }).to match_array expected.map(&:id)
         expect(actual.map { |a| a['currency'] }).to match_array expected.map(&:currency_id)
         expect(actual.map { |a| a['member'] }).to match_array expected.map(&:member_id)
+        expect(actual.map { |a| a['blockchain_key'] }).to match_array expected.map(&:blockchain_key)
         expect(actual.map { |a| a['type'] }).to all eq 'coin'
       end
 
@@ -110,6 +131,7 @@ describe API::V2::Admin::Deposits, type: :request do
         expect(response_body.map { |a| a['id'] }).to match_array expected.map(&:id)
         expect(response_body.map { |a| a['currency'] }).to match_array expected.map(&:currency_id)
         expect(response_body.map { |a| a['member'] }).to all eq level_3_member.id
+        expect(response_body.map { |a| a['blockchain_key'] }).to match_array expected.map(&:blockchain_key)
         expect(response_body.map { |a| a['type'] }).to match_array(expected.map { |d| d.currency.coin? ? 'coin' : 'fiat' })
         expect(response_body.map { |a| a['uid'] }).to match_array(expected.map { |d| d.member.uid })
         expect(response_body.map { |a| a['email'] }).to match_array(expected.map { |d| d.member.email })
@@ -223,6 +245,7 @@ describe API::V2::Admin::Deposits, type: :request do
       expect(result['amount']).to eq '13.4'
       expect(result['type']).to eq 'fiat'
       expect(result['state']).to eq 'submitted'
+      expect(result['blockchain_key']).to eq(nil)
       expect(result['transfer_type']).to eq 'fiat'
     end
 
@@ -252,8 +275,14 @@ describe API::V2::Admin::Deposits, type: :request do
         expect(response).to include_api_error('admin.deposit.currency_doesnt_exist')
       end
 
+      it 'validates blockchain key' do
+        api_post url, params: { currency: 'dildocoin', blockchain_key: 'test', uid: level_3_member.uid }, token: token
+        expect(response).to have_http_status 422
+        expect(response).to include_api_error('admin.deposit.currency_doesnt_exist')
+      end
+
       it 'validates currency address format' do
-        api_post url, params: { currency: 'eth', uid: level_3_member.uid, address_format: 'cash' }, token: token
+        api_post url, params: { currency: 'eth', blockchain_key: 'eth-rinkeby', uid: level_3_member.uid, address_format: 'cash' }, token: token
         expect(response).to have_http_status 422
         expect(response).to include_api_error('admin.deposit.doesnt_support_cash_address_format')
       end
@@ -266,25 +295,26 @@ describe API::V2::Admin::Deposits, type: :request do
         before { level_3_member.payment_address(wallet.id).update!(address: '2N2wNXrdo4oEngp498XGnGCbru29MycHogR') }
 
         it 'expose data about eth address' do
-          api_post url, params: { currency: currency, uid: level_3_member.uid}, token: token
-          expect(response.body).to eq '{"currencies":["eth"],"address":"2n2wnxrdo4oengp498xgngcbru29mychogr","state":"active"}'
+          api_post url, params: { currency: currency, blockchain_key: wallet.blockchain_key, uid: level_3_member.uid}, token: token
+          expect(response.body).to eq '{"currencies":["eth"],"blockchain_key":"eth-rinkeby","address":"2n2wnxrdo4oengp498xgngcbru29mychogr","state":"active"}'
         end
 
         it 'pending user address state' do
           level_3_member.payment_address(wallet.id).update!(address: nil)
-          api_post url, params: { currency: currency, uid: level_3_member.uid}, token: token
-          expect(response.body).to eq '{"currencies":["eth"],"address":null,"state":"pending"}'
+          api_post url, params: { currency: currency, blockchain_key: wallet.blockchain_key, uid: level_3_member.uid}, token: token
+          expect(response.body).to eq '{"currencies":["eth"],"blockchain_key":"eth-rinkeby","address":null,"state":"pending"}'
         end
       end
     end
 
     context 'disabled deposit for currency' do
       let(:currency) { :btc }
+      let(:blockchain_key) { 'btc-testnet' }
 
-      before { Currency.find(currency).update!(deposit_enabled: false) }
+      before { BlockchainCurrency.find_by(currency_id: currency).update!(deposit_enabled: false) }
 
       it 'returns error' do
-        api_post url, params: { currency: currency, uid: level_3_member.uid}, token: token
+        api_post url, params: { currency: currency, blockchain_key: blockchain_key, uid: level_3_member.uid}, token: token
         expect(response).to have_http_status 422
         expect(response).to include_api_error('admin.deposit.deposit_disabled')
       end

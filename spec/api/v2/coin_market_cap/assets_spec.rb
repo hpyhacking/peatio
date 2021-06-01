@@ -34,12 +34,9 @@ describe API::V2::CoinMarketCap::Assets, type: :request do
         it 'should return crypto assets' do
           get '/api/v2/coinmarketcap/assets'
           expect(response).to be_successful
-          expect(response_body['BTC'].keys).to match_array %w[name unified_cryptoasset_id can_withdraw can_deposit min_withdraw]
+          expect(response_body['BTC'].keys).to match_array %w[name unified_cryptoasset_id]
           expect(response_body['BTC']['name']).to eq 'Bitcoin'
           expect(response_body['BTC']['unified_cryptoasset_id']).to eq 1
-          expect(response_body['BTC']['can_withdraw']).to eq true
-          expect(response_body['BTC']['can_deposit']).to eq true
-          expect(response_body['BTC']['min_withdraw']).to eq '0.0'
         end
       end
 
@@ -68,11 +65,8 @@ describe API::V2::CoinMarketCap::Assets, type: :request do
           get '/api/v2/coinmarketcap/assets'
 
           expect(response).to be_successful
-          expect(response_body['BTC'].keys).to match_array %w[name can_withdraw can_deposit min_withdraw]
+          expect(response_body['BTC'].keys).to match_array %w[name]
           expect(response_body['BTC']['name']).to eq 'Bitcoin'
-          expect(response_body['BTC']['can_withdraw']).to eq true
-          expect(response_body['BTC']['can_deposit']).to eq true
-          expect(response_body['BTC']['min_withdraw']).to eq '0.0'
         end
 
         context 'with 500 error from Faraday' do
@@ -89,11 +83,8 @@ describe API::V2::CoinMarketCap::Assets, type: :request do
             get '/api/v2/coinmarketcap/assets'
 
             expect(response).to be_successful
-            expect(response_body['BTC'].keys).to match_array %w[name can_withdraw can_deposit min_withdraw]
+            expect(response_body['BTC'].keys).to match_array %w[name]
             expect(response_body['BTC']['name']).to eq 'Bitcoin'
-            expect(response_body['BTC']['can_withdraw']).to eq true
-            expect(response_body['BTC']['can_deposit']).to eq true
-            expect(response_body['BTC']['min_withdraw']).to eq '0.0'
           end
         end
       end

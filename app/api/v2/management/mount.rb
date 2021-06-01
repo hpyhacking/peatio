@@ -51,6 +51,7 @@ module API
         mount Management::PaymentAddress
         mount Management::Engines
         mount Management::Wallets
+        mount Management::BlockchainCurrencies
 
         # The documentation is accessible at http://localhost:3000/swagger?url=/api/v2/management/swagger
         # Add swagger documentation for Peatio Management API
@@ -73,6 +74,7 @@ module API
                                     API::V2::Management::Entities::Deposit,
                                     API::V2::Management::Entities::Withdraw,
                                     API::V2::Management::Entities::Operation,
+                                    API::V2::Management::Entities::BlockchainCurrency,
                                     API::V2::Management::Entities::Engine
                                   ]
       end

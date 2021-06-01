@@ -37,11 +37,11 @@ module Operations
 end
 
 # == Schema Information
-# Schema version: 20190115165813
+# Schema version: 20210609094033
 #
 # Table name: operations_accounts
 #
-#  id            :integer          not null, primary key
+#  id            :bigint           not null, primary key
 #  code          :integer          not null
 #  type          :string(10)       not null
 #  kind          :string(30)       not null

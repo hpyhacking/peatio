@@ -3,7 +3,7 @@ describe OWHDWallet::WalletETH do
   let(:uri) { 'http://127.0.0.1:8000/api/v2/hdwallet' }
   let(:gateway_url) { 'https://btcnode/v3/08825a23f9454f998e6e7ba60bb6f023' }
   let(:btc) do
-    Currency.find_by(id: :btc)
+    BlockchainCurrency.find_by(currency_id: :btc)
   end
 
   context 'btc transaction' do

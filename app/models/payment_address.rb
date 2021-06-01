@@ -16,6 +16,11 @@ class PaymentAddress < ApplicationRecord
 
   belongs_to :wallet
   belongs_to :member
+  belongs_to :blockchain, foreign_key: :blockchain_key, primary_key: :key
+
+  before_validation do
+    self.blockchain_key = wallet.blockchain_key
+  end
 
   before_validation do
     next if blockchain_api&.case_sensitive?
@@ -27,8 +32,9 @@ class PaymentAddress < ApplicationRecord
     self.address = CashAddr::Converter.to_cash_address(address)
   end
 
+
   def blockchain_api
-    BlockchainService.new(wallet.blockchain)
+    BlockchainService.new(blockchain)
   end
 
   def enqueue_address_generation
@@ -55,13 +61,14 @@ class PaymentAddress < ApplicationRecord
 end
 
 # == Schema Information
-# Schema version: 20210128083207
+# Schema version: 20210609094033
 #
 # Table name: payment_addresses
 #
-#  id                :integer          not null, primary key
+#  id                :bigint           not null, primary key
 #  member_id         :bigint
 #  wallet_id         :bigint
+#  blockchain_key    :string(255)
 #  address           :string(95)
 #  remote            :boolean          default(FALSE), not null
 #  secret_encrypted  :string(255)

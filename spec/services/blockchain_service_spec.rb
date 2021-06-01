@@ -19,6 +19,9 @@ describe BlockchainService do
   let!(:fake_currency) { create(:currency, :fake) }
   let!(:fake_currency1) { create(:currency, :fake, id: 'fake1') }
   let!(:fake_currency2) { create(:currency, :fake, id: 'fake2') }
+  let!(:fake_blockchain) { create(:blockchain_currency, :fake_network, currency: fake_currency) }
+  let!(:fake_blockchain1) { create(:blockchain_currency, :fake_network, currency: fake_currency1) }
+  let!(:fake_blockchain2) { create(:blockchain_currency, :fake_network, currency: fake_currency2) }
   let!(:wallet) { create(:wallet, :fake_deposit) }
 
   let!(:member) { create(:member) }
@@ -122,6 +125,7 @@ describe BlockchainService do
                           member: member,
                           amount: 5,
                           address: 'fake_address',
+                          blockchain_key: 'fake-testnet',
                           txid: 'fake_txid',
                           block_number: 0,
                           txout: 4,
@@ -189,6 +193,7 @@ describe BlockchainService do
                          amount: 1,
                          txid: 'fake_hash1',
                          rid: 'fake_address',
+                         blockchain_key: 'fake-testnet',
                          sum: 1,
                          type: Withdraws::Coin,
                          aasm_state: :confirming)
@@ -224,6 +229,7 @@ describe BlockchainService do
                          amount: 1,
                          txid: t,
                          rid: 'fake_address',
+                         blockchain_key: 'fake-testnet',
                          sum: 1,
                          type: Withdraws::Coin,
                          aasm_state: :confirming)
@@ -252,6 +258,7 @@ describe BlockchainService do
                        amount: 1,
                        txid: "fake_hash1",
                        rid: 'fake_address',
+                       blockchain_key: 'fake-testnet',
                        sum: 1,
                        type: Withdraws::Coin,
                        aasm_state: :confirming)
@@ -262,6 +269,7 @@ describe BlockchainService do
                         amount: 1,
                         txid: "fake_hash3",
                         rid: 'fake_address',
+                        blockchain_key: 'fake-testnet',
                         sum: 1,
                         type: Withdraws::Coin,
                         aasm_state: :confirming)
@@ -289,6 +297,7 @@ describe BlockchainService do
                          amount: 1,
                          txid: "fake_hash",
                          rid: 'fake_address',
+                         blockchain_key: 'fake-testnet',
                          sum: 1,
                          type: Withdraws::Coin,
                          aasm_state: :confirming)
@@ -320,6 +329,7 @@ describe BlockchainService do
                          amount: 1,
                          txid: "fake_hash",
                          rid: 'fake_address',
+                         blockchain_key: 'fake-testnet',
                          sum: 1,
                          type: Withdraws::Coin,
                          aasm_state: :confirming)
@@ -357,6 +367,7 @@ describe BlockchainService do
                          amount: 1,
                          txid: "fake_hash",
                          rid: 'fake_address',
+                         blockchain_key: 'fake-testnet',
                          sum: 1,
                          type: Withdraws::Coin,
                          aasm_state: :confirming)
@@ -418,13 +429,13 @@ describe BlockchainService do
       Deposit.find_each { |d| d.dispatch! }
 
       [fake_account1, fake_account2].map { |a| a.reload }
-      withdraw1 = Withdraw.create!(member: member, currency: fake_currency1, amount: 1, txid: "fake_hash5",
+      withdraw1 = Withdraw.create!(member: member, blockchain_key: 'fake-testnet', currency: fake_currency1, amount: 1, txid: "fake_hash5",
         rid: 'fake_address4', sum: 1, type: Withdraws::Coin)
       withdraw1.accept!
       withdraw1.process!
       withdraw1.dispatch!
 
-      withdraw2 = Withdraw.create!(member: member, currency: fake_currency2, amount: 3, txid: "fake_hash6",
+      withdraw2 = Withdraw.create!(member: member, blockchain_key: 'fake-testnet', currency: fake_currency2, amount: 3, txid: "fake_hash6",
         rid: 'fake_address4', sum: 3, type: Withdraws::Coin)
       withdraw2.accept!
       withdraw2.process!

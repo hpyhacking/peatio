@@ -18,6 +18,9 @@ module API
                     type: String,
                     values: { value: -> { Currency.codes(bothcase: true) }, message: 'management.payment_address.currency_doesnt_exist' },
                     desc: -> { API::V2::Management::Entities::Currency.documentation[:code][:desc] }
+          requires :blockchain_key,
+                   values: { value: -> { ::Blockchain.pluck(:key) }, message: 'management.payment_address.blockchain_key_doesnt_exist' },
+                   desc: 'Blockchain key of the requested deposit address'
           optional :remote,
                     type: { value: Boolean, message: 'management.payment_address.non_boolean_remote' },
                     desc: API::V2::Management::Entities::PaymentAddress.documentation[:remote][:desc]
@@ -27,13 +30,15 @@ module API
           member = Member.find_by(uid: params[:uid]) if params[:uid].present?
 
           currency = Currency.find(params[:currency])
-          unless currency.deposit_enabled?
-            error!({ errors: ['account.currency.deposit_disabled'] }, 422)
+          blockchain_currency = BlockchainCurrency.find_by!(currency_id: params[:currency],
+                                                            blockchain_key: params[:blockchain_key])
+          unless blockchain_currency.deposit_enabled?
+            error!({ errors: ['management.currency.deposit_disabled'] }, 422)
           end
 
-          wallet = Wallet.deposit_wallet(currency.id)
+          wallet = Wallet.deposit_wallet(currency.id, blockchain_currency.blockchain_key)
           unless wallet.present?
-            error!({ errors: ['account.wallet.not_found'] }, 422)
+            error!({ errors: ['management.wallet.not_found'] }, 422)
           end
 
           unless params[:remote].nil?
@@ -41,7 +46,7 @@ module API
           else
             pa = member.payment_address!(wallet.id)
           end
-          
+
           wallet_service = WalletService.new(wallet)
 
           begin

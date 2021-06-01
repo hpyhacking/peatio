@@ -72,8 +72,8 @@ module API
           deposit_state = params[:deposit_state]&.split(/\W+/)&.join(',')
           withdraw_state = params[:withdraw_state]&.split(/\W+/)&.join(',')
 
-          deposit_sql = "(SELECT d.id, currency_id, amount, fee, address, aasm_state, NULL AS note, txid, d.created_at, d.updated_at, d.type, b.height - block_number AS confirmations FROM deposits d " \
-          "INNER JOIN currencies c ON c.id=d.currency_id LEFT JOIN blockchains b ON b.key=c.blockchain_key WHERE member_id=#{current_user.id} "
+          deposit_sql = "(SELECT d.id, currency_id, blockchain_key, amount, fee, address, aasm_state, NULL AS note, txid, d.created_at, d.updated_at, d.type, b.height - block_number AS confirmations FROM deposits d " \
+          "INNER JOIN currencies c ON c.id=d.currency_id LEFT JOIN blockchains b ON b.key=d.blockchain_key WHERE member_id=#{current_user.id} "
           if params[:deposit_state].present?
             deposit_sql += if Rails.configuration.database_adapter.downcase == 'PostgreSQL'.downcase
                              "and aasm_state = any(string_to_array('#{deposit_state}',','))"
@@ -82,8 +82,8 @@ module API
                            end
           end
 
-          withdraw_sql = "SELECT w.id, currency_id, amount, fee, rid, aasm_state, note, txid, w.created_at, w.updated_at, w.type, b.height - block_number AS confirmations FROM withdraws w " \
-          "INNER JOIN currencies c ON c.id=w.currency_id LEFT JOIN blockchains b ON b.key=c.blockchain_key WHERE member_id=#{current_user.id} "
+          withdraw_sql = "SELECT w.id, currency_id, blockchain_key, amount, fee, rid, aasm_state, note, txid, w.created_at, w.updated_at, w.type, b.height - block_number AS confirmations FROM withdraws w " \
+          "INNER JOIN currencies c ON c.id=w.currency_id LEFT JOIN blockchains b ON b.key=w.blockchain_key WHERE member_id=#{current_user.id} "
           if params[:withdraw_state].present?
             withdraw_sql += if Rails.configuration.database_adapter.downcase == 'PostgreSQL'.downcase
                               "and aasm_state = any(string_to_array('#{withdraw_state}',','))"

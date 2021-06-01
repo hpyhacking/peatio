@@ -5,7 +5,8 @@ describe WalletService do
   let!(:blockchain) { create(:blockchain, 'fake-testnet') }
   let!(:currency) { create(:currency, :fake) }
   let(:wallet) { create(:wallet, :fake_hot) }
-  let(:member) { create(:member) }
+  let!(:fake_blockchain_currency) { create(:blockchain_currency, :fake_network) }
+  let!(:member) { create(:member) }
 
   let(:fake_wallet_adapter) { FakeWallet.new }
   let(:fake_blockchain_adapter) { FakeBlockchain.new }
@@ -44,7 +45,7 @@ describe WalletService do
   end
 
   context :build_withdrawal! do
-    let(:withdrawal) { create(:btc_withdraw, rid: 'fake-address', amount: 100, currency: currency, member: member) }
+    let(:withdrawal) { create(:btc_withdraw, rid: 'fake-address', blockchain_key: 'fake-testnet', amount: 100, currency: currency, member: member) }
 
     let(:transaction) do
       Peatio::Transaction.new(hash:        '0xfake',
@@ -530,7 +531,7 @@ describe WalletService do
     let(:service) { WalletService.new(deposit_wallet) }
 
     let(:amount) { 2 }
-    let(:deposit) { create(:deposit_btc, amount: amount, currency: currency) }
+    let(:deposit) { create(:deposit_btc, amount: amount, blockchain_key: 'fake-testnet', currency: currency) }
 
     let(:expected_spread) do
       [{ to_address: 'fake-cold',
@@ -579,7 +580,7 @@ describe WalletService do
     end
 
     context 'currency price recalculation' do
-      let(:deposit) { create(:deposit_btc, amount: amount, currency: currency) }
+      let(:deposit) { create(:deposit_btc, blockchain_key: 'fake-testnet', amount: amount, currency: currency) }
 
       context 'collect to hot wallet' do
         let(:expected_spread) do
@@ -660,7 +661,7 @@ describe WalletService do
     let!(:cold_wallet) { create(:wallet, :fake_cold) }
 
     let(:amount) { 2 }
-    let(:deposit) { create(:deposit_btc, amount: amount, currency: currency) }
+    let(:deposit) { create(:deposit_btc, blockchain_key: 'fake-testnet', amount: amount, currency: currency) }
 
     let(:fake_wallet_adapter) { FakeWallet.new }
     let(:service) { WalletService.new(deposit_wallet) }
@@ -735,12 +736,12 @@ describe WalletService do
     let!(:deposit_wallet) { create(:wallet, :fake_deposit) }
 
     let(:amount) { 2 }
-    let(:deposit) { create(:deposit_btc, amount: amount, currency: currency) }
+    let(:deposit) { create(:deposit_btc, blockchain_key: 'fake-testnet', amount: amount, currency: currency) }
 
     let(:fake_wallet_adapter) { FakeWallet.new }
     let(:service) { WalletService.new(fee_wallet) }
 
-    let(:spread_deposit) do 
+    let(:spread_deposit) do
       [Peatio::Transaction.new(to_address: 'fake-cold',
                                amount: '2.0',
                                currency_id: currency.id)]

@@ -86,7 +86,8 @@ module API
             Deposits::Coin.find_or_create_by!(
               currency_id: transaction.currency_id,
               txid: transaction.hash,
-              txout: transaction.txout
+              txout: transaction.txout,
+              blockchain_key: payment_address.blockchain_key
             ) do |d|
               d.address = transaction.to_address
               d.amount = transaction.amount

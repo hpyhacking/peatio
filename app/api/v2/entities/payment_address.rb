@@ -17,6 +17,14 @@ module API
         end
 
         expose(
+          :blockchain_key,
+          documentation:{
+            type: String,
+            desc: 'Unique key to identify blockchain.'
+          }
+        )
+
+        expose(
           :address,
           documentation: {
             desc: 'Payment address.',

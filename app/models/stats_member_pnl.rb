@@ -33,12 +33,12 @@ class StatsMemberPnl < ApplicationRecord
 end
 
 # == Schema Information
-# Schema version: 20201125134745
+# Schema version: 20210609094033
 #
 # Table name: stats_member_pnl
 #
 #  id                    :bigint           not null, primary key
-#  member_id             :integer          not null
+#  member_id             :bigint           not null
 #  pnl_currency_id       :string(10)       not null
 #  currency_id           :string(10)       not null
 #  total_credit          :decimal(48, 16)  default(0.0)

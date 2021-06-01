@@ -16,43 +16,10 @@ module API
           )
 
           expose(
-            :min_collection_amount,
-            documentation: {
-              desc: 'Minimal deposit amount that will be collected',
-              example: -> { ::Currency.visible.first.min_collection_amount }
-            }
-          )
-
-          expose(
-            :visible,
+            :status,
             documentation: {
               type: String,
-              desc: 'Currency display possibility status (true/false).'
-            }
-          )
-
-          expose(
-            :subunits,
-            documentation: {
-              type: Integer,
-              desc: 'Fraction of the basic monetary unit.'
-            }
-          ) { |currency| currency.subunits }
-
-          expose(
-            :options,
-            documentation: {
-              type: JSON,
-              desc: 'Currency options.'
-            },
-            if: -> (currency){ currency.coin? }
-          )
-
-          expose(
-            :position,
-            documentation: {
-              type: Integer,
-              desc: 'Currency position.'
+              desc: 'Currency display status (enabled/disabled/hidden).'
             }
           )
 

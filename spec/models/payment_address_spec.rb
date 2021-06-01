@@ -15,6 +15,10 @@ describe PaymentAddress do
       member.payment_address(wallet.id)
     end
 
+    it 'blockchain_key same as wallet blockchain_key' do
+      expect(addr.blockchain_key).to eq wallet.blockchain_key
+    end
+
     it 'updates secret' do
       expect {
         addr.update(secret: 'new_secret')

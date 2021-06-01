@@ -40,7 +40,7 @@ class InternalTransfer < ApplicationRecord
 end
 
 # == Schema Information
-# Schema version: 20210120133912
+# Schema version: 20210609094033
 #
 # Table name: internal_transfers
 #
@@ -49,7 +49,7 @@ end
 #  amount      :decimal(32, 16)  not null
 #  sender_id   :bigint           not null
 #  receiver_id :bigint           not null
-#  state       :integer          not null
+#  state       :integer          default("completed"), not null
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
 #

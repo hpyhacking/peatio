@@ -9,11 +9,13 @@ module FeeChargeable
 
     validates :amount, presence: true, numericality: { greater_than: 0.to_d }
     validates :fee,    presence: true, numericality: { greater_than_or_equal_to: 0.to_d }
-
     if self <= Deposit
+
       before_validation on: :create do
         next unless currency
-        self.fee  ||= currency.deposit_fee
+        next unless blockchain_currency
+
+        self.fee  ||= blockchain_currency.deposit_fee
         self.amount = amount.to_d - fee
       end
 
@@ -25,19 +27,20 @@ module FeeChargeable
 
       before_validation on: :create do
         next unless currency
+        next unless blockchain_currency
 
         self.sum  ||= 0.to_d
-        self.fee  ||= currency.withdraw_fee
+        self.fee  ||= blockchain_currency.withdraw_fee
         self.amount = sum - fee
       end
 
       validates :sum,
                 presence: true,
                 numericality: { greater_than: 0.to_d },
-                precision: { less_than_or_eq_to: ->(w) { w.currency.coin? ? w.currency.subunits : w.currency.precision } }
+                precision: { less_than_or_eq_to: ->(w) { w.currency.coin? ? w.blockchain_currency.subunits : w.currency.precision } }
 
       validates :amount,
-                precision: { less_than_or_eq_to: ->(w) { w.currency.coin? ? w.currency.subunits : w.currency.precision } }
+                precision: { less_than_or_eq_to: ->(w) { w.currency.coin? ? w.blockchain_currency.subunits : w.currency.precision } }
 
       validate on: :create do
         next if !account || [sum, amount, fee].any?(&:blank?)

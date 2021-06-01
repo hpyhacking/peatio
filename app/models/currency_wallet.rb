@@ -9,12 +9,12 @@ class CurrencyWallet < ApplicationRecord
 end
 
 # == Schema Information
-# Schema version: 20201125134745
+# Schema version: 20210609094033
 #
 # Table name: currencies_wallets
 #
 #  currency_id :string(255)
-#  wallet_id   :integer
+#  wallet_id   :bigint
 #
 # Indexes
 #

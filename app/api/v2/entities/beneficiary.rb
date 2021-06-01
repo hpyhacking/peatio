@@ -14,6 +14,14 @@ module API
         )
 
         expose(
+          :blockchain_key,
+          documentation:{
+            type: String,
+            desc: 'Unique key to identify blockchain.'
+          }
+        )
+
+        expose(
           :currency_id,
           as: :currency,
           documentation: {

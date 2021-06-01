@@ -200,11 +200,16 @@ describe API::V2::Admin::Blockchains, type: :request do
 
   describe 'POST /api/v2/admin/blockchains/new' do
     it 'creates new blockchain' do
-      api_post '/api/v2/admin/blockchains/new', token: token, params: { key: 'test-blockchain', name: 'Test', client: 'geth',server: 'http://127.0.0.1', height: 123333, explorer_transaction: 'test', explorer_address: 'test'}
+      api_post '/api/v2/admin/blockchains/new', token: token, params: { key: 'test-blockchain', name: 'Test', client: 'geth', server: 'http://127.0.0.1',
+                                                                        explorer_transaction: 'test', explorer_address: 'test', height: 123333,
+                                                                        warning: 'Warning', description: 'Description', protocol: 'Protocol'}
       result = JSON.parse(response.body)
 
       expect(response).to be_successful
       expect(result['key']).to eq 'test-blockchain'
+      expect(result['warning']).to eq 'Warning'
+      expect(result['description']).to eq 'Description'
+      expect(result['protocol']).to eq 'Protocol'
     end
 
     it 'long blockchain key' do
@@ -261,7 +266,7 @@ describe API::V2::Admin::Blockchains, type: :request do
     end
 
     it 'return error in case of not permitted ability' do
-      api_post '/api/v2/admin/blockchains/new', token: level_3_member_token, params: { key: 'test-blockchain', name: 'Test', client: 'geth', server: 'http://127.0.0.1', height: 123333, explorer_transaction: 'test', explorer_address: 'test', status: 'active', min_confirmations: 6, step: 2 }
+      api_post '/api/v2/admin/blockchains/new', token: level_3_member_token, params: { protocol: 'Test', key: 'test-blockchain', name: 'Test', client: 'geth', server: 'http://127.0.0.1', height: 123333, explorer_transaction: 'test', explorer_address: 'test', status: 'active', min_confirmations: 6, step: 2 }
       expect(response.code).to eq '403'
       expect(response).to include_api_error('admin.ability.not_permitted')
     end
@@ -285,11 +290,14 @@ describe API::V2::Admin::Blockchains, type: :request do
       end
 
       it 'returns updated blockchain' do
-        api_post '/api/v2/admin/blockchains/update', params: { name: 'Test Blockchain', id: Blockchain.first.id }, token: token
+        api_post '/api/v2/admin/blockchains/update', params: { name: 'Test Blockchain', id: Blockchain.first.id, warning: 'Warning', description: 'Description', protocol: 'Protocol' }, token: token
         result = JSON.parse(response.body)
 
         expect(response).to be_successful
         expect(result['name']).to eq 'Test Blockchain'
+        expect(result['warning']).to eq 'Warning'
+        expect(result['description']).to eq 'Description'
+        expect(result['protocol']).to eq 'Protocol'
       end
     end
 
@@ -365,10 +373,11 @@ describe API::V2::Admin::Blockchains, type: :request do
       let!(:blockchain) { Blockchain.find_by(key: 'btc-testnet') }
       let(:service) { BlockchainService.new(blockchain) }
       let!(:currency) { create(:currency, :btc, id: 'fake') }
+      let!(:blockchain_currency) { BlockchainCurrency.create(currency_id: 'fake', blockchain_key: blockchain.key)}
       let(:block_number) { 3 }
       let!(:member) { create(:member) }
       let!(:fake_blockchain) { create(:blockchain, 'fake-testnet') }
-      let!(:wallet) { create(:wallet, :fake_deposit) }
+      let!(:wallet) { create(:wallet, :fake_deposit, blockchain_key: blockchain.key) }
 
       before do
         Blockchain.any_instance.stubs(:blockchain_api).returns(service)
@@ -388,12 +397,11 @@ describe API::V2::Admin::Blockchains, type: :request do
         end
 
         it 'detects in the block' do
-          expect(Deposits::Coin.where(currency: currency).exists?).to be false
+          expect(Deposits::Coin.where(currency: currency, blockchain_key: blockchain.key).exists?).to be false
 
           api_post '/api/v2/admin/blockchains/process_block', token: token, params: { block_number: block_number, id: blockchain.id }
-          result = JSON.parse(response.body)
           expect(response).to be_successful
-          expect(Deposits::Coin.where(currency: currency).exists?).to be true
+          expect(Deposits::Coin.where(currency: currency, blockchain_key: blockchain.key).exists?).to be true
         end
 
         it 'doesn\'t update height of blockchain' do
@@ -416,6 +424,7 @@ describe API::V2::Admin::Blockchains, type: :request do
                            amount: 1,
                            txid: "fake_hash",
                            rid: 'fake_address',
+                           blockchain_key: 'btc-testnet',
                            sum: 1,
                            type: Withdraws::Coin,
                            aasm_state: :confirming)

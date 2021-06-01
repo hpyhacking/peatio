@@ -12,8 +12,7 @@ describe Deposit do
   end
 
   context 'fee is set to fixed value of 10' do
-    before { Currency.any_instance.expects(:deposit_fee).once.returns(10) }
-
+    before { BlockchainCurrency.find_by(currency_id: :usd).update(deposit_fee: 10) }
     it 'computes fee' do
       expect(deposit.fee).to eql 10.to_d
       expect(deposit.amount).to eql 90.to_d
@@ -21,7 +20,7 @@ describe Deposit do
   end
 
   context 'fee exceeds amount' do
-    before { Currency.any_instance.expects(:deposit_fee).once.returns(1.1) }
+    before { BlockchainCurrency.find_by(currency_id: :usd).update(deposit_fee: 1.1) }
     let(:amount) { 1 }
     let(:deposit) { build(:deposit_usd, member: member, amount: amount, currency: currency) }
     it 'fails validation' do
@@ -38,16 +37,38 @@ describe Deposit do
     expect(create(:deposit_btc, tid: 'TID1234567890xyz').tid).to eq 'TID1234567890xyz'
   end
 
-  it 'validates uniqueness of TID' do
-    record1 = create(:deposit_btc)
-    record2 = build(:deposit_btc, tid: record1.tid)
-    record2.save
-    expect(record2.errors.full_messages.first).to match(/tid has already been taken/i)
-  end
+  context 'validation' do
+    let(:valid_attributes) do
+      { currency_id:    :btc,
+        blockchain_key: 'btc-testnet',
+        address: Faker::Blockchain::Bitcoin.address,
+        txid: Faker::Lorem.characters(64),
+        txout: 0
+      }
+    end
 
-  it 'uppercases automatically generated TID' do
-    record = create(:deposit_btc)
-    expect(record.tid).to eq record.tid.upcase
+    it 'validates blockchain_key presence' do
+      record = Deposit.new(valid_attributes.merge(blockchain_key: nil))
+      record.save
+      expect(record.errors.full_messages).to include(/can\'t be blank/i)
+    end
+
+    it 'validates blockchain_key value' do
+      record = Deposit.new(valid_attributes.merge(blockchain_key: 'test'))
+      expect(record.save).to eq false
+    end
+
+    it 'validates uniqueness of TID' do
+      record1 = create(:deposit_btc)
+      record2 = build(:deposit_btc, tid: record1.tid)
+      record2.save
+      expect(record2.errors.full_messages.first).to match(/tid has already been taken/i)
+    end
+
+    it 'uppercases automatically generated TID' do
+      record = create(:deposit_btc)
+      expect(record.tid).to eq record.tid.upcase
+    end
   end
 
   context 'calculates confirmations' do
@@ -110,8 +131,12 @@ describe Deposit do
       end
 
       context 'greater than zero deposit fee' do
+        before do
+          BlockchainCurrency.find_by(currency_id: :usd, blockchain_key: nil).update(deposit_fee: 0.01)
+        end
+
         let(:currency) do
-          Currency.find(:usd).tap { |c| c.update(deposit_fee: 0.01) }
+          Currency.find(:usd)
         end
 
         let(:deposit) do

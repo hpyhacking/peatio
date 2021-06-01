@@ -12,6 +12,7 @@ module API
           expose(:uid, documentation: { type: String, desc: 'The shared user ID.' }) { |w| w.member.uid }
           expose(:type, documentation: { type: String, desc: 'The deposit type (fiat or coin).' }) { |d| d.class.name.demodulize.underscore }
           expose :amount, documentation: { type: String, desc: 'The deposit amount.' }, format_with: :decimal
+          expose :blockchain_key, documentation: { type: String, desc: 'Unique key to identify blockchain.' }
           states = [
             '«submitted» – initial state.',
             '«canceled» – deposit has been canceled by outer service.',

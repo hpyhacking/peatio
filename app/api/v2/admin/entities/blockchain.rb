@@ -63,6 +63,30 @@ module API
           )
 
           expose(
+            :description,
+            documentation:{
+              type: String,
+              desc: 'Blockchain description.'
+            }
+          )
+
+          expose(
+            :warning,
+            documentation:{
+              type: String,
+              desc: 'Blockchain warning.'
+            }
+          )
+
+          expose(
+            :protocol,
+            documentation:{
+              type: String,
+              desc: 'Blockchain protocol.'
+            }
+          )
+
+          expose(
             :min_confirmations,
             documentation:{
               type: Integer,

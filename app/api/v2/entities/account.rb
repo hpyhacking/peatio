@@ -33,16 +33,17 @@ module API
         )
 
         expose(
-          :deposit_address,
+          :deposit_addresses,
           if: ->(account, _options) { account.currency.coin? },
           using: API::V2::Entities::PaymentAddress,
           documentation: {
-            desc: 'User deposit address',
+            desc: 'User deposit addresses',
+            is_array: true,
             type: String
           }
         ) do |account, options|
-          wallet = Wallet.deposit_wallet(account.currency_id)
-          ::PaymentAddress.find_by(wallet: wallet, member: options[:current_user], remote: false)
+          deposit_wallets = Wallet.deposit_wallet(account.currency_id)
+          ::PaymentAddress.where(wallet: deposit_wallets, member: options[:current_user], remote: false)
         end
       end
     end

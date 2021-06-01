@@ -213,20 +213,20 @@ class Member < ApplicationRecord
 end
 
 # == Schema Information
-# Schema version: 20201207134745
+# Schema version: 20210609094033
 #
 # Table name: members
 #
-#  id         :integer          not null, primary key
+#  id         :bigint           not null, primary key
 #  uid        :string(32)       not null
 #  email      :string(255)      not null
-#  username   :string(255)
 #  level      :integer          not null
 #  role       :string(16)       not null
 #  group      :string(32)       default("vip-0"), not null
 #  state      :string(16)       not null
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
+#  username   :string(255)
 #
 # Indexes
 #

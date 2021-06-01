@@ -1,7 +1,7 @@
 class Transaction < ApplicationRecord
   # == Constants ============================================================
 
-  STATUSES = %w[pending succeed].freeze
+  STATUSES = %w[pending succeed rejected failed].freeze
 
   # == Attributes ===========================================================
 

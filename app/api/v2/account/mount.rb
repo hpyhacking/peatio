@@ -12,6 +12,7 @@ module API::V2
       mount Account::Transactions
       mount Account::Stats
       mount Account::InternalTransfers
+      mount Account::Members
     end
   end
 end

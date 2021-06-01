@@ -91,6 +91,9 @@ RSpec.configure do |config|
     Currency.any_instance.stubs(:price).returns(1.to_d)
     %w[eth-kovan eth-rinkeby btc-testnet].each { |blockchain| FactoryBot.create(:blockchain, blockchain) }
     %i[usd eur btc eth trst ring].each { |ccy| FactoryBot.create(:currency, ccy) }
+    %i[usd_network eur_network btc_network eth_network trst_network ring_network].each do |blockchain_currency|
+      FactoryBot.create(:blockchain_currency, blockchain_currency)
+    end
 
     %i[ eth_deposit eth_hot eth_warm eth_fee
         trst_deposit trst_hot

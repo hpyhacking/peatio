@@ -64,9 +64,6 @@ module API
             h[currency.id.upcase.to_s] = {
               name: currency.name,                                         # recommended [string]: Full name of cryptocurrency
               unified_cryptoasset_id: unified_cryptoasset_id(currency.id), # recommended [integer]: Unique ID of cryptocurrency assigned by Unified Cryptoasset ID
-              can_withdraw: currency.withdrawal_enabled,                   # recommended [boolean]: Identifies whether withdrawals are enabled or disabled
-              can_deposit: currency.deposit_enabled,                       # recommended [boolean]: Identifies whether deposits are enabled or disabled
-              min_withdraw: currency.min_withdraw_amount                   # recommended [decimal]: Identifies the single minimum withdrawal amount of a cryptocurrency
             }.compact
           end
         end

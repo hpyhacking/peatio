@@ -29,6 +29,9 @@ class Withdraw < ApplicationRecord
 
   belongs_to :currency, required: true
   belongs_to :member, required: true
+  belongs_to :blockchain, foreign_key: :blockchain_key, primary_key: :key
+  belongs_to :blockchain_coin_currency, -> { where.not(blockchain_key: nil) }, class_name: 'BlockchainCurrency', foreign_key: %i[blockchain_key currency_id], primary_key: %i[blockchain_key currency_id]
+  belongs_to :blockchain_fiat_currency, -> { where(blockchain_key: nil) }, class_name: 'BlockchainCurrency', foreign_key: :currency_id, primary_key: :currency_id
 
   # Optional beneficiary association gives ability to support both in-peatio
   # beneficiaries and managed by third party application.
@@ -46,7 +49,11 @@ class Withdraw < ApplicationRecord
   validates :block_number, allow_blank: true, numericality: { greater_than_or_equal_to: 0, only_integer: true }
   validates :sum,
             presence: true,
-            numericality: { greater_than_or_equal_to: ->(withdraw) { withdraw.currency.min_withdraw_amount }}
+            numericality: { greater_than_or_equal_to: ->(withdraw) { withdraw.blockchain_currency.min_withdraw_amount }}
+
+  validates :blockchain_key,
+            inclusion: { in: ->(_) { Blockchain.pluck(:key).map(&:to_s) } },
+            if: -> { currency.coin? }
 
   validate do
     errors.add(:beneficiary, 'not active') if beneficiary.present? && !beneficiary.active? && !aasm_state.to_sym.in?(COMPLETED_STATES)
@@ -113,7 +120,7 @@ class Withdraw < ApplicationRecord
         end
       end
       after_commit do
-        tx = currency.blockchain_api.fetch_transaction(self)
+        tx = blockchain_currency.blockchain_api.fetch_transaction(self)
         if tx.present?
           success! if tx.status.success?
         end
@@ -157,6 +164,8 @@ class Withdraw < ApplicationRecord
       transitions from: :processing, to: :errored, after: :add_error
     end
   end
+
+  delegate :protocol, :warning, to: :blockchain
 
   class << self
     def sum_query
@@ -205,8 +214,12 @@ class Withdraw < ApplicationRecord
       sum_1_month + sum * currency.get_price <= limits.limit_1_month
   end
 
+  def blockchain_currency
+    currency.coin? ? blockchain_coin_currency : blockchain_fiat_currency
+  end
+
   def blockchain_api
-    currency.blockchain_api
+    blockchain_currency.blockchain_api
   end
 
   def confirmations
@@ -320,14 +333,15 @@ class Withdraw < ApplicationRecord
 end
 
 # == Schema Information
-# Schema version: 20201125134745
+# Schema version: 20210609094033
 #
 # Table name: withdraws
 #
-#  id             :integer          not null, primary key
-#  member_id      :integer          not null
+#  id             :bigint           not null, primary key
+#  member_id      :bigint           not null
 #  beneficiary_id :bigint
 #  currency_id    :string(10)       not null
+#  blockchain_key :string(255)
 #  amount         :decimal(32, 16)  not null
 #  fee            :decimal(32, 16)  not null
 #  txid           :string(128)

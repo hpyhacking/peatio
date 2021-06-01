@@ -10,6 +10,7 @@ describe AdminAbility do
     it do
       is_expected.to be_able_to(:manage, Account.new)
       is_expected.to be_able_to(:manage, Currency.new)
+      is_expected.to be_able_to(:manage, BlockchainCurrency.new)
       is_expected.to be_able_to(:manage, Deposit.new)
       is_expected.to be_able_to(:manage, Withdraw.new)
       is_expected.to be_able_to(:manage, Operations::Account.new)
@@ -67,6 +68,7 @@ describe AdminAbility do
 
     it do
       is_expected.to be_able_to(:manage, Currency.new)
+      is_expected.to be_able_to(:manage, BlockchainCurrency.new)
       is_expected.to be_able_to(:manage, Deposit.new)
       is_expected.to be_able_to(:manage, Withdraw.new)
       is_expected.to be_able_to(:manage, Operations::Account.new)
@@ -130,6 +132,7 @@ describe AdminAbility do
     it do
       is_expected.to be_able_to(:manage, Market.new)
       is_expected.to be_able_to(:manage, Currency.new)
+      is_expected.to be_able_to(:manage, BlockchainCurrency.new)
       is_expected.to be_able_to(:manage, Blockchain.new)
       is_expected.to be_able_to(:manage, Wallet.new)
       is_expected.to be_able_to(:read, Member.new)
@@ -157,6 +160,7 @@ describe AdminAbility do
       is_expected.to be_able_to(:read, Operations::Liability.new)
       is_expected.to be_able_to(:read, Withdraw.new)
       is_expected.to be_able_to(:read, Currency.new)
+      is_expected.to be_able_to(:read, BlockchainCurrency.new)
       is_expected.to be_able_to(:read, Wallet.new)
       is_expected.to be_able_to(:read, Blockchain.new)
     end
@@ -190,6 +194,7 @@ describe AdminAbility do
     it do
       is_expected.not_to be_able_to(:read, Account.new)
       is_expected.not_to be_able_to(:read, Currency.new)
+      is_expected.not_to be_able_to(:read, BlockchainCurrency.new)
       is_expected.not_to be_able_to(:read, Deposit.new)
       is_expected.not_to be_able_to(:read, Withdraw.new)
       is_expected.not_to be_able_to(:read, Operations::Account.new)
@@ -205,6 +210,7 @@ describe AdminAbility do
 
       is_expected.not_to be_able_to(:update, Account.new)
       is_expected.not_to be_able_to(:update, Currency.new)
+      is_expected.not_to be_able_to(:update, BlockchainCurrency.new)
       is_expected.not_to be_able_to(:update, Deposit.new)
       is_expected.not_to be_able_to(:update, Withdraw.new)
       is_expected.not_to be_able_to(:update, Operations::Account.new)
@@ -220,6 +226,7 @@ describe AdminAbility do
 
       is_expected.not_to be_able_to(:destroy, Account.new)
       is_expected.not_to be_able_to(:destroy, Currency.new)
+      is_expected.not_to be_able_to(:destroy, BlockchainCurrency.new)
       is_expected.not_to be_able_to(:destroy, Deposit.new)
       is_expected.not_to be_able_to(:destroy, Withdraw.new)
       is_expected.not_to be_able_to(:destroy, Operations::Account.new)

@@ -43,7 +43,7 @@ describe API::V2::Management::Currencies, type: :request do
     let(:signers) { %i[alex jeff] }
 
     it 'create coin' do
-      data.merge!(code: 'test', blockchain_key: 'btc-testnet')
+      data.merge!(code: 'test')
       request
       result = JSON.parse(response.body)
       expect(response).to be_successful
@@ -51,7 +51,7 @@ describe API::V2::Management::Currencies, type: :request do
     end
 
     it 'create token' do
-      data.merge!(code: 'test', blockchain_key: 'btc-testnet', parent_id: 'btc')
+      data.merge!(code: 'test', parent_id: 'btc')
       request
       result = JSON.parse(response.body)
 
@@ -69,13 +69,6 @@ describe API::V2::Management::Currencies, type: :request do
       expect(result['type']).to eq 'fiat'
     end
 
-    it 'validate blockchain_key param' do
-      data.merge!(code: 'test', blockchain_key: 'test-blockchain')
-      request
-      expect(response).to have_http_status 422
-      expect(response.body).to match(/management.currency.blockchain_key_doesnt_exist/i)
-    end
-
     it 'validate type param' do
       data.merge!(code: 'test', blockchain_key: 'test-blockchain' , type: 'test')
       request
@@ -84,12 +77,12 @@ describe API::V2::Management::Currencies, type: :request do
       expect(response.body).to match(/management.currency.invalid_type/i)
     end
 
-    it 'validate visible param' do
-      data.merge!(code: 'test', type: 'fiat', visible: '123')
+    it 'validate status param' do
+      data.merge!(code: 'test', type: 'fiat', status: '123')
       request
 
       expect(response).to have_http_status 422
-      expect(response.body).to match(/management.currency.non_boolean_visible/i)
+      expect(response.body).to match(/management.currency.invalid_status/i)
     end
 
     it 'validate parent_id param' do
@@ -98,74 +91,6 @@ describe API::V2::Management::Currencies, type: :request do
 
       expect(response).to have_http_status 422
       expect(response.body).to match(/management.currency.parent_id_doesnt_exist/i)
-    end
-
-    it 'validate deposit_enabled param' do
-      data.merge!(code: Currency.first.id, deposit_enabled: '123')
-      request
-
-      expect(response).to have_http_status 422
-      expect(response.body).to match(/management.currency.non_boolean_deposit_enabled/i)
-    end
-
-    it 'validate withdrawal_enabled param' do
-      data.merge!(code: Currency.first.id, withdrawal_enabled: '123')
-      request
-
-      expect(response).to have_http_status 422
-      expect(response.body).to match(/management.currency.non_boolean_withdrawal_enabled/i)
-    end
-
-    it 'validate options param' do
-      data.merge!(code: 'test', type: 'fiat', options: 'test')
-      request
-
-      expect(response).to have_http_status 422
-      expect(response.body).to match(/management.currency.non_json_options/i)
-    end
-
-    it 'verifies subunits >= 0' do
-      data.merge!(code: 'test', blockchain_key: 'btc-testnet', subunits: -1)
-      request
-
-      expect(response.body).to match(/management.currency.invalid_subunits/i)
-      expect(response).not_to be_successful
-    end
-
-    it 'verifies subunits <= 18' do
-      data.merge!(code: 'test', blockchain_key: 'btc-testnet', subunits: 19)
-      request
-
-      expect(response.body).to match(/management.currency.invalid_subunits/i)
-      expect(response).not_to be_successful
-    end
-
-    it 'creates 1_000_000_000_000_000_000 base_factor' do
-      data.merge!(code: 'test', blockchain_key: 'btc-testnet', subunits: 18)
-      request
-
-      result = JSON.parse(response.body)
-      expect(response).to be_successful
-      expect(result['base_factor']).to eq 1_000_000_000_000_000_000
-      expect(result['subunits']).to eq 18
-    end
-
-    it 'return error while putting base_factor and subunit params' do
-      data.merge!(code: 'test', blockchain_key: 'btc-testnet', subunits: 18, base_factor: 1)
-      request
-
-      expect(response.code).to eq '422'
-      expect(response.body).to match(/management.currency.one_of_base_factor_subunits_fields/i)
-    end
-
-    it 'creates currency with 1000 base_factor' do
-      data.merge!(code: 'test', blockchain_key: 'btc-testnet', base_factor: 1000)
-      request
-
-      result = JSON.parse(response.body)
-      expect(response).to be_successful
-      expect(result['base_factor']).to eq 1000
-      expect(result['subunits']).to eq 3
     end
 
     it 'checked required params' do
@@ -185,76 +110,13 @@ describe API::V2::Management::Currencies, type: :request do
     let(:signers) { %i[alex jeff] }
     let(:currency) { Currency.find(:btc) }
 
-    it 'should validate deposit_fee param' do
-      data.merge!(id: currency.id, deposit_fee: -10.0)
+
+    it 'should validate status param' do
+      data.merge!(id: currency.id, status: 'blah-blah')
       request
 
       expect(response).to have_http_status 422
-      expect(response.body).to match(/management.currency.invalid_deposit_fee/i)
-    end
-
-    it 'should validate min_deposit_amount param' do
-      data.merge!(id: currency.id, min_deposit_amount: -123.0)
-      request
-
-      expect(response).to have_http_status 422
-      expect(response.body).to match(/management.currency.invalid_min_deposit_amount/i)
-    end
-
-    it 'should validate min_collection_amount param' do
-      data.merge!(id: currency.id, min_collection_amount: -100.0)
-      request
-
-      expect(response).to have_http_status 422
-      expect(response.body).to match(/management.currency.invalid_min_collection_amount/i)
-    end
-
-    it 'should validate withdraw_fee param' do
-      data.merge!(id: currency.id, withdraw_fee: -100.0)
-      request
-
-      expect(response).to have_http_status 422
-      expect(response.body).to match(/management.currency.invalid_withdraw_fee/i)
-    end
-
-    it 'should validate min_withdraw_amount param' do
-      data.merge!(id: currency.id, min_withdraw_amount: -1)
-      request
-
-      expect(response).to have_http_status 422
-      expect(response.body).to match(/management.currency.invalid_min_withdraw_amount/i)
-    end
-
-    it 'should validate withdraw_limit_24h param' do
-      data.merge!(id: currency.id, withdraw_limit_24h: -1)
-      request
-
-      expect(response).to have_http_status 422
-      expect(response.body).to match(/management.currency.invalid_withdraw_limit_24h/i)
-    end
-
-    it 'should validate withdraw_limit_72h param' do
-      data.merge!(id: currency.id, withdraw_limit_72h: -1)
-      request
-
-      expect(response).to have_http_status 422
-      expect(response.body).to match(/management.currency.invalid_withdraw_limit_72h/i)
-    end
-
-    it 'should validate options param' do
-      data.merge!(id: currency.id, options: 'blah-blah')
-      request
-
-      expect(response).to have_http_status 422
-      expect(response.body).to match(/non_json_options/i)
-    end
-
-    it 'should validate visible param' do
-      data.merge!(id: currency.id, visible: 'blah-blah')
-      request
-
-      expect(response).to have_http_status 422
-      expect(response.body).to match(/management.currency.non_boolean_visible/i)
+      expect(response.body).to match(/management.currency.invalid_status/i)
     end
 
     it 'should validate position param' do
@@ -265,22 +127,6 @@ describe API::V2::Management::Currencies, type: :request do
       expect(response.body).to match(/management.currency.invalid_position/i)
     end
 
-    it 'should validate deposit_enabled param' do
-      data.merge!(id: currency.id, deposit_enabled: 'blah-blah')
-      request
-
-      expect(response).to have_http_status 422
-      expect(response.body).to match(/management.currency.non_boolean_deposit_enabled/i)
-    end
-
-    it 'should validate withdrawal_enabled param' do
-      data.merge!(id: currency.id, withdrawal_enabled: 'blah-blah')
-      request
-
-      expect(response).to have_http_status 422
-      expect(response.body).to match(/management.currency.non_boolean_withdrawal_enabled/i)
-    end
-
     it 'should check required params' do
       request
 
@@ -289,15 +135,14 @@ describe API::V2::Management::Currencies, type: :request do
     end
 
     it 'should update currency' do
-      data.merge!(id: currency.id, visible: 'true', withdraw_fee: '0.1')
+      data.merge!(id: currency.id, status: 'enabled')
       request
 
       expect(response).to have_http_status 200
 
       result = JSON.parse(response.body)
       expect(result.fetch('id')).to eq currency.id
-      expect(result.fetch('visible')).to eq true
-      expect(result.fetch('withdraw_fee')).to eq '0.1'
+      expect(result.fetch('status')).to eq 'enabled'
     end
   end
 

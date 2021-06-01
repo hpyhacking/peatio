@@ -61,16 +61,17 @@ class OrderAsk < Order
 end
 
 # == Schema Information
-# Schema version: 20201125134745
+# Schema version: 20210609094033
 #
 # Table name: orders
 #
-#  id             :integer          not null, primary key
+#  id             :bigint           not null, primary key
 #  uuid           :binary(16)       not null
 #  remote_id      :string(255)
 #  bid            :string(10)       not null
 #  ask            :string(10)       not null
 #  market_id      :string(20)       not null
+#  market_type    :string(255)      default("spot"), not null
 #  price          :decimal(32, 16)
 #  volume         :decimal(32, 16)  not null
 #  origin_volume  :decimal(32, 16)  not null
@@ -78,7 +79,7 @@ end
 #  taker_fee      :decimal(17, 16)  default(0.0), not null
 #  state          :integer          not null
 #  type           :string(8)        not null
-#  member_id      :integer          not null
+#  member_id      :bigint           not null
 #  ord_type       :string(30)       not null
 #  locked         :decimal(32, 16)  default(0.0), not null
 #  origin_locked  :decimal(32, 16)  default(0.0), not null
@@ -89,12 +90,12 @@ end
 #
 # Indexes
 #
-#  index_orders_on_member_id                     (member_id)
-#  index_orders_on_state                         (state)
-#  index_orders_on_type_and_market_id            (type,market_id)
-#  index_orders_on_type_and_member_id            (type,member_id)
-#  index_orders_on_type_and_state_and_market_id  (type,state,market_id)
-#  index_orders_on_type_and_state_and_member_id  (type,state,member_id)
-#  index_orders_on_updated_at                    (updated_at)
-#  index_orders_on_uuid                          (uuid) UNIQUE
+#  index_orders_on_member_id                                     (member_id)
+#  index_orders_on_state                                         (state)
+#  index_orders_on_type_and_market_id_and_market_type            (type,market_id,market_type)
+#  index_orders_on_type_and_member_id                            (type,member_id)
+#  index_orders_on_type_and_state_and_market_id_and_market_type  (type,state,market_id,market_type)
+#  index_orders_on_type_and_state_and_member_id                  (type,state,member_id)
+#  index_orders_on_updated_at                                    (updated_at)
+#  index_orders_on_uuid                                          (uuid) UNIQUE
 #

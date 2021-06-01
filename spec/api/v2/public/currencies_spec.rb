@@ -8,11 +8,8 @@ describe API::V2::Public::Currencies, type: :request do
     let(:fiat) { Currency.find(:usd) }
     let(:coin) { Currency.find(:btc) }
 
-    let(:expected_for_fiat) do
-      %w[id type deposit_enabled withdrawal_enabled deposit_fee withdraw_fee withdraw_limit_24h withdraw_limit_72h base_factor precision]
-    end
-    let(:expected_for_coin) do
-      expected_for_fiat.concat(%w[explorer_transaction explorer_address])
+    let(:expected) do
+      %w[id description homepage type precision position price]
     end
 
     it 'returns information about specified currency' do
@@ -40,11 +37,7 @@ describe API::V2::Public::Currencies, type: :request do
 
       result = JSON.parse(response.body)
 
-      expected_for_fiat.each { |key| expect(result).to have_key key }
-
-      (expected_for_coin - expected_for_fiat).each do |key|
-        expect(result).not_to have_key key
-      end
+      expected.each { |key| expect(result).to have_key key }
     end
 
     it 'returns correct keys for coin' do
@@ -52,7 +45,7 @@ describe API::V2::Public::Currencies, type: :request do
       expect(response).to be_successful
 
       result = JSON.parse(response.body)
-      expected_for_coin.each { |key| expect(result).to have_key key }
+      expected.each { |key| expect(result).to have_key key }
     end
 
     it 'returns error in case of invalid id' do

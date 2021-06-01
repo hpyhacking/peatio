@@ -23,6 +23,31 @@ module API
         )
 
         expose(
+          :blockchain_key,
+          documentation:{
+            type: String,
+            desc: 'Unique key to identify blockchain.'
+          }
+        )
+
+        expose(
+          :protocol,
+          documentation: {
+            desc: 'Blockchain protocol',
+          },
+          if: -> (deposit){ deposit.currency.coin? }
+        )
+
+
+        expose(
+          :warning,
+          documentation: {
+            desc: 'Blockchain warning',
+          },
+          if: -> (deposit){ deposit.currency.coin? }
+        )
+
+        expose(
           :amount,
           format_with: :decimal,
           documentation: {

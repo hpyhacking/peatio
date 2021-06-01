@@ -8,6 +8,7 @@ FactoryBot.define do
 
     factory :deposit_btc, class: Deposits::Coin do
       currency { Currency.find(:btc) }
+      blockchain_key { 'btc-testnet' }
       address { Faker::Blockchain::Bitcoin.address }
       txid { Faker::Lorem.characters(64) }
       txout { 0 }
@@ -20,6 +21,7 @@ FactoryBot.define do
 
     trait :deposit_btc do
       type { Deposits::Coin }
+      blockchain_key { 'btc-testnet' }
       currency { Currency.find(:btc) }
       address { Faker::Blockchain::Bitcoin.address }
       txid { Faker::Lorem.characters(64) }
@@ -29,6 +31,7 @@ FactoryBot.define do
     trait :deposit_eth do
       type { Deposits::Coin }
       currency { Currency.find(:eth) }
+      blockchain_key { 'eth-rinkeby' }
       member { create(:member, :level_3, :barong) }
       address { Faker::Blockchain::Bitcoin.address }
       txid { Faker::Lorem.characters(64) }
@@ -38,6 +41,7 @@ FactoryBot.define do
     trait :deposit_trst do
       type { Deposits::Coin }
       currency { Currency.find(:trst) }
+      blockchain_key { 'eth-rinkeby' }
       member { create(:member, :level_3, :barong) }
       address { Faker::Blockchain::Bitcoin.address }
       txid { Faker::Lorem.characters(64) }
@@ -47,6 +51,7 @@ FactoryBot.define do
     trait :deposit_ring do
       type { Deposits::Coin }
       currency { Currency.find(:ring) }
+      blockchain_key { 'eth-rinkeby' }
       member { create(:member, :level_3, :barong) }
       address { Faker::Blockchain::Bitcoin.address }
       txid { Faker::Lorem.characters(64) }

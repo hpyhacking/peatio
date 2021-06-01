@@ -4,7 +4,7 @@ describe API::V2::Management::PaymentAddress, type: :request do
   let(:member1) { create(:member, :level_3) }
   let(:member2) { create(:member, :level_3) }
   let(:signers) { %i[alex jeff] }
-  
+
   before do
     defaults_for_management_api_v1_security_configuration!
     management_api_v1_security_configuration.merge! \
@@ -14,7 +14,7 @@ describe API::V2::Management::PaymentAddress, type: :request do
   end
 
   describe 'POST /api/v2/management/deposit_address/new' do
-    let(:data) { { currency: 'eth', uid: member1.uid } }
+    let(:data) { { currency: 'eth', blockchain_key: 'eth-rinkeby', uid: member1.uid } }
     let(:address) { 'qwerty' }
 
     def request
@@ -27,15 +27,16 @@ describe API::V2::Management::PaymentAddress, type: :request do
 
     it 'generates new address' do
       request
-      expect(response_body).to eq({"address"=>address, "currencies"=>[data[:currency]], "remote"=>false, "state"=>"active", "uid"=>data[:uid]})
+      expect(response_body).to eq({"address"=>address, "blockchain_key"=>data[:blockchain_key], "currencies"=>[data[:currency]], "remote"=>false, "state"=>"active", "uid"=>data[:uid]})
       expect(response).to have_http_status 200
     end
 
     context 'generates new address for btc' do
       it do
         data[:currency] = 'btc'
+        data[:blockchain_key] = 'btc-testnet'
         request
-        expect(response_body).to eq({"address"=>address, "currencies"=>[data[:currency]], "remote"=>false, "state"=>"active", "uid"=>data[:uid]})
+        expect(response_body).to eq({"address"=>address, "blockchain_key"=>data[:blockchain_key], "currencies"=>[data[:currency]], "remote"=>false, "state"=>"active", "uid"=>data[:uid]})
         expect(response).to have_http_status 200
       end
     end
@@ -44,7 +45,7 @@ describe API::V2::Management::PaymentAddress, type: :request do
       it do
         data[:remote] = true
         request
-        expect(response_body).to eq({"address"=>address, "currencies"=>[data[:currency]], "remote"=>true, "state"=>"active", "uid"=>data[:uid]})
+        expect(response_body).to eq({"address"=>address, "blockchain_key"=>data[:blockchain_key], "currencies"=>[data[:currency]], "remote"=>true, "state"=>"active", "uid"=>data[:uid]})
         expect(response).to have_http_status 200
       end
     end

@@ -13,6 +13,9 @@ FactoryBot.define do
       min_confirmations       { 6 }
       explorer_address        { 'https://etherscan.io/address/#{address}' }
       explorer_transaction    { 'https://etherscan.io/tx/#{txid}' }
+      warning                 { 'Reminder: For the safety of your funds, please confirm again that the network you wish to use is eth-rinkeby.' }
+      protocol                { 'ERC-20' }
+      description             { 'Ethereum Rinkeby' }
       status                  { 'active' }
     end
 
@@ -25,6 +28,9 @@ FactoryBot.define do
       min_confirmations       { 6 }
       explorer_address        { 'https://kovan.etherscan.io/address/#{address}' }
       explorer_transaction    { 'https://kovan.etherscan.io/tx/#{txid}' }
+      warning                 { 'Reminder: For the safety of your funds, please confirm again that the network you wish to use is eth-kovan.' }
+      protocol                { 'ERC-20' }
+      description             { 'Ethereum Kovan' }
       status                  { 'active' }
     end
 
@@ -37,6 +43,9 @@ FactoryBot.define do
       min_confirmations       { 4 }
       explorer_address        { 'https://etherscan.io/address/#{address}' }
       explorer_transaction    { 'https://etherscan.io/tx/#{txid}' }
+      warning                 { 'Reminder: For the safety of your funds, please confirm again that the network you wish to use is eth-mainet.' }
+      protocol                { 'ERC-20' }
+      description             { 'Ethereum Mainet' }
       status                  { 'disabled' }
     end
 
@@ -49,6 +58,9 @@ FactoryBot.define do
       min_confirmations       { 1 }
       explorer_address        { 'https://blockchain.info/address/#{address}' }
       explorer_transaction    { 'https://blockchain.info/tx/#{txid}' }
+      warning                 { 'Reminder: For the safety of your funds, please confirm again that the network you wish to use is btc-testnet.' }
+      protocol                { 'BEP-2' }
+      description             { 'Bitcoin Testnet' }
       status                  { 'active' }
     end
 
@@ -57,6 +69,9 @@ FactoryBot.define do
       name                    { 'Fake Testnet' }
       client                  { 'fake' }
       height                  { 1 }
+      warning                 { 'Reminder: For the safety of your funds, please confirm again that the network you wish to use is fake-testnet.' }
+      protocol                { 'Fake'}
+      description             { 'Fake Testnet' }
       status                  { 'active' }
     end
   end

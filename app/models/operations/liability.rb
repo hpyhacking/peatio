@@ -33,16 +33,16 @@ module Operations
 end
 
 # == Schema Information
-# Schema version: 20201125134745
+# Schema version: 20210609094033
 #
 # Table name: liabilities
 #
-#  id             :integer          not null, primary key
+#  id             :bigint           not null, primary key
 #  code           :integer          not null
 #  currency_id    :string(255)      not null
-#  member_id      :integer
+#  member_id      :bigint
 #  reference_type :string(255)
-#  reference_id   :integer
+#  reference_id   :bigint
 #  debit          :decimal(32, 16)  default(0.0), not null
 #  credit         :decimal(32, 16)  default(0.0), not null
 #  created_at     :datetime         not null

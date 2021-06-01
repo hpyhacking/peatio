@@ -47,7 +47,7 @@ module API
 
           present paginate(Rails.cache.fetch("currencies_#{params}", expires_in: 600) do
             currencies = Currency.visible.ordered
-            currencies = currencies.where(type: params[:type]).includes(:blockchain) if params[:type] == 'coin'
+            currencies = currencies.where(type: params[:type]) if params[:type] == 'coin'
             currencies = currencies.where(type: params[:type]) if params[:type] == 'fiat'
 
             search = currencies.ransack(search_attrs)

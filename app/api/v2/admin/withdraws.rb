@@ -13,6 +13,9 @@ module API
           optional :state,
                    values: { value: ->(v) { (Array.wrap(v) - Withdraw::STATES.map(&:to_s)).blank? }, message: 'admin.withdraw.invalid_state' },
                    desc: -> { API::V2::Admin::Entities::Withdraw.documentation[:state][:desc] }
+          optional :blockchain_key,
+                   values: { value: -> { ::Blockchain.pluck(:key) }, message: 'admin.withdraw.blockchain_key_doesnt_exist' },
+                   desc: 'Blockchain key of the requested withdrawal'
           optional :id,
                    type: Integer,
                    desc: -> { API::V2::Admin::Entities::Withdraw.documentation[:id][:desc] }
@@ -39,7 +42,7 @@ module API
           admin_authorize! :read, ::Withdraw
 
           ransack_params = Helpers::RansackBuilder.new(params)
-                                                  .eq(:id, :txid, :rid, :tid)
+                                                  .eq(:id, :txid, :rid, :tid, :blockchain_key)
                                                   .translate(uid: :member_uid, currency: :currency_id)
                                                   .with_daterange
                                                   .merge(type_eq: params[:type].present? ? "Withdraws::#{params[:type].capitalize}" : nil)

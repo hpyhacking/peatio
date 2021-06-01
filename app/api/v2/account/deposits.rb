@@ -26,6 +26,9 @@ module API
                    type: String,
                    allow_blank: false,
                    desc: 'Deposit transaction id.'
+          optional :blockchain_key,
+                   values: { value: -> { ::Blockchain.pluck(:key) }, message: 'account.deposit.blockchain_key_doesnt_exist' },
+                   desc: 'Blockchain key of the requested deposit'
           optional :time_from,
                    allow_blank: { value: false, message: 'account.deposit.empty_time_from' },
                    type: { value: Integer, message: 'account.deposit.non_integer_time_from' },
@@ -54,6 +57,7 @@ module API
                       .tap { |q| q.where!(currency: currency) if currency }
                       .tap { |q| q.where!(txid: params[:txid]) if params[:txid] }
                       .tap { |q| q.where!(aasm_state: params[:state]) if params[:state] }
+                      .tap { |q| q.where!(blockchain_key: params[:blockchain_key]) if params[:blockchain_key] }
                       .tap { |q| q.where!('updated_at >= ?', Time.at(params[:time_from])) if params[:time_from].present? }
                       .tap { |q| q.where!('updated_at <= ?', Time.at(params[:time_to])) if params[:time_to].present? }
                       .tap { |q| present paginate(q), with: API::V2::Entities::Deposit }
@@ -84,6 +88,10 @@ module API
                    type: String,
                    values: { value: -> { Currency.coins.visible.codes(bothcase: true) }, message: 'account.currency.doesnt_exist'},
                    desc: 'The account you want to deposit to.'
+          optional :blockchain_key,
+                   type: String,
+                   values: { value: -> { ::Blockchain.pluck(:key) }, message: 'account.deposit.blockchain_key_doesnt_exist' },
+                   desc: 'Blockchain key of the requested deposit address'
           given :currency do
             optional :address_format,
                      type: String,
@@ -96,12 +104,13 @@ module API
           user_authorize! :read, ::PaymentAddress
 
           currency = Currency.find(params[:currency])
-
-          unless currency.deposit_enabled?
+          blockchain_currency = BlockchainCurrency.find_by!(currency_id: params[:currency],
+                                                            blockchain_key: params[:blockchain_key])
+          unless blockchain_currency.deposit_enabled?
             error!({ errors: ['account.currency.deposit_disabled'] }, 422)
           end
 
-          wallet = Wallet.deposit_wallet(currency.id)
+          wallet = Wallet.deposit_wallet(currency.id, blockchain_currency.blockchain_key)
 
           unless wallet.present?
             error!({ errors: ['account.wallet.not_found'] }, 422)

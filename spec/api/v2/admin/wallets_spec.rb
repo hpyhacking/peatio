@@ -140,6 +140,113 @@ describe API::V2::Admin::Wallets, type: :request do
     end
   end
 
+  describe 'GET /api/v2/admin/wallets/overview' do
+    context 'successful response' do
+      let(:currency) { Currency.find(:btc) }
+      let(:blockchain_key) { 'btc-testnet' }
+
+      before do
+        Currency.active.where.not(id: currency.id).map { |c| c.update(status: :disabled) }
+        BlockchainCurrency.active.where.not(currency_id: currency.id).map { |c| c.update(status: :disabled) }
+      end
+
+      let(:expected_zero_result) {
+        [{"id"=>1,
+          "name"=>"Bitcoin",
+          "code"=>"btc",
+          "blockhains"=>
+           [{"blockchain_key"=>"btc-testnet",
+             "blockchain_name"=>"Bitcoin Testnet",
+             "balances"=>[{"kind"=>"hot", "balance"=>0}, {"kind"=>"deposit", "balance"=>0}],
+             "total"=>0,
+             "estimated_total"=>"0.0"}],
+          "total"=>0,
+          "estimated_total"=>"0.0"}]
+      }
+
+      context 'wallet balances are nil' do
+        it 'returns wallet overview' do
+          expect(Wallet.where(blockchain_key: 'btc-testnet').map(&:balance).uniq).to eq([nil])
+          api_get '/api/v2/admin/wallets/overview', token: token
+
+          expect(response).to be_successful
+          result = JSON.parse(response.body)
+          expect(result).to eq expected_zero_result
+        end
+      end
+
+      context 'with N/A balances' do
+        before do
+          Wallet.where(blockchain_key: 'btc-testnet').map do |w|
+            w.update(balance: { btc: 'N/A' })
+          end
+        end
+
+        it 'returns wallet overview' do
+          api_get '/api/v2/admin/wallets/overview', token: token
+
+          expect(response).to be_successful
+          result = JSON.parse(response.body)
+          expect(result).to eq expected_zero_result
+        end
+      end
+
+      context 'with updated_at more than 5m' do
+        before do
+          Wallet.find_by(blockchain_key: blockchain_key, kind: 'deposit')
+                .update(balance: { btc: '32' }, updated_at: 6.minutes.ago)
+
+          Wallet.find_by(blockchain_key: blockchain_key, kind: 'hot')
+                .update(balance: { btc: '44' }, updated_at: 6.minutes.ago)
+        end
+
+        it 'returns wallet overview' do
+          api_get '/api/v2/admin/wallets/overview', token: token
+
+          expect(response).to be_successful
+          result = JSON.parse(response.body)
+          expect(result[0]['blockhains'][0]['balances'][0].keys).to eq %w[kind balance updated_at]
+          expect(result[0]['blockhains'][0]['balances'][0]['balance']).to eq '44.0'
+          expect(result[0]['blockhains'][0]['balances'][1].keys).to eq %w[kind balance updated_at]
+          expect(result[0]['blockhains'][0]['balances'][1]['balance']).to eq '32.0'
+          expect(result[0]['blockhains'][0]['total']).to eq '76.0'
+          expect(result[0]['blockhains'][0]['estimated_total']).to eq '76.0'
+        end
+      end
+
+      context 'with updated_at less that 5m' do
+        before do
+          Wallet.find_by(blockchain_key: blockchain_key, kind: 'deposit')
+                .update(balance: { btc: '32' })
+
+          Wallet.find_by(blockchain_key: blockchain_key, kind: 'hot')
+                .update(balance: { btc: '44' })
+        end
+
+        it 'returns wallet overview' do
+          api_get '/api/v2/admin/wallets/overview', token: token
+
+          expect(response).to be_successful
+          result = JSON.parse(response.body)
+          expect(result[0]['blockhains'][0]['balances'][0].keys).to eq %w[kind balance]
+          expect(result[0]['blockhains'][0]['balances'][0]['balance']).to eq '44.0'
+          expect(result[0]['blockhains'][0]['balances'][1].keys).to eq %w[kind balance]
+          expect(result[0]['blockhains'][0]['balances'][1]['balance']).to eq '32.0'
+          expect(result[0]['blockhains'][0]['total']).to eq '76.0'
+          expect(result[0]['blockhains'][0]['estimated_total']).to eq '76.0'
+        end
+      end
+    end
+
+    context 'unsuccessful response' do
+      it 'return error in case of not permitted ability' do
+        api_get '/api/v2/admin/wallets/overview', token: level_3_member_token
+        expect(response.code).to eq '403'
+        expect(response).to include_api_error('admin.ability.not_permitted')
+      end
+    end
+  end
+
   describe 'GET /api/v2/admin/wallets/kinds' do
     it 'list kinds' do
       api_get '/api/v2/admin/wallets/kinds', token: token

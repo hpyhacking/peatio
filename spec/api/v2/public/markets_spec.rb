@@ -95,7 +95,7 @@ describe API::V2::Public::Markets, type: :request do
         end
 
         it 'filters by quote_code' do
-          Currency.find(:eur).update(visible: true)
+          Currency.find(:eur).update(status: :enabled)
           create(:market, :btceur)
           # Since we have next markets list:
           # btceur, btcusd, btceth, ethusd
@@ -111,7 +111,7 @@ describe API::V2::Public::Markets, type: :request do
 
       context 'quote_name' do
         before do
-          Currency.find(:eur).update(visible: true)
+          Currency.find(:eur).update(status: :enabled)
           create(:market, :btceur)
           create(:market, :btctrst)
         end
@@ -141,7 +141,7 @@ describe API::V2::Public::Markets, type: :request do
 
       context 'complex filter' do
         before do
-          Currency.find(:eur).update(visible: true)
+          Currency.find(:eur).update(status: :enabled)
           create(:market, :btceur)
           create(:market, :btctrst)
         end

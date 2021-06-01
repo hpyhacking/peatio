@@ -90,15 +90,15 @@ describe Ethereum::Eth::Wallet do
     end
 
     let(:eth) do
-      Currency.find_by(id: :eth)
+      BlockchainCurrency.find_by(currency_id: :eth)
     end
 
     let(:trst) do
-      Currency.find_by(id: :trst)
+      BlockchainCurrency.find_by(currency_id: :trst)
     end
 
     let(:ring) do
-      Currency.find_by(id: :ring)
+      BlockchainCurrency.find_by(currency_id: :ring)
     end
 
     let(:deposit_wallet_eth) { Wallet.joins(:currencies).find_by(currencies: { id: :eth }, kind: :deposit) }
@@ -354,10 +354,10 @@ describe Ethereum::Eth::Wallet do
       let(:spread_deposit) do
         [{ to_address: 'fake-hot',
            amount: '2.0',
-           currency_id: trst.id },
+           currency_id: trst.currency_id },
          { to_address: 'fake-hot',
            amount: '2.0',
-           currency_id: trst.id }]
+           currency_id: trst.currency_id }]
       end
 
       let(:settings) do
@@ -502,11 +502,11 @@ describe Ethereum::Eth::Wallet do
     end
 
     let(:eth) do
-      Currency.find_by(id: :eth)
+      BlockchainCurrency.find_by(currency_id: :eth)
     end
 
     let(:trst) do
-      Currency.find_by(id: :trst)
+      BlockchainCurrency.find_by(currency_id: :trst)
     end
 
     let(:hot_wallet_trst) { Wallet.joins(:currencies).find_by(currencies: { id: :trst }, kind: :hot) }

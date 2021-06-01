@@ -31,7 +31,7 @@ describe OpendaxCloud::Wallet do
     end
 
     let(:eth) do
-      Currency.find_by(id: :eth)
+      BlockchainCurrency.find_by(currency_id: :eth)
     end
 
     let(:uri) { 'http://127.0.0.1:8000' }
@@ -77,7 +77,7 @@ describe OpendaxCloud::Wallet do
     end
 
     let(:eth) do
-      Currency.find_by(id: :eth)
+      BlockchainCurrency.find_by(currency_id: :eth)
     end
 
     let(:deposit_wallet_eth) { Wallet.joins(:currencies).find_by(currencies: { id: :eth }, kind: :deposit) }
@@ -140,7 +140,7 @@ describe OpendaxCloud::Wallet do
     end
 
     let(:eth) do
-      Currency.find_by(id: :eth)
+      BlockchainCurrency.find_by(currency_id: :eth)
     end
 
     let(:uri) { 'http://127.0.0.1:8000' }
@@ -198,7 +198,7 @@ describe OpendaxCloud::Wallet do
     }
 
     let(:eth) do
-      Currency.find_by(id: :eth)
+      BlockchainCurrency.find_by(currency_id: :eth)
     end
 
     let(:uri) { 'http://127.0.0.1:8000' }

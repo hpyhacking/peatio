@@ -31,6 +31,15 @@ module API
         ) { |w| w.currency.fiat? ? :fiat : :coin }
 
         expose(
+          :blockchain_key,
+          documentation:{
+            type: String,
+            desc: 'Unique key to identify blockchain.'
+          },
+          if: -> (withdraw){ withdraw.currency.coin? }
+        )
+
+        expose(
           :sum,
           as: :amount,
           documentation: {
@@ -62,6 +71,14 @@ module API
             type: String,
             desc: 'The beneficiary ID or wallet address on the Blockchain.'
           }
+        )
+
+        expose(
+          :protocol,
+          documentation: {
+            desc: 'Blockchain protocol',
+          },
+          if: -> (withdraw){ withdraw.currency.coin? }
         )
 
         expose(

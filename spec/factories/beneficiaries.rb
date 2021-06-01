@@ -36,5 +36,11 @@ FactoryBot.define do
         generate(:fiat_beneficiary_data).merge(currency: currency.id)
       end
     end
+
+    blockchain_key do
+      if currency&.coin?
+        'eth-rinkeby'
+      end
+    end
   end
 end

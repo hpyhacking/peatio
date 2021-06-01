@@ -14,6 +14,7 @@ module API
           expose :amount, documentation: { type: String, desc: 'The withdraw amount excluding fee.' }, format_with: :decimal
           expose :fee, documentation: { type: String, desc: 'The exchange fee.' }, format_with: :decimal
           expose :rid, documentation: { type: String, desc: 'The beneficiary ID or wallet address on the Blockchain.' }
+          expose :blockchain_key, documentation: { type: String, desc: 'Unique key to identify blockchain.' }
           states = [
             '«prepared» – initial state, money are not locked.',
             '«submitted» – withdraw has been allowed by outer service for further validation, money are locked.',

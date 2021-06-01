@@ -10,14 +10,15 @@ module Withdraws
 end
 
 # == Schema Information
-# Schema version: 20210201100941
+# Schema version: 20210609094033
 #
 # Table name: withdraws
 #
-#  id             :integer          not null, primary key
-#  member_id      :integer          not null
+#  id             :bigint           not null, primary key
+#  member_id      :bigint           not null
 #  beneficiary_id :bigint
 #  currency_id    :string(10)       not null
+#  blockchain_key :string(255)
 #  amount         :decimal(32, 16)  not null
 #  fee            :decimal(32, 16)  not null
 #  txid           :string(128)

@@ -8,7 +8,7 @@ describe API::V2::Account::Balances, type: :request do
   let(:withdraw) { create(:btc_withdraw, member: member, sum: 5) }
   let(:token) { jwt_for(member) }
 
-  let(:response_body) { { 'currency' => 'eth', 'balance' => '30.5', 'locked' => '0.0', 'deposit_address' => nil } }
+  let(:response_body) { { 'currency' => 'eth', 'balance' => '30.5', 'locked' => '0.0', 'deposit_addresses' => [] } }
 
   before do
     Ability.stubs(:user_permissions).returns({'member'=>{'read'=>['Operations::Account']}})
@@ -32,7 +32,7 @@ describe API::V2::Account::Balances, type: :request do
       member.get_account('trst')
       member.get_account('ring')
       member.get_account('eur')
-      Currency.find(:eur).update!(visible: true)
+      Currency.find(:eur).update!(status: :enabled)
     end
 
     context 'all balances' do
@@ -43,11 +43,11 @@ describe API::V2::Account::Balances, type: :request do
         expect(response).to have_http_status 200
         result = JSON.parse(response.body)
         expect(result).to contain_exactly(
-                              { 'currency' => 'btc', 'balance' => '5.0', 'locked' => '5.0', 'deposit_address' => nil },
-                              { 'currency' => 'eth', 'balance' => '30.5', 'locked' => '0.0', 'deposit_address' => nil },
+                              { 'currency' => 'btc', 'balance' => '5.0', 'locked' => '5.0', 'deposit_addresses' => [] },
+                              { 'currency' => 'eth', 'balance' => '30.5', 'locked' => '0.0', 'deposit_addresses' => [] },
                               { 'currency' => 'usd', 'balance' => '0.0', 'locked' => '0.0' },
-                              { 'currency' => 'trst', 'balance' => '0.0', 'locked' => '0.0', 'deposit_address' => nil },
-                              { 'currency' => 'ring', 'balance' => '0.0', 'locked' => '0.0', 'deposit_address' => nil },
+                              { 'currency' => 'trst', 'balance' => '0.0', 'locked' => '0.0', 'deposit_addresses' => [] },
+                              { 'currency' => 'ring', 'balance' => '0.0', 'locked' => '0.0', 'deposit_addresses' => [] },
                               { 'currency' => 'eur', 'balance' => '0.0', 'locked' => '0.0' }
                               )
       end
@@ -60,8 +60,8 @@ describe API::V2::Account::Balances, type: :request do
         expect(response).to have_http_status 200
         result = JSON.parse(response.body)
         expect(result).to contain_exactly(
-                            { 'currency' => 'btc',  'balance' => '5.0',  'locked'  => '5.0', 'deposit_address' => nil },
-                            { 'currency' => 'eth',  'balance' => '30.5', 'locked'  => '0.0', 'deposit_address' => nil },
+                            { 'currency' => 'btc',  'balance' => '5.0',  'locked'  => '5.0', 'deposit_addresses' => [] },
+                            { 'currency' => 'eth',  'balance' => '30.5', 'locked'  => '0.0', 'deposit_addresses' => [] },
                             )
       end
     end
@@ -73,11 +73,11 @@ describe API::V2::Account::Balances, type: :request do
         expect(response).to have_http_status 200
         result = JSON.parse(response.body)
         expect(result).to contain_exactly(
-                              { 'currency' => 'btc',  'balance' => '5.0',  'locked'  => '5.0', 'deposit_address' => nil },
-                              { 'currency' => 'eth',  'balance' => '30.5', 'locked'  => '0.0', 'deposit_address' => nil },
+                              { 'currency' => 'btc',  'balance' => '5.0',  'locked'  => '5.0', 'deposit_addresses' => [] },
+                              { 'currency' => 'eth',  'balance' => '30.5', 'locked'  => '0.0', 'deposit_addresses' => [] },
                               { 'currency' => 'usd',  'balance' => '0.0',  'locked'  => '0.0' },
-                              { 'currency' => 'trst',  'balance' => '0.0',  'locked'  => '0.0', 'deposit_address' => nil },
-                              { 'currency' => 'ring',  'balance' => '0.0',  'locked'  => '0.0', 'deposit_address' => nil },
+                              { 'currency' => 'trst',  'balance' => '0.0',  'locked'  => '0.0', 'deposit_addresses' => [] },
+                              { 'currency' => 'ring',  'balance' => '0.0',  'locked'  => '0.0', 'deposit_addresses' => [] },
                               { 'currency' => 'eur',  'balance' => '0.0',  'locked'  => '0.0' },
                               )
       end
@@ -110,7 +110,7 @@ describe API::V2::Account::Balances, type: :request do
     context 'disable currency' do
 
       before do
-        Currency.find(:eth).update(visible: false)
+        Currency.find(:eth).update(status: :disabled)
         api_get '/api/v2/account/balances', token: token
       end
 
@@ -259,7 +259,7 @@ describe API::V2::Account::Balances, type: :request do
     context 'disable currency' do
 
       before do
-        Currency.find(:eth).update(visible: false)
+        Currency.find(:eth).update(status: :disabled)
         api_get '/api/v2/account/balances/eth', token: token
       end
 

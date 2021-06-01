@@ -85,8 +85,8 @@ describe Account do
       currency = Currency.find(:eth)
       currency.transaction do
         # We have created 3 account.
-        expect{ currency.update_columns(visible: false) }.to change { Account.visible.count }.by(-1)
-        currency.update_columns(visible: true)
+        expect{ currency.update_columns(status: :disabled) }.to change { Account.visible.count }.by(-1)
+        currency.update_columns(status: :enabled)
       end
     end
   end

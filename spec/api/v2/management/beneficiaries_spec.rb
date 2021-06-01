@@ -111,6 +111,15 @@ describe API::V2::Management::Beneficiaries, type: :request do
       end
     end
 
+    context 'blockchain_key' do
+      it do
+        beneficiary_data.merge!(blockchain_key: 'eth-rinkeby')
+        request
+        expect(response.status).to eq 200
+        expect(response_body.all? { |b| b['blockchain_key'] == 'eth-rinkeby' }).to be_truthy
+      end
+    end
+
     context 'both currency and state' do
       let!(:active_btc_beneficiaries_for_member) do
         create_list(:beneficiary, 3, member: member, state: :active)
@@ -137,6 +146,7 @@ describe API::V2::Management::Beneficiaries, type: :request do
         currency: :btc,
         name: 'Personal Bitcoin wallet',
         description: 'Multisignature Bitcoin Wallet',
+        blockchain_key: 'btc-testnet',
         uid: member.uid,
         state: 'active',
         data: {
@@ -147,7 +157,7 @@ describe API::V2::Management::Beneficiaries, type: :request do
 
     context 'invalid params' do
       context 'missing required params' do
-        %i[currency name data uid].each do |rp|
+        %i[currency name data uid blockchain_key].each do |rp|
           context rp do
             it do
               beneficiary_data.except!(rp)
@@ -204,6 +214,15 @@ describe API::V2::Management::Beneficiaries, type: :request do
         end
       end
 
+      context 'data has invalid type' do
+        it do
+          beneficiary_data.merge!(blockchain_key: 'invalid')
+          request
+          expect(response.status).to eq 422
+          expect(response.body).to match(/management.beneficiary.blockchain_key_doesnt_exist/i)
+        end
+      end
+
       context 'crypto beneficiary' do
         context 'nil address in data' do
           it do
@@ -226,9 +245,9 @@ describe API::V2::Management::Beneficiaries, type: :request do
         end
 
         context 'disabled withdrawal for currency' do
-          let(:currency) { Currency.find(:btc) }
+          let(:blockchain_currency) { BlockchainCurrency.find_by(currency_id: 'btc') }
           before do
-            currency.update(withdrawal_enabled: false)
+            blockchain_currency.update(withdrawal_enabled: false)
           end
           it do
             request
@@ -253,6 +272,7 @@ describe API::V2::Management::Beneficiaries, type: :request do
             before do
               create(:beneficiary,
                      member: member,
+                     blockchain_key: beneficiary_data[:blockchain_key],
                      currency_id: beneficiary_data[:currency],
                      data: {address: beneficiary_data.dig(:data, :address)})
             end
@@ -268,6 +288,7 @@ describe API::V2::Management::Beneficiaries, type: :request do
             before do
               create(:beneficiary,
                      member: member,
+                     blockchain_key: 'eth-rinkeby',
                      currency_id: :eth,
                      data: {address: beneficiary_data.dig(:data, :address)})
             end
@@ -303,6 +324,8 @@ describe API::V2::Management::Beneficiaries, type: :request do
             expect(response.status).to eq 201
 
             result = JSON.parse(response.body)
+
+            expect(result['blockchain_key']).to eq beneficiary_data[:blockchain_key]
             expect(Beneficiary.find(result['id']).data['address']).to eq(beneficiary_data[:data][:address])
           end
         end
@@ -323,6 +346,7 @@ describe API::V2::Management::Beneficiaries, type: :request do
               beneficiary_data[:data].except!(:address)
               request
               expect(response.status).to eq 201
+              expect(response_body['blockchain_key']).to eq nil
               expect(response_body['data']).to eq beneficiary_data[:data].with_indifferent_access
             end
           end

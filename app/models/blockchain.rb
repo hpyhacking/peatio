@@ -8,11 +8,11 @@ class Blockchain < ApplicationRecord
 
   vault_attribute :server
 
-  has_many :currencies, foreign_key: :blockchain_key, primary_key: :key
   has_many :wallets, foreign_key: :blockchain_key, primary_key: :key
   has_many :whitelisted_smart_contracts, foreign_key: :blockchain_key, primary_key: :key
+  has_many :blockchain_currencies, foreign_key: :blockchain_key, primary_key: :key
 
-  validates :key, :name, :client, presence: true
+  validates :key, :name, :client, :protocol, presence: true
   validates :key, uniqueness: true
   validates :status, inclusion: { in: %w[active disabled] }
   validates :height,
@@ -51,16 +51,19 @@ class Blockchain < ApplicationRecord
 end
 
 # == Schema Information
-# Schema version: 20201125134745
+# Schema version: 20210601111215
 #
 # Table name: blockchains
 #
-#  id                   :integer          not null, primary key
+#  id                   :bigint           not null, primary key
 #  key                  :string(255)      not null
 #  name                 :string(255)
 #  client               :string(255)      not null
 #  server_encrypted     :string(1024)
 #  height               :bigint           not null
+#  description          :text(65535)
+#  warning              :text(65535)
+#  protocol             :string(255)      not null
 #  explorer_address     :string(255)
 #  explorer_transaction :string(255)
 #  min_confirmations    :integer          default(6), not null

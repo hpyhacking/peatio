@@ -104,10 +104,16 @@ class Wallet < ApplicationRecord
         end
     end
 
-    def deposit_wallet(currency_id)
-      Wallet.active.deposit.joins(:currencies).find_by(currencies: { id: currency_id })
+    def deposit_wallet(currency_id, blockchain_key=nil)
+      if blockchain_key
+        Wallet.active.deposit.joins(:currencies).find_by(currencies: { id: currency_id }, blockchain_key: blockchain_key)
+      else
+        Wallet.active.deposit.joins(:currencies).find_by(currencies: { id: currency_id })
+      end
     end
   end
+
+  delegate :protocol, to: :blockchain
 
   def current_balance(currency = nil)
     if currency.present?
@@ -147,11 +153,11 @@ class Wallet < ApplicationRecord
 end
 
 # == Schema Information
-# Schema version: 20201125134745
+# Schema version: 20210609094033
 #
 # Table name: wallets
 #
-#  id                 :integer          not null, primary key
+#  id                 :bigint           not null, primary key
 #  blockchain_key     :string(32)
 #  name               :string(64)
 #  address            :string(255)      not null

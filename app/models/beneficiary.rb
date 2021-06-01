@@ -69,12 +69,17 @@ class Beneficiary < ApplicationRecord
 
   belongs_to :currency, required: true
   belongs_to :member, required: true
+  belongs_to :blockchain, foreign_key: :blockchain_key, primary_key: :key
 
   # == Validations ==========================================================
 
   validates :pin, presence: true, numericality: { only_integer: true }
 
   validates :data, presence: true
+
+  validates :blockchain_key,
+            inclusion: { in: ->(_) { Blockchain.pluck(:key).map(&:to_s) } },
+            if: -> { currency.present? && currency.coin?  }
 
   # Validates that data contains address field which is required for coin.
   validate if: ->(b) { b.currency.present? && b.currency.coin? } do
@@ -191,13 +196,14 @@ class Beneficiary < ApplicationRecord
 end
 
 # == Schema Information
-# Schema version: 20201125134745
+# Schema version: 20210609094033
 #
 # Table name: beneficiaries
 #
 #  id             :bigint           not null, primary key
 #  member_id      :bigint           not null
 #  currency_id    :string(10)       not null
+#  blockchain_key :string(255)
 #  name           :string(64)       not null
 #  description    :string(255)      default("")
 #  data_encrypted :string(1024)
