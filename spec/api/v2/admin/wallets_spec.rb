@@ -346,6 +346,35 @@ describe API::V2::Admin::Wallets, type: :request do
       expect(response.code).to eq '403'
       expect(response).to include_api_error('admin.ability.not_permitted')
     end
+
+    context 'validate wallet kind is supported by the gateway' do
+      class CustomWallet < Peatio::Wallet::Abstract
+        def initialize(_opts = {}); end
+        def configure(settings = {}); end
+
+        def supported_wallet_kinds
+          ['hot']
+        end
+      end
+
+      before(:all) do
+        Peatio::Wallet.registry[:custom] = CustomWallet
+      end
+
+      it do
+        api_post '/api/v2/admin/wallets/new', params: { name: 'Test', kind: 'hot', currencies: ['eth','trst'], address: 'blank', blockchain_key: 'btc-testnet', gateway: 'custom', settings: { uri: 'http://127.0.0.1:18332'}}, token: token
+
+        expect(response).to be_successful
+        expect(response_body['gateway']).to eq 'custom'
+      end
+
+      it 'returns error' do
+        api_post '/api/v2/admin/wallets/new', params: { name: 'Test', kind: 'deposit', currencies: ['eth','trst'], address: 'blank', blockchain_key: 'btc-testnet', gateway: 'custom', settings: { uri: 'http://127.0.0.1:18332'}}, token: token
+
+        expect(response.code).to eq '422'
+        expect(response).to include_api_error("Gateway custom can't be used as a deposit wallet")
+      end
+    end
   end
 
   describe 'POST /api/v2/admin/wallets/update' do

@@ -15,9 +15,9 @@ module Workers
             Rails.logger.warn { "Can't find active deposit wallet for currency with code: #{deposit.currency_id}."}
             next
           end
-          service = WalletService.new(wallet)
+
           # Check if adapter has prepare_deposit_collection! implementation
-          if service.adapter.class.instance_methods(false).include?(:prepare_deposit_collection!)
+          if wallet.gateway_implements?(:prepare_deposit_collection!)
             begin
               # Process fee collection for tokens
               collect_fee(deposit)
@@ -78,7 +78,7 @@ module Workers
       def collect_fee(deposit)
         if deposit.spread.blank?
           deposit.spread_between_wallets!
-          Rails.logger.warn { "The deposit was spreaded in the next way: #{deposit.spread}"}
+          Rails.logger.warn { "The deposit was spread in the next way: #{deposit.spread}"}
         end
 
         fee_wallet = Wallet.active.fee.find_by(blockchain_key: deposit.blockchain_key)
