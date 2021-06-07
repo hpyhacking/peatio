@@ -352,8 +352,8 @@ describe API::V2::Admin::Wallets, type: :request do
         def initialize(_opts = {}); end
         def configure(settings = {}); end
 
-        def supported_wallet_kinds
-          ['hot']
+        def support_wallet_kind?(kind)
+          kind == 'hot'
         end
       end
 

@@ -146,8 +146,9 @@ class Wallet < ApplicationRecord
   end
 
   def gateway_wallet_kind_support
-    return unless gateway_implements?(:supported_wallet_kinds)
-    errors.add(:gateway, "#{gateway} can't be used as a #{kind} wallet") if service.adapter.supported_wallet_kinds.exclude?(kind)
+    return unless gateway_implements?(:support_wallet_kind?)
+
+    errors.add(:gateway, "#{gateway} can't be used as a #{kind} wallet") unless service.adapter.support_wallet_kind?(kind)
   end
 
   def to_wallet_api_settings

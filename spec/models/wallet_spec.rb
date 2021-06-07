@@ -67,5 +67,35 @@ describe Wallet do
         subject.save!
       }.to raise_error ActiveRecord::ValueTooLong
     end
+
+    context 'gateway_wallet_kind_support' do
+      class AbstractWallet < Peatio::Wallet::Abstract
+        def initialize(_opts = {}); end
+        def configure(settings = {}); end
+
+        def support_wallet_kind?(kind)
+          kind == 'hot'
+        end
+      end
+
+      before(:all) do
+        Peatio::Wallet.registry[:test] = AbstractWallet
+      end
+
+      it 'allows to create hot wallet' do
+        expect {
+          subject.gateway = 'test'
+          subject.kind = 'hot'
+          subject.save!
+        }.not_to raise_error
+      end
+
+      it 'does not allow to create hot wallet' do
+        subject.gateway = 'test'
+        subject.kind = 'deposit'
+        expect(subject).to_not be_valid
+        expect(subject.errors.full_messages).to eq ['Gateway test can\'t be used as a deposit wallet']
+      end
+    end
   end
 end
