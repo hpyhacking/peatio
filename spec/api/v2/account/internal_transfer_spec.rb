@@ -192,5 +192,4 @@ describe API::V2::Account::InternalTransfers, type: :request do
       expect(response).to include_api_error('account.internal_transfer.can_not_tranfer_to_yourself')
     end
   end
-
 end
