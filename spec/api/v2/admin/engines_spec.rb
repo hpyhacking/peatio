@@ -135,6 +135,13 @@ describe API::V2::Admin::Engines, type: :request do
       expect(Engine.first.secret).to eq('my_secret')
     end
 
+    it 'updates uid' do
+      api_post '/api/v2/admin/engines/update', params: { id: Engine.first.id, uid: 'ID871263897' }, token: token
+
+      expect(response).to be_successful
+      expect(Engine.first.uid).to eq('ID871263897')
+    end
+
     it 'checkes required params' do
       api_post '/api/v2/admin/engines/update', params: {}, token: token
 
