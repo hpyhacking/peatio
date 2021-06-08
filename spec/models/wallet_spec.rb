@@ -79,22 +79,22 @@ describe Wallet do
       end
 
       before(:all) do
-        Peatio::Wallet.registry[:test] = AbstractWallet
+        Peatio::Wallet.registry[:abc] = AbstractWallet
       end
 
       it 'allows to create hot wallet' do
         expect {
-          subject.gateway = 'test'
+          subject.gateway = 'abc'
           subject.kind = 'hot'
           subject.save!
         }.not_to raise_error
       end
 
       it 'does not allow to create hot wallet' do
-        subject.gateway = 'test'
+        subject.gateway = 'abc'
         subject.kind = 'deposit'
         expect(subject).to_not be_valid
-        expect(subject.errors.full_messages).to eq ['Gateway test can\'t be used as a deposit wallet']
+        expect(subject.errors.full_messages).to eq ['Gateway abc can\'t be used as a deposit wallet']
       end
     end
   end
