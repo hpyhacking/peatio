@@ -60,6 +60,11 @@ module API
               values: { value: -> { ::BlockchainCurrency::STATES }, message: 'admin.blockchain_currency.invalid_status'},
               desc: -> { API::V2::Admin::Entities::BlockchainCurrency.documentation[:status][:desc] }
             },
+            auto_update_fees_enabled: {
+              type: { value: Boolean, message: 'admin.blockchain_currency.non_boolean_auto_update_fees_enabled' },
+              default: true,
+              desc: -> { API::V2::Admin::Entities::BlockchainCurrency.documentation[:auto_update_fees_enabled][:desc] }
+            },
             deposit_enabled: {
               type: { value: Boolean, message: 'admin.blockchain_currency.non_boolean_deposit_enabled' },
               default: true,

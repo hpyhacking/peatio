@@ -202,7 +202,8 @@ describe API::V2::Admin::Blockchains, type: :request do
     it 'creates new blockchain' do
       api_post '/api/v2/admin/blockchains/new', token: token, params: { key: 'test-blockchain', name: 'Test', client: 'geth', server: 'http://127.0.0.1',
                                                                         explorer_transaction: 'test', explorer_address: 'test', height: 123333,
-                                                                        warning: 'Warning', description: 'Description', protocol: 'Protocol'}
+                                                                        warning: 'Warning', description: 'Description', protocol: 'Protocol',
+                                                                        min_deposit_amount: 1, min_withdraw_amount: 2, withdraw_fee: 0.1}
       result = JSON.parse(response.body)
 
       expect(response).to be_successful
@@ -210,6 +211,9 @@ describe API::V2::Admin::Blockchains, type: :request do
       expect(result['warning']).to eq 'Warning'
       expect(result['description']).to eq 'Description'
       expect(result['protocol']).to eq 'Protocol'
+      expect(result['min_deposit_amount']).to eq '1.0'
+      expect(result['min_withdraw_amount']).to eq '2.0'
+      expect(result['withdraw_fee']).to eq '0.1'
     end
 
     it 'long blockchain key' do
@@ -290,7 +294,8 @@ describe API::V2::Admin::Blockchains, type: :request do
       end
 
       it 'returns updated blockchain' do
-        api_post '/api/v2/admin/blockchains/update', params: { name: 'Test Blockchain', id: Blockchain.first.id, warning: 'Warning', description: 'Description', protocol: 'Protocol' }, token: token
+        api_post '/api/v2/admin/blockchains/update', params: { name: 'Test Blockchain', id: Blockchain.first.id, warning: 'Warning', description: 'Description', protocol: 'Protocol',
+                                                               min_deposit_amount: 1, min_withdraw_amount: 2, withdraw_fee: 0.1 }, token: token
         result = JSON.parse(response.body)
 
         expect(response).to be_successful
@@ -298,6 +303,9 @@ describe API::V2::Admin::Blockchains, type: :request do
         expect(result['warning']).to eq 'Warning'
         expect(result['description']).to eq 'Description'
         expect(result['protocol']).to eq 'Protocol'
+        expect(result['min_deposit_amount']).to eq '1.0'
+        expect(result['min_withdraw_amount']).to eq '2.0'
+        expect(result['withdraw_fee']).to eq '0.1'
       end
     end
 

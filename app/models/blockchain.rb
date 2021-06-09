@@ -12,7 +12,7 @@ class Blockchain < ApplicationRecord
   has_many :whitelisted_smart_contracts, foreign_key: :blockchain_key, primary_key: :key
   has_many :blockchain_currencies, foreign_key: :blockchain_key, primary_key: :key
 
-  validates :key, :name, :client, :protocol, presence: true
+  validates :key, :name, :client, :protocol, :min_deposit_amount, :withdraw_fee, presence: true
   validates :key, uniqueness: true
   validates :status, inclusion: { in: %w[active disabled] }
   validates :height,
@@ -20,6 +20,11 @@ class Blockchain < ApplicationRecord
             numericality: { greater_than_or_equal_to: 1, only_integer: true }
   validates :server, url: { allow_blank: true }
   validates :client, inclusion: { in: -> (_) { clients.map(&:to_s) } }
+
+  validates :min_deposit_amount,
+            :withdraw_fee,
+            :min_withdraw_amount,
+            numericality: { greater_than_or_equal_to: 0 }
 
   before_create { self.key = self.key.strip.downcase }
 
@@ -51,7 +56,7 @@ class Blockchain < ApplicationRecord
 end
 
 # == Schema Information
-# Schema version: 20210601111215
+# Schema version: 20210609094033
 #
 # Table name: blockchains
 #
@@ -67,6 +72,9 @@ end
 #  explorer_address     :string(255)
 #  explorer_transaction :string(255)
 #  min_confirmations    :integer          default(6), not null
+#  min_deposit_amount   :decimal(32, 16)  default(0.0), not null
+#  withdraw_fee         :decimal(32, 16)  default(0.0), not null
+#  min_withdraw_amount  :decimal(32, 16)  default(0.0), not null
 #  status               :string(255)      not null
 #  created_at           :datetime         not null
 #  updated_at           :datetime         not null

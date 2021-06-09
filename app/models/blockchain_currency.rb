@@ -1,8 +1,9 @@
 # frozen_string_literal: true
 
 class BlockchainCurrency < ApplicationRecord
-  # == Constants ============================================================
 
+  # == Constants ============================================================
+  DB_DECIMAL_PRECISION = 16
   OPTIONS_ATTRIBUTES = %i[erc20_contract_address gas_limit gas_price].freeze
 
   STATES = %w[enabled disabled hidden].freeze
@@ -73,7 +74,14 @@ class BlockchainCurrency < ApplicationRecord
     self.erc20_contract_address = erc20_contract_address.try(:downcase) if erc20_contract_address.present?
   end
 
+  before_save do
+    if auto_update_fees_enabled && currency.coin?
+      update_fees
+    end
+  end
+
   # == Class Methods ========================================================
+
   # == Instance Methods =====================================================
   delegate :explorer_transaction, :explorer_address, :blockchain_api, :description, :warning, :protocol, to: :blockchain
 
@@ -105,28 +113,45 @@ class BlockchainCurrency < ApplicationRecord
                                   min_collection_amount: min_collection_amount,
                                   options:               opt)
   end
+
+  def update_fees
+    market = Market.find_by(base_unit: currency.id, quote_unit: Peatio::App.config.platform_currency)
+    ticker = Trade.market_ticker_from_influx(market.symbol) if market.present?
+    price = ticker.present? ? ticker[:vwap].to_d : currency.price
+
+    self.min_deposit_amount = round(blockchain.min_deposit_amount / price)
+    self.min_collection_amount = round(blockchain.min_deposit_amount / price)
+    self.withdraw_fee = round(blockchain.withdraw_fee / price)
+  end
+
+  private
+
+  def round(d)
+    d.round(BlockchainCurrency::DB_DECIMAL_PRECISION, BigDecimal::ROUND_DOWN)
+  end
 end
 
 # == Schema Information
-# Schema version: 20210601111215
+# Schema version: 20210609094033
 #
 # Table name: blockchain_currencies
 #
-#  id                    :bigint           not null, primary key
-#  currency_id           :string(255)      not null
-#  blockchain_key        :string(255)
-#  deposit_fee           :decimal(32, 16)  default(0.0), not null
-#  min_deposit_amount    :decimal(32, 16)  default(0.0), not null
-#  min_collection_amount :decimal(32, 16)  default(0.0), not null
-#  withdraw_fee          :decimal(32, 16)  default(0.0), not null
-#  min_withdraw_amount   :decimal(32, 16)  default(0.0), not null
-#  withdraw_limit_24h    :decimal(32, 16)  default(0.0), not null
-#  withdraw_limit_72h    :decimal(32, 16)  default(0.0), not null
-#  deposit_enabled       :boolean          default(TRUE), not null
-#  withdrawal_enabled    :boolean          default(TRUE), not null
-#  base_factor           :bigint           default(1), not null
-#  status                :string(32)       default("enabled"), not null
-#  options               :json
-#  created_at            :datetime         not null
-#  updated_at            :datetime         not null
+#  id                       :bigint           not null, primary key
+#  currency_id              :string(255)      not null
+#  blockchain_key           :string(255)
+#  deposit_fee              :decimal(32, 16)  default(0.0), not null
+#  min_deposit_amount       :decimal(32, 16)  default(0.0), not null
+#  min_collection_amount    :decimal(32, 16)  default(0.0), not null
+#  withdraw_fee             :decimal(32, 16)  default(0.0), not null
+#  min_withdraw_amount      :decimal(32, 16)  default(0.0), not null
+#  withdraw_limit_24h       :decimal(32, 16)  default(0.0), not null
+#  withdraw_limit_72h       :decimal(32, 16)  default(0.0), not null
+#  deposit_enabled          :boolean          default(TRUE), not null
+#  withdrawal_enabled       :boolean          default(TRUE), not null
+#  auto_update_fees_enabled :boolean          default(TRUE), not null
+#  base_factor              :bigint           default(1), not null
+#  status                   :string(32)       default("enabled"), not null
+#  options                  :json
+#  created_at               :datetime         not null
+#  updated_at               :datetime         not null
 #

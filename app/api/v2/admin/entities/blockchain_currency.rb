@@ -39,6 +39,13 @@ module API
           )
 
           expose(
+            :auto_update_fees_enabled,
+            documentation: {
+              desc: 'Blockchain auto adjust fees',
+            }
+          )
+
+          expose(
             :subunits,
             documentation: {
               type: Integer,

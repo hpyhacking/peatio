@@ -7,6 +7,70 @@ module API
       class Blockchains < Grape::API
         helpers ::API::V2::Admin::Helpers
 
+        helpers do
+          # Collection of shared params, used to
+          # generate required/optional Grape params.
+          OPTIONAL_BLOCKCHAIN_PARAMS ||= {
+            explorer_transaction: {
+              desc: -> { API::V2::Admin::Entities::Blockchain.documentation[:explorer_transaction][:desc] }
+            },
+            explorer_address: {
+              desc: -> { API::V2::Admin::Entities::Blockchain.documentation[:explorer_address][:desc] }
+            },
+            warning: {
+              desc: -> { API::V2::Admin::Entities::Blockchain.documentation[:warning][:desc] }
+            },
+            description: {
+              desc: -> { API::V2::Admin::Entities::Blockchain.documentation[:description][:desc] }
+            },
+            server: {
+              regexp: { value: URI::regexp, message: 'admin.blockchain.invalid_server' },
+              desc: -> { 'Blockchain server url' }
+            },
+            status: {
+              values: { value: %w(active disabled), message: 'admin.blockchain.invalid_status' },
+              default: 'active',
+              desc: -> { API::V2::Admin::Entities::Blockchain.documentation[:status][:desc] }
+            },
+            min_confirmations: {
+              type: { value: Integer, message: 'admin.blockchain.non_integer_min_confirmations' },
+              values: { value: -> (p){ p.try(:positive?) }, message: 'admin.blockchain.non_positive_min_confirmations' },
+              default: 6,
+              desc: -> { API::V2::Admin::Entities::Blockchain.documentation[:min_confirmations][:desc] }
+            },
+            min_deposit_amount: {
+              type: { value: BigDecimal, message: 'admin.blockchain.min_deposit_amount' },
+              values: { value: -> (p){ p >= 0 }, message: 'admin.blockchain.min_deposit_amount' },
+              default: 0.0,
+              desc: -> { API::V2::Admin::Entities::Blockchain.documentation[:min_deposit_amount][:desc] }
+            },
+            withdraw_fee: {
+              type: { value: BigDecimal, message: 'admin.blockchain.non_decimal_withdraw_fee' },
+              values: { value: -> (p){ p >= 0  }, message: 'admin.blockchain.ivalid_withdraw_fee' },
+              default: 0.0,
+              desc: -> { API::V2::Admin::Entities::Blockchain.documentation[:withdraw_fee][:desc] }
+            },
+            min_withdraw_amount: {
+              type: { value: BigDecimal, message: 'admin.blockchain.non_decimal_min_withdraw_amount' },
+              values: { value: -> (p){ p >= 0 }, message: 'admin.blockchain.invalid_min_withdraw_amount' },
+              default: 0.0,
+              desc: -> { API::V2::Admin::Entities::Blockchain.documentation[:min_withdraw_amount][:desc] }
+            },
+          }
+
+          params :create_blockchain_params do
+            OPTIONAL_BLOCKCHAIN_PARAMS.each do |key, params|
+              optional key, params
+            end
+          end
+
+          params :update_blockchain_params do
+            OPTIONAL_BLOCKCHAIN_PARAMS.each do |key, params|
+              optional key, params.except(:default)
+            end
+          end
+        end
+
         namespace :blockchains do
           desc 'Get all blockchains, result is paginated.',
             is_array: true,
@@ -77,6 +141,7 @@ module API
             success API::V2::Admin::Entities::Blockchain
           end
           params do
+            use :create_blockchain_params
             requires :key,
                      values: { value: -> (v){ v && v.length < 255 }, message: 'admin.blockchain.key_too_long' },
                      desc: -> { API::V2::Admin::Entities::Blockchain.documentation[:key][:desc] }
@@ -92,26 +157,6 @@ module API
                      desc: -> { API::V2::Admin::Entities::Blockchain.documentation[:height][:desc] }
             requires :protocol,
                      desc: -> { API::V2::Admin::Entities::Blockchain.documentation[:protocol][:desc] }
-            optional :explorer_transaction,
-                     desc: -> { API::V2::Admin::Entities::Blockchain.documentation[:explorer_transaction][:desc] }
-            optional :explorer_address,
-                     desc: -> { API::V2::Admin::Entities::Blockchain.documentation[:explorer_address][:desc] }
-            optional :warning,
-                     desc: -> { API::V2::Admin::Entities::Blockchain.documentation[:warning][:desc] }
-            optional :description,
-                     desc: -> { API::V2::Admin::Entities::Blockchain.documentation[:description][:desc] }
-            optional :server,
-                     regexp: { value: URI::regexp, message: 'admin.blockchain.invalid_server' },
-                     desc: -> { 'Blockchain server url' }
-            optional :status,
-                     values: { value: %w(active disabled), message: 'admin.blockchain.invalid_status' },
-                     default: 'active',
-                     desc: -> { API::V2::Admin::Entities::Blockchain.documentation[:status][:desc] }
-            optional :min_confirmations,
-                     type: { value: Integer, message: 'admin.blockchain.non_integer_min_confirmations' },
-                     values: { value: -> (p){ p.try(:positive?) }, message: 'admin.blockchain.non_positive_min_confirmations' },
-                     default: 6,
-                     desc: -> { API::V2::Admin::Entities::Blockchain.documentation[:min_confirmations][:desc] }
           end
           post '/new' do
             admin_authorize! :create, ::Blockchain
@@ -130,6 +175,7 @@ module API
             success API::V2::Admin::Entities::Blockchain
           end
           params do
+            use :update_blockchain_params
             requires :id,
                      type: { value: Integer, message: 'admin.blockchain.non_integer_id' },
                      desc: -> { API::V2::Admin::Entities::Blockchain.documentation[:id][:desc] }
@@ -147,27 +193,12 @@ module API
             optional :server,
                      regexp: { value: URI::regexp, message: 'admin.blockchain.invalid_server' },
                      desc: -> { 'Blockchain server url' }
+            optional :protocol,
+                     desc: -> { API::V2::Admin::Entities::Blockchain.documentation[:protocol][:desc] }
             optional :height,
                      type: { value: Integer, message: 'admin.blockchain.non_integer_height' },
                      values: { value: -> (p){ p.try(:positive?) }, message: 'admin.blockchain.non_positive_height' },
                      desc: -> { API::V2::Admin::Entities::Blockchain.documentation[:height][:desc] }
-            optional :explorer_transaction,
-                     desc: -> { API::V2::Admin::Entities::Blockchain.documentation[:explorer_transaction][:desc] }
-            optional :explorer_address,
-                     desc: -> { API::V2::Admin::Entities::Blockchain.documentation[:explorer_address][:desc] }
-            optional :warning,
-                     desc: -> { API::V2::Admin::Entities::Blockchain.documentation[:warning][:desc] }
-            optional :protocol,
-                     desc: -> { API::V2::Admin::Entities::Blockchain.documentation[:protocol][:desc] }
-            optional :description,
-                     desc: -> { API::V2::Admin::Entities::Blockchain.documentation[:description][:desc] }
-            optional :status,
-                     values: { value: %w(active disabled), message: 'admin.blockchain.invalid_status' },
-                     desc: -> { API::V2::Admin::Entities::Blockchain.documentation[:status][:desc] }
-            optional :min_confirmations,
-                     type: { value: Integer, message: 'admin.blockchain.non_integer_min_confirmations' },
-                     values: { value: -> (p){ p.try(:positive?) }, message: 'admin.blockchain.non_positive_min_confirmations' },
-                     desc: -> { API::V2::Admin::Entities::Blockchain.documentation[:min_confirmations][:desc] }
           end
           post '/update' do
             admin_authorize! :update, ::Blockchain, params.except(:id)

@@ -83,6 +83,10 @@ describe 'Accounting' do
   end
 
   context 'withdraws' do
+    before do
+      BlockchainCurrency.find_by(currency_id: 'btc').update(auto_update_fees_enabled: false, withdraw_fee: 0.01)
+    end
+
     let(:btc_withdraw) { create(:btc_withdraw, sum: 1000.to_d, member: buyer ) }
 
     before do

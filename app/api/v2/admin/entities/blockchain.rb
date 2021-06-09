@@ -63,6 +63,27 @@ module API
           )
 
           expose(
+            :min_deposit_amount,
+            documentation: {
+              desc: 'Minimal deposit amount in platform currency',
+            }
+          )
+
+          expose(
+            :withdraw_fee,
+            documentation: {
+              desc: 'Blockchain currency withdraw fee in platform currency',
+            }
+          )
+
+          expose(
+            :min_withdraw_amount,
+            documentation: {
+              desc: 'Minimal withdraw amount in platform currency',
+            }
+          )
+
+          expose(
             :description,
             documentation:{
               type: String,

@@ -128,6 +128,7 @@ describe API::V2::Admin::BlockchainCurrencies, type: :request do
       expect(result['id']).to eq blockchain_currency.id
 			expect(result['deposit_enabled']).to eq blockchain_currency.deposit_enabled
 			expect(result['withdrawal_enabled']).to eq blockchain_currency.withdrawal_enabled
+      expect(result['auto_update_fees_enabled']).to eq blockchain_currency.auto_update_fees_enabled
 			expect(result['deposit_fee']).to eq blockchain_currency.deposit_fee.to_s
 			expect(result['min_deposit_amount']).to eq blockchain_currency.min_deposit_amount.to_s
 			expect(result['withdraw_fee']).to eq blockchain_currency.withdraw_fee.to_s
@@ -159,12 +160,13 @@ describe API::V2::Admin::BlockchainCurrencies, type: :request do
 
 	describe 'POST blockchain_currencies/new' do
 		it 'create blockchain currency' do
-      api_post '/api/v2/admin/blockchain_currencies/new', params: { currency_id: 'eth', blockchain_key: 'btc-testnet', protocol: 'BTC' }, token: token
+      api_post '/api/v2/admin/blockchain_currencies/new', params: { currency_id: 'eth', blockchain_key: 'btc-testnet', protocol: 'BTC', auto_update_fees_enabled: false }, token: token
       result = JSON.parse(response.body)
 
       expect(response).to be_successful
       expect(result['currency_id']).to eq 'eth'
 			expect(result['blockchain_key']).to eq 'btc-testnet'
+      expect(result['auto_update_fees_enabled']).to eq false
     end
 
 		it 'validate blockchain_key param' do
@@ -258,6 +260,13 @@ describe API::V2::Admin::BlockchainCurrencies, type: :request do
 	end
 
 	describe 'POST blockchain_currencies/update' do
+    it 'updates blockchain currency' do
+      api_post '/api/v2/admin/blockchain_currencies/update', params: { id: BlockchainCurrency.first.id, auto_update_fees_enabled: false }, token: token
+      result = JSON.parse(response.body)
+      expect(response).to have_http_status 201
+      expect(result['auto_update_fees_enabled']).to eq false
+    end
+
 		it 'validate status param' do
       api_post '/api/v2/admin/blockchain_currencies/update', params: { id: BlockchainCurrency.first.id, status: 'test' }, token: token
       expect(response).to have_http_status 422
