@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_06_09_094033) do
+ActiveRecord::Schema.define(version: 2021_06_11_085637) do
 
   create_table "accounts", primary_key: ["currency_id", "member_id"], options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.bigint "member_id", null: false
@@ -95,6 +95,8 @@ ActiveRecord::Schema.define(version: 2021_06_09_094033) do
     t.string "client", null: false
     t.string "server_encrypted", limit: 1024
     t.bigint "height", null: false
+    t.string "collection_gas_speed"
+    t.string "withdrawal_gas_speed"
     t.text "description"
     t.text "warning"
     t.string "protocol", null: false

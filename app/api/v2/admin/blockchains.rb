@@ -27,6 +27,14 @@ module API
               regexp: { value: URI::regexp, message: 'admin.blockchain.invalid_server' },
               desc: -> { 'Blockchain server url' }
             },
+            collection_gas_speed: {
+              values: { value: -> { Blockchain::GAS_SPEEDS }, message: 'admin.blockchain.invalid_collection_gas_speed' },
+              desc: -> { API::V2::Admin::Entities::Blockchain.documentation[:collection_gas_speed][:desc] }
+            },
+            withdrawal_gas_speed: {
+              values: { value: -> { Blockchain::GAS_SPEEDS }, message: 'admin.blockchain.invalid_withdrawal_gas_speed' },
+              desc: -> { API::V2::Admin::Entities::Blockchain.documentation[:withdrawal_gas_speed][:desc] }
+            },
             status: {
               values: { value: %w(active disabled), message: 'admin.blockchain.invalid_status' },
               default: 'active',

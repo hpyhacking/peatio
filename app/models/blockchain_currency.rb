@@ -4,7 +4,7 @@ class BlockchainCurrency < ApplicationRecord
 
   # == Constants ============================================================
   DB_DECIMAL_PRECISION = 16
-  OPTIONS_ATTRIBUTES = %i[erc20_contract_address gas_limit gas_price].freeze
+  OPTIONS_ATTRIBUTES = %i[erc20_contract_address gas_limit].freeze
 
   STATES = %w[enabled disabled hidden].freeze
   # enabled - user can deposit and withdraw.
@@ -74,10 +74,8 @@ class BlockchainCurrency < ApplicationRecord
     self.erc20_contract_address = erc20_contract_address.try(:downcase) if erc20_contract_address.present?
   end
 
-  before_save do
-    if auto_update_fees_enabled && currency.coin?
-      update_fees
-    end
+  after_create do
+    update_fees if auto_update_fees_enabled && currency.coin?
   end
 
   # == Class Methods ========================================================
@@ -104,10 +102,17 @@ class BlockchainCurrency < ApplicationRecord
     Math.log(base_factor, 10).round
   end
 
-  def to_blockchain_api_settings
+  def to_blockchain_api_settings(withdrawal_gas_speed=true)
     # We pass options are available as top-level hash keys and via options for
     # compatibility with Wallet#to_wallet_api_settings.
     opt = options.compact.deep_symbolize_keys
+
+    # System have gas_speed configuration in blockchain level
+    # And it differs for deposit collection transfer and withdrawal transfer
+    # By default system use withdrawal_gas_speed
+    gas_speed = withdrawal_gas_speed ? blockchain.withdrawal_gas_speed : blockchain.collection_gas_speed
+    opt.merge!(gas_price: gas_speed) if gas_speed
+
     opt.deep_symbolize_keys.merge(id:                    currency.id,
                                   base_factor:           base_factor,
                                   min_collection_amount: min_collection_amount,
@@ -118,10 +123,12 @@ class BlockchainCurrency < ApplicationRecord
     market = Market.find_by(base_unit: currency.id, quote_unit: Peatio::App.config.platform_currency)
     ticker = Trade.market_ticker_from_influx(market.symbol) if market.present?
     price = ticker.present? ? ticker[:vwap].to_d : currency.price
-
-    self.min_deposit_amount = round(blockchain.min_deposit_amount / price)
-    self.min_collection_amount = round(blockchain.min_deposit_amount / price)
-    self.withdraw_fee = round(blockchain.withdraw_fee / price)
+    
+    update_attributes(
+      min_deposit_amount: round(blockchain.min_deposit_amount / price),
+      min_collection_amount: round(blockchain.min_deposit_amount / price),
+      withdraw_fee: round(blockchain.withdraw_fee / price)
+    )
   end
 
   private

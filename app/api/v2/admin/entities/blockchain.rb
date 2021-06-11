@@ -84,6 +84,20 @@ module API
           )
 
           expose(
+            :collection_gas_speed,
+            documentation: {
+              desc: 'Deposit collection gas speed'
+            }
+          )
+
+          expose(
+            :withdrawal_gas_speed,
+            documentation: {
+              desc: 'Withdrawal gas speed'
+            }
+          )
+
+          expose(
             :description,
             documentation:{
               type: String,

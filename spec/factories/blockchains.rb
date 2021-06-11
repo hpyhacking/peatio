@@ -16,6 +16,8 @@ FactoryBot.define do
       warning                 { 'Reminder: For the safety of your funds, please confirm again that the network you wish to use is eth-rinkeby.' }
       protocol                { 'ERC-20' }
       description             { 'Ethereum Rinkeby' }
+      collection_gas_speed    { 'standard' }
+      withdrawal_gas_speed    { 'standard' }
       status                  { 'active' }
     end
 
@@ -31,6 +33,8 @@ FactoryBot.define do
       warning                 { 'Reminder: For the safety of your funds, please confirm again that the network you wish to use is eth-kovan.' }
       protocol                { 'ERC-20' }
       description             { 'Ethereum Kovan' }
+      collection_gas_speed    { 'standard' }
+      withdrawal_gas_speed    { 'standard' }
       status                  { 'active' }
     end
 
@@ -46,6 +50,8 @@ FactoryBot.define do
       warning                 { 'Reminder: For the safety of your funds, please confirm again that the network you wish to use is eth-mainet.' }
       protocol                { 'ERC-20' }
       description             { 'Ethereum Mainet' }
+      collection_gas_speed    { 'standard' }
+      withdrawal_gas_speed    { 'standard' }
       status                  { 'disabled' }
     end
 

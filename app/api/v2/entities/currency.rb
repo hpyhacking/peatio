@@ -96,7 +96,7 @@ module API
         )
 
         expose(
-          :blockchain_currencies,
+          :networks,
           using: API::V2::Entities::BlockchainCurrency,
           documentation: {
             type: 'API::V2::Entities::BlockchainCurrency',

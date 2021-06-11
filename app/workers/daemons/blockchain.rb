@@ -56,7 +56,7 @@ module Workers
 
       def run
         @runner_pool = ::Blockchain.active.each_with_object({}) do |b, pool|
-          max_ts = [b.currencies.maximum(:updated_at), b.updated_at].compact.max.to_i
+          max_ts = [b.blockchain_currencies.maximum(:updated_at), b.updated_at].compact.max.to_i
 
           logger.warn { "Creating the runner for #{b.key}" }
           pool[b.key] = Runner.new(b, max_ts).tap(&:start)
@@ -71,9 +71,9 @@ module Workers
             end
 
             # Recreate active blockchain runners by comparing runner &
-            # maximum blockchain & currencies updated_at timestamp.
+            # maximum blockchain & blockchain currencies updated_at timestamp.
             ::Blockchain.active.each do |b|
-              max_ts = [b.currencies.maximum(:updated_at), b.updated_at].compact.max.to_i
+              max_ts = [b.blockchain_currencies.maximum(:updated_at), b.updated_at].compact.max.to_i
 
               if @runner_pool[b.key].blank?
                 logger.warn { "Starting the new runner for #{b.key} (no runner found in pool)" }

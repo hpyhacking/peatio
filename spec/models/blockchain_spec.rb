@@ -22,6 +22,18 @@ describe Blockchain do
       expect(subject.errors.full_messages).to eq ["Client is not included in the list"]
     end
 
+    it 'validates collection_gas_speed' do
+      subject.collection_gas_speed = 'test'
+      expect(subject).to_not be_valid
+      expect(subject.errors.full_messages).to eq ["Collection gas speed is not included in the list"]
+    end
+
+    it 'validates withdrawal_gas_speed' do
+      subject.withdrawal_gas_speed = 'test'
+      expect(subject).to_not be_valid
+      expect(subject.errors.full_messages).to eq ["Withdrawal gas speed is not included in the list"]
+    end
+
     it 'validates presence of name' do
       subject.name = nil
       expect(subject).to_not be_valid

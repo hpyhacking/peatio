@@ -25,6 +25,18 @@ module API
           )
 
           expose(
+            :networks,
+            using: API::V2::Admin::Entities::BlockchainCurrency,
+            documentation: {
+              type: 'API::V2::Admin::Entities::BlockchainCurrency',
+              is_array: true,
+              desc: 'Currency networks.'
+            },
+          ) do |c|
+            c.blockchain_currencies
+          end
+
+          expose(
             :created_at,
             format_with: :iso8601,
             documentation: {

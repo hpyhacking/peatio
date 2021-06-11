@@ -38,8 +38,7 @@ FactoryBot.define do
       withdraw_limit_72h   { 1 }
       withdraw_fee         { 0.025 }
       options do
-        { gas_limit: 21_000,
-          gas_price: 1_000_000_000 }
+        { gas_limit: 21_000 }
       end
     end
 
@@ -52,7 +51,6 @@ FactoryBot.define do
       withdraw_fee         { 0.025 }
       options do
         { gas_limit: 90_000,
-          gas_price: 1_000_000_000,
           erc20_contract_address: '0x87099adD3bCC0821B5b151307c147215F839a110' }
       end
     end
@@ -66,7 +64,6 @@ FactoryBot.define do
       withdraw_fee         { 0.025 }
       options do
         { gas_limit: 90_000,
-          gas_price: 1_000_000_000,
           erc20_contract_address: '0xf7970499814654cd13cb7b6e7634a12a7a8a9abc' }
       end
     end

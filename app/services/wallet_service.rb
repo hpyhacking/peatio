@@ -96,7 +96,7 @@ class WalletService
     blockchain_currency = BlockchainCurrency.find_by(currency: deposit.currency,
                                                      blockchain_key: @wallet.blockchain_key)
     @adapter.configure(wallet:   @wallet.to_wallet_api_settings,
-                       currency: blockchain_currency.to_blockchain_api_settings)
+                       currency: blockchain_currency.to_blockchain_api_settings(withdrawal_gas_speed=false))
     deposit_transaction = Peatio::Transaction.new(hash:           deposit.txid,
                                                   txout:          deposit.txout,
                                                   to_address:     deposit.address,

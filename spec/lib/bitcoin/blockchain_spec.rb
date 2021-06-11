@@ -23,7 +23,7 @@ describe Bitcoin::Blockchain do
     end
 
     it 'currencies and server configuration' do
-      blockchain_currencies = BlockchainCurrency.first(2).map(&:to_blockchain_api_settings)
+      blockchain_currencies = BlockchainCurrency.where.not(blockchain_key: nil).first(2).map(&:to_blockchain_api_settings)
       settings = { server: 'http://user:password@127.0.0.1:18332',
                    currencies: blockchain_currencies,
                    something: :custom }

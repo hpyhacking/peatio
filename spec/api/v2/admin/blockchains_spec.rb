@@ -203,7 +203,8 @@ describe API::V2::Admin::Blockchains, type: :request do
       api_post '/api/v2/admin/blockchains/new', token: token, params: { key: 'test-blockchain', name: 'Test', client: 'geth', server: 'http://127.0.0.1',
                                                                         explorer_transaction: 'test', explorer_address: 'test', height: 123333,
                                                                         warning: 'Warning', description: 'Description', protocol: 'Protocol',
-                                                                        min_deposit_amount: 1, min_withdraw_amount: 2, withdraw_fee: 0.1}
+                                                                        min_deposit_amount: 1, min_withdraw_amount: 2, withdraw_fee: 0.1,
+                                                                        collection_gas_speed: 'standard', withdrawal_gas_speed: 'fast'}
       result = JSON.parse(response.body)
 
       expect(response).to be_successful
@@ -214,6 +215,8 @@ describe API::V2::Admin::Blockchains, type: :request do
       expect(result['min_deposit_amount']).to eq '1.0'
       expect(result['min_withdraw_amount']).to eq '2.0'
       expect(result['withdraw_fee']).to eq '0.1'
+      expect(result['collection_gas_speed']).to eq 'standard'
+      expect(result['withdrawal_gas_speed']).to eq 'fast'
     end
 
     it 'long blockchain key' do
@@ -223,31 +226,43 @@ describe API::V2::Admin::Blockchains, type: :request do
     end
 
     it 'long blockchain name' do
-      api_post '/api/v2/admin/blockchains/new', token: token, params: { key: Faker::String.random(24), name: Faker::String.random(1024), client: 'geth',server: 'http://127.0.0.1', height: 123333, explorer_transaction: 'test', explorer_address: 'test'}
+      api_post '/api/v2/admin/blockchains/new', token: token, params: { key: Faker::String.random(24), name: Faker::String.random(1024), client: 'geth', server: 'http://127.0.0.1', height: 123333, explorer_transaction: 'test', explorer_address: 'test'}
       expect(response).not_to be_successful
       expect(response).to include_api_error('admin.blockchain.name_too_long')
     end
 
     it 'validate height param' do
-      api_post '/api/v2/admin/blockchains/new', token: token, params: { key: 'test-blockchain', name: 'Test', client: 'geth',server: 'http://127.0.0.1', height: -123333, explorer_transaction: 'test', explorer_address: 'test', status: 'active', min_confirmations: 6, step: 2 }
+      api_post '/api/v2/admin/blockchains/new', token: token, params: { key: 'test-blockchain', name: 'Test', client: 'geth', server: 'http://127.0.0.1', height: -123333, explorer_transaction: 'test', explorer_address: 'test', status: 'active', min_confirmations: 6, step: 2 }
       expect(response).to have_http_status 422
       expect(response).to include_api_error('admin.blockchain.non_positive_height')
     end
 
     it 'validate min_confirmations param' do
-      api_post '/api/v2/admin/blockchains/new', token: token, params: { key: 'test-blockchain', name: 'Test', client: 'geth',server: 'http://127.0.0.1', height: 123333, explorer_transaction: 'test', explorer_address: 'test', status: 'active', min_confirmations: -6, step: 2 }
+      api_post '/api/v2/admin/blockchains/new', token: token, params: { key: 'test-blockchain', name: 'Test', client: 'geth', server: 'http://127.0.0.1', height: 123333, explorer_transaction: 'test', explorer_address: 'test', status: 'active', min_confirmations: -6, step: 2 }
       expect(response).to have_http_status 422
       expect(response).to include_api_error('admin.blockchain.non_positive_min_confirmations')
     end
 
     it 'validate status param' do
-      api_post '/api/v2/admin/blockchains/new', token: token, params: { key: 'test-blockchain', name: 'Test', client: 'geth',server: 'http://127.0.0.1', height: 123333, explorer_transaction: 'test', explorer_address: 'test', status: 'actived', min_confirmations: 6, step: 2 }
+      api_post '/api/v2/admin/blockchains/new', token: token, params: { key: 'test-blockchain', name: 'Test', client: 'geth', server: 'http://127.0.0.1', height: 123333, explorer_transaction: 'test', explorer_address: 'test', status: 'actived', min_confirmations: 6, step: 2 }
       expect(response).to have_http_status 422
       expect(response).to include_api_error('admin.blockchain.invalid_status')
     end
 
+    it 'validate collection_gas_speed param' do
+      api_post '/api/v2/admin/blockchains/new', token: token, params: { key: 'test-blockchain', name: 'Test', client: 'geth', server: 'http://127.0.0.1', height: 123333, explorer_transaction: 'test', explorer_address: 'test', collection_gas_speed: 'test', min_confirmations: 6, step: 2 }
+      expect(response).to have_http_status 422
+      expect(response).to include_api_error('admin.blockchain.invalid_collection_gas_speed')
+    end
+
+    it 'validate withdrawal_gas_speed param' do
+      api_post '/api/v2/admin/blockchains/new', token: token, params: { key: 'test-blockchain', name: 'Test', client: 'geth', server: 'http://127.0.0.1', height: 123333, explorer_transaction: 'test', explorer_address: 'test', withdrawal_gas_speed: 'test', min_confirmations: 6, step: 2 }
+      expect(response).to have_http_status 422
+      expect(response).to include_api_error('admin.blockchain.invalid_withdrawal_gas_speed')
+    end
+
     it 'validate client param' do
-      api_post '/api/v2/admin/blockchains/new', token: token, params: { key: 'test-blockchain', name: 'Test', client: 'gezz',server: 'http://127.0.0.1', height: 123333, explorer_transaction: 'test', explorer_address: 'test', status: 'active', min_confirmations: 6, step: 2 }
+      api_post '/api/v2/admin/blockchains/new', token: token, params: { key: 'test-blockchain', name: 'Test', client: 'gezz', server: 'http://127.0.0.1', height: 123333, explorer_transaction: 'test', explorer_address: 'test', status: 'active', min_confirmations: 6, step: 2 }
       expect(response).to have_http_status 422
       expect(response).to include_api_error('admin.blockchain.invalid_client')
     end
@@ -295,7 +310,8 @@ describe API::V2::Admin::Blockchains, type: :request do
 
       it 'returns updated blockchain' do
         api_post '/api/v2/admin/blockchains/update', params: { name: 'Test Blockchain', id: Blockchain.first.id, warning: 'Warning', description: 'Description', protocol: 'Protocol',
-                                                               min_deposit_amount: 1, min_withdraw_amount: 2, withdraw_fee: 0.1 }, token: token
+                                                               min_deposit_amount: 1, min_withdraw_amount: 2, withdraw_fee: 0.1,
+                                                               collection_gas_speed: 'standard', withdrawal_gas_speed: 'fast' }, token: token
         result = JSON.parse(response.body)
 
         expect(response).to be_successful
@@ -306,6 +322,8 @@ describe API::V2::Admin::Blockchains, type: :request do
         expect(result['min_deposit_amount']).to eq '1.0'
         expect(result['min_withdraw_amount']).to eq '2.0'
         expect(result['withdraw_fee']).to eq '0.1'
+        expect(result['collection_gas_speed']).to eq 'standard'
+        expect(result['withdrawal_gas_speed']).to eq 'fast'
       end
     end
 
@@ -329,6 +347,18 @@ describe API::V2::Admin::Blockchains, type: :request do
       api_post '/api/v2/admin/blockchains/update', token: token, params: { key: Faker::String.random(1024) }
       expect(response).not_to be_successful
       expect(response).to include_api_error('admin.blockchain.key_too_long')
+    end
+
+    it 'validate collection_gas_speed param' do
+      api_post '/api/v2/admin/blockchains/update', token: token, params: { id: Blockchain.first.id, collection_gas_speed: 'test' }
+      expect(response).to have_http_status 422
+      expect(response).to include_api_error('admin.blockchain.invalid_collection_gas_speed')
+    end
+
+    it 'validate withdrawal_gas_speed param' do
+      api_post '/api/v2/admin/blockchains/update', token: token, params: {  id: Blockchain.first.id, withdrawal_gas_speed: 'test'}
+      expect(response).to have_http_status 422
+      expect(response).to include_api_error('admin.blockchain.invalid_withdrawal_gas_speed')
     end
 
     it 'long blockchain name' do

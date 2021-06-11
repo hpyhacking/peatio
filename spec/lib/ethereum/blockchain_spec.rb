@@ -57,7 +57,7 @@ describe Ethereum::Eth::Blockchain do
     end
 
     it 'currencies and server configuration' do
-      blockchain_currencies = BlockchainCurrency.first(2).map(&:to_blockchain_api_settings)
+      blockchain_currencies = BlockchainCurrency.where.not(blockchain_key: nil).first(2).map(&:to_blockchain_api_settings)
       settings = { server: server,
                    currencies: blockchain_currencies,
                    something: :custom }

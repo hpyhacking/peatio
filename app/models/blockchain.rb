@@ -2,6 +2,8 @@
 # frozen_string_literal: true
 
 class Blockchain < ApplicationRecord
+  GAS_SPEEDS = %w[standard safelow fast].freeze
+
   include Vault::EncryptedModel
 
   vault_lazy_decrypt!
@@ -20,6 +22,7 @@ class Blockchain < ApplicationRecord
             numericality: { greater_than_or_equal_to: 1, only_integer: true }
   validates :server, url: { allow_blank: true }
   validates :client, inclusion: { in: -> (_) { clients.map(&:to_s) } }
+  validates :collection_gas_speed, :withdrawal_gas_speed, inclusion: { in: GAS_SPEEDS }, allow_blank: true
 
   validates :min_deposit_amount,
             :withdraw_fee,
@@ -56,7 +59,7 @@ class Blockchain < ApplicationRecord
 end
 
 # == Schema Information
-# Schema version: 20210609094033
+# Schema version: 20210611085637
 #
 # Table name: blockchains
 #
@@ -66,6 +69,8 @@ end
 #  client               :string(255)      not null
 #  server_encrypted     :string(1024)
 #  height               :bigint           not null
+#  collection_gas_speed :string(255)
+#  withdrawal_gas_speed :string(255)
 #  description          :text(65535)
 #  warning              :text(65535)
 #  protocol             :string(255)      not null
