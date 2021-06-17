@@ -57,7 +57,7 @@ module API
                                 },
                                 models: [
                                   API::V2::Entities::Currency,
-                                  # API::V2::Entities::BlockchainCurrency,
+                                  API::V2::Entities::BlockchainCurrency,
                                   API::V2::Entities::Account,
                                   API::V2::Entities::Deposit,
                                   API::V2::Entities::Transactions,

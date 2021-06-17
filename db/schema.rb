@@ -72,6 +72,7 @@ ActiveRecord::Schema.define(version: 2021_06_11_085637) do
   create_table "blockchain_currencies", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "currency_id", null: false
     t.string "blockchain_key"
+    t.string "parent_id"
     t.decimal "deposit_fee", precision: 32, scale: 16, default: "0.0", null: false
     t.decimal "min_deposit_amount", precision: 32, scale: 16, default: "0.0", null: false
     t.decimal "min_collection_amount", precision: 32, scale: 16, default: "0.0", null: false
@@ -87,6 +88,7 @@ ActiveRecord::Schema.define(version: 2021_06_11_085637) do
     t.json "options"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["parent_id"], name: "index_blockchain_currencies_on_parent_id"
   end
 
   create_table "blockchains", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
@@ -117,7 +119,6 @@ ActiveRecord::Schema.define(version: 2021_06_11_085637) do
     t.string "name"
     t.text "description"
     t.string "homepage"
-    t.string "parent_id"
     t.string "type", limit: 30, default: "coin", null: false
     t.string "status", limit: 32, default: "enabled", null: false
     t.integer "position", null: false
@@ -126,7 +127,6 @@ ActiveRecord::Schema.define(version: 2021_06_11_085637) do
     t.decimal "price", precision: 32, scale: 16, default: "1.0", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["parent_id"], name: "index_currencies_on_parent_id"
     t.index ["position"], name: "index_currencies_on_position"
   end
 

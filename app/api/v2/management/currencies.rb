@@ -69,11 +69,6 @@ module API
           optional :position,
                    type: { value: Integer, message: 'management.currency.non_integer_position' },
                    desc: -> { API::V2::Management::Entities::Currency.documentation[:position][:desc] }
-          given type: ->(val) { val == 'coin' } do
-            optional :parent_id,
-                     values: { value: -> { Currency.coins_without_tokens.pluck(:id).map(&:to_s) }, message: 'management.currency.parent_id_doesnt_exist' },
-                     desc: -> { API::V2::Management::Entities::Currency.documentation[:parent_id][:desc] }
-          end
         end
         post '/currencies/create' do
           currency = Currency.new(declared(params, include_missing: false))

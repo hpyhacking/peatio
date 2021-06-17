@@ -111,6 +111,10 @@ class Wallet < ApplicationRecord
         Wallet.active.deposit.joins(:currencies).find_by(currencies: { id: currency_id })
       end
     end
+
+    def deposit_wallets(currency_id)
+      Wallet.active.deposit.joins(:currencies).where(currencies: { id: currency_id })
+    end
   end
 
   delegate :protocol, to: :blockchain

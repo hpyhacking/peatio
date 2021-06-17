@@ -34,21 +34,18 @@ FactoryBot.define do
       code                 { 'trst' }
       name                 { 'WeTrust' }
       type                 { 'coin' }
-      parent_id            { 'eth' }
     end
 
     trait :tom do
       code                 { 'tom' }
       name                 { 'TOM' }
       type                 { 'coin' }
-      parent_id            { 'eth' }
     end
 
     trait :ring do
       code                 { 'ring' }
       name                 { 'Evolution Land Global Token' }
       type                 { 'coin' }
-      parent_id            { 'eth' }
     end
 
     trait :fake do
@@ -61,7 +58,6 @@ FactoryBot.define do
       code                { 'xagm.cx' }
       name                { 'XAGm.cx' }
       type                { 'coin' }
-      parent_id           { 'eth' }
     end
   end
 end

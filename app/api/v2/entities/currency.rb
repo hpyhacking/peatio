@@ -16,6 +16,14 @@ module API
         )
 
         expose(
+          :status,
+          documentation: {
+            type: String,
+            desc: 'Currency display status (enabled/disabled/hidden).'
+          }
+        )
+
+        expose(
           :name,
           documentation: {
               type: String,
@@ -41,16 +49,6 @@ module API
             desc: 'Currency homepage',
             example: -> { ::Currency.visible.first.homepage }
           }
-        )
-
-        expose(
-          :parent_id,
-          documentation: {
-            type: String,
-            desc: 'Currency parent id',
-            example: -> { ::Currency.visible.first.parent_id }
-          },
-          if: -> (currency){ currency.parent_id.present? }
         )
 
         expose(

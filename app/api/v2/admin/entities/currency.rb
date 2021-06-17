@@ -17,14 +17,6 @@ module API
           )
 
           expose(
-            :status,
-            documentation: {
-              type: String,
-              desc: 'Currency display status (enabled/disabled/hidden).'
-            }
-          )
-
-          expose(
             :networks,
             using: API::V2::Admin::Entities::BlockchainCurrency,
             documentation: {

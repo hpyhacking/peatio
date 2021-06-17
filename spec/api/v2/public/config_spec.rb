@@ -8,9 +8,9 @@ describe API::V2::Public::Config, type: :request do
 			expect(response).to be_successful
 
       result = JSON.parse(response.body)
-			expect(result['currencies'].count).to eq Currency.visible.count
+			expect(result['currencies'].count).to eq Currency.active.count
 			expect(result['trading_fees'].count).to eq TradingFee.all.count
-			expect(result['markets'].count).to eq Market.enabled.count
+			expect(result['markets'].count).to eq Market.active.count
 			expect(result['withdraw_limits'].count).to eq WithdrawLimit.all.count
 		end
 	end

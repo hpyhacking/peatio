@@ -59,44 +59,90 @@ module API
             @blockchain_currencies = blockchain_currencies
           end
 
+          # Result example
+          # [{
+          #   "id"=>1,"name"=>"Bitcoin","code"=>"btc", "precision"=>8,
+          #   "blockchains"=>
+          #   [{
+          #    "blockchain_key"=>"btc-testnet","blockchain_name"=>"Bitcoin Testnet",
+          #    "network"=>"BEP-2","balances"=>[{"kind"=>"hot", "balance"=>0}, {"kind"=>"deposit", "balance"=>0}],
+          #    "total"=>0,"estimated_total"=>"0.0"
+          #   }],
+          #   "total"=>0, "deposit_total_balance"=>0, "fee_total_balance"=>0, "hot_total_balance"=>0,
+          #   "warm_total_balance"=>0, "cold_total_balance"=>0, "estimated_total"=>"0.0"
+          # }]
           def info
-            result = []
             # Select from active currencies ordered by position
-            @currencies.ordered.each_with_index do |currency, index|
-              result[index] = { id: index + 1, name: currency.name, code: currency.code }
+            @currencies.ordered.each_with_object([]).with_index do |(currency, result), index|
+              # Information about currency
+              result[index] = { id: index + 1, name: currency.name, code: currency.code, precision: currency.precision }
 
-              # Initialize blockchains
-              result[index][:blockhains] = []
-              # Select all currency active networks
-              @blockchain_currencies.where(currency_id: currency).each_with_index do |b_currency, b_index|
-                result[index][:blockhains].push({ blockchain_key: b_currency.blockchain_key,
-                                                  blockchain_name: b_currency.blockchain.name })
-                # Initialize blockchain balances
-                result[index][:blockhains][b_index][:balances] = []
-                # Select wallets linked to currency
-                wallet_ids = CurrencyWallet.where(currency_id: currency.id).pluck(:wallet_id)
-                Wallet.active.where(id: wallet_ids, blockchain_key: b_currency.blockchain_key).each do |w|
-                  balance = w.balance.present? ? w.balance[currency.id] : nil
-                  current_balance = balance == Wallet::NOT_AVAILABLE || balance == nil ? 0 : balance.to_d
-                  wallet_obj = { kind: w.kind, balance: current_balance }
-                  # Expose updated_at in case of late balance update
-                  wallet_obj.merge!(updated_at: w.updated_at) if w.updated_at < 5.minute.ago
+              wallet_ids = CurrencyWallet.where(currency_id: currency.id).pluck(:wallet_id)
+              active_wallets = Wallet.active.where(id: wallet_ids)
+              uniq_blockchain_keys = active_wallets.pluck(:blockchain_key).uniq
 
-                  result[index][:blockhains][b_index][:balances].push(wallet_obj)
-                end
+              result[index][:blockchains] = []
 
-                # Calculate total_balance/estimated_total per each network
-                total = result[index][:blockhains][b_index][:balances].inject(0) {|sum, hash| sum + hash[:balance]}
-                result[index][:blockhains][b_index].merge!(total: total, estimated_total: currency.price * total)
+              # Iterate over unique blockchain keys for existing wallets
+              uniq_blockchain_keys.each_with_index do |blockchain_key, b_index|
+                blockchain = Blockchain.find_by(key: blockchain_key)
+                # Information about blockchchain per specific currency
+                result[index][:blockchains].push({ blockchain_key:  blockchain_key,
+                                                   blockchain_name: blockchain.name,
+                                                   network:         blockchain.protocol})
+                wallets_per_blockchain = active_wallets.where(blockchain_key: blockchain_key)
+                # Information about wallet per specific blockchain
+                result[index][:blockchains][b_index][:balances] = wallet_info(wallets_per_blockchain, currency.id)
+
+                wallet_total = calculate_wallet_total(result[index][:blockchains][b_index][:balances], currency.price)
+                result[index][:blockchains][b_index].merge!(wallet_total)
               end
 
-              # Calculate total balance per each currency
-              total = result[index][:blockhains].inject(0) {|sum, hash| sum + hash[:total]}
-              estimated_total = result[index][:blockhains].inject(0) {|sum, hash| sum + hash[:estimated_total]}
-              result[index].merge!(total: total, estimated_total: estimated_total)
-            end
+              # Information about total values in wallets per kind for specific currency
+              wallets_total_per_kind = calculate_wallet_per_kind_total(result[index][:blockchains])
+              result[index].merge!(wallets_total_per_kind)
 
-            result
+              global_total = calculate_global_total(result[index][:blockchains])
+              result[index].merge!(global_total)
+            end
+          end
+
+          private
+
+          def wallet_info(active_wallets, currency_id)
+            active_wallets.each_with_object([]) do |w, hash|
+              balance = w.balance.present? ? w.balance[currency_id] : nil
+              # If there is no balance system will assign balance to 0 value
+              current_balance = balance == Wallet::NOT_AVAILABLE || balance == nil ? 0 : balance.to_d
+              wallet_obj = { kind: w.kind, balance: current_balance }
+              # Expose updated_at in case of late balance update
+              wallet_obj.merge!(updated_at: w.updated_at) if w.updated_at < 5.minute.ago
+              hash << wallet_obj
+            end
+          end
+
+          def calculate_wallet_total(hash, currency_price)
+            total = hash.inject(0) {|sum, hash| sum + hash[:balance]}
+            estimated_total = currency_price * total
+            { total: total, estimated_total: estimated_total}
+          end
+
+          def calculate_wallet_per_kind_total(blockchains)
+            blockchains.each_with_object({}) do |item, hash|
+              existing_kinds = Wallet::ENUMERIZED_KINDS.keys.map(&:to_s)
+              existing_kinds.map do |wallet_kind|
+                res = item[:balances].select {|balance| balance[:kind] == wallet_kind }
+                total_balance = res.present? ? res[0][:balance].to_d : 0
+                key = "#{wallet_kind}_total_balance"
+                hash.merge!("#{key}": hash[key.to_sym].to_d + total_balance)
+              end
+            end
+          end
+
+          def calculate_global_total(hash)
+            total = hash.inject(0) {|sum, hash| sum + hash[:total]}
+            estimated_total = hash.inject(0) {|sum, hash| sum + hash[:estimated_total]}
+            { total: total, estimated_total: estimated_total }
           end
         end
 

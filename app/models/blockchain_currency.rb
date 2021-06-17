@@ -40,6 +40,10 @@ class BlockchainCurrency < ApplicationRecord
             inclusion: { in: ->(_) { Blockchain.pluck(:key).map(&:to_s) } },
             if: -> { currency.coin? }
 
+  validates :parent_id, allow_blank: true,
+            inclusion: { in: ->(_) { Currency.coins_without_tokens.pluck(:id).map(&:to_s) } },
+            if: -> { currency.coin? }
+
   validates :options, length: { maximum: 1000 }
   validates :base_factor, numericality: { greater_than_or_equal_to: 1, only_integer: true }
 
@@ -68,13 +72,14 @@ class BlockchainCurrency < ApplicationRecord
   after_initialize :initialize_defaults
 
   before_validation { self.deposit_fee = 0 unless currency.fiat? }
-  before_validation { self.blockchain_key = currency.parent.blockchain_key if currency.token? && blockchain_key.blank? }
 
   before_validation do
     self.erc20_contract_address = erc20_contract_address.try(:downcase) if erc20_contract_address.present?
+    self.parent_id = nil if currency.fiat?
   end
 
   after_create do
+    link_wallets
     update_fees if auto_update_fees_enabled && currency.coin?
   end
 
@@ -88,7 +93,7 @@ class BlockchainCurrency < ApplicationRecord
   end
 
   def blockchain
-    Rails.cache.fetch("#{currency_id}_blockchain", expires_in: 60) { Blockchain.find_by(key: blockchain_key) }
+    Rails.cache.fetch("#{currency_id}_#{blockchain_key}_blockchain", expires_in: 60) { Blockchain.find_by(key: blockchain_key) }
   end
 
   # subunit (or fractional monetary unit) - a monetary unit
@@ -119,6 +124,17 @@ class BlockchainCurrency < ApplicationRecord
                                   options:               opt)
   end
 
+  def link_wallets
+    if parent_id.present?  
+      # Iterate through active deposit/withdraw wallets
+      Wallet.active.where(blockchain_key: blockchain_key)
+                   .where.not(kind: :fee).with_currency(parent_id).each do |wallet|
+        # Link parent currency with wallet
+        CurrencyWallet.create(currency_id: currency_id, wallet_id: wallet.id)
+      end
+    end
+  end
+
   def update_fees
     market = Market.find_by(base_unit: currency.id, quote_unit: Peatio::App.config.platform_currency)
     ticker = Trade.market_ticker_from_influx(market.symbol) if market.present?
@@ -127,7 +143,8 @@ class BlockchainCurrency < ApplicationRecord
     update_attributes(
       min_deposit_amount: round(blockchain.min_deposit_amount / price),
       min_collection_amount: round(blockchain.min_deposit_amount / price),
-      withdraw_fee: round(blockchain.withdraw_fee / price)
+      withdraw_fee: round(blockchain.withdraw_fee / price),
+      min_withdraw_amount: round(blockchain.min_withdraw_amount / price)
     )
   end
 
@@ -139,13 +156,14 @@ class BlockchainCurrency < ApplicationRecord
 end
 
 # == Schema Information
-# Schema version: 20210609094033
+# Schema version: 20210611085637
 #
 # Table name: blockchain_currencies
 #
 #  id                       :bigint           not null, primary key
 #  currency_id              :string(255)      not null
 #  blockchain_key           :string(255)
+#  parent_id                :string(255)
 #  deposit_fee              :decimal(32, 16)  default(0.0), not null
 #  min_deposit_amount       :decimal(32, 16)  default(0.0), not null
 #  min_collection_amount    :decimal(32, 16)  default(0.0), not null
@@ -161,4 +179,8 @@ end
 #  options                  :json
 #  created_at               :datetime         not null
 #  updated_at               :datetime         not null
+#
+# Indexes
+#
+#  index_blockchain_currencies_on_parent_id  (parent_id)
 #

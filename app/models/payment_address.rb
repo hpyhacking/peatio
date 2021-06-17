@@ -55,8 +55,9 @@ class PaymentAddress < ApplicationRecord
 
   def trigger_address_event
     ::AMQP::Queue.enqueue_event('private', member.uid, :deposit_address, type: :create,
-                          currencies: wallet.currencies.codes,
-                          address:  address)
+                                currencies: wallet.currencies.codes,
+                                blockchain_key: blockchain_key,
+                                address:  address)
   end
 end
 

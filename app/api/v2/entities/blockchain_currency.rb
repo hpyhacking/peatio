@@ -21,6 +21,15 @@ module API
         )
 
         expose(
+          :parent_id,
+          documentation: {
+            type: String,
+            desc: 'Blockchain currency parent id',
+          },
+          if: -> (blockchain_currency){ blockchain_currency.parent_id.present? }
+        )
+
+        expose(
           :deposit_enabled,
           documentation: {
             type: String,

@@ -23,7 +23,7 @@ module API
 
           next unless event.present?
 
-          create_address(event[:address_id], event[:address], event[:currency_id])
+          create_address(event[:address_id], event[:address], event[:currency_id], w.blockchain_key)
         end
       end
 
@@ -39,7 +39,7 @@ module API
 
           accepted_deposits = []
           ActiveRecord::Base.transaction do
-            accepted_deposits = process_deposit(transactions)
+            accepted_deposits = process_deposit(transactions, w.blockchain_key)
           end
           accepted_deposits.each(&:process!) if accepted_deposits.present?
         end
@@ -61,15 +61,15 @@ module API
         end
       end
 
-      def process_deposit(transactions)
-        accepted_deposits = find_or_create_deposit!(transactions)
+      def process_deposit(transactions, blockchain_key)
+        accepted_deposits = find_or_create_deposit!(transactions, blockchain_key)
 
         accepted_deposits.compact if accepted_deposits.present?
       end
 
-      def find_or_create_deposit!(transactions)
+      def find_or_create_deposit!(transactions, blockchain_key)
         transactions.map do |transaction|
-          payment_address = PaymentAddress.find_by(wallet: Wallet.deposit_wallet(transaction.currency_id), address: transaction.to_address)
+          payment_address = PaymentAddress.find_by(wallet: Wallet.deposit_wallet(transaction.currency_id, blockchain_key), address: transaction.to_address)
           next if payment_address.blank?
 
           Rails.logger.info { "Deposit transaction detected: #{transaction.inspect}" }
@@ -136,10 +136,10 @@ module API
       end
 
       # This method will update payment address by specific detail value
-      def create_address(address_id, address, currency_id)
+      def create_address(address_id, address, currency_id, blockchain_key)
         Rails.logger.info { "Address detected: #{address}" }
 
-        payment_address = PaymentAddress.where(address: nil, wallet: Wallet.deposit_wallet(currency_id))
+        payment_address = PaymentAddress.where(address: nil, wallet: Wallet.deposit_wallet(currency_id, blockchain_key))
                                         .find { |address| address.details['address_id'] == address_id }
 
         payment_address.update!(address: address) if payment_address.present?

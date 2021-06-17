@@ -186,15 +186,6 @@ describe API::V2::Admin::Currencies, type: :request do
       expect(result['type']).to eq 'coin'
     end
 
-    it 'create token' do
-      api_post '/api/v2/admin/currencies/new', params: { code: 'test', parent_id: 'btc' }, token: token
-      result = JSON.parse(response.body)
-
-      expect(response).to be_successful
-      expect(result['type']).to eq 'coin'
-      expect(result['parent_id']).to eq 'btc'
-    end
-
     it 'create fiat' do
       api_post '/api/v2/admin/currencies/new', params: { code: 'test', type: 'fiat' }, token: token
       result = JSON.parse(response.body)
@@ -215,13 +206,6 @@ describe API::V2::Admin::Currencies, type: :request do
 
       expect(response).to have_http_status 422
       expect(response).to include_api_error('admin.currency.invalid_status')
-    end
-
-    it 'validate parent_id param' do
-      api_post '/api/v2/admin/currencies/new', params: { code: 'test', type: 'coin', parent_id: 'trst'}, token: token
-
-      expect(response).to have_http_status 422
-      expect(response).to include_api_error('admin.currency.parent_id_doesnt_exist')
     end
 
     it 'checked required params' do
@@ -274,12 +258,6 @@ describe API::V2::Admin::Currencies, type: :request do
 
       expect(response).to be_successful
       expect(result['description']).to eq 'test'
-    end
-
-    it 'validate parent_id param' do
-      api_post '/api/v2/admin/currencies/update', params: { code: Currency.find_by(type: 'coin').code, parent_id: 'trst' }, token: token
-      expect(response).to have_http_status 422
-      expect(response).to include_api_error('admin.currency.parent_id_doesnt_exist')
     end
 
     it 'validate position param' do

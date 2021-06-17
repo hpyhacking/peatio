@@ -29,7 +29,7 @@ module API
             },
             withdraw_fee: {
               type: { value: BigDecimal, message: 'admin.blockchain_currency.non_decimal_withdraw_fee' },
-              values: { value: -> (p){ p >= 0  }, message: 'admin.blockchain_currency.ivalid_withdraw_fee' },
+              values: { value: -> (p){ p >= 0  }, message: 'admin.blockchain_currency.invalid_withdraw_fee' },
               default: 0.0,
               desc: -> { API::V2::Admin::Entities::BlockchainCurrency.documentation[:withdraw_fee][:desc] }
             },
@@ -128,10 +128,6 @@ module API
                      allow_blank: false,
                      values: { value: -> { Currency.codes(bothcase: true) }, message: 'admin.blockchain_currency.currency_doesnt_exist'},
                      desc: -> { API::V2::Admin::Entities::BlockchainCurrency.documentation[:currency_id][:desc] }
-            requires :blockchain_key,
-                     allow_blank: false,
-                     values: { value: -> { ::Blockchain.pluck(:key) }, message: 'admin.blockchain_currency.blockchain_key_doesnt_exist' },
-                     desc: -> { API::V2::Admin::Entities::BlockchainCurrency.documentation[:base_factor][:desc] }
             optional :base_factor,
                      type: { value: Integer, message: 'admin.blockchain_currency.non_integer_base_factor' },
                      desc: -> { API::V2::Admin::Entities::BlockchainCurrency.documentation[:base_factor][:desc] }
@@ -139,10 +135,22 @@ module API
                      type: { value: Integer, message: 'admin.blockchain_currency.non_integer_subunits' },
                      values: { value: (0..18), message: 'admin.blockchain_currency.invalid_subunits' },
                      desc: -> { API::V2::Admin::Entities::BlockchainCurrency.documentation[:subunits][:desc] }
+            given currency_id: ->(currency_id) { currency_id.present? && Currency.find_by(id: currency_id).coin? } do
+              optional :parent_id,
+                       type: String,
+                       coerce_with: ->(v) { v.strip.downcase },
+                       values: { value: -> { Currency.coins_without_tokens.pluck(:id).map(&:to_s) }, message: 'admin.blockchain_currency.parent_id_doesnt_exist' },
+                       desc: -> { API::V2::Admin::Entities::BlockchainCurrency.documentation[:parent_id][:desc] }
+              requires :blockchain_key,
+                       allow_blank: false,
+                       values: { value: -> { ::Blockchain.pluck(:key) }, message: 'admin.blockchain_currency.blockchain_key_doesnt_exist' },
+                       desc: -> { API::V2::Admin::Entities::BlockchainCurrency.documentation[:blockchain_key][:desc] }
+            end
             mutually_exclusive :base_factor, :subunits, message: 'admin.blockchain_currency.one_of_base_factor_subunits_fields'
           end
           post '/new' do
             admin_authorize! :create, ::BlockchainCurrency
+
             blockchain_currency = ::BlockchainCurrency.new(declared(params, include_missing: false))
 
             if blockchain_currency.save
@@ -176,6 +184,14 @@ module API
             requires :id,
                      type: Integer,
                      desc: -> { API::V2::Admin::Entities::BlockchainCurrency.documentation[:id][:desc] }
+            optional :parent_id,
+                     type: String,
+                     coerce_with: ->(v) { v.strip.downcase },
+                     values: { value: -> { Currency.coins_without_tokens.pluck(:id).map(&:to_s) }, message: 'admin.blockchain_currency.parent_id_doesnt_exist' },
+                     desc: -> { API::V2::Admin::Entities::BlockchainCurrency.documentation[:parent_id][:desc] }
+            optional :blockchain_key,
+                     values: { value: -> { ::Blockchain.pluck(:key) }, message: 'admin.currency.blockchain_key_doesnt_exist' },
+                     desc: -> { API::V2::Admin::Entities::BlockchainCurrency.documentation[:blockchain_key][:desc] }
           end
           post '/update' do
             admin_authorize! :update, ::BlockchainCurrency, params.except(:id)
@@ -187,6 +203,20 @@ module API
               body errors: blockchain_currency.errors.full_messages
               status 422
             end
+          end
+
+          desc 'Delete blockchain currency.' do
+            success API::V2::Admin::Entities::BlockchainCurrency
+          end
+          params do
+            requires :id,
+                     type: Integer,
+                     desc: -> { API::V2::Admin::Entities::BlockchainCurrency.documentation[:id][:desc] }
+          end
+          delete ':id' do
+            admin_authorize! :destroy, ::BlockchainCurrency
+
+            present BlockchainCurrency.destroy(params[:id]), with: API::V2::Admin::Entities::BlockchainCurrency
           end
         end
       end

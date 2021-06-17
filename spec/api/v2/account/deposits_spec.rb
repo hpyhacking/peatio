@@ -252,11 +252,11 @@ describe API::V2::Account::Deposits, type: :request do
         end
 
         context 'currency code with dot' do
-          let!(:currency) { create(:currency, :xagm_cx) }
-          let!(:blockchain_currency) { create(:blockchain_currency, :eth_network, currency_id: currency.id) }
+          let!(:xasm_currency) { create(:currency, :xagm_cx) }
+          let!(:blockchain_currency) { create(:blockchain_currency, :xagm_cx_network) }
 
           it 'returns information about specified deposit address' do
-            api_get "/api/v2/account/deposit_address/#{currency.code}", params: { blockchain_key: blockchain_key }, token: token
+            api_get "/api/v2/account/deposit_address/#{xasm_currency.code}", params: { blockchain_key: blockchain_key }, token: token
             expect(response).to have_http_status 200
             expect(response.body).to eq '{"currencies":["eth","xagm.cx"],"blockchain_key":"eth-rinkeby","address":"2n2wnxrdo4oengp498xgngcbru29mychogr","state":"active"}'
           end

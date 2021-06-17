@@ -160,13 +160,31 @@ describe API::V2::Admin::BlockchainCurrencies, type: :request do
 
 	describe 'POST blockchain_currencies/new' do
 		it 'create blockchain currency' do
-      api_post '/api/v2/admin/blockchain_currencies/new', params: { currency_id: 'eth', blockchain_key: 'btc-testnet', protocol: 'BTC', auto_update_fees_enabled: false }, token: token
+      api_post '/api/v2/admin/blockchain_currencies/new', params: { currency_id: 'eth', blockchain_key: 'btc-testnet', protocol: 'BTC_T', auto_update_fees_enabled: false }, token: token
       result = JSON.parse(response.body)
 
       expect(response).to be_successful
       expect(result['currency_id']).to eq 'eth'
 			expect(result['blockchain_key']).to eq 'btc-testnet'
       expect(result['auto_update_fees_enabled']).to eq false
+    end
+
+    it 'create blockchain currency with parent_id' do
+      api_post '/api/v2/admin/blockchain_currencies/new', params: { currency_id: 'trst', parent_id: 'eth', blockchain_key: 'btc-testnet', protocol: 'BTC_T', auto_update_fees_enabled: false }, token: token
+      result = JSON.parse(response.body)
+
+      expect(response).to be_successful
+      expect(result['currency_id']).to eq 'trst'
+      expect(result['parent_id']).to eq 'eth'
+			expect(result['blockchain_key']).to eq 'btc-testnet'
+      expect(result['auto_update_fees_enabled']).to eq false
+    end
+
+    it 'validate parent_id param' do
+      api_post '/api/v2/admin/blockchain_currencies/new', params: { currency_id: 'trst', blockchain_key: 'btc-testnet', parent_id: 'eur'}, token: token
+
+      expect(response).to have_http_status 422
+      expect(response).to include_api_error('admin.blockchain_currency.parent_id_doesnt_exist')
     end
 
 		it 'validate blockchain_key param' do
@@ -308,4 +326,37 @@ describe API::V2::Admin::BlockchainCurrencies, type: :request do
       expect(response).to include_api_error('admin.ability.not_permitted')
     end
 	end
+
+  describe 'DELETE blockchain_currencies/:id' do
+    context 'successful response' do
+      let(:blockchain_currency) { BlockchainCurrency.find_by(blockchain_key: 'eth-rinkeby') }
+
+      it 'return destroyed blockchain_currency' do
+        api_delete "/api/v2/admin/blockchain_currencies/#{blockchain_currency.id}", token: token
+
+        expect(response).to be_successful
+        result = JSON.parse(response.body)
+        expect(result['id']).to eq blockchain_currency.id
+        expect(result['currency_id']).to eq blockchain_currency.currency_id
+        expect(result['blockchain_key']).to eq blockchain_currency.blockchain_key
+      end
+    end
+
+    context 'unsuccessful response' do
+
+      it 'return error in case of not permitted ability' do
+        api_delete '/api/v2/admin/blockchain_currencies/0', token: token
+
+        expect(response.code).to eq '404'
+        expect(response).to include_api_error('record.not_found')
+      end
+
+      it 'return error in case of not permitted ability' do
+        api_delete '/api/v2/admin/blockchain_currencies/1', token: level_3_member_token
+
+        expect(response.code).to eq '403'
+        expect(response).to include_api_error('admin.ability.not_permitted')
+      end
+    end
+  end
 end

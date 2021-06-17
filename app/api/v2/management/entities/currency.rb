@@ -16,14 +16,6 @@ module API
           )
 
           expose(
-            :status,
-            documentation: {
-              type: String,
-              desc: 'Currency display status (enabled/disabled/hidden).'
-            }
-          )
-
-          expose(
             :created_at,
             format_with: :iso8601,
             documentation: {

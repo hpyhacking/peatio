@@ -40,7 +40,9 @@ module API
         get '/wallets/overview' do
           admin_authorize! :read, ::Wallet
 
-          Helpers::WalletOverviewBuilder.new(::Currency.active, ::BlockchainCurrency.active).info
+          Rails.cache.fetch(:wallet_overview, expires_in: 60) do
+            Helpers::WalletOverviewBuilder.new(::Currency.coins.active, ::BlockchainCurrency.active).info
+          end
         end
 
         desc 'Get all wallets, result is paginated.',

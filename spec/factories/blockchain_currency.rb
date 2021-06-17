@@ -44,6 +44,7 @@ FactoryBot.define do
 
     trait :trst_network do
 			currency_id          { 'trst' }
+      parent_id            { 'eth' }
       blockchain_key       { 'eth-rinkeby' }
       base_factor          { 1_000_000 }
       withdraw_limit_24h   { 100 }
@@ -57,6 +58,7 @@ FactoryBot.define do
 
     trait :tom_network do
 			currency_id          { 'tom' }
+      parent_id            { 'eth' }
       blockchain_key       { 'eth-rinkeby' }
       base_factor          { 1_000_000 }
       withdraw_limit_24h   { 100 }
@@ -70,6 +72,7 @@ FactoryBot.define do
 
     trait :ring_network do
 			currency_id          { 'ring' }
+      parent_id            { 'eth' }
       blockchain_key       { 'eth-kovan' }
       base_factor          { 1_000_000 }
       withdraw_limit_24h   { 100 }
@@ -91,6 +94,7 @@ FactoryBot.define do
 
     trait :xagm_cx_network do
       blockchain_key      { 'eth-rinkeby' }
+      parent_id           { 'eth' }
       currency_id         { 'xagm.cx' }
       base_factor         { 1_000_000 }
       withdraw_limit_24h  { 100 }

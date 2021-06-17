@@ -37,8 +37,8 @@ module Workers
 
             if result.present?
               pa.update!(address: result[:address],
-                        secret:  result[:secret],
-                        details: result.fetch(:details, {}).merge(pa.details))
+                         secret:  result[:secret],
+                         details: result.fetch(:details, {}).merge(pa.details))
             end
           end
 

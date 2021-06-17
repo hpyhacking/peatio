@@ -50,16 +50,6 @@ describe API::V2::Management::Currencies, type: :request do
       expect(result['type']).to eq 'coin'
     end
 
-    it 'create token' do
-      data.merge!(code: 'test', parent_id: 'btc')
-      request
-      result = JSON.parse(response.body)
-
-      expect(response).to be_successful
-      expect(result['type']).to eq 'coin'
-      expect(result['parent_id']).to eq 'btc'
-    end
-
     it 'create fiat' do
       data.merge!(code: 'test', type: 'fiat')
       request
@@ -83,14 +73,6 @@ describe API::V2::Management::Currencies, type: :request do
 
       expect(response).to have_http_status 422
       expect(response.body).to match(/management.currency.invalid_status/i)
-    end
-
-    it 'validate parent_id param' do
-      data.merge!(code: 'test', type: 'coin', parent_id: 'trst')
-      request
-
-      expect(response).to have_http_status 422
-      expect(response.body).to match(/management.currency.parent_id_doesnt_exist/i)
     end
 
     it 'checked required params' do

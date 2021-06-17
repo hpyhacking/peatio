@@ -13,6 +13,13 @@ module API
               type: JSON
             }
           )
+
+          expose(
+            :protocol,
+            documentation: {
+              desc: 'Blockchain protocol',
+            }, if: -> (beneficiary){ beneficiary.blockchain.present? }
+          ) { |beneficiary| beneficiary.blockchain.protocol }
         end
       end
     end

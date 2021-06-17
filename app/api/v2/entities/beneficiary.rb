@@ -22,6 +22,14 @@ module API
         )
 
         expose(
+          :blockchain_name,
+          documentation:{
+            type: String,
+            desc: 'Blockchain name.'
+          }, if: -> (beneficiary){ beneficiary.blockchain.present? }
+        ) { |beneficiary| beneficiary.blockchain.name }
+
+        expose(
           :currency_id,
           as: :currency,
           documentation: {

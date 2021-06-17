@@ -102,7 +102,7 @@ module API
         end
         get '/deposit_address/:currency', requirements: { currency: /[\w\.\-]+/ } do
           user_authorize! :read, ::PaymentAddress
-
+          
           currency = Currency.find(params[:currency])
           blockchain_currency = BlockchainCurrency.find_by!(currency_id: params[:currency],
                                                             blockchain_key: params[:blockchain_key])

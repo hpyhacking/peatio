@@ -14,7 +14,7 @@ FactoryBot.define do
       explorer_address        { 'https://etherscan.io/address/#{address}' }
       explorer_transaction    { 'https://etherscan.io/tx/#{txid}' }
       warning                 { 'Reminder: For the safety of your funds, please confirm again that the network you wish to use is eth-rinkeby.' }
-      protocol                { 'ERC-20' }
+      protocol                { 'Rinkeby' }
       description             { 'Ethereum Rinkeby' }
       collection_gas_speed    { 'standard' }
       withdrawal_gas_speed    { 'standard' }
@@ -31,7 +31,7 @@ FactoryBot.define do
       explorer_address        { 'https://kovan.etherscan.io/address/#{address}' }
       explorer_transaction    { 'https://kovan.etherscan.io/tx/#{txid}' }
       warning                 { 'Reminder: For the safety of your funds, please confirm again that the network you wish to use is eth-kovan.' }
-      protocol                { 'ERC-20' }
+      protocol                { 'Kovan' }
       description             { 'Ethereum Kovan' }
       collection_gas_speed    { 'standard' }
       withdrawal_gas_speed    { 'standard' }

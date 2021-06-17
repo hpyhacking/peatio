@@ -128,10 +128,6 @@ module API
                      allow_blank: false,
                      values: { value: -> { Currency.codes(bothcase: true) }, message: 'management.blockchain_currency.currency_doesnt_exist'},
                      desc: -> { API::V2::Management::Entities::BlockchainCurrency.documentation[:currency_id][:desc] }
-            requires :blockchain_key,
-                     allow_blank: false,
-                     values: { value: -> { ::Blockchain.pluck(:key) }, message: 'management.blockchain_currency.blockchain_key_doesnt_exist' },
-                     desc: -> { API::V2::Management::Entities::BlockchainCurrency.documentation[:base_factor][:desc] }
             optional :base_factor,
                      type: { value: Integer, message: 'management.blockchain_currency.non_integer_base_factor' },
                      desc: -> { API::V2::Management::Entities::BlockchainCurrency.documentation[:base_factor][:desc] }
@@ -139,6 +135,15 @@ module API
                      type: { value: Integer, message: 'management.blockchain_currency.non_integer_subunits' },
                      values: { value: (0..18), message: 'management.blockchain_currency.invalid_subunits' },
                      desc: -> { API::V2::Management::Entities::BlockchainCurrency.documentation[:subunits][:desc] }
+            given currency_id: ->(currency_id) { currency_id.present? && Currency.find_by(id: currency_id).coin? } do
+              optional :parent_id,
+                       values: { value: -> { Currency.coins_without_tokens.pluck(:id).map(&:to_s) }, message: 'management.blockchain_currency.parent_id_doesnt_exist' },
+                       desc: -> { API::V2::Management::Entities::BlockchainCurrency.documentation[:parent_id][:desc] }
+              requires :blockchain_key,
+                       allow_blank: false,
+                       values: { value: -> { ::Blockchain.pluck(:key) }, message: 'management.blockchain_currency.blockchain_key_doesnt_exist' },
+                       desc: -> { API::V2::Management::Entities::BlockchainCurrency.documentation[:blockchain_key][:desc] }
+            end
             mutually_exclusive :base_factor, :subunits, message: 'management.blockchain_currency.one_of_base_factor_subunits_fields'
           end
           post '/new' do

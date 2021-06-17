@@ -154,21 +154,30 @@ describe API::V2::Admin::Wallets, type: :request do
         [{"id"=>1,
           "name"=>"Bitcoin",
           "code"=>"btc",
-          "blockhains"=>
+          "precision"=>8,
+          "blockchains"=>
            [{"blockchain_key"=>"btc-testnet",
              "blockchain_name"=>"Bitcoin Testnet",
+             "network"=>"BEP-2",
              "balances"=>[{"kind"=>"hot", "balance"=>0}, {"kind"=>"deposit", "balance"=>0}],
              "total"=>0,
              "estimated_total"=>"0.0"}],
           "total"=>0,
+          "deposit_total_balance"=>"0.0",
+          "fee_total_balance"=>"0.0",
+          "hot_total_balance"=>"0.0",
+          "warm_total_balance"=>"0.0",
+          "cold_total_balance"=>"0.0",
           "estimated_total"=>"0.0"}]
       }
+
+      before(:each) { clear_redis }
 
       context 'wallet balances are nil' do
         it 'returns wallet overview' do
           expect(Wallet.where(blockchain_key: 'btc-testnet').map(&:balance).uniq).to eq([nil])
           api_get '/api/v2/admin/wallets/overview', token: token
-
+          
           expect(response).to be_successful
           result = JSON.parse(response.body)
           expect(result).to eq expected_zero_result
@@ -205,12 +214,18 @@ describe API::V2::Admin::Wallets, type: :request do
 
           expect(response).to be_successful
           result = JSON.parse(response.body)
-          expect(result[0]['blockhains'][0]['balances'][0].keys).to eq %w[kind balance updated_at]
-          expect(result[0]['blockhains'][0]['balances'][0]['balance']).to eq '44.0'
-          expect(result[0]['blockhains'][0]['balances'][1].keys).to eq %w[kind balance updated_at]
-          expect(result[0]['blockhains'][0]['balances'][1]['balance']).to eq '32.0'
-          expect(result[0]['blockhains'][0]['total']).to eq '76.0'
-          expect(result[0]['blockhains'][0]['estimated_total']).to eq '76.0'
+
+          expect(result[0]['blockchains'][0]['balances'][0].keys).to eq %w[kind balance updated_at]
+          expect(result[0]['blockchains'][0]['balances'][0]['balance']).to eq '44.0'
+          expect(result[0]['blockchains'][0]['balances'][1].keys).to eq %w[kind balance updated_at]
+          expect(result[0]['blockchains'][0]['balances'][1]['balance']).to eq '32.0'
+          expect(result[0]['blockchains'][0]['total']).to eq '76.0'
+          expect(result[0]['blockchains'][0]['estimated_total']).to eq '76.0'
+          expect(result[0]['deposit_total_balance']).to eq '32.0'
+          expect(result[0]['fee_total_balance']).to eq '0.0'
+          expect(result[0]['hot_total_balance']).to eq '44.0'
+          expect(result[0]['warm_total_balance']).to eq '0.0'
+          expect(result[0]['cold_total_balance']).to eq '0.0'
         end
       end
 
@@ -228,12 +243,12 @@ describe API::V2::Admin::Wallets, type: :request do
 
           expect(response).to be_successful
           result = JSON.parse(response.body)
-          expect(result[0]['blockhains'][0]['balances'][0].keys).to eq %w[kind balance]
-          expect(result[0]['blockhains'][0]['balances'][0]['balance']).to eq '44.0'
-          expect(result[0]['blockhains'][0]['balances'][1].keys).to eq %w[kind balance]
-          expect(result[0]['blockhains'][0]['balances'][1]['balance']).to eq '32.0'
-          expect(result[0]['blockhains'][0]['total']).to eq '76.0'
-          expect(result[0]['blockhains'][0]['estimated_total']).to eq '76.0'
+          expect(result[0]['blockchains'][0]['balances'][0].keys).to eq %w[kind balance]
+          expect(result[0]['blockchains'][0]['balances'][0]['balance']).to eq '44.0'
+          expect(result[0]['blockchains'][0]['balances'][1].keys).to eq %w[kind balance]
+          expect(result[0]['blockchains'][0]['balances'][1]['balance']).to eq '32.0'
+          expect(result[0]['blockchains'][0]['total']).to eq '76.0'
+          expect(result[0]['blockchains'][0]['estimated_total']).to eq '76.0'
         end
       end
     end

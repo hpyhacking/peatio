@@ -4,6 +4,7 @@ class MultiNetworkSupport < ActiveRecord::Migration[5.2]
     create_table :blockchain_currencies do |t|
       t.string :currency_id, foreign_key: true, class: 'Currency', null: false
       t.string :blockchain_key, foreign_key: true, null: true, class: 'Blockchain'
+      t.string :parent_id, index: true
       t.decimal :deposit_fee, precision: 32, scale: 16, default: 0, null: false
       t.decimal :min_deposit_amount, precision: 32, scale: 16, default: 0, null: false
       t.decimal :min_collection_amount, precision: 32, scale: 16, default: 0, null: false
@@ -53,6 +54,7 @@ class MultiNetworkSupport < ActiveRecord::Migration[5.2]
         currency_id: currency.id,
         blockchain_key: currency.blockchain_key,
         deposit_fee: currency.deposit_fee,
+        parent_id: currency.parent_id,
         min_deposit_amount: currency.min_deposit_amount,
         min_collection_amount: currency.min_collection_amount,
         withdraw_fee: currency.withdraw_fee,
@@ -78,6 +80,7 @@ class MultiNetworkSupport < ActiveRecord::Migration[5.2]
       remove_column :currencies, :withdraw_limit_24h, :decimal
       remove_column :currencies, :withdraw_limit_72h, :decimal
       remove_column :currencies, :options, :json
+      remove_column :currencies, :parent_id, :string
       remove_column :currencies, :visible, :boolean
       remove_column :currencies, :base_factor, :bigint
       remove_column :currencies, :deposit_enabled, :boolean
@@ -94,8 +97,9 @@ class MultiNetworkSupport < ActiveRecord::Migration[5.2]
   def down
     # Add currencies fields
     ActiveRecord::Base.transaction do
-      add_column :currencies, :blockchain_key, :string
-      add_column :currencies, :deposit_fee, :decimal, after: :type, null: false, default: 0, precision: 32, scale: 16
+      add_column :currencies, :blockchain_key, :string, after: :homepage
+      add_column :currencies, :parent_id, :string, index: true, after: :blockchain_key
+      add_column :currencies, :deposit_fee, :decimal, after: :type, null: false, default: 0, precision: 32, scale: 16, after: :parent_id
       add_column :currencies, :min_deposit_amount, :decimal, precision: 32, scale: 16, default: 0.0, null: false, after: :deposit_fee
       add_column :currencies, :min_collection_amount, :decimal, precision: 32, scale: 16, default: 0.0, null: false, after: :min_deposit_amount
       add_column :currencies, :withdraw_fee, :decimal, precision: 32, scale: 16, default: 0.0, null: false, after: :min_collection_amount
@@ -116,6 +120,7 @@ class MultiNetworkSupport < ActiveRecord::Migration[5.2]
       currency.update_columns(
         blockchain_key: blockchain_currency.blockchain_key,
         deposit_fee: blockchain_currency.deposit_fee,
+        parent_id: blockchain_currency.parent_id,
         min_deposit_amount: blockchain_currency.min_deposit_amount,
         min_collection_amount: blockchain_currency.min_collection_amount,
         withdraw_fee: blockchain_currency.withdraw_fee,

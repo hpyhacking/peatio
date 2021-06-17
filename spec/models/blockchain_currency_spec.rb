@@ -13,6 +13,61 @@ describe BlockchainCurrency do
       expect(blockchain_currency.valid?).to be_truthy
       expect(blockchain_currency.errors[:blockchain_key]).to be_empty
     end
+
+    context 'token' do
+      let!(:blockchain_currency) { BlockchainCurrency.find_by(currency_id: :ring) }
+      let!(:blockchain_trst_currency) { BlockchainCurrency.find_by(currency_id: :trst) }
+      let!(:blockchain_fiat_currency) { BlockchainCurrency.find_by(currency_id: :eur) }
+  
+      # coin configuration
+      it 'validate parent_id presence' do
+        blockchain_currency.parent_id = nil
+        expect(blockchain_currency.valid?).to eq true
+      end
+  
+      # token configuration
+      it 'validate parent_id value' do
+        blockchain_currency.parent_id = blockchain_fiat_currency.id
+        expect(blockchain_currency.valid?).to be_falsey
+        expect(blockchain_currency.errors[:parent_id]).to eq ["is not included in the list"]
+  
+        blockchain_currency.parent_id = blockchain_trst_currency.id
+        expect(blockchain_currency.valid?).to be_falsey
+        expect(blockchain_currency.errors[:parent_id]).to eq ["is not included in the list"]
+      end
+    end
+  end
+
+  context 'Methods' do
+    context 'link_wallets' do
+      let(:coin) { 'eth' }
+      let(:erc20_coin) { 'trst' }
+      let(:blockchain_key) { 'btc-testnet' }
+      let!(:blockchain_currency) { BlockchainCurrency.find_by(currency_id: :eth) }
+
+      context 'without parent id' do
+        it 'should not create currency wallet' do
+          wallet = Wallet.find_by(blockchain_key: blockchain_key)
+          expect(wallet).not_to eq nil
+          currency = BlockchainCurrency.create(currency_id: coin, blockchain_key: blockchain_key)
+          
+          expect(CurrencyWallet.find_by(currency_id: currency.id, wallet_id: wallet.id)).to eq nil
+        end
+      end
+
+      context 'with parent id' do
+        it 'should create currency wallet' do
+          wallet = Wallet.find_by(blockchain_key: blockchain_key)
+          # create links for parent currency before
+          CurrencyWallet.create(currency_id: coin, wallet_id: wallet.id)
+          currency = BlockchainCurrency.create(currency_id: erc20_coin, blockchain_key: blockchain_key, parent_id: coin)
+          c_w = CurrencyWallet.find_by(currency_id: erc20_coin, wallet_id: wallet.id)
+
+          expect(c_w.present?).to eq true
+          expect(c_w.currency_id).to eq erc20_coin
+        end
+      end
+    end
   end
 
   context 'scopes' do
@@ -182,6 +237,7 @@ describe BlockchainCurrency do
         expect(b_currency.min_deposit_amount).to eq b_currency.blockchain.min_deposit_amount / trade.price
         expect(b_currency.min_collection_amount).to eq b_currency.blockchain.min_deposit_amount / trade.price
         expect(b_currency.withdraw_fee).to eq b_currency.blockchain.withdraw_fee / trade.price
+        expect(b_currency.min_withdraw_amount).to eq b_currency.blockchain.min_withdraw_amount / trade.price
       end
     end
   end

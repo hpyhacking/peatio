@@ -1,7 +1,6 @@
 module Jobs
   module Cron
     class CurrencyPrice
-      PERIOD_TIME = 5
       class <<self
         def process
           Currency.coins.active.find_each do |currency|
@@ -12,7 +11,7 @@ module Jobs
             report_exception_to_screen(e)
             next
           end
-          sleep 60 * PERIOD_TIME
+          sleep Peatio::App.config.price_fetch_period_time
         end
       end
     end

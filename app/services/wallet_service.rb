@@ -7,8 +7,9 @@ class WalletService
   end
 
   def create_address!(uid, pa_details)
-    blockchain_currency = BlockchainCurrency.find_by(currency: @wallet.currencies,
+    blockchain_currency = BlockchainCurrency.find_by(currency_id: @wallet.currencies.map(&:id),
                                                      blockchain_key: @wallet.blockchain_key)
+          
     @adapter.configure(wallet:   @wallet.to_wallet_api_settings,
                        currency: blockchain_currency.to_blockchain_api_settings)
     @adapter.create_address!(uid: uid, pa_details: pa_details)
@@ -142,7 +143,7 @@ class WalletService
   end
 
   def trigger_webhook_event(event)
-    blockchain_currency = BlockchainCurrency.find_by(currency: @wallet.currencies,
+    blockchain_currency = BlockchainCurrency.find_by(currency_id: @wallet.currencies.map(&:id),
                                                      blockchain_key: @wallet.blockchain_key)
     @adapter.configure(wallet:   @wallet.to_wallet_api_settings,
                        currency: blockchain_currency.to_blockchain_api_settings)

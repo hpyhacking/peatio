@@ -27,9 +27,6 @@ class Currency < ApplicationRecord
   # == Relationships ========================================================
 
   has_and_belongs_to_many :wallets
-
-  has_one :parent, class_name: 'Currency', foreign_key: :id, primary_key: :parent_id
-
   has_many :blockchain_currencies
 
   # == Validations ==========================================================
@@ -46,10 +43,6 @@ class Currency < ApplicationRecord
             presence: true,
             numericality: { greater_than_or_equal_to: TOP_POSITION, only_integer: true }
 
-  validates :parent_id, allow_blank: true,
-            inclusion: { in: ->(_) { Currency.coins_without_tokens.pluck(:id).map(&:to_s) } },
-            if: :coin?
-
   validates :type, inclusion: { in: ->(_) { Currency.types.map(&:to_s) } }
 
   validates :precision, numericality: { greater_than_or_equal_to: 0 }
@@ -63,13 +56,13 @@ class Currency < ApplicationRecord
   scope :ordered, -> { order(position: :asc) }
   scope :coins, -> { where(type: :coin) }
   scope :fiats, -> { where(type: :fiat) }
-  # This scope select all coins without parent_id, which means that they are not tokens
-  scope :coins_without_tokens, -> { coins.where(parent_id: nil) }
+  # This scope select all currencies without parent_id, which means that they are not tokens
+  # and where currency type is coin
+  scope :coins_without_tokens, -> { where(type: :coin).includes(:blockchain_currencies).where(blockchain_currencies: { parent_id: nil }).distinct }
 
   # == Callbacks ============================================================
 
   after_create do
-    link_wallets
     insert_position(self)
   end
 
@@ -112,29 +105,12 @@ class Currency < ApplicationRecord
     Rails.cache.delete_matched("currencies*")
   end
 
-  def link_wallets
-    if parent_id.present?
-      # Iterate through active deposit/withdraw wallets
-      Wallet.active.where.not(kind: :fee).with_currency(parent_id).each do |wallet|
-        # Link parent currency with wallet
-        CurrencyWallet.create(currency_id: id, wallet_id: wallet.id)
-      end
-    end
-  end
-
   # Allows to dynamically check value of id/code:
   #
   #   id.btc? # true if code equals to "btc".
   #   code.eth? # true if code equals to "eth".
   def id
     super&.inquiry
-  end
-
-  # This method defines that token currency need to have parent_id and coin type
-  # We use parent_id for token type to inherit some useful info such as blockchain_key from parent currency
-  # For coin currency enough to have only coin type
-  def token?
-    parent_id.present? && coin?
   end
 
   def get_price
@@ -151,7 +127,7 @@ class Currency < ApplicationRecord
 end
 
 # == Schema Information
-# Schema version: 20210609094033
+# Schema version: 20210611085637
 #
 # Table name: currencies
 #
@@ -159,7 +135,6 @@ end
 #  name        :string(255)
 #  description :text(65535)
 #  homepage    :string(255)
-#  parent_id   :string(255)
 #  type        :string(30)       default("coin"), not null
 #  status      :string(32)       default("enabled"), not null
 #  position    :integer          not null
@@ -171,6 +146,5 @@ end
 #
 # Indexes
 #
-#  index_currencies_on_parent_id  (parent_id)
-#  index_currencies_on_position   (position)
+#  index_currencies_on_position  (position)
 #

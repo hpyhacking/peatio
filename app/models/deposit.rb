@@ -163,7 +163,7 @@ class Deposit < ApplicationRecord
   def spread_between_wallets!
     return false if spread.present?
 
-    spread = WalletService.new(Wallet.deposit_wallet(currency_id)).spread_deposit(self)
+    spread = WalletService.new(Wallet.deposit_wallet(currency_id, blockchain_key)).spread_deposit(self)
     update!(spread: spread.map(&:as_json))
   end
 

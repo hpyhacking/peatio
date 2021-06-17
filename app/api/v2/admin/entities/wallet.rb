@@ -31,6 +31,14 @@ module API
           )
 
           expose(
+            :protocol,
+            documentation: {
+              desc: 'Blockchain protocol',
+            },
+            if: -> (wallet) { wallet.blockchain.present? }
+          ) { |wallet| wallet.blockchain.protocol }
+
+          expose(
             :currency_ids,
             as: :currencies,
             documentation: {
