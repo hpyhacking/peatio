@@ -104,7 +104,7 @@ class Beneficiary < ApplicationRecord
 
   before_validation(on: :create) do
     # Truncate spaces
-    data['address'] = data['address'].gsub(/\s+/, '') if data.present? && data['address'].present?
+    data['address'] = data['address'].gsub(/\p{Space}/, '') if data.present? && data['address'].present?
 
     # Generate Beneficiary Pin
     self.pin ||= self.class.generate_pin
