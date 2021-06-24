@@ -53,12 +53,16 @@ class Deposit < ApplicationRecord
     state :collected
     state :fee_processing
     state :errored
+    state :refunding
     event(:cancel) { transitions from: :submitted, to: :canceled }
     event(:reject) { transitions from: :submitted, to: :rejected }
     event :accept do
       transitions from: :submitted, to: :accepted
+
       after do
-        if currency.coin? && Peatio::App.config.deposit_funds_locked
+        if currency.coin? && (Peatio::App.config.deposit_funds_locked ||
+                              Peatio::AML.adapter.present? ||
+                              Peatio::App.config.manual_deposit_approval)
           account.plus_locked_funds(amount)
         else
           account.plus_funds(amount)
@@ -71,16 +75,18 @@ class Deposit < ApplicationRecord
     end
 
     event :process do
-      if Peatio::AML.adapter.present?
-        transitions from: %i[aml_processing aml_suspicious accepted errored], to: :aml_processing do
-          after do
-            process_collect! if aml_check!
-          end
+      transitions from: %i[aml_processing aml_suspicious accepted errored], to: :aml_processing do
+        guard do
+          Peatio::AML.adapter.present? || Peatio::App.config.manual_deposit_approval
         end
-      else
-        transitions from: %i[accepted skipped errored], to: :processing do
-          guard { currency.coin? }
+
+        after do
+          process_collect! if aml_check!
         end
+      end
+
+      transitions from: %i[accepted skipped errored], to: :processing do
+        guard { currency.coin? }
       end
     end
 
@@ -96,13 +102,24 @@ class Deposit < ApplicationRecord
 
     event :process_collect do
       transitions from: %i[aml_processing aml_suspicious], to: :processing do
-        guard { currency.coin? }
+        guard do
+          currency.coin? && (Peatio::AML.adapter.present? || Peatio::App.config.manual_deposit_approval)
+        end
+
+        after do
+          if !Peatio::App.config.deposit_funds_locked
+            account.unlock_funds(amount)
+            record_complete_operations!
+          end
+        end
       end
-    end if Peatio::AML.adapter.present?
+    end
 
     event :aml_suspicious do
-      transitions from: :aml_processing, to: :aml_suspicious
-    end if Peatio::AML.adapter.present?
+      transitions from: :aml_processing, to: :aml_suspicious do
+        guard { Peatio::AML.adapter.present? || Peatio::App.config.manual_deposit_approval  }
+      end
+    end
 
     event :dispatch do
       transitions from: %i[processing fee_processing], to: :collected
@@ -122,6 +139,10 @@ class Deposit < ApplicationRecord
   end
 
   def aml_check!
+    # If there is no AML adapter on a platform and manual deposit approval enabled
+    # system will return nil value to not proceed with automatic deposit collection in aml cron job
+    return nil if Peatio::App.config.manual_deposit_approval && Peatio::AML.adapter.blank?
+
     from_addresses.each do |address|
       result = Peatio::AML.check!(address, currency_id, member.uid)
       if result.risk_detected
@@ -225,7 +246,8 @@ class Deposit < ApplicationRecord
         member_id: member_id
       )
 
-      kind = currency.coin? && Peatio::App.config.deposit_funds_locked ? :locked : :main
+      locked_kind_check = currency.coin? && (Peatio::App.config.deposit_funds_locked || Peatio::App.config.manual_deposit_approval)
+      kind = locked_kind_check ? :locked : :main
       # Credit locked fiat/crypto Liability account.
       Operations::Liability.credit!(
         amount: amount,

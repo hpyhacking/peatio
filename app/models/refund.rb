@@ -15,6 +15,7 @@ class Refund < ApplicationRecord
 
     event :process do
       transitions from: :pending, to: :processed
+
       after do
         process_refund!
       end
@@ -26,7 +27,7 @@ class Refund < ApplicationRecord
   end
 
   def process_refund!
-    transaction = WalletService.new(Wallet.deposit.find_by(currency: deposit.currency)).refund!(self)
+    transaction = WalletService.new(Wallet.active_deposit_wallet(deposit.currency.id)).refund!(self)
     deposit.refund! if transaction.present?
   end
 end
