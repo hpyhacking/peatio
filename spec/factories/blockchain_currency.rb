@@ -4,8 +4,6 @@ FactoryBot.define do
   factory :blockchain_currency do
 		trait :usd_network do
 			currency_id          { 'usd' }
-			withdraw_limit_24h   { 100 }
-      withdraw_limit_72h   { 1000 }
       withdraw_fee         { 0.1 }
 			status               { 'enabled' }
       options              { {} }
@@ -13,8 +11,6 @@ FactoryBot.define do
 
 		trait :eur_network do
 			currency_id          { 'eur' }
-      withdraw_limit_24h   { 100 }
-      withdraw_limit_72h   { 1000 }
       withdraw_fee         { 0.1 }
       status               { 'disabled' }
       options              { {} }
@@ -24,8 +20,6 @@ FactoryBot.define do
       currency_id          { 'btc' }
       blockchain_key       { 'btc-testnet' }
       base_factor          { 100_000_000 }
-      withdraw_limit_24h   { 0.1 }
-      withdraw_limit_72h   { 1 }
       withdraw_fee         { 0.01 }
       options              { {} }
     end
@@ -34,8 +28,6 @@ FactoryBot.define do
 			currency_id          { 'eth' }
       blockchain_key       { 'eth-rinkeby' }
       base_factor          { 1_000_000_000_000_000_000 }
-      withdraw_limit_24h   { 0.1 }
-      withdraw_limit_72h   { 1 }
       withdraw_fee         { 0.025 }
       options do
         { gas_limit: 21_000 }
@@ -47,8 +39,6 @@ FactoryBot.define do
       parent_id            { 'eth' }
       blockchain_key       { 'eth-rinkeby' }
       base_factor          { 1_000_000 }
-      withdraw_limit_24h   { 100 }
-      withdraw_limit_72h   { 1000 }
       withdraw_fee         { 0.025 }
       options do
         { gas_limit: 90_000,
@@ -61,8 +51,6 @@ FactoryBot.define do
       parent_id            { 'eth' }
       blockchain_key       { 'eth-rinkeby' }
       base_factor          { 1_000_000 }
-      withdraw_limit_24h   { 100 }
-      withdraw_limit_72h   { 1000 }
       withdraw_fee         { 0.025 }
       options do
         { gas_limit: 90_000,
@@ -75,8 +63,6 @@ FactoryBot.define do
       parent_id            { 'eth' }
       blockchain_key       { 'eth-kovan' }
       base_factor          { 1_000_000 }
-      withdraw_limit_24h   { 100 }
-      withdraw_limit_72h   { 1000 }
       withdraw_fee         { 0.025 }
       options \
         { { erc20_contract_address: '0xf8720eb6ad4a530cccb696043a0d10831e2ff60e' } }
@@ -86,8 +72,6 @@ FactoryBot.define do
       blockchain_key      { 'fake-testnet' }
       currency_id         { 'fake' }
       base_factor         { 1_000_000 }
-      withdraw_limit_24h  { 100 }
-      withdraw_limit_72h  { 1000 }
       withdraw_fee        { 0.02 }
       options             { {} }
     end
@@ -97,8 +81,6 @@ FactoryBot.define do
       parent_id           { 'eth' }
       currency_id         { 'xagm.cx' }
       base_factor         { 1_000_000 }
-      withdraw_limit_24h  { 100 }
-      withdraw_limit_72h  { 1000 }
       withdraw_fee        { 0.02 }
       options             { {} }
     end

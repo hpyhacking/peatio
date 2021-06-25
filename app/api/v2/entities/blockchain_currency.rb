@@ -74,20 +74,6 @@ module API
         )
 
         expose(
-          :withdraw_limit_24h,
-          documentation: {
-            desc: 'Blockchain currency 24h withdraw limit',
-          }
-        )
-
-        expose(
-          :withdraw_limit_72h,
-          documentation: {
-            desc: 'Blockchain currency 72h withdraw limit',
-          }
-        )
-
-        expose(
           :base_factor,
           documentation: {
             desc: 'Blockchain currency base factor',

@@ -133,8 +133,6 @@ describe API::V2::Admin::BlockchainCurrencies, type: :request do
 			expect(result['min_deposit_amount']).to eq blockchain_currency.min_deposit_amount.to_s
 			expect(result['withdraw_fee']).to eq blockchain_currency.withdraw_fee.to_s
 			expect(result['min_withdraw_amount']).to eq blockchain_currency.min_withdraw_amount.to_s
-			expect(result['withdraw_limit_24h']).to eq blockchain_currency.withdraw_limit_24h.to_s
-			expect(result['withdraw_limit_72h']).to eq blockchain_currency.withdraw_limit_72h.to_s
 			expect(result['base_factor']).to eq blockchain_currency.base_factor
 			expect(result['status']).to eq blockchain_currency.status
 			expect(result['min_collection_amount']).to eq blockchain_currency.min_collection_amount.to_s

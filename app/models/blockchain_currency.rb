@@ -54,8 +54,6 @@ class BlockchainCurrency < ApplicationRecord
             :min_collection_amount,
             :withdraw_fee,
             :min_withdraw_amount,
-            :withdraw_limit_24h,
-            :withdraw_limit_72h,
             numericality: { greater_than_or_equal_to: 0 }
 
   validates :status, inclusion: { in: STATES }
@@ -136,15 +134,11 @@ class BlockchainCurrency < ApplicationRecord
   end
 
   def update_fees
-    market = Market.find_by(base_unit: currency.id, quote_unit: Peatio::App.config.platform_currency)
-    ticker = Trade.market_ticker_from_influx(market.symbol) if market.present?
-    price = ticker.present? ? ticker[:vwap].to_d : currency.price
-    
     update_attributes(
-      min_deposit_amount: round(blockchain.min_deposit_amount / price),
-      min_collection_amount: round(blockchain.min_deposit_amount / price),
-      withdraw_fee: round(blockchain.withdraw_fee / price),
-      min_withdraw_amount: round(blockchain.min_withdraw_amount / price)
+      min_deposit_amount: round(blockchain.min_deposit_amount / currency.price),
+      min_collection_amount: round(blockchain.min_deposit_amount / currency.price),
+      withdraw_fee: round(blockchain.withdraw_fee / currency.price),
+      min_withdraw_amount: round(blockchain.min_withdraw_amount / currency.price)
     )
   end
 
@@ -169,8 +163,6 @@ end
 #  min_collection_amount    :decimal(32, 16)  default(0.0), not null
 #  withdraw_fee             :decimal(32, 16)  default(0.0), not null
 #  min_withdraw_amount      :decimal(32, 16)  default(0.0), not null
-#  withdraw_limit_24h       :decimal(32, 16)  default(0.0), not null
-#  withdraw_limit_72h       :decimal(32, 16)  default(0.0), not null
 #  deposit_enabled          :boolean          default(TRUE), not null
 #  withdrawal_enabled       :boolean          default(TRUE), not null
 #  auto_update_fees_enabled :boolean          default(TRUE), not null

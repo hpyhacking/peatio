@@ -43,7 +43,6 @@ describe Currency do
     end
   end
 
-
   context 'read only attributes' do
     let!(:fake_currency) { create(:currency, :btc, id: 'fake') }
 
@@ -150,6 +149,52 @@ describe Currency do
         coin.update(position: 4)
         expect(Currency.all.ordered.pluck(:id, :position)).to eq [['usd', 1], ['eur', 2], ['eth', 3],
                                                                   ['btc', 4], ['trst', 5], ['ring', 6]]
+      end
+    end
+  end
+
+  context 'Methods' do
+    context 'update price' do
+      let(:currency) { Currency.find(:eth) }
+
+      context 'there is no market' do
+        it do
+          prev_currency_price = currency.price
+          currency.update_price
+          expect(currency.price).to eq prev_currency_price
+        end
+      end
+
+      context 'market exists' do
+        let!(:platform_currency) { create(:currency, :eth, id: 'usdt')}
+        let!(:market) { create(:market, symbol: 'ethusdt', type: 'spot', base_currency: 'eth', quote_currency: platform_currency.id,
+                               amount_precision: 4, price_precision: 6, min_price: 0.000001, min_amount: 0.0001)}
+
+        context 'there is no ticker' do
+          before do
+            delete_measurments('trades')
+          end
+
+          it do
+            prev_currency_price = currency.price
+            currency.update_price
+            expect(currency.price).to eq prev_currency_price
+          end
+        end
+
+        context 'there is ticker' do
+          let!(:trade) { create(:trade, :btcusd, market_id: market.symbol, market_type: 'spot', price: '5.0'.to_d, amount: '1.1'.to_d, total: '5.5'.to_d)}
+
+          before do
+            trade.write_to_influx
+          end
+
+          it do
+            prev_currency_price = currency.price
+            currency.update_price
+            expect(currency.price_previous_change).to eq [prev_currency_price, trade.price]
+          end
+        end
       end
     end
   end

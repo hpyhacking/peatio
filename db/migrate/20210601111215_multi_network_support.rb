@@ -10,8 +10,6 @@ class MultiNetworkSupport < ActiveRecord::Migration[5.2]
       t.decimal :min_collection_amount, precision: 32, scale: 16, default: 0, null: false
       t.decimal :withdraw_fee, precision: 32, scale: 16, default: 0, null: false
       t.decimal :min_withdraw_amount, precision: 32, scale: 16, default: 0, null: false
-      t.decimal :withdraw_limit_24h, precision: 32, scale: 16, default: 0, null: false
-      t.decimal :withdraw_limit_72h, precision: 32, scale: 16, default: 0, null: false
       t.boolean :deposit_enabled, default: true, null: false
       t.boolean :withdrawal_enabled, default: true, null: false
       t.bigint :base_factor, default: 1, null: false
@@ -59,8 +57,6 @@ class MultiNetworkSupport < ActiveRecord::Migration[5.2]
         min_collection_amount: currency.min_collection_amount,
         withdraw_fee: currency.withdraw_fee,
         min_withdraw_amount: currency.min_withdraw_amount,
-        withdraw_limit_24h: currency.withdraw_limit_24h,
-        withdraw_limit_72h: currency.withdraw_limit_72h,
         deposit_enabled: currency.deposit_enabled,
         withdrawal_enabled: currency.withdrawal_enabled,
         base_factor: currency.base_factor,
@@ -77,10 +73,10 @@ class MultiNetworkSupport < ActiveRecord::Migration[5.2]
       remove_column :currencies, :min_collection_amount, :decimal
       remove_column :currencies, :withdraw_fee, :decimal
       remove_column :currencies, :min_withdraw_amount, :decimal
-      remove_column :currencies, :withdraw_limit_24h, :decimal
-      remove_column :currencies, :withdraw_limit_72h, :decimal
       remove_column :currencies, :options, :json
       remove_column :currencies, :parent_id, :string
+      remove_column :currencies, :withdraw_limit_24h, :decimal
+      remove_column :currencies, :withdraw_limit_72h, :decimal
       remove_column :currencies, :visible, :boolean
       remove_column :currencies, :base_factor, :bigint
       remove_column :currencies, :deposit_enabled, :boolean
@@ -104,9 +100,7 @@ class MultiNetworkSupport < ActiveRecord::Migration[5.2]
       add_column :currencies, :min_collection_amount, :decimal, precision: 32, scale: 16, default: 0.0, null: false, after: :min_deposit_amount
       add_column :currencies, :withdraw_fee, :decimal, precision: 32, scale: 16, default: 0.0, null: false, after: :min_collection_amount
       add_column :currencies, :min_withdraw_amount, :decimal, precision: 32, scale: 16, default: 0.0, null: false, after: :withdraw_fee
-      add_column :withdraw_limit_24h, precision: 32, scale: 16, default: 0, null: false, after: :min_withdraw_amount
-      add_column :withdraw_limit_72h, precision: 32, scale: 16, default: 0, null: false, after: :withdraw_limit_24h
-      add_column :currencies, :options, :json, after: :withdraw_limit_72h
+      add_column :currencies, :options, :json, after: :min_withdraw_amount
       add_column :currencies, :visible, :boolean, default: true, null: false, index: true, after: :options
       add_column :base_factor, default: 1, null: false, after: :visible
       add_column :deposit_enabled, default: true, null: false, after: :base_factor
@@ -125,8 +119,6 @@ class MultiNetworkSupport < ActiveRecord::Migration[5.2]
         min_collection_amount: blockchain_currency.min_collection_amount,
         withdraw_fee: blockchain_currency.withdraw_fee,
         min_withdraw_amount: blockchain_currency.min_withdraw_amount,
-        withdraw_limit_24h: blockchain_currency.withdraw_limit_24h,
-        withdraw_limit_72h: blockchain_currency.withdraw_limit_72h,
         deposit_enabled: blockchain_currency.deposit_enabled,
         withdrawal_enabled: blockchain_currency.withdrawal_enabled,
         base_factor: blockchain_currency.base_factor,

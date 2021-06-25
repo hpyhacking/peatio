@@ -113,6 +113,14 @@ class Currency < ApplicationRecord
     super&.inquiry
   end
 
+  def update_price
+    market = Market.find_by(base_unit: id, quote_unit: Peatio::App.config.platform_currency)
+    ticker = Trade.market_ticker_from_influx(market.symbol) if market.present?
+    currency_price = ticker.present? ? ticker[:vwap].to_d : self.price
+
+    update_attribute(:price, currency_price)
+  end
+
   def get_price
     if price.blank? || price.zero?
       raise "Price for currency #{id} is unknown"

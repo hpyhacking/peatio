@@ -145,52 +145,21 @@ describe BlockchainCurrency do
           end
         end
 
-        context 'auto_update_fees_enabled false' do
-          context 'market doesnt exist' do
-            it 'creates blockchain currency with specific fees' do
-              blockchain_currency = BlockchainCurrency.create(currency_id: 'eth', blockchain_key: blockchain.key, auto_update_fees_enabled: true, min_deposit_amount: 0.12)
-              expect(blockchain_currency.min_deposit_amount).not_to eq 0.12
-              expect(blockchain_currency.min_deposit_amount).to eq blockchain.min_deposit_amount/blockchain_currency.currency.price
-            end
+        context 'auto_update_fees_enabled true' do
+          let!(:currency) { create(:currency, :eth, id: 'usdt')}
+          let(:min_deposit_amount) { 12 }
+          let(:b_currency) { BlockchainCurrency.find_by(currency_id: 'eth', blockchain_key: 'eth-rinkeby')}
+
+          before do
+            Blockchain.any_instance.stubs(:min_deposit_amount).returns(min_deposit_amount.to_d)
+            currency.update(price: 5.5)
+            b_currency.blockchain.update(min_deposit_amount: min_deposit_amount)
           end
 
-          context 'market exists' do
-            let!(:currency) { create(:currency, :eth, id: 'usdt')}
-            let!(:market) { create(:market, symbol: 'ethusdt', type: 'spot', base_currency: 'eth', quote_currency: currency.id,
-                                  amount_precision: 4, price_precision: 6, min_price: 0.000001, min_amount: 0.0001)}
-            let!(:trade) { create(:trade, :btcusd, market_id: market.symbol, market_type: 'spot', price: '5.0'.to_d, amount: '1.1'.to_d,
-                                  total: '5.5'.to_d)}
-            let(:min_deposit_amount) { 12 }
-            let(:b_currency) { BlockchainCurrency.find_by(currency_id: 'eth', blockchain_key: 'eth-rinkeby')}
-
-            before do
-              Blockchain.any_instance.stubs(:min_deposit_amount).returns(12.to_d)
-              b_currency.blockchain.update(min_deposit_amount: 12)
-            end
-
-            context 'ticker exists' do
-              before do
-                trade.write_to_influx
-              end
-
-              it 'creates blockchain currency with auto update fees' do
-                b_currency = BlockchainCurrency.create(currency_id: 'eth', blockchain_key: blockchain.key, auto_update_fees_enabled: true, min_deposit_amount: 2)
-                expect(b_currency.min_deposit_amount).not_to eq 2
-                expect(b_currency.min_deposit_amount).to eq min_deposit_amount/trade.price
-              end
-            end
-
-            context 'there is no ticker' do
-              before do
-                delete_measurments('trades')
-              end
-
-              it 'creates blockchain currency with auto update fees' do
-                b_currency = BlockchainCurrency.create(currency_id: 'eth', blockchain_key: blockchain.key, auto_update_fees_enabled: true, min_deposit_amount: 2)
-                expect(b_currency.min_deposit_amount).not_to eq 2
-                expect(b_currency.min_deposit_amount).to eq min_deposit_amount/b_currency.currency.price
-              end
-            end
+          it 'creates blockchain currency with auto update fees' do
+            b_currency = BlockchainCurrency.create(currency_id: 'eth', blockchain_key: blockchain.key, auto_update_fees_enabled: true, min_deposit_amount: 2)
+            expect(b_currency.min_deposit_amount).not_to eq 2
+            expect(b_currency.min_deposit_amount).to eq min_deposit_amount/currency.price
           end
         end
       end
@@ -218,26 +187,22 @@ describe BlockchainCurrency do
   context 'methods' do
     context 'update fees' do
       let!(:currency) { create(:currency, :eth, id: 'usdt')}
-      let!(:market) { create(:market, symbol: 'ethusdt', type: 'spot', base_currency: 'eth', quote_currency: currency.id,
-                            amount_precision: 4, price_precision: 6, min_price: 0.000001, min_amount: 0.0001)}
-      let!(:trade) { create(:trade, :btcusd, market_id: market.symbol, market_type: 'spot', price: '5.0'.to_d, amount: '1.1'.to_d,
-                            total: '5.5'.to_d)}
       let(:min_deposit_amount) { 12 }
       let(:b_currency) { BlockchainCurrency.find_by(currency_id: 'eth', blockchain_key: 'eth-rinkeby')}
 
       before do
-        Blockchain.any_instance.stubs(:min_deposit_amount).returns(12.to_d)
-        b_currency.blockchain.update(min_deposit_amount: 12)
-        trade.write_to_influx
+        Blockchain.any_instance.stubs(:min_deposit_amount).returns(min_deposit_amount.to_d)
+        currency.update(price: 5.5)
+        b_currency.blockchain.update(min_deposit_amount: min_deposit_amount)
       end
 
       it 'creates blockchain currency with auto update fees' do
         b_currency.update_fees
 
-        expect(b_currency.min_deposit_amount).to eq b_currency.blockchain.min_deposit_amount / trade.price
-        expect(b_currency.min_collection_amount).to eq b_currency.blockchain.min_deposit_amount / trade.price
-        expect(b_currency.withdraw_fee).to eq b_currency.blockchain.withdraw_fee / trade.price
-        expect(b_currency.min_withdraw_amount).to eq b_currency.blockchain.min_withdraw_amount / trade.price
+        expect(b_currency.min_deposit_amount).to eq b_currency.blockchain.min_deposit_amount / currency.price
+        expect(b_currency.min_collection_amount).to eq b_currency.blockchain.min_deposit_amount / currency.price
+        expect(b_currency.withdraw_fee).to eq b_currency.blockchain.withdraw_fee / currency.price
+        expect(b_currency.min_withdraw_amount).to eq b_currency.blockchain.min_withdraw_amount / currency.price
       end
     end
   end

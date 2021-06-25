@@ -39,18 +39,6 @@ module API
               default: 0.0,
               desc: -> { API::V2::Management::Entities::BlockchainCurrency.documentation[:min_withdraw_amount][:desc] }
             },
-            withdraw_limit_24h: {
-              type: { value: BigDecimal, message: 'management.blockchain_currency.non_decimal_withdraw_limit_24h' },
-              values: { value: -> (p){ p >= 0 }, message: 'management.blockchain_currency.invalid_withdraw_limit_24h' },
-              default: 0.0,
-              desc: -> { API::V2::Management::Entities::BlockchainCurrency.documentation[:withdraw_limit_24h][:desc] }
-            },
-            withdraw_limit_72h: {
-              type: { value: BigDecimal, message: 'management.blockchain_currency.non_decimal_withdraw_limit_72h' },
-              values: { value: -> (p){ p >= 0 }, message: 'management.blockchain_currency.invalid_withdraw_limit_72h' },
-              default: 0.0,
-              desc: -> { API::V2::Management::Entities::BlockchainCurrency.documentation[:withdraw_limit_72h][:desc] }
-            },
             options: {
               type: { value: JSON, message: 'management.blockchain_currency.non_json_options' },
               default: {},

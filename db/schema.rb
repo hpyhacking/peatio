@@ -78,8 +78,6 @@ ActiveRecord::Schema.define(version: 2021_06_11_085637) do
     t.decimal "min_collection_amount", precision: 32, scale: 16, default: "0.0", null: false
     t.decimal "withdraw_fee", precision: 32, scale: 16, default: "0.0", null: false
     t.decimal "min_withdraw_amount", precision: 32, scale: 16, default: "0.0", null: false
-    t.decimal "withdraw_limit_24h", precision: 32, scale: 16, default: "0.0", null: false
-    t.decimal "withdraw_limit_72h", precision: 32, scale: 16, default: "0.0", null: false
     t.boolean "deposit_enabled", default: true, null: false
     t.boolean "withdrawal_enabled", default: true, null: false
     t.boolean "auto_update_fees_enabled", default: true, null: false

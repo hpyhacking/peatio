@@ -15,7 +15,7 @@ Even BTC and ETH are tokenized on Ethereum and others blockchains
 
 ### Blockchains
 
-New fields added to blockchain configuration, now you can configure min deposit amount, withdraw fee, min withdraw amount on blockchain level
+New fields added to blockchain configuration, now you can configure min deposit amount, withdraw fee, min withdraw amount on blockchain level in plarform currency
 
 |Field|    | Default Values | Examples | Description|
 |---------|---------|---------|---------|--------|
@@ -42,7 +42,7 @@ New fields added to blockchain configuration, now you can configure min deposit 
 ### Currencies
 
 System use platform currency, to estimate min deposit amount, withdraw fee, min withdraw amount if auto update configuration enabled </br>
-Periodic job will recalculate all amounts every 5 min due to latest market price </br>
+Periodic job will recalculate all amounts every 5 min due to mid market price </br>
 You can setup platform currency with ENV variable `PEATIO_PLATFORM_CURRENCY`, be sure you have this currency seeded in your configuration </br>
 Platform currency change is better to do at the begging of the platform configuration. </br>
 
@@ -66,15 +66,16 @@ Platform currency change is better to do at the begging of the platform configur
 If auto update configuration enabled, network configurations for values like min deposit amount, withraw fee, min withdrawal amount will be calculated next way:
 
 ```
-min_deposit_amount = (min deposit amount from blockchain configurations) / (middle price from the platform market CCY/PLATFORM_CURRENCY)
+min_deposit_amount = (min deposit amount from blockchain configurations) / (currency price)
 
-withraw_fee = (withraw fee from blockchain configurations) / (middle price from the platform market CCY/PLATFORM_CURRENCY)
+withraw_fee = (withraw fee from blockchain configurations) / (currency price)
 
-min_withdrawal_amount = (min withdrawal amount from blockchain configurations) / (middle price from the platform market CCY/PLATFORM_CURRENCY)
-
+min_withdrawal_amount = (min withdrawal amount from blockchain configurations) / (currency price)
 ```
 
-If there is no market pair CCY/PLATFORM_CURRENCY, system will use price from currency configuration
+Currency price will be fetched from the platform market CCY/USDT (if USDT is the platform currency)
+
+If there is no market pair CCY/PLATFORM_CURRENCY, system will use price from currency configuration price set by admin
 
 |Field|    | Default Values | Examples | Description|
 |---------|---------|---------|---------|--------|
