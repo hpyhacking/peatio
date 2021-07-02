@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_05_12_120717) do
+ActiveRecord::Schema.define(version: 2021_05_26_072124) do
 
   create_table "accounts", primary_key: ["currency_id", "member_id"], options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.bigint "member_id", null: false
@@ -286,6 +286,8 @@ ActiveRecord::Schema.define(version: 2021_05_12_120717) do
     t.string "ask", limit: 10, null: false
     t.string "market_id", limit: 20, null: false
     t.string "market_type", default: "spot", null: false
+    t.decimal "trigger_price", precision: 32, scale: 16
+    t.datetime "triggered_at"
     t.decimal "price", precision: 32, scale: 16
     t.decimal "volume", precision: 32, scale: 16, null: false
     t.decimal "origin_volume", precision: 32, scale: 16, null: false
@@ -440,18 +442,6 @@ ActiveRecord::Schema.define(version: 2021_05_12_120717) do
     t.datetime "created_at", precision: 3, null: false
     t.datetime "updated_at", precision: 3, null: false
     t.index ["key"], name: "index_transfers_on_key", unique: true
-  end
-
-  create_table "triggers", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
-    t.bigint "order_id", null: false
-    t.integer "order_type", limit: 1, null: false, unsigned: true
-    t.binary "value", limit: 128, null: false
-    t.integer "state", limit: 1, default: 0, null: false, unsigned: true
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["order_id"], name: "index_triggers_on_order_id"
-    t.index ["order_type"], name: "index_triggers_on_order_type"
-    t.index ["state"], name: "index_triggers_on_state"
   end
 
   create_table "wallets", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
