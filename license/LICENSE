@@ -1,0 +1,330 @@
+                                             PRL:07C220D492
+                        THE AMERO
+                  PUBLIC RESOURCE LICENSE                  
+July/2021
+
+This Software is a  collection  of  works  by  Contributors
+worldwide whose authorization is thusly granted for use  as
+a  Public  Resource,  without  charge,  to  any  individual
+obtaining  a  copy  of   this   Software   and   associated
+documentation files—aside from the  license  of  which  the
+original  must  remain  untouched  with  the  exemption  of
+appending attributions—(the "Software"),  to  deal  in  the
+Software without restriction, including the rights to  use,
+copy, modify, merge, publish, distribute,  utilize,  erase,
+and/or sell copies  of  the  Software  with  the  following
+limitations:
+
+Anyone who contributes  code  will  be  referred  to  as  a
+"Contributor" regardless of whether they are a  programmer,
+developer, artist, student, professional, individual, team,
+corporation, non-profit, structured  organization,  church,
+government employee, or non-human (A.I.)
+
+All contributions must be licensed under this  license  for
+all work submitted; therefore, any addition  added  by  any
+Contributor will automatically  become  a  Public  Resource
+once accepted into this repository. It is important to note
+that the code does not enter the public domain or  creative
+commons.
+
+Users "you, your, them, they, their, parties,  Contributor"
+who wish to utilize  this  code  for  their  projects  must
+license their  Software  under  the  same  license  without
+sublicensing unless the  code  used  from  this  repository
+represents less than one-fifth of your entire  project,  in
+which case the derivative source  code  repository  is  not
+required to extend this license to your  derivative  source
+code, but conspicuous attribution  is  required,  and  this
+license file must be included within  the  repository  with
+the location of the source code from this  repository  used
+appended to this license.
+
+Contributors are not allowed to  mix  code  with  the  core
+repository code if it utilizes  a  license  different  from
+this one; except if the code is packaged by itself  and  it
+operates independently from this code such  as  a  library,
+protocol, generator, utility, system  Software,  framework,
+driver Software, compilers, or algorithm. Anything that  is
+packaged with its own license; additionally,  this  license
+will not extend to folders with their own license  file  if
+that code was not developed for the project specifically.
+
+Once a Contributor submits their code, the code belongs  to
+the Software—which requires attribution—and the Software is
+owned by the public as a collective,  and  that  collective
+cannot sell the code within this repository by  any  means,
+and that collective cannot change this repository’s license
+once enacted.
+
+If  this  repository  is  forked,  this  license  and   all
+contributions will remain Public Resources under  the  same
+license; This license applies  to  all  contributions,  and
+Contributor  credits  will  not   be   removed   from   the
+repository; however, their code  may  be  excluded  at  any
+time. Users may append their Public Resource Notice to this
+license. 
+
+Parties interested in using portions of the  code  in  this
+repository may  do  so  but  must  properly  attribute  the
+project and its Contributor. Each  section  of  code  added
+from this repository must include  the  author's  name  and
+email address as a comment attributing their work.
+
+This  license  allows  code  snippets  and  sections   from
+repositories that carry this license to be used within  any
+type of licensed Software including closed source, provided
+the amount of code used does not exceed "one-fifth" of  the
+code used in Public Resource Licensed Projects; independent
+packages, comments, and meaningless code do not  constitute
+code; percentage of code  will  be  measured  by  character
+count,  not  including  white  space,  blank   space,   and
+newlines.
+
+An unaltered copy  of  this  license  as  a  file  must  be
+included in the repository where your code is located.  The
+license does not apply to any other parts  of  the  project
+except for the code that  was  used.  It  is  essential  to
+include  the  location(s)  of  the  code  used  from   this
+repository in your code appended to this  license.  If  the
+project is closed source, a complete copy of  this  license
+and any appended information must be  included  within  the
+Software and the following attribution is  required  to  be
+displayed prominently on a screen where the user  must  see
+when using the Software such as a splash screen or endnote:
+
+            Public Resource ℗ 2021 Peatio Developers
+            Public Resource ℗ 2021 Amero Developers
+
+When this Software is to be licensed or sold as  a  service
+or through any sales channel, the seller, organization,  or
+company will be required to expressly inform  the  customer
+that the customer can perform the work on servers that  the
+customers own or have  access  to,  using  the  open-source
+Software repository before any sale.
+
+Under no  circumstances  shall  extensions  or  plugins  be
+developed  under  a  different  license  that  directly  or
+explicitly  relies  on  this  repository's   Software.   In
+addition to this violation,  any  Software  which  directly
+uses this repository as the center point of their  Software
+must also be  licensed  under  the  AMERO  PUBLIC  RESOURCE
+LICENSE and must also release their full source code to the
+public.
+
+A  closed  source  or  any  other  licensed  Software  that
+explicitly  requires   this   repository's   Software   for
+operation is prohibited.
+
+This license strictly prohibits anyone from generating  any
+monetary or valuable gain from selling extra features  that
+they have excluded from this source code.
+
+Once a contribution has been accepted to a repository  with
+this license, it cannot be removed as  a  Public  Resource.
+The Contributor may still issue takedown  notices  if  they
+suspect that code was stolen from this repository, but they
+may not issue takedown notices for this repository  or  any
+other repository like it. Contributors can continue to  use
+their own code  submitted  in  other  repositories  without
+restrictions. A contribution of the  code  found  elsewhere
+shall be superseded by this license.
+
+As  a   result   of   the   submission,   the   Contributor
+automatically relinquishes most copyright authority of  the
+source code contributed to this repository to license it to
+the public as a  Public  Resource.  In  no  way  shall  the
+repository owner, manager, or key operational  Contributors
+have any inequitable rights  over  this  source  code.  The
+Contributor  is  still  allowed  to  use  the   code   they
+contributed to other repositories but  must  link  to  this
+license. A Public Resource consists of code  snippets  from
+Contributors (the public) that belong to the Software whose
+source code is shared (licensed) to the public.
+
+THE CONTRIBUTORS OF THIS PROJECT HAVE REDUCED THE COPYRIGHT
+AUTHORITY OF THEIR CODE TO THIS  PROJECT  (REPOSITORY)  AND
+ITS SOURCE CODE SO THAT ANYONE MAY OBTAIN  A  LICENSE  WITH
+MINIMAL RESTRICTIONS. IN DOING SO,  THE  CONTRIBUTORS  HAVE
+RELINQUISHED THEIR LIABILITY FROM THIS  SOFTWARE  IN  FULL.
+THE SOFTWARE AUTHORS AND THE CONTRIBUTORS  TO  THIS  PUBLIC
+RESOURCE SHALL NOT BE LIABLE  FOR  ANY  CLAIM,  DAMAGE,  OR
+OTHER LIABILITY, WHETHER IN CONTRACT, TORT,  OR  OTHERWISE,
+RELATED TO THE SOFTWARE OR THE USE OF THE  SOFTWARE.  THERE
+ARE NO EXPRESS OR IMPLIED WARRANTIES OR REPRESENTATIONS  OF
+ANY KIND CONCERNING THE SOFTWARE  WITHIN  THIS  REPOSITORY,
+INCLUDING, WARRANTIES  THAT  THIS  SOFTWARE  IS  FREE  FROM
+ERRORS, MERCHANTABLE, SUITABLE FOR A PARTICULAR PURPOSE, OR
+NON-INFRINGING. IN ADDITION,  IT  IS  YOUR  RESPONSIBILITY,
+(AND NOT THE DEVELOPER, NOR ANY OTHER  CONTRIBUTOR  TO  THE
+REPOSITORY) TO PERFORM ANY NECESSARY SERVICING, REPAIR,  OR
+CORRECTIONS TO THE SOFTWARE INCLUDED  IN  THIS  REPOSITORY.
+THE  DISCLAIMER  OF  THE  WARRANTY  CONTAINED   HEREIN   IS
+ESSENTIAL TO THIS LICENSE.
+
+USE OF THE ℗ SYMBOL MUST HAVE "PUBLIC  RESOURCE"  PREPENDED
+TO AVOID CONFUSION WITH PHONOGRAPHIC COPYRIGHT.
+
+GRAPHICS, MEDIA, LOGOS ARE NOT COVERED BY THIS LICENSE  AND
+THUS MAY USE A SEPARATE LICENSE EXCEPT FOR ASSETS IN  WHICH
+THIS LICENSE COVERS IN THE EVENT THEY ARE UNLICENSED  WHICH
+INCLUDE STANDARD UI, ICONS, FONTS,  COLORS,  SCHEMES,  CSS,
+LAYOUTS, USER EXPERIENCE, AND  BASIC  DESIGN.  LICENSES  OF
+WHICH DO NOT PERTAIN TO DIRECTLY TO SOFTWARE ARE COMPATIBLE
+WITH THIS LICENSE.
+
+
+
+
+append any documentation here:
+
+The MIT license has been removed  from  this  fork  due  to
+dangerous   vulnerabilities,   and   liability   conflicts.
+
+This software will be  licensed  under  the  "AMERO  PUBLIC
+COMMON RESOURCE" license, or  "APCR,"  and  we  will  honor
+those   who   have   contributed   to   this    repository.
+
+ISSUE 1: LICENSE LOOPHOLE
+
+1. Permission is hereby granted, free  of  charge,  to  any
+person obtaining a copy of  this  software  and  associated
+documentation files (the "Software")
+
+Software includes documentation which includes the  license
+to the repository
+
+2.  to deal in the Software without restriction
+3. including without limitation
+4.  the  rights  to  use,  copy,  modify,  merge,  publish,
+distribute, sublicense, and/or sell copies of the  Software
+
+The above gives any user full right to do  whatever  they’d
+like to these repositories as it gives unlimited  abilities
+by stating anyone is allowed to modify the Software without
+restriction, and without limitation.  This  directly  gives
+anyone an open license, thus we have  cleared  the  license
+from this software and licensed it with the Public Resource
+License to help improve the community of public sources  by
+better   protecting   developers,   and    limiting    what
+corporations    may    do    when     “borrowing”     code.
+
+__THE  FOLLOWING  DOES  NOT   LICENSE   THIS   REPOSITORY__
+
+Permission is hereby granted, free of charge, to any person
+obtaining  a  copy  of   this   software   and   associated
+documentation  files  (the  "Software"),  to  deal  in  the
+Software without restriction, including without  limitation
+the  rights  to  use,   copy,   modify,   merge,   publish,
+distribute, sublicense, and/or sell copies of the Software,
+and to permit persons to whom the Software is furnished  to
+do   so,   subject    to    the    following    conditions:
+
+The above copyright notice and this permission notice shall
+be included in all copies or substantial  portions  of  the
+Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY  OF  ANY
+KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO  THE
+WARRANTIES OF MERCHANTABILITY,  FITNESS  FOR  A  PARTICULAR
+PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE  AUTHORS
+OR COPYRIGHT HOLDERS BE LIABLE FOR ANY  CLAIM,  DAMAGES  OR
+OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT  OR
+OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION  WITH  THE
+SOFTWARE OR THE USE OR  OTHER  DEALINGS  IN  THE  SOFTWARE.
+
+Due to the license allowing total and complete  control  of
+source code, including documentation, it serves as a danger
+to the crypto community as one could license it for private
+use under their own repository or even use a  version  that
+holds no  license  at  all  and  therefore,  no  waiver  of
+liability.
+
+The  legal   definition   of   documentation   specifically
+includes:
+
+	1. Amending Agreement
+	2. Partnership Agreement
+	3. General Contracts
+	4. Building Contracts
+	5. Common Law Partner Agreement
+	6. Compensation Agreement
+	7. Corporate Bylaws and Articles of Incorporation
+	8. Construction Contract
+	9. Contract Addendum
+	10. Contract Amendment
+	11. Consulting Agreement
+	12. Employee Contract
+	13. End User License Agreement
+	14. Independent Contract Agreement
+	15. Mortgage Agreement
+	16. Non-Disclosure Agreement
+	17. Purchase Agreement
+	18. Sales Agreement
+	19. Shareholder Agreement
+	20. Subtractor Agreement
+	21. Website Privacy Policy
+	22. Website Terms and Conditions
+
+Under U.S.  Law:  every  license  agreement  is  a  legally
+binding  contract  between  the  licensor   and   licensee.
+
+What about where  it  says  "...subject  to  the  following
+conditions:
+
+The above copyright notice and this permission notice shall
+be included..."
+
+Great question. Since there is full and complete  authority
+to modify this license—as a license is  legally  considered
+documentation—and since we are without restriction, we  can
+remove the  line  that  reads  "subject  to  the  following
+conditions,"  save,  and  delete  the   license   entirely.
+
+"...this software and associated documentation  files  (the
+"Software")"  -  all  documentation   files   are   legally
+considered the Software in this context, of which  we  have
+exercised that right:
+
+"...including without limitation the rights to...modify..."
+
+
+ISSUE 2: LIMITATION OF LIABILITY
+
+Courts will refuse to enforce  such  provisions  where  the
+court found that:
+
+	1. The provision was ambiguous or unconscionable;
+	2. The parties' intentions were not clearly expressed;
+	3. One party had unequal bargaining powers or a higher
+	level of sophistication;
+	4. There was a public policy or statute prohibiting
+	the enforcement of the provision;
+	5. The provision contradicted a substantial public
+	interest;
+	6. The liability provisions were unfair and one-sided
+
+Unequal bargaining power exists when a party  must  ‘accept
+what is offered or forego the advantages of the contractual
+relation in a situation where it is necessary  for  him  to
+enter into the contract to obtain something of  importance.
+The singular point is that the legal system does not  allow
+you to have your  cake  and  eat  it  too.  As  in,  own  a
+copyright, yet have no liability.
+
+Waivers are a matter of state law, which vary  widely,  and
+have no single federal law governing them.
+
+Fox Alarm Co. v. Wadsworth, 913 So. 2d 1070 (Ala. 2005), J.
+M. Davidson, Inc. v. Webster, 128  S.W.3d  223,  229  (Tex.
+2003); and City of Dillingham v. CH2M Hill Northwest, Inc.,
+873 P.2d 1271 (Alaska 1994) (The word "indemnify"  as  used
+in Alaska. Stat. § 45.45.900 means "exempt," and  thus  the
+statute  prohibits  limitation   of   liability   clauses,)
+(McMurray v. United States of America,  2012  U.  S.  Dist.
+LEXIS 176608,)  Tunkl  v.  Regents  of  the  University  of
+California, 60 Cal. 2d at 98-101, Schmidt v. U.S., 912 P.2d
+874 (Okla. 1996,) Enserch Corp. v.  Parker,  794  S.W.2d  2
+(Tex. 1990,) Brooks v. Paul, 219 So.3d 886 (Fla. Dist.  Ct.
+App. 2017,) Fortson v. McClellan, 508 S.E.2d 549 (N.C.  Ct.
+App. 1998.)
