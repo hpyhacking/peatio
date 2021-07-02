@@ -124,8 +124,8 @@ Want to report a bug, request a feature, contribute or translate Peatio?
 
 ### License
 
-Peatio is released under the terms of the MIT license. See [http://peatio.mit-license.org](http://peatio.mit-license.org) for more information.
-
+Peatio is licensed under the AMERO Public Resource License.
+https://github.com/amerocrypto/amero/blob/main/license/LICENSE
 
 ### DONATE
 
