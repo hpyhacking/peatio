@@ -11,7 +11,8 @@ class Withdraw < ApplicationRecord
                canceled
                failed
                errored
-               confirming].freeze
+               confirming
+               under_review].freeze
   COMPLETED_STATES = %i[succeed rejected canceled failed].freeze
   SUCCEED_PROCESSING_STATES = %i[prepared accepted skipped processing errored confirming succeed under_review].freeze
 
