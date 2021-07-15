@@ -181,8 +181,8 @@ module API
         params :ordering do
           optional :ordering,
                    values: { value: %w(asc desc), message: 'admin.pagination.invalid_ordering' },
-                   default: 'asc',
-                   desc: 'If set, returned values will be sorted in specific order, defaults to \'asc\'.'
+                   default: 'desc',
+                   desc: 'If set, returned values will be sorted in specific order, defaults to \'desc\'.'
           optional :order_by,
                    default: 'id',
                    desc: 'Name of the field, which result will be ordered by.'

@@ -73,7 +73,7 @@ describe API::V2::Admin::Beneficiaries, type: :request do
           api_get url, token: token, params: { currency: 'usd' }
 
           expect(response_body.count).to eq(Beneficiary.where(currency_id: 'usd').count)
-          expect(response_body.last['data']).to eq Beneficiary.where(currency_id: 'usd').last.data
+          expect(response_body.first['data']).to eq Beneficiary.where(currency_id: 'usd').last.data
         end
       end
     end

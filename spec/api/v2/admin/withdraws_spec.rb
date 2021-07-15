@@ -42,6 +42,15 @@ describe API::V2::Admin::Withdraws, type: :request do
     end
 
     context 'ordering' do
+      it 'default descending by id' do
+        api_get url, token: token, params: { order_by: 'id' }
+
+        actual = JSON.parse(response.body)
+        expected = Withdraw.order(id: 'desc')
+
+        expect(actual.map { |a| a['id'] }).to eq expected.map(&:id)
+      end
+
       it 'ascending by id' do
         api_get url, token: token, params: { order_by: 'id', ordering: 'asc' }
 

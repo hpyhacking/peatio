@@ -42,6 +42,15 @@ describe API::V2::Admin::Deposits, type: :request do
     end
 
     context 'ordering' do
+      it 'default descending by id' do
+        api_get url, token: token, params: { order_by: 'id' }
+
+        actual = JSON.parse(response.body)
+        expected = (coin_deposits + fiat_deposits).sort { |a, b| b.id <=> a.id }
+
+        expect(actual.map { |a| a['id'] }).to eq expected.map(&:id)
+      end
+
       it 'ascending by id' do
         api_get url, token: token, params: { order_by: 'id', ordering: 'asc' }
 

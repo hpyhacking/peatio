@@ -74,7 +74,7 @@ describe API::V2::Admin::Wallets, type: :request do
 
       expect(response.headers.fetch('Total')).to eq Wallet.count.to_s
       expect(result.size).to eq 6
-      expect(result.first['name']).to eq 'Ethereum Deposit Wallet'
+      expect(result.first['name']).to eq 'Bitcoin Deposit Wallet'
 
       api_get '/api/v2/admin/wallets', params: { limit: 6, page: 2 }, token: token
       result = JSON.parse(response.body)
@@ -83,7 +83,7 @@ describe API::V2::Admin::Wallets, type: :request do
 
       expect(response.headers.fetch('Total')).to eq Wallet.count.to_s
       expect(result.size).to eq 2
-      expect(result.first['name']).to eq 'Bitcoin Hot Wallet'
+      expect(result.first['name']).to eq 'Ethereum Hot Wallet'
     end
 
     it 'return error in case of not permitted ability' do

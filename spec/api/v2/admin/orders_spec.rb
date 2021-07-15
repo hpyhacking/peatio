@@ -159,14 +159,14 @@ describe API::V2::Admin::Orders, type: :request do
 
       expect(response).to be_successful
       expect(result.size).to eq 1
-      expect(result.first['price']).to eq '11.0'
+      expect(result.first['price']).to eq '14.0'
 
       api_get '/api/v2/admin/orders', params: { market: 'btcusd', limit: 1, page: 2 }, token: token
       result = JSON.parse(response.body)
 
       expect(response).to be_successful
       expect(result.size).to eq 1
-      expect(result.first['price']).to eq '12.0'
+      expect(result.first['price']).to eq '13.0'
     end
 
     it 'returns orders by ascending order' do

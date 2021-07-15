@@ -97,7 +97,7 @@ describe API::V2::Admin::BlockchainCurrencies, type: :request do
 
       expect(response.headers.fetch('Total')).to eq '6'
       expect(result.size).to eq 3
-      expect(result.first['currency_id']).to eq 'usd'
+      expect(result.first['currency_id']).to eq 'ring'
 
       api_get '/api/v2/admin/blockchain_currencies', params: { limit: 3, page: 2 }, token: token
       result = JSON.parse(response.body)
@@ -106,7 +106,7 @@ describe API::V2::Admin::BlockchainCurrencies, type: :request do
 
       expect(response.headers.fetch('Total')).to eq '6'
       expect(result.size).to eq 3
-      expect(result.first['currency_id']).to eq 'eth'
+      expect(result.first['currency_id']).to eq 'btc'
     end
 
     it 'return error in case of not permitted ability' do
