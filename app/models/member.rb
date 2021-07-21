@@ -17,7 +17,7 @@ class Member < ApplicationRecord
   before_validation :downcase_email
 
   validates :uid, length: { maximum: 32 }
-  validates :email, presence: true, uniqueness: true, email: true
+  validates :email, allow_blank: true, uniqueness: true, email: true
   validates :level, numericality: { greater_than_or_equal_to: 0 }
   validates :role, inclusion: { in: ::Ability.roles }
 
@@ -191,8 +191,9 @@ class Member < ApplicationRecord
 
     def fetch_email(payload)
       payload[:email].to_s.tap do |email|
-        raise(Peatio::Auth::Error, 'E-Mail is blank.') if email.blank?
-        raise(Peatio::Auth::Error, 'E-Mail is invalid.') unless EmailValidator.valid?(email)
+        if email.present?
+         raise(Peatio::Auth::Error, 'E-Mail is invalid.') unless EmailValidator.valid?(email)
+        end
       end
     end
 
@@ -213,13 +214,13 @@ class Member < ApplicationRecord
 end
 
 # == Schema Information
-# Schema version: 20210609094033
+# Schema version: 20210721093857
 #
 # Table name: members
 #
 #  id         :bigint           not null, primary key
 #  uid        :string(32)       not null
-#  email      :string(255)      not null
+#  email      :string(255)
 #  level      :integer          not null
 #  role       :string(16)       not null
 #  group      :string(32)       default("vip-0"), not null
