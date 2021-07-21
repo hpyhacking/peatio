@@ -377,6 +377,17 @@ steps:
     repo: quay.io/openware/peatio
     registry: quay.io
 
+- name: "Update global OpenDAX version"
+  image: quay.io/openware/goci:0.0.11
+  environment:
+    GIT_TOKEN:
+      from_secret: kite_bot_key
+  commands:
+    - /app/goci versions
+  when:
+    branch:
+      - master
+
 # Redeploy on master.devkube.com
 - name: devkube-redeploy
   image: rubykube/microkube:0.2.0
