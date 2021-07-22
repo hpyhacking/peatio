@@ -226,7 +226,9 @@ class Deposit < ApplicationRecord
       updated_at:               updated_at.iso8601,
       completed_at:             completed_at&.iso8601,
       blockchain_address:       address,
-      blockchain_txid:          txid }
+      blockchain_txid:          txid,
+      explorer_address:         blockchain&.explorer_address,
+      explorer_transaction:     blockchain&.explorer_transaction }
   end
 
   def completed?

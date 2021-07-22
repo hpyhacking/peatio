@@ -14,10 +14,10 @@ class Beneficiary < ApplicationRecord
   include AASM
   include AASM::Locking
 
-  STATES_MAPPING = { pending: 0, active: 1, archived: 2, aml_processing: 3, aml_suspicious: 4 }.freeze
+  STATES_MAPPING = { pending: 0, active: 1, archived: 2, aml_processing: 3, aml_suspicious: 4, disabled: 5 }.freeze
 
-  STATES = %i[pending aml_processing aml_suspicious active archived].freeze
-  STATES_AVAILABLE_FOR_MEMBER = %i[pending active]
+  STATES = %i[pending aml_processing aml_suspicious active archived disabled].freeze
+  STATES_AVAILABLE_FOR_MEMBER = %i[pending active disabled]
 
   PIN_LENGTH  = 6
   PIN_RANGE   = 10**5..10**Beneficiary::PIN_LENGTH
@@ -38,6 +38,7 @@ class Beneficiary < ApplicationRecord
     state :aml_processing
     state :aml_suspicious
     state :archived
+    state :disabled
 
     event :activate do
       if Peatio::AML.adapter.present?
@@ -50,6 +51,10 @@ class Beneficiary < ApplicationRecord
       end
     end
 
+    event :disable do
+      transitions from: :active, to: :disabled
+    end
+
     event :enable do
       transitions from: :aml_processing, to: :active
     end if Peatio::AML.adapter.present?
@@ -59,7 +64,7 @@ class Beneficiary < ApplicationRecord
     end if Peatio::AML.adapter.present?
 
     event :archive do
-      transitions from: %i[pending aml_processing aml_suspicious active], to: :archived
+      transitions from: %i[disabled pending aml_processing aml_suspicious active], to: :archived
     end
   end
 
@@ -98,7 +103,7 @@ class Beneficiary < ApplicationRecord
 
   # == Scopes ===============================================================
 
-  scope :available_to_member, -> { with_state(:pending, :active) }
+  scope :available_to_member, -> { with_state(:pending, :active, :disabled) }
 
   # == Callbacks ============================================================
 
@@ -108,6 +113,8 @@ class Beneficiary < ApplicationRecord
 
     # Generate Beneficiary Pin
     self.pin ||= self.class.generate_pin
+    # Set expire_at (Time.now + 5 min)
+    self.expire_at = Time.now + 300
     # Record time when we send event to Event API
     self.sent_at = Time.now
   end
@@ -167,7 +174,7 @@ class Beneficiary < ApplicationRecord
   end
 
   def regenerate_pin!
-    update(pin: self.class.generate_pin, sent_at: Time.now)
+    update(pin: self.class.generate_pin, sent_at: Time.now, expire_at: Time.now + 300)
   end
 
   def masked_account_number
@@ -196,7 +203,7 @@ class Beneficiary < ApplicationRecord
 end
 
 # == Schema Information
-# Schema version: 20210609094033
+# Schema version: 20210728190514
 #
 # Table name: beneficiaries
 #
@@ -209,6 +216,7 @@ end
 #  data_encrypted :string(1024)
 #  pin            :integer          unsigned, not null
 #  sent_at        :datetime
+#  expire_at      :datetime
 #  state          :integer          default("pending"), unsigned, not null
 #  created_at     :datetime         not null
 #  updated_at     :datetime         not null

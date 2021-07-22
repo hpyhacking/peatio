@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_08_06_081219) do
+ActiveRecord::Schema.define(version: 2021_08_25_190514) do
 
   create_table "accounts", primary_key: ["currency_id", "member_id"], options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.bigint "member_id", null: false
@@ -63,6 +63,7 @@ ActiveRecord::Schema.define(version: 2021_08_06_081219) do
     t.string "data_encrypted", limit: 1024
     t.integer "pin", limit: 3, null: false, unsigned: true
     t.datetime "sent_at"
+    t.datetime "expire_at"
     t.integer "state", limit: 1, default: 0, null: false, unsigned: true
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -256,6 +257,7 @@ ActiveRecord::Schema.define(version: 2021_08_06_081219) do
     t.integer "level", null: false
     t.string "role", limit: 16, null: false
     t.string "group", limit: 32, default: "vip-0", null: false
+    t.boolean "beneficiaries_whitelisting"
     t.string "state", limit: 16, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

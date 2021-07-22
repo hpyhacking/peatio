@@ -28,6 +28,14 @@ module API
             desc: 'Member\'s group.'
           }
         )
+
+        expose(
+          :beneficiaries_whitelisting,
+          documentation: {
+            type: String,
+            desc: 'Member\'s beneficiaries whitelisting.'
+          }
+        )
       end
     end
   end

@@ -22,6 +22,15 @@ module API
         )
 
         expose(
+          :protocol,
+          documentation: {
+            type: String,
+            desc: 'Unique key to identify blockchain.'
+          },
+          if: ->(beneficiary) { beneficiary.currency.coin? }
+        ) { |beneficiary| beneficiary.blockchain.protocol }
+
+        expose(
           :blockchain_name,
           documentation:{
             type: String,
@@ -81,6 +90,16 @@ module API
             type: String
           }
         )
+
+        expose(
+          :withdrawals,
+          documentation: {
+            desc: 'Withdrawals count for given beneficiary',
+            type: Integer
+          }
+        ) do |beneficiary, options|
+          ::Withdraw.where(member: options[:current_user], beneficiary: beneficiary).count if options[:current_user].present?
+        end
 
         expose(
             :sent_at,

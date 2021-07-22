@@ -29,6 +29,11 @@ module API::V2
           error!({ errors: ['record.not_found'] }, 404)
         end
 
+        # Known Vault Error from Vault::TOTP.with_human_error
+        rescue_from(Vault::TOTP::Error) do |_|
+          error!({ errors: ['invalid_otp'] }, 422)
+        end
+
         rescue_from :all do |e|
           report_exception(e)
           error!({ errors: ['server.internal_error'] }, 500)

@@ -21,7 +21,10 @@ class Member < ApplicationRecord
   validates :level, numericality: { greater_than_or_equal_to: 0 }
   validates :role, inclusion: { in: ::Ability.roles }
 
-  before_create { self.group = self.group.strip.downcase }
+  before_create do
+    self.group = group.strip.downcase
+    self.beneficiaries_whitelisting = Peatio::App.config.force_beneficiaries_whitelisting
+  end
 
   class << self
     def groups
@@ -169,6 +172,7 @@ class Member < ApplicationRecord
         m.level = params[:level]
       end
       member.assign_attributes(params)
+      member.beneficiaries_whitelisting = true if Peatio::App.config.force_beneficiaries_whitelisting
       member.save! if member.changed?
       member
     end
@@ -214,20 +218,21 @@ class Member < ApplicationRecord
 end
 
 # == Schema Information
-# Schema version: 20210721093857
+# Schema version: 20210728190514
 #
 # Table name: members
 #
-#  id         :bigint           not null, primary key
-#  uid        :string(32)       not null
-#  email      :string(255)
-#  level      :integer          not null
-#  role       :string(16)       not null
-#  group      :string(32)       default("vip-0"), not null
-#  state      :string(16)       not null
-#  created_at :datetime         not null
-#  updated_at :datetime         not null
-#  username   :string(255)
+#  id                         :bigint           not null, primary key
+#  uid                        :string(32)       not null
+#  email                      :string(255)
+#  level                      :integer          not null
+#  role                       :string(16)       not null
+#  group                      :string(32)       default("vip-0"), not null
+#  beneficiaries_whitelisting :boolean
+#  state                      :string(16)       not null
+#  created_at                 :datetime         not null
+#  updated_at                 :datetime         not null
+#  username                   :string(255)
 #
 # Indexes
 #

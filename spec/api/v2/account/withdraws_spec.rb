@@ -209,7 +209,27 @@ describe API::V2::Account::Withdraws, type: :request do
       expect(response).to include_api_error('account.withdraw.missing_otp')
       expect(response).to include_api_error('account.withdraw.missing_amount')
       expect(response).to include_api_error('account.withdraw.missing_currency')
+    end
+
+    it 'validates missing beneficiary_id' do
+      data.except!(:beneficiary_id).merge!(rid: 'some_addres', blockchain_key: 'eth-kovan')
+      api_post '/api/v2/account/withdraws', params: data, token: token
+      expect(response).to have_http_status(422)
       expect(response).to include_api_error('account.withdraw.missing_beneficiary_id')
+    end
+
+    it 'validates missing blokchain_key if rid is given' do
+      data.except!(:beneficiary_id).merge!(rid: 'some_addres')
+      api_post '/api/v2/account/withdraws', params: data, token: token
+      expect(response).to have_http_status(422)
+      expect(response).to include_api_error('account.withdraw.missing_blockchain_key')
+    end
+
+    it 'validates missing rid and beneficiary_id' do
+      data.except!(:beneficiary_id)
+      api_post '/api/v2/account/withdraws', params: data, token: token
+      expect(response).to have_http_status(422)
+      expect(response).to include_api_error('account.withdraw.missing_rid_or_beneficiary_id')
     end
 
     context 'invalid beneficiary_id' do

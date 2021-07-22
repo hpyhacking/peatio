@@ -101,6 +101,14 @@ describe API::V2::Account::Beneficiaries, 'GET', type: :request do
     end
   end
 
+  context 'multiple states' do
+    it do
+      api_get endpoint, params: { state: [:pending, :active] }, token: token
+      expect(response.status).to eq 200
+      expect(response_body.count).to eq(Beneficiary.where(member: member, state: %w[pending active]).count)
+    end
+  end
+
   context 'blockchain key' do
     let!(:beneficiary) { create_list(:beneficiary, 3, member: member, blockchain_key: 'btc-testnet', state: :active) }
     it do
@@ -230,6 +238,8 @@ describe API::V2::Account::Beneficiaries, 'GET /:id', type: :request do
 end
 
 describe API::V2::Account::Beneficiaries, 'POST', type: :request do
+  before { Vault::TOTP.stubs(:validate?).returns(true) }
+
   let(:endpoint) { '/api/v2/account/beneficiaries' }
 
   let(:member) { create(:member, :level_3) }
@@ -241,6 +251,7 @@ describe API::V2::Account::Beneficiaries, 'POST', type: :request do
       blockchain_key: 'btc-testnet',
       name: 'Personal Bitcoin wallet',
       description: 'Multisignature Bitcoin Wallet',
+      otp: 123456,
       data: {
         address: Faker::Blockchain::Bitcoin.address
       }
@@ -262,6 +273,7 @@ describe API::V2::Account::Beneficiaries, 'POST', type: :request do
     context 'unauthorized' do
       before do
         Ability.stubs(:user_permissions).returns([])
+        Vault::TOTP.stubs(:validate?).returns(true)
       end
 
       it 'renders unauthorized error' do
@@ -454,7 +466,8 @@ describe API::V2::Account::Beneficiaries, 'POST', type: :request do
           currency: :usd,
           name: Faker::Bank.name,
           description: Faker::Company.catch_phrase,
-          data: generate(:fiat_beneficiary_data)
+          data: generate(:fiat_beneficiary_data),
+          otp: 123456
         }
       end
 
@@ -816,10 +829,15 @@ describe API::V2::Account::Beneficiaries, 'DELETE /:id', type: :request do
 
   let(:member) { create(:member, :level_3) }
   let(:token) { jwt_for(member) }
+  let(:delete_data) do
+    { otp: 111111 }
+  end
 
   def response_body
     JSON.parse(response.body)
   end
+
+  before { Vault::TOTP.stubs(:validate?).returns(true) }
 
   context 'invalid params' do
     let!(:pending_beneficiary) { create(:beneficiary, member: member) }
@@ -835,7 +853,7 @@ describe API::V2::Account::Beneficiaries, 'DELETE /:id', type: :request do
       end
 
       it do
-        api_delete endpoint, token: token
+        api_delete endpoint, params: delete_data, token: token
         expect(response.status).to eq 422
         expect(response).to include_api_error('account.beneficiary.non_integer_id')
       end
@@ -851,7 +869,7 @@ describe API::V2::Account::Beneficiaries, 'DELETE /:id', type: :request do
       end
 
       it 'renders unauthorized error' do
-        api_delete endpoint, token: token
+        api_delete endpoint, params: delete_data, token: token
         expect(response).to have_http_status 403
         expect(response).to include_api_error('user.ability.not_permitted')
       end
@@ -866,7 +884,7 @@ describe API::V2::Account::Beneficiaries, 'DELETE /:id', type: :request do
     let!(:pending_beneficiary) { create(:beneficiary, member: member) }
 
     it do
-      api_delete endpoint, token: token
+      api_delete endpoint, params: delete_data, token: token
       expect(response.status).to eq 204
       expect(response.body).to be_empty
     end
@@ -880,7 +898,7 @@ describe API::V2::Account::Beneficiaries, 'DELETE /:id', type: :request do
     let!(:active_beneficiary) { create(:beneficiary, state: :active, member: member) }
 
     it do
-      api_delete endpoint, token: token
+      api_delete endpoint, params: delete_data, token: token
       expect(response.status).to eq 204
       expect(response.body).to be_empty
     end
@@ -894,7 +912,7 @@ describe API::V2::Account::Beneficiaries, 'DELETE /:id', type: :request do
     let!(:archived_beneficiary) { create(:beneficiary, state: :archived, member: member) }
 
     it do
-      api_delete endpoint, token: token
+      api_delete endpoint, params: delete_data, token: token
       expect(response.status).to eq 404
     end
   end
@@ -909,7 +927,7 @@ describe API::V2::Account::Beneficiaries, 'DELETE /:id', type: :request do
     let!(:pending_beneficiary) { create(:beneficiary, member: member2) }
 
     it do
-      api_delete endpoint, token: token
+      api_delete endpoint, params: delete_data, token: token
       expect(response.status).to eq 404
     end
   end

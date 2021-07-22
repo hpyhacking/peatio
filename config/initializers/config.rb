@@ -10,4 +10,5 @@ Peatio::App.define do |config|
   config.set(:manual_deposit_approval, 'false', type: :bool)
   config.set(:default_account_type, 'spot')
   config.set(:account_types, '')
+  config.set(:force_beneficiaries_whitelisting, 'true', type: :bool)
 end
