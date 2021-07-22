@@ -124,7 +124,7 @@ class BlockchainCurrency < ApplicationRecord
   end
 
   def link_wallets
-    if parent_id.present?  
+    if parent_id.present?
       # Iterate through active deposit/withdraw wallets
       Wallet.active.where(blockchain_key: blockchain_key)
                    .where.not(kind: :fee).with_currency(parent_id).each do |wallet|

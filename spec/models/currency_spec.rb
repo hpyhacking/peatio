@@ -37,8 +37,7 @@ describe Currency do
       it 'expose coins with blockchain_currencies parent_id nil' do
         result = Currency.coins_without_tokens
         expect(result.count).to eq 2
-        expect(result.first.code).to eq 'btc'
-        expect(result.last.code).to eq 'eth'      
+        expect(result.ids).to eq %w[btc eth]
       end
     end
   end

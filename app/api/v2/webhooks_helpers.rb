@@ -27,7 +27,7 @@ module API
           # Process all deposit transactions
           accepted_deposits = []
           ActiveRecord::Base.transaction do
-            accepted_deposits = process_deposit(transactions)
+            accepted_deposits = process_deposit(transactions, w.blockchain_key)
           end
           accepted_deposits.each(&:process!) if accepted_deposits.present?
 

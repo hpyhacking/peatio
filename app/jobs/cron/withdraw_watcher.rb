@@ -78,8 +78,10 @@ module Jobs
         end
 
         def configure_service_adapter(withdraw)
+          blockchain_currency = BlockchainCurrency.find_by(currency_id: withdraw.currency.id,
+                                                           blockchain_key: withdraw.blockchain_key)
           @service.adapter.configure(wallet: @service.wallet.to_wallet_api_settings,
-                                     currency: withdraw.currency.to_blockchain_api_settings)
+                                     currency: blockchain_currency.to_blockchain_api_settings)
         end
 
         def fetch_withdraw_txid(withdraw)

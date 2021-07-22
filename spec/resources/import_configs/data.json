@@ -3,26 +3,11 @@
     {
       "id": "btc1",
       "name": "Bitcoin1",
-      "blockchain_key": "btc-testnet",
       "description": null,
       "homepage": null,
       "price": "1.0",
       "type": "coin",
-      "deposit_enabled": true,
-      "withdrawal_enabled": true,
-      "deposit_fee": "0.0",
-      "min_deposit_amount": "0.0000356",
-      "withdraw_fee": "0.0",
-      "min_withdraw_amount": "0.0",
-      "withdraw_limit_24h": "0.1",
-      "withdraw_limit_72h": "0.2",
-      "base_factor": 100000000,
       "precision": 8,
-      "options": {
-        "gas_limit": 90000,
-        "gas_price": 1000000000,
-        "erc20_contract_address": "changeme"
-      },
       "position": 2
     }
   ],
@@ -32,6 +17,7 @@
       "name": "Bitcoin Testnet1",
       "client": "bitcoin",
       "height": 597000,
+      "protocol": "Bitcoin",
       "explorer_address": "https://blockchain.info/address/#{address}",
       "explorer_transaction": "https://blockchain.info/tx/#{txid}",
       "min_confirmations": 6,

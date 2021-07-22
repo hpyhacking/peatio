@@ -775,7 +775,10 @@ describe WalletService do
     end
 
     context 'Adapter collect fees for erc20 transaction with parent_id configuration' do
-      let(:currency) { Currency.find('trst') }
+      let!(:eth_blockchain_currency) { create(:blockchain_currency, :eth_network, blockchain_key: 'fake-testnet') }
+      let!(:blockchain_currency) { create(:blockchain_currency, :trst_network, blockchain_key: 'fake-testnet') }
+      let(:deposit) { create(:deposit_btc, blockchain_key: 'fake-testnet', amount: amount, currency_id: 'trst') }
+
 
       subject { service.deposit_collection_fees!(deposit, spread_deposit) }
 
