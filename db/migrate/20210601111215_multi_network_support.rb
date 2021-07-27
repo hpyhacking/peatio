@@ -45,6 +45,14 @@ class MultiNetworkSupport < ActiveRecord::Migration[5.2]
       payment_address.update_columns(blockchain_key: payment_address.wallet.blockchain_key)
     end
 
+    # Add new fields to blockchain table
+    add_column :blockchains, :min_deposit_amount, :decimal, precision: 32, scale: 16, default: 0, null: false, after: :min_confirmations
+    add_column :blockchains, :withdraw_fee, :decimal, precision: 32, scale: 16, default: 0, null: false, after: :min_deposit_amount
+    add_column :blockchains, :min_withdraw_amount, :decimal, precision: 32, scale: 16, default: 0, null: false, after: :withdraw_fee
+    add_column :blockchains, :description, :text, after: :height
+    add_column :blockchains, :warning, :text, after: :description
+    add_column :blockchains, :protocol, :string, null: false, after: :warning
+
     # Move currencies configs to blockchain currency
     Currency.find_each(batch_size: 10) do |currency|
       currency_status = currency.visible? ? 'enabled' : 'disabled'
@@ -84,11 +92,6 @@ class MultiNetworkSupport < ActiveRecord::Migration[5.2]
       remove_column :currencies, :withdrawal_enabled, :boolean
     end
     add_column :currencies, :status, :string, limit: 32, null: false, default: 'enabled', after: :type
-
-    # Add new field to blockchain table
-    add_column :blockchains, :description, :text, after: :height
-    add_column :blockchains, :warning, :text, after: :description
-    add_column :blockchains, :protocol, :string, null: false, after: :warning
   end
 
   def down
