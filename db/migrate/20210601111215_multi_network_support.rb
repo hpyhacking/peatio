@@ -12,6 +12,7 @@ class MultiNetworkSupport < ActiveRecord::Migration[5.2]
       t.decimal :min_withdraw_amount, precision: 32, scale: 16, default: 0, null: false
       t.boolean :deposit_enabled, default: true, null: false
       t.boolean :withdrawal_enabled, default: true, null: false
+      t.boolean :auto_update_fees_enabled, default: true, null: false
       t.bigint :base_factor, default: 1, null: false
       t.string :status, limit: 32, null: false, default: 'enabled'
       t.json :options
