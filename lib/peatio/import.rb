@@ -58,6 +58,17 @@ module Peatio
 
           ::Currency.create!(hash)
           Kernel.puts "Created #{hash.fetch('id')} currency"
+
+          if hash['networks'].present?
+            ::BlockchainCurrency.transaction do
+              hash['networks'].each do |network|
+                next if BlockchainCurrency.exists?(currency_id: hash.fetch('id'), blockchain_key: network.fetch('blockchain_key'))
+                
+                BlockchainCurrency.create!(network.merge(currency_id: hash.fetch('id')))
+                Kernel.puts "Created blockchain currency with currency_id #{hash.fetch('id')} and #{network.fetch('blockchain_key')} blockchain"
+              end
+            end
+          end
         end
       end
     end

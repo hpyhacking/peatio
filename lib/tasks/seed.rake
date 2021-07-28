@@ -18,8 +18,18 @@ namespace :seed do
   task currencies: :environment do
     Currency.transaction do
       YAML.load_file(Rails.root.join('config/seed/currencies.yml')).each do |hash|
+        
         next if Currency.exists?(id: hash.fetch('id'))
-        Currency.create!(hash)
+        Currency.create!(hash.except('networks'))
+
+        if hash['networks'].present?
+          BlockchainCurrency.transaction do
+            hash['networks'].each do |network|
+              next if BlockchainCurrency.exists?(currency_id: hash.fetch('id'), blockchain_key: network.fetch('blockchain_key'))
+              BlockchainCurrency.create!(network.merge(currency_id: hash.fetch('id')))
+            end
+          end
+        end
       end
     end
   end

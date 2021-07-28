@@ -14,6 +14,9 @@
   status:                 enabled
   precision:              8
   position:               2
+  networks:
+    - blockchain_key: btc-testnet
+      base_factor: 100_000_000
 
 - id:                     eth
   name:                   Ethereum
@@ -21,6 +24,15 @@
   status:                 enabled
   precision:              8
   position:               3
+  networks: 
+    - blockchain_key: eth-rinkeby
+      base_factor: 1_000_000_000_000_000_000
+      options:
+        gas_limit: 21_000
+    - blockchain_key: prt-kovan
+      base_factor: 1_000_000_000_000_000_000
+      options:
+        gas_limit: 21_000
 
 - id:                     usdt
   name:                   Thether
@@ -28,6 +40,12 @@
   status:                 enabled
   precision:              8
   position:               4
+  networks:
+    - blockchain_key: eth-rinkeby
+      parent_id: eth
+      base_factor: 1_000_000_000_000_000_000
+      options:
+        gas_limit: 90_000
 
 - id:                     trst
   name:                   WeTrust
@@ -35,4 +53,10 @@
   status:                 enabled
   precision:              8
   position:               5
+  networks:
+    - blockchain_key: eth-rinkeby
+      parent_id: eth
+      base_factor: 1_000_000_000_000_000_000
+      options:
+        gas_limit: 90_000
 <% end %>
