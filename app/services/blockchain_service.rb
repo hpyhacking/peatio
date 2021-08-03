@@ -90,8 +90,8 @@ class BlockchainService
   end
 
   def update_or_create_deposit(transaction)
-    blockchain_currency = BlockchainCurrency.find_by(currency_id: transaction.currency_id,
-                                                     blockchain_key: @blockchain.key)
+    blockchain_currency = BlockchainCurrency.find_network(@blockchain.key, transaction.currency_id)
+
     if transaction.amount < blockchain_currency.min_deposit_amount
       # Currently we just skip tiny deposits.
       Rails.logger.info do

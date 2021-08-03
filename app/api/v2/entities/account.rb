@@ -42,6 +42,20 @@ module API
         )
 
         expose(
+          :deposit_address,
+          if: ->(account, _options) { account.currency.coin? && account.currency.default_network.present? },
+          using: API::V2::Entities::PaymentAddress,
+          documentation: {
+            desc: 'User deposit address',
+            type: String
+          }
+        ) do |account, options|
+          network = account.currency.default_network
+          deposit_wallet = Wallet.active_deposit_wallet(account.currency_id, network.blockchain_key)
+          ::PaymentAddress.find_by(wallet: deposit_wallet, member: options[:current_user], remote: false)
+        end
+
+        expose(
           :deposit_addresses,
           if: ->(account, _options) { account.currency.coin? && account.type == ::Account::DEFAULT_TYPE },
           using: API::V2::Entities::PaymentAddress,

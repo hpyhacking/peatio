@@ -104,8 +104,9 @@ module API
           user_authorize! :read, ::PaymentAddress
 
           currency = Currency.find(params[:currency])
-          blockchain_currency = BlockchainCurrency.find_by!(currency_id: params[:currency],
-                                                            blockchain_key: params[:blockchain_key])
+          blockchain_currency = BlockchainCurrency.find_network(params[:blockchain_key], params[:currency])
+          error!({ errors: ['account.deposit_address.network_not_found'] }, 422) unless blockchain_currency.present?
+
           unless blockchain_currency.deposit_enabled?
             error!({ errors: ['account.currency.deposit_disabled'] }, 422)
           end

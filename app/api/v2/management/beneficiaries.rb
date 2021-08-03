@@ -53,12 +53,10 @@ module API
                     values: { value: -> { Currency.visible.codes(bothcase: true) }, message: 'management.currency.doesnt_exist' },
                     as: :currency_id,
                     desc: 'Beneficiary currency code.'
-            given currency_id: ->(currency_id) { currency_id.in?(Currency.coins.codes) } do
-              requires :blockchain_key,
-                      values: { value: -> { ::Blockchain.pluck(:key) }, message: 'management.beneficiary.blockchain_key_doesnt_exist' },
-                      allow_blank: false,
-                      desc: 'Blockchain key of the requested beneficiary'
-            end
+            optional :blockchain_key,
+                     values: { value: -> { ::Blockchain.pluck(:key) }, message: 'management.beneficiary.blockchain_key_doesnt_exist' },
+                     allow_blank: false,
+                     desc: 'Blockchain key of the requested beneficiary'
             requires :name,
                     type: String,
                     allow_blank: false,
@@ -85,8 +83,9 @@ module API
             declared_params = declared(params)
             member   = Member.find_by!(uid: params[:uid])
             currency = Currency.find_by!(id: params[:currency_id])
-            blockchain_currency = BlockchainCurrency.find_by!(currency_id: params[:currency_id],
-                                                              blockchain_key: params[:blockchain_key])
+            blockchain_currency = BlockchainCurrency.find_network(params[:blockchain_key], params[:currency_id])
+            error!({ errors: ['management.beneficiary.network_not_found'] }, 422) unless blockchain_currency.present?
+
             if !blockchain_currency.withdrawal_enabled?
               error!({ errors: ['management.currency.withdrawal_disabled'] }, 422)
             elsif currency.coin? && declared_params.dig(:data, :address).blank?

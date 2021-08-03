@@ -17,6 +17,14 @@ module API
           )
 
           expose(
+            :default_network_id,
+            documentation: {
+              desc: 'Default network id.',
+              type: String
+            }
+          )
+
+          expose(
             :networks,
             using: API::V2::Admin::Entities::BlockchainCurrency,
             documentation: {

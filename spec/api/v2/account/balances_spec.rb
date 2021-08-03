@@ -8,7 +8,7 @@ describe API::V2::Account::Balances, type: :request do
   let(:withdraw) { create(:btc_withdraw, member: member, sum: 5) }
   let(:token) { jwt_for(member) }
 
-  let(:response_body) { { 'currency' => 'eth', 'balance' => '30.5', 'locked' => '0.0', 'account_type' => 'spot', 'deposit_addresses' => [] } }
+  let(:response_body) { { 'currency' => 'eth', 'balance' => '30.5', 'locked' => '0.0', 'account_type' => 'spot', 'deposit_address' => nil, 'deposit_addresses' => [] } }
 
   before do
     Ability.stubs(:user_permissions).returns({'member'=>{'read'=>['Operations::Account']}})
@@ -43,11 +43,11 @@ describe API::V2::Account::Balances, type: :request do
         expect(response).to have_http_status 200
         result = JSON.parse(response.body)
         expect(result).to contain_exactly(
-                              { 'currency' => 'btc', 'balance' => '5.0', 'locked' => '5.0', 'account_type' => 'spot', 'deposit_addresses' => [] },
-                              { 'currency' => 'eth', 'balance' => '30.5', 'locked' => '0.0', 'account_type' => 'spot',  'deposit_addresses' => [] },
-                              { 'currency' => 'usd', 'balance' => '0.0', 'locked' => '0.0', 'account_type' => 'spot',  },
-                              { 'currency' => 'trst', 'balance' => '0.0', 'locked' => '0.0', 'account_type' => 'spot',  'deposit_addresses' => [] },
-                              { 'currency' => 'ring', 'balance' => '0.0', 'locked' => '0.0', 'account_type' => 'spot',  'deposit_addresses' => [] },
+                              { 'currency' => 'btc', 'balance' => '5.0', 'locked' => '5.0', 'account_type' => 'spot', 'deposit_address' => nil, 'deposit_addresses' => [] },
+                              { 'currency' => 'eth', 'balance' => '30.5', 'locked' => '0.0', 'account_type' => 'spot',  'deposit_address' => nil, 'deposit_addresses' => [] },
+                              { 'currency' => 'usd', 'balance' => '0.0', 'locked' => '0.0', 'account_type' => 'spot' },
+                              { 'currency' => 'trst', 'balance' => '0.0', 'locked' => '0.0', 'account_type' => 'spot', 'deposit_address' => nil, 'deposit_addresses' => [] },
+                              { 'currency' => 'ring', 'balance' => '0.0', 'locked' => '0.0', 'account_type' => 'spot', 'deposit_address' => nil, 'deposit_addresses' => [] },
                               { 'currency' => 'eur', 'balance' => '0.0', 'locked' => '0.0', 'account_type' => 'spot' }
                               )
       end
@@ -64,11 +64,11 @@ describe API::V2::Account::Balances, type: :request do
          expect(response).to have_http_status 200
          result = JSON.parse(response.body)
          expect(result).to contain_exactly(
-                        { 'account_type' => 'spot', 'currency' => 'btc', 'balance' => '5.0', 'locked' => '5.0', 'deposit_addresses' => [] },
-                        { 'account_type' => 'spot', 'currency' => 'eth', 'balance' => '30.5', 'locked' => '0.0', 'deposit_addresses' => [] },
+                        { 'account_type' => 'spot', 'currency' => 'btc', 'balance' => '5.0', 'locked' => '5.0', 'deposit_address' => nil, 'deposit_addresses' => [] },
+                        { 'account_type' => 'spot', 'currency' => 'eth', 'balance' => '30.5', 'locked' => '0.0', 'deposit_address' => nil, 'deposit_addresses' => [] },
                         { 'account_type' => 'spot', 'currency' => 'usd', 'balance' => '0.0', 'locked' => '0.0' },
-                        { 'account_type' => 'spot', 'currency' => 'trst', 'balance' => '0.0', 'locked' => '0.0', 'deposit_addresses' => [] },
-                        { 'account_type' => 'spot', 'currency' => 'ring', 'balance' => '0.0', 'locked' => '0.0', 'deposit_addresses' => [] },
+                        { 'account_type' => 'spot', 'currency' => 'trst', 'balance' => '0.0', 'locked' => '0.0', 'deposit_address' => nil, 'deposit_addresses' => [] },
+                        { 'account_type' => 'spot', 'currency' => 'ring', 'balance' => '0.0', 'locked' => '0.0', 'deposit_address' => nil, 'deposit_addresses' => [] },
                         { 'account_type' => 'spot', 'currency' => 'eur', 'balance' => '0.0', 'locked' => '0.0' })
         end
       end
@@ -81,8 +81,8 @@ describe API::V2::Account::Balances, type: :request do
         expect(response).to have_http_status 200
         result = JSON.parse(response.body)
         expect(result).to contain_exactly(
-                            { 'currency' => 'btc',  'balance' => '5.0',  'locked'  => '5.0', 'account_type' => 'spot', 'deposit_addresses' => [] },
-                            { 'currency' => 'eth',  'balance' => '30.5', 'locked'  => '0.0', 'account_type' => 'spot', 'deposit_addresses' => [] },
+                            { 'currency' => 'btc',  'balance' => '5.0',  'locked'  => '5.0', 'account_type' => 'spot', 'deposit_address' => nil, 'deposit_addresses' => [] },
+                            { 'currency' => 'eth',  'balance' => '30.5', 'locked'  => '0.0', 'account_type' => 'spot', 'deposit_address' => nil, 'deposit_addresses' => [] },
                             )
       end
     end
@@ -94,11 +94,11 @@ describe API::V2::Account::Balances, type: :request do
         expect(response).to have_http_status 200
         result = JSON.parse(response.body)
         expect(result).to contain_exactly(
-                              { 'currency' => 'btc',  'balance' => '5.0',  'locked'  => '5.0', 'account_type' => 'spot', 'deposit_addresses' => [] },
-                              { 'currency' => 'eth',  'balance' => '30.5', 'locked'  => '0.0', 'account_type' => 'spot', 'deposit_addresses' => [] },
-                              { 'currency' => 'usd',  'balance' => '0.0',  'locked'  => '0.0', 'account_type' => 'spot', },
-                              { 'currency' => 'trst',  'balance' => '0.0',  'locked'  => '0.0', 'account_type' => 'spot', 'deposit_addresses' => [] },
-                              { 'currency' => 'ring',  'balance' => '0.0',  'locked'  => '0.0', 'account_type' => 'spot', 'deposit_addresses' => [] },
+                              { 'currency' => 'btc',  'balance' => '5.0',  'locked'  => '5.0', 'account_type' => 'spot', 'deposit_address' => nil, 'deposit_addresses' => [] },
+                              { 'currency' => 'eth',  'balance' => '30.5', 'locked'  => '0.0', 'account_type' => 'spot', 'deposit_address' => nil, 'deposit_addresses' => [] },
+                              { 'currency' => 'usd',  'balance' => '0.0',  'locked'  => '0.0', 'account_type' => 'spot' },
+                              { 'currency' => 'trst',  'balance' => '0.0',  'locked'  => '0.0', 'account_type' => 'spot', 'deposit_address' => nil, 'deposit_addresses' => [] },
+                              { 'currency' => 'ring',  'balance' => '0.0',  'locked'  => '0.0', 'account_type' => 'spot', 'deposit_address' => nil, 'deposit_addresses' => [] },
                               { 'currency' => 'eur',  'balance' => '0.0',  'locked'  => '0.0', 'account_type' => 'spot' },
                               )
       end

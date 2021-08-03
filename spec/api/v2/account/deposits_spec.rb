@@ -207,6 +207,21 @@ describe API::V2::Account::Deposits, type: :request do
         expect(response).to include_api_error('account.currency.doesnt_exist')
       end
 
+      context 'unknown network' do
+        let(:currency) { Currency.find_by(id: 'btc') }
+
+        before do
+          currency.update(default_network_id: nil)
+        end
+
+        it 'validates currency network' do
+          api_get '/api/v2/account/deposit_address/btc', params: { blockchain_key: 'eth-kovan' }, token: token
+
+          expect(response).to have_http_status 422
+          expect(response).to include_api_error('account.deposit_address.network_not_found')
+        end
+      end
+
       it 'validates currency address format' do
         api_get '/api/v2/account/deposit_address/btc', params: { address_format: 'cash', blockchain_key: blockchain_key }, token: token
 
@@ -219,6 +234,7 @@ describe API::V2::Account::Deposits, type: :request do
         expect(response).to have_http_status 422
         expect(response).to include_api_error('account.currency.doesnt_exist')
       end
+
 
       context 'unauthorized' do
         before do

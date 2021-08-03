@@ -37,6 +37,26 @@ describe BlockchainCurrency do
       end
     end
 
+    context 'find_network' do
+      context 'current currency network' do
+        let(:currency) { Currency.find_by(id: 'eth') }
+
+        it 'should return currency default network' do
+          result = BlockchainCurrency.find_network('eth-test', currency.id)
+          expect(result).to eq currency.default_network
+        end
+      end
+
+      context 'current currency network' do
+        let(:currency) { Currency.find_by(id: 'eth') }
+
+        it 'should return currency default network' do
+          result = BlockchainCurrency.find_network('eth-kovan', currency.id)
+          expect(result).not_to eq nil
+        end
+      end
+    end
+
     context 'link currency with default network' do
       let(:currency) { Currency.find_by(id: 'eth') }
 

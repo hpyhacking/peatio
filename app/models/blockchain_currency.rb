@@ -86,6 +86,17 @@ class BlockchainCurrency < ApplicationRecord
 
   # == Class Methods ========================================================
 
+  class << self
+    def find_network(blockchain_key, currency_id)
+      blockchain_currency = BlockchainCurrency.find_by(currency_id: currency_id, blockchain_key: blockchain_key)
+
+      currency = Currency.find_by(id: currency_id)
+      blockchain_currency = currency.default_network if currency.present? && blockchain_currency.blank?
+
+      blockchain_currency
+    end
+  end
+
   # == Instance Methods =====================================================
   delegate :explorer_transaction, :explorer_address, :blockchain_api, :description, :warning, :protocol, to: :blockchain
 

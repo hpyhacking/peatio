@@ -307,14 +307,6 @@ describe API::V2::Account::Beneficiaries, 'POST', type: :request do
       end
     end
 
-    context 'missing blockchain_key' do
-      it do
-        api_post endpoint, params: beneficiary_data.except(:blockchain_key), token: token
-        expect(response.status).to eq 422
-        expect(response).to include_api_error('account.beneficiary.missing_blockchain_key')
-      end
-    end
-
     context 'description is too long' do
       it do
         api_post endpoint, params: beneficiary_data.merge(description: Faker::String.random(256)), token: token
@@ -349,6 +341,22 @@ describe API::V2::Account::Beneficiaries, 'POST', type: :request do
           api_post endpoint, params: beneficiary_data, token: token
           expect(response.status).to eq 422
           expect(response).to include_api_error('account.beneficiary.missing_address_in_data')
+        end
+      end
+
+      context 'unknown network' do
+        let(:currency) { Currency.find_by(id: 'btc')}
+
+        before do
+          currency.update(default_network_id: nil)
+        end
+
+        it do
+          beneficiary_data[:blockchain_key] = 'eth-rinkeby'
+
+          api_post endpoint, params: beneficiary_data, token: token
+          expect(response.status).to eq 422
+          expect(response).to include_api_error('account.beneficiary.network_not_found')
         end
       end
 

@@ -149,7 +149,7 @@ module API
                    values: { value: -> { Currency.codes }, message: 'admin.deposit.currency_doesnt_exist' },
                    as: :currency_id,
                    desc: -> { API::V2::Admin::Entities::Deposit.documentation[:currency][:desc] }
-          requires :blockchain_key,
+          optional :blockchain_key,
                    values: { value: -> { ::Blockchain.pluck(:key) }, message: 'admin.beneficiary.blockchain_key_doesnt_exist' },
                    desc: 'Blockchain key of the requested beneficiary'
           given :currency_id do
@@ -165,9 +165,9 @@ module API
 
           member   = Member.find_by!(uid: params[:uid])
           currency = Currency.find_by!(id: params[:currency_id])
+          blockchain_currency = BlockchainCurrency.find_network(params[:blockchain_key], currency.id)
+          error!({ errors: ['admin.deposit.network_not_found'] }, 422) unless blockchain_currency.present?
 
-          blockchain_currency = BlockchainCurrency.find_by!(currency_id: currency.id,
-                                                            blockchain_key: params[:blockchain_key])
           wallet = Wallet.active_deposit_wallet(currency.id, blockchain_currency.blockchain_key)
 
           unless wallet.present?

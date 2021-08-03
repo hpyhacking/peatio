@@ -92,6 +92,7 @@ class MultiNetworkSupport < ActiveRecord::Migration[5.2]
       remove_column :currencies, :withdrawal_enabled, :boolean
     end
     add_column :currencies, :status, :string, limit: 32, null: false, default: 'enabled', after: :type
+    add_column :currencies, :default_network_id , :bigint, null: true, after: :type
   end
 
   def down
@@ -132,6 +133,7 @@ class MultiNetworkSupport < ActiveRecord::Migration[5.2]
     end
 
     remove_column :currencies, :status, :string
+    remove_column :currencies, :default_network_id, :bigint
 
     remove_column :deposits, :blockchain_key, :string
     remove_column :withdraws, :blockchain_key, :string
