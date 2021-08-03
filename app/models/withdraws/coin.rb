@@ -6,19 +6,19 @@
 module Withdraws
   class Coin < Withdraw
     before_validation do
-      next unless blockchain_api&.supports_cash_addr_format? && rid?
+      next unless blockchain.blockchain_api&.supports_cash_addr_format? && rid?
       self.rid = CashAddr::Converter.to_cash_address(rid) if CashAddr::Converter.is_valid?(rid)
     end
 
     before_validation do
-      if blockchain_api.present? && blockchain_api.case_sensitive? == false
+      if blockchain.blockchain_api.present? && blockchain_api.case_sensitive? == false
         self.rid  = rid.try(:downcase)
         self.txid = txid.try(:downcase)
       end
     end
 
     validate do
-      if blockchain_api&.supports_cash_addr_format? && rid?
+      if blockchain.blockchain_api&.supports_cash_addr_format? && rid?
         errors.add(:rid, :invalid) unless CashAddr::Converter.is_valid?(rid)
       end
     end
