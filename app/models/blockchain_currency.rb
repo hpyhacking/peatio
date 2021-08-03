@@ -82,6 +82,8 @@ class BlockchainCurrency < ApplicationRecord
     update_fees if auto_update_fees_enabled && currency.coin?
   end
 
+  after_create :link_as_default_network, if: -> { currency.default_network.blank? }
+
   # == Class Methods ========================================================
 
   # == Instance Methods =====================================================
@@ -141,6 +143,10 @@ class BlockchainCurrency < ApplicationRecord
       withdraw_fee: round(blockchain.withdraw_fee / currency.price),
       min_withdraw_amount: round(blockchain.min_withdraw_amount / currency.price)
     )
+  end
+
+  def link_as_default_network
+    currency.update_column(:default_network_id, id)
   end
 
   private

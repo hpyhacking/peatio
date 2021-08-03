@@ -99,7 +99,7 @@ class MultiNetworkSupport < ActiveRecord::Migration[5.2]
     ActiveRecord::Base.transaction do
       add_column :currencies, :blockchain_key, :string, after: :homepage
       add_column :currencies, :parent_id, :string, index: true, after: :blockchain_key
-      add_column :currencies, :deposit_fee, :decimal, after: :type, null: false, default: 0, precision: 32, scale: 16, after: :parent_id
+      add_column :currencies, :deposit_fee, :decimal, null: false, default: 0, precision: 32, scale: 16, after: :parent_id
       add_column :currencies, :min_deposit_amount, :decimal, precision: 32, scale: 16, default: 0.0, null: false, after: :deposit_fee
       add_column :currencies, :min_collection_amount, :decimal, precision: 32, scale: 16, default: 0.0, null: false, after: :min_deposit_amount
       add_column :currencies, :withdraw_fee, :decimal, precision: 32, scale: 16, default: 0.0, null: false, after: :min_collection_amount

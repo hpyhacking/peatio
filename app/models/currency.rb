@@ -28,6 +28,7 @@ class Currency < ApplicationRecord
 
   has_and_belongs_to_many :wallets
   has_many :blockchain_currencies
+  has_one :default_network, class_name: :BlockchainCurrency, primary_key: :default_network_id, foreign_key: :id
 
   # == Validations ==========================================================
 
@@ -135,22 +136,23 @@ class Currency < ApplicationRecord
 end
 
 # == Schema Information
-# Schema version: 20210611085637
+# Schema version: 20210803124131
 #
 # Table name: currencies
 #
-#  id          :string(10)       not null, primary key
-#  name        :string(255)
-#  description :text(65535)
-#  homepage    :string(255)
-#  type        :string(30)       default("coin"), not null
-#  status      :string(32)       default("enabled"), not null
-#  position    :integer          not null
-#  precision   :integer          default(8), not null
-#  icon_url    :string(255)
-#  price       :decimal(32, 16)  default(1.0), not null
-#  created_at  :datetime         not null
-#  updated_at  :datetime         not null
+#  id                 :string(10)       not null, primary key
+#  name               :string(255)
+#  description        :text(65535)
+#  homepage           :string(255)
+#  type               :string(30)       default("coin"), not null
+#  default_network_id :bigint
+#  status             :string(32)       default("enabled"), not null
+#  position           :integer          not null
+#  precision          :integer          default(8), not null
+#  icon_url           :string(255)
+#  price              :decimal(32, 16)  default(1.0), not null
+#  created_at         :datetime         not null
+#  updated_at         :datetime         not null
 #
 # Indexes
 #

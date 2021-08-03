@@ -18,22 +18,38 @@ describe BlockchainCurrency do
       let!(:blockchain_currency) { BlockchainCurrency.find_by(currency_id: :ring) }
       let!(:blockchain_trst_currency) { BlockchainCurrency.find_by(currency_id: :trst) }
       let!(:blockchain_fiat_currency) { BlockchainCurrency.find_by(currency_id: :eur) }
-  
+
       # coin configuration
       it 'validate parent_id presence' do
         blockchain_currency.parent_id = nil
         expect(blockchain_currency.valid?).to eq true
       end
-  
+
       # token configuration
       it 'validate parent_id value' do
         blockchain_currency.parent_id = blockchain_fiat_currency.id
         expect(blockchain_currency.valid?).to be_falsey
         expect(blockchain_currency.errors[:parent_id]).to eq ["is not included in the list"]
-  
+
         blockchain_currency.parent_id = blockchain_trst_currency.id
         expect(blockchain_currency.valid?).to be_falsey
         expect(blockchain_currency.errors[:parent_id]).to eq ["is not included in the list"]
+      end
+    end
+
+    context 'link currency with default network' do
+      let(:currency) { Currency.find_by(id: 'eth') }
+
+      before do
+        currency.update(default_network_id: nil)
+      end
+
+      it 'should set currency default network' do
+        expect(currency.default_network_id).to eq nil
+        expect(currency.default_network).to eq nil
+        blockchain_currency = BlockchainCurrency.create(currency_id: 'eth', blockchain_key: 'btc-testnet')
+        currency.reload
+        expect(currency.default_network).to eq blockchain_currency
       end
     end
   end
@@ -50,7 +66,7 @@ describe BlockchainCurrency do
           wallet = Wallet.find_by(blockchain_key: blockchain_key)
           expect(wallet).not_to eq nil
           currency = BlockchainCurrency.create(currency_id: coin, blockchain_key: blockchain_key)
-          
+
           expect(CurrencyWallet.find_by(currency_id: currency.id, wallet_id: wallet.id)).to eq nil
         end
       end
