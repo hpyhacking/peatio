@@ -3,24 +3,23 @@ class AddEncryptedServerToBlockchain < ActiveRecord::Migration[5.2]
     unless column_exists?(:blockchains, :server_encrypted)
       server = Blockchain.pluck(:id, :server)
 
-      remove_column :blockchains, :server
-      add_column :blockchains, :server_encrypted , :string, limit: 1024, after: :client
+      add_column :blockchains, :server_encrypted, :string, limit: 1024, after: :client
 
       server.each do |s|
         atr = Blockchain.__vault_attributes[:server]
         enc = Vault::Rails.encrypt(atr[:path], atr[:key], s[1])
-        query = ActiveRecord::Base.sanitize_sql_array(["UPDATE blockchains SET ? = ? WHERE id = ?", atr[:encrypted_column], enc, s[0]])
+        query = ActiveRecord::Base.sanitize_sql_array(["UPDATE blockchains SET server_encrypted = ? WHERE id = ?", enc, s[0]])
         execute(query)
       end
+      remove_column :blockchains, :server
     end
   end
 
-  def downcase
+  def down
     if column_exists?(:blockchains, :server_encrypted)
       server = Blockchain.pluck(:id, :server_encrypted)
 
       add_column :blockchains, :server, :string, limit: 1000, default: '', null: false, after: :client
-      remove_column :blockchains, :server_encrypted , :string, limit: 1024, after: :client
 
       server.each do |s|
         atr = Blockchain.__vault_attributes[:server]
@@ -28,6 +27,7 @@ class AddEncryptedServerToBlockchain < ActiveRecord::Migration[5.2]
         query = ActiveRecord::Base.sanitize_sql_array(["UPDATE blockchains SET server = ? WHERE id = ?", dec, s[0]])
         execute(query)
       end
+      remove_column :blockchains, :server_encrypted , :string, limit: 1024, after: :client
     end
   end
 end
