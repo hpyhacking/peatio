@@ -9,6 +9,33 @@
       "type": "coin",
       "precision": 8,
       "position": 2
+    },
+    {
+      "id": "eth1",
+      "name": "Ethereum1",
+      "type": "coin",
+      "status": "enabled",
+      "description": null,
+      "homepage": null,
+      "price": "1.0",
+      "precision": 8,
+      "position": 3,
+      "networks": [
+        {
+          "blockchain_key": "eth-rinkeby",
+          "base_factor": 1000000000000000000,
+          "options": {
+            "gas_limit": 21000
+          }
+        },
+        {
+          "blockchain_key": "eth-kovan",
+          "base_factor": 1000000000000000000,
+          "options": {
+            "gas_limit": 21000
+          }
+        }
+      ]
     }
   ],
   "blockchains": [
@@ -41,6 +68,41 @@
       },
       "blockchain_key": "btc-testnet",
       "status": "active"
+    },
+    {
+      "name": "Ethereum Deposit Wallet2",
+      "kind": "deposit",
+      "address": "0x2b9fBC10EbAeEc28a8Fc10069C0BC29E45eBEB9C",
+      "gateway": "geth",
+      "max_balance": "1000.0",
+      "balance": null,
+      "plain_settings": {
+        "external_wallet_id": 1
+      },
+      "settings": {
+        "uri": "http://parity:8545",
+        "secret": "changeme"
+      },
+      "blockchain_key": "eth-rinkeby",
+      "currency_ids": "eth,trst",
+      "status": "active"
+    }
+  ],
+  "markets": [
+    {
+      "id": "btctrst",
+      "base_unit": "btc",
+      "quote_unit": "trst",
+      "engine_name": "peatio-default-engine",
+      "amount_precision": 4,
+      "price_precision": 4,
+      "min_price": 0.0001,
+      "max_price": 0.0,
+      "min_amount": 0.0001,
+      "position": 100,
+      "state": "enabled",
+      "data": {
+      }
     }
   ]
 }
