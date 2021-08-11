@@ -6,22 +6,6 @@ module API
       module Entities
         class BlockchainCurrency < API::V2::Entities::BlockchainCurrency
           expose(
-            :id,
-            documentation: {
-              type: Integer,
-              desc: 'Unique identifier of blockchain currency'
-            }
-          )
-
-          expose(
-            :status,
-            documentation: {
-              type: String,
-              desc: 'Blockchain currency display status (enabled/disabled/hidden).'
-            }
-          )
-
-          expose(
             :options,
             documentation: {
               type: JSON,

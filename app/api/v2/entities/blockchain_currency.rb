@@ -5,6 +5,22 @@ module API
     module Entities
       class BlockchainCurrency < Base
         expose(
+          :id,
+          documentation: {
+            type: Integer,
+            desc: 'Unique identifier of blockchain currency'
+          }
+        )
+
+        expose(
+          :status,
+          documentation: {
+            type: String,
+            desc: 'Blockchain currency display status (enabled/disabled/hidden).'
+          }
+        )
+
+        expose(
           :blockchain_key,
           documentation:{
             type: String,
