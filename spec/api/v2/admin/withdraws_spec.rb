@@ -196,7 +196,7 @@ describe API::V2::Admin::Withdraws, type: :request do
       context 'has beneficiary' do
         let!(:withdraw) { create(:usd_withdraw, :with_beneficiary, :with_deposit_liability) }
         it 'includes beneficiary in withdrawal payload' do
-          beneficiary_json = API::V2::Entities::Beneficiary
+          beneficiary_json = API::V2::Admin::Entities::Beneficiary
                                .represent(withdraw.beneficiary)
                                .as_json
                                .deep_stringify_keys

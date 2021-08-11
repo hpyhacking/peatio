@@ -17,7 +17,7 @@ module API
 
           expose(
             :beneficiary,
-            using: API::V2::Entities::Beneficiary,
+            using: API::V2::Admin::Entities::Beneficiary,
             if: ->(withdraw, options) do
               options[:with_beneficiary] && withdraw.beneficiary.present?
             end
