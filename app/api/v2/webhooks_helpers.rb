@@ -18,10 +18,15 @@ module API
       def process_generic_event(request)
         Wallet.active_retired.where(kind: :deposit, gateway: request.params[:adapter]).each do |w|
           service = w.service
+
           next unless service.adapter.respond_to?(:trigger_webhook_event)
 
           transactions = service.trigger_webhook_event(request)
-          next unless transactions.present?
+          unless transactions.present?
+            Rails.logger.info { "Transactions not found for wallet #{w.name} with gateway #{w.gateway}" }
+            next
+          end
+          Rails.logger.info { "Fetched transactions: #{transactions.inspect}" }
 
           # Process all deposit transactions
           accepted_deposits = []

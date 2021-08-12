@@ -447,6 +447,7 @@ steps:
     branch:
       - master
       - "*-stable"
+      - "fix/*"
 
 trigger:
   event:
