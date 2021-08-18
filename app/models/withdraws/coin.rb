@@ -30,7 +30,7 @@ module Withdraws
 end
 
 # == Schema Information
-# Schema version: 20210609094033
+# Schema version: 20210805134633
 #
 # Table name: withdraws
 #
@@ -49,6 +49,7 @@ end
 #  transfer_type  :integer
 #  tid            :string(64)       not null
 #  rid            :string(256)      not null
+#  remote_id      :string(255)
 #  note           :string(256)
 #  metadata       :json
 #  error          :json

@@ -141,12 +141,13 @@ class Account < ApplicationRecord
 end
 
 # == Schema Information
-# Schema version: 20210609094033
+# Schema version: 20210805134633
 #
 # Table name: accounts
 #
 #  member_id   :bigint           not null, primary key
 #  currency_id :string(10)       not null, primary key
+#  type        :string(255)      default("spot"), not null
 #  balance     :decimal(32, 16)  default(0.0), not null
 #  locked      :decimal(32, 16)  default(0.0), not null
 #  created_at  :datetime         not null
@@ -154,6 +155,6 @@ end
 #
 # Indexes
 #
-#  index_accounts_on_currency_id_and_member_id  (currency_id,member_id) UNIQUE
-#  index_accounts_on_member_id                  (member_id)
+#  index_accounts_on_currency_id_and_member_id_and_type_and_unique  (currency_id,member_id,type) UNIQUE
+#  index_accounts_on_member_id                                      (member_id)
 #

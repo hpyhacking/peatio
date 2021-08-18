@@ -50,7 +50,8 @@ class Withdraw < ApplicationRecord
   validates :block_number, allow_blank: true, numericality: { greater_than_or_equal_to: 0, only_integer: true }
   validates :sum,
             presence: true,
-            numericality: { greater_than_or_equal_to: ->(withdraw) { withdraw.blockchain_currency.min_withdraw_amount }}
+            numericality: { greater_than_or_equal_to: ->(withdraw) { withdraw.blockchain_currency.min_withdraw_amount }},
+            on: :create
 
   validates :blockchain_key,
             inclusion: { in: ->(_) { Blockchain.pluck(:key).map(&:to_s) } },
@@ -339,7 +340,7 @@ class Withdraw < ApplicationRecord
 end
 
 # == Schema Information
-# Schema version: 20210609094033
+# Schema version: 20210805134633
 #
 # Table name: withdraws
 #
@@ -358,6 +359,7 @@ end
 #  transfer_type  :integer
 #  tid            :string(64)       not null
 #  rid            :string(256)      not null
+#  remote_id      :string(255)
 #  note           :string(256)
 #  metadata       :json
 #  error          :json

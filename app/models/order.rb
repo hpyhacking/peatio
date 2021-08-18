@@ -379,7 +379,7 @@ class Order < ApplicationRecord
 end
 
 # == Schema Information
-# Schema version: 20210609094033
+# Schema version: 20210805134633
 #
 # Table name: orders
 #
@@ -390,6 +390,8 @@ end
 #  ask            :string(10)       not null
 #  market_id      :string(20)       not null
 #  market_type    :string(255)      default("spot"), not null
+#  trigger_price  :decimal(32, 16)
+#  triggered_at   :datetime
 #  price          :decimal(32, 16)
 #  volume         :decimal(32, 16)  not null
 #  origin_volume  :decimal(32, 16)  not null

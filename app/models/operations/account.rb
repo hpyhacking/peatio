@@ -37,7 +37,7 @@ module Operations
 end
 
 # == Schema Information
-# Schema version: 20210609094033
+# Schema version: 20210805134633
 #
 # Table name: operations_accounts
 #
@@ -53,9 +53,9 @@ end
 #
 # Indexes
 #
-#  index_operations_accounts_on_code                             (code) UNIQUE
-#  index_operations_accounts_on_currency_type                    (currency_type)
-#  index_operations_accounts_on_scope                            (scope)
-#  index_operations_accounts_on_type                             (type)
-#  index_operations_accounts_on_type_and_kind_and_currency_type  (type,kind,currency_type) UNIQUE
+#  index_operations_accounts_on_code                          (code) UNIQUE
+#  index_operations_accounts_on_currency_type                 (currency_type)
+#  index_operations_accounts_on_scope                         (scope)
+#  index_operations_accounts_on_type                          (type)
+#  index_operations_accounts_on_type_kind_currency_type_code  (type,kind,currency_type,code)
 #

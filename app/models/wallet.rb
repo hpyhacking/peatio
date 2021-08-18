@@ -193,7 +193,7 @@ class Wallet < ApplicationRecord
 end
 
 # == Schema Information
-# Schema version: 20210609094033
+# Schema version: 20210805134633
 #
 # Table name: wallets
 #
@@ -203,6 +203,7 @@ end
 #  address            :string(255)      not null
 #  kind               :integer          not null
 #  gateway            :string(20)       default(""), not null
+#  plain_settings     :json
 #  settings_encrypted :string(1024)
 #  balance            :json
 #  max_balance        :decimal(32, 16)  default(0.0), not null
