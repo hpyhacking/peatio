@@ -36,7 +36,7 @@ module API
               desc: -> { API::V2::Admin::Entities::Blockchain.documentation[:withdrawal_gas_speed][:desc] }
             },
             status: {
-              values: { value: %w(active disabled), message: 'admin.blockchain.invalid_status' },
+              values: { value: ::Blockchain::STATES, message: 'admin.blockchain.invalid_status' },
               default: 'active',
               desc: -> { API::V2::Admin::Entities::Blockchain.documentation[:status][:desc] }
             },

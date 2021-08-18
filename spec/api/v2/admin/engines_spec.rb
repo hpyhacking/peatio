@@ -18,6 +18,7 @@ describe API::V2::Admin::Engines, type: :request do
       expect(result.fetch('name')).to eq engine.name
       expect(result.fetch('driver')).to eq engine.driver
       expect(result.fetch('state')).to eq engine.state
+      expect(result.fetch('url')).to eq nil
     end
 
     it 'returns error in case of invalid id' do

@@ -45,6 +45,8 @@ module API
                    desc: -> { API::V2::Admin::Entities::Engine.documentation[:driver][:desc] }
           optional :uid,
                    desc: -> { API::V2::Admin::Entities::Engine.documentation[:uid][:desc] }
+          optional :url,
+                   desc: -> { API::V2::Admin::Entities::Engine.documentation[:url][:desc] }
           optional :key,
                    desc: -> { 'Credentials for remote engine' }
           optional :secret,
@@ -80,6 +82,8 @@ module API
                    desc: -> { API::V2::Admin::Entities::Engine.documentation[:name][:desc] }
           optional :driver,
                    desc: -> { API::V2::Admin::Entities::Engine.documentation[:driver][:desc] }
+          optional :url,
+                   desc: -> { API::V2::Admin::Entities::Engine.documentation[:url][:desc] }
           optional :uid,
                    desc: -> { API::V2::Admin::Entities::Engine.documentation[:uid][:desc] }
           optional :key,

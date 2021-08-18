@@ -97,4 +97,40 @@ describe Blockchain do
       }.to change { subject.server }.to 'http://geth:8545/'
     end
   end
+
+  context 'callbacks' do
+    context 'update_networks_state' do
+      context 'on create' do
+        let!(:blockchain) { create(:blockchain, 'eth-rinkeby', protocol: 'Test', key: 'test')}
+
+        context 'without networks' do
+          it 'updates networs state' do
+            blockchain.update(status: :disabled)
+            expect(blockchain.blockchain_currencies).to eq []
+          end
+        end
+
+        context 'with networks' do
+          before do
+            create(:blockchain_currency, :eth_network, blockchain_key: 'test')
+            create(:blockchain_currency, :btc_network, blockchain_key: 'test')
+          end
+
+          it 'updates networs state' do
+            blockchain.update(status: :disabled)
+            expect(blockchain.blockchain_currencies.pluck(:status).uniq).to eq ['disabled']
+          end
+        end
+      end
+
+      context 'on update' do
+        let(:blockchain) { Blockchain.find_by(key: 'eth-rinkeby') }
+
+        it 'updates networs state' do
+          blockchain.update(status: :disabled)
+          expect(blockchain.blockchain_currencies.pluck(:status).uniq).to eq ['disabled']
+        end
+      end
+    end
+  end
 end
