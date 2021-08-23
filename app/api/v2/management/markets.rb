@@ -91,10 +91,6 @@ module API
         end
         params do
           # TODO: Id parameter should be deprecated and changed to symbol
-          requires :id,
-                   type: String,
-                   desc: -> { API::V2::Management::Entities::Market.documentation[:id][:desc] }
-
           optional :id,
                    type: String,
                    values: { value: -> { ::Market.pluck(:symbol) } },
@@ -144,7 +140,7 @@ module API
         put '/markets/update' do
           symbol = params[:symbol].present? ? params[:symbol] : params[:id]
           market = ::Market.find_by_symbol_and_type(symbol, params[:type])
-          if market.update(declared(params, include_missing: false))
+          if market.update(declared(params, include_missing: false).except(:id, :symbol))
             present market, with: API::V2::Management::Entities::Market
           else
             body errors: market.errors.full_messages

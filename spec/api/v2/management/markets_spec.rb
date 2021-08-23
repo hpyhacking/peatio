@@ -81,19 +81,22 @@ describe API::V2::Management::Markets, type: :request do
       request
 
       expect(response).to have_http_status 422
-      expect(response.body).to match(/id is missing/i)
+      expect(response.body).to match(/id, symbol are missing, exactly one parameter must be provided/i)
     end
 
     it 'should update market' do
+      market_id = market.id
       data.merge!(id: market.symbol, state: 'disabled', min_amount: '0.1')
       request
 
+      market.reload
       expect(response).to have_http_status 200
 
       result = JSON.parse(response.body)
       expect(result.fetch('id')).to eq market.symbol
       expect(result.fetch('state')).to eq 'disabled'
       expect(result.fetch('min_amount')).to eq '0.1'
+      expect(market.id).to eq market_id
     end
 
     it 'should update engine_id of spot' do
