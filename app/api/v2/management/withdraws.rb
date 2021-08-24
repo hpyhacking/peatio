@@ -10,6 +10,10 @@ module API
           def perform_action(withdraw, action)
             withdraw.with_lock do
               case action
+                when 'review'
+                  withdraw.accept!
+                  withdraw.process!
+                  withdraw.review!
                 when 'process'
                   withdraw.accept!
                   # Process fiat withdraw immediately. Crypto withdraws will be processed by workers.
@@ -20,6 +24,10 @@ module API
                   end
                 when 'cancel'
                   withdraw.cancel!
+                when 'reject'
+                  withdraw.reject!
+                when 'success'
+                  withdraw.success!
               end
             end
           end
@@ -89,7 +97,7 @@ module API
           requires :currency,       type: String, values: -> { Currency.codes(bothcase: true) }, desc: 'The currency code.'
           requires :amount,         type: BigDecimal, desc: 'The amount to withdraw.'
           optional :note,           type: String, desc: 'The note for withdraw.'
-          optional :action,         type: String, values: %w[process], desc: 'The action to perform.'
+          optional :action,         type: String, values: %w[process review], desc: 'The action to perform.'
           optional :transfer_type,  type: String,
                                     values: { value: -> { Withdraw::TRANSFER_TYPES.keys }, message: 'account.withdraw.transfer_type_not_in_list' },
                                     desc: -> { API::V2::Admin::Entities::Withdraw.documentation[:transfer_type][:desc] }
@@ -147,12 +155,15 @@ module API
         desc 'Performs action on withdraw.' do
           @settings[:scope] = :write_withdraws
           detail '«process» – system will lock the money, check for suspected activity, validate recipient address, and initiate the processing of the withdraw. ' \
-                '«cancel»  – system will mark withdraw as «canceled», and unlock the money.'
+                '«cancel»  – system will mark withdraw as «canceled», and unlock the money.' \
+                '«reject»  – system will mark withdraw as «rejected», and unlock the money.' \
+                '«review»  – system will mark withdraw as «under_review», and lock the money.' \
+                '«success»  – system will mark withdraw as «succeed», and subtract the money from the account. (works only with fiat)'
           success API::V2::Management::Entities::Withdraw
         end
         params do
           requires :tid,    type: String, desc: 'The shared transaction ID.'
-          requires :action, type: String, values: %w[process cancel], desc: 'The action to perform.'
+          requires :action, type: String, values: %w[process cancel reject review success], desc: 'The action to perform.'
         end
         put '/withdraws/action' do
           record = Withdraw.find_by!(params.slice(:tid))
