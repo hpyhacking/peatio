@@ -191,6 +191,8 @@ module Ethereum
     end
 
     def build_eth_transactions(block_txn)
+      return [] if @eth.blank?
+
       [
         {
           hash:           normalize_txid(block_txn.fetch('hash')),
