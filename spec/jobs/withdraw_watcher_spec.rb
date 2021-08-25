@@ -13,8 +13,8 @@ describe Jobs::Cron::WithdrawWatcher do
       '0x1762873161782YD121ui'
     end
 
-    def withdraw_confirmed?(_remote_id)
-      true
+    def fetch_withdraw_status(_remote_id)
+      'success'
     end
   end
 
@@ -144,7 +144,7 @@ describe Jobs::Cron::WithdrawWatcher do
           expect(btc_withdraw.aasm_state).to eq 'confirming'
         end
 
-        it 'skip withdraw if gateway does not support withdraw_confirmed? method' do
+        it 'skip withdraw if gateway does not support fetch_withdraw_status method' do
           hot_wallet.update(gateway: 'geth')
           expect(btc_withdraw.aasm_state).to eq 'confirming'
           subject.process_confirming_withdrawals
@@ -154,7 +154,16 @@ describe Jobs::Cron::WithdrawWatcher do
         end
 
         it 'does not change withdraw state if withdraw is not confirmed on blockchain' do
-          AbstractWallet.any_instance.stubs(:withdraw_confirmed?).returns(false)
+          AbstractWallet.any_instance.stubs(:fetch_withdraw_status).returns('pending')
+          expect(btc_withdraw.aasm_state).to eq 'confirming'
+          subject.process_confirming_withdrawals
+
+          btc_withdraw.reload
+          expect(btc_withdraw.aasm_state).to eq 'confirming'
+        end
+
+        it 'does not change withdraw state if withdraw is not confirmed on blockchain' do
+          AbstractWallet.any_instance.stubs(:fetch_withdraw_status).returns(nil)
           expect(btc_withdraw.aasm_state).to eq 'confirming'
           subject.process_confirming_withdrawals
 
@@ -165,8 +174,26 @@ describe Jobs::Cron::WithdrawWatcher do
     end
 
     context :fails do
+      it 'rejects withdraw if it is rejected by gateway' do
+        AbstractWallet.any_instance.stubs(:fetch_withdraw_status).returns('rejected')
+        expect(btc_withdraw.aasm_state).to eq 'confirming'
+        subject.process_confirming_withdrawals
+
+        btc_withdraw.reload
+        expect(btc_withdraw.aasm_state).to eq 'rejected'
+      end
+
+      it 'fails withdraw if it is failed by gateway' do
+        AbstractWallet.any_instance.stubs(:fetch_withdraw_status).returns('failed')
+        expect(btc_withdraw.aasm_state).to eq 'confirming'
+        subject.process_confirming_withdrawals
+
+        btc_withdraw.reload
+        expect(btc_withdraw.aasm_state).to eq 'failed'
+      end
+
       it 'rescue error and does not change withdraw state' do
-        AbstractWallet.any_instance.stubs(:withdraw_confirmed?).raises(StandardError)
+        AbstractWallet.any_instance.stubs(:fetch_withdraw_status).raises(StandardError)
         expect(btc_withdraw.aasm_state).to eq 'confirming'
         expect { subject.process_confirming_withdrawals}.not_to raise_error
 

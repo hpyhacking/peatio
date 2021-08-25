@@ -63,14 +63,14 @@ module Jobs
             end
 
             @service = WalletService.new(wallet)
-            # Check if adapter has withdraw_confirmed? implementation
-            next unless wallet.gateway_implements?(:withdraw_confirmed?)
+            # Check if adapter has fetch_withdraw_status implementation
+            next unless wallet.gateway_implements?(:fetch_withdraw_status)
 
             begin
               configure_service_adapter(withdraw)
-              confirm_withdraw(withdraw)
+              update_withdraw_status(withdraw)
             rescue StandardError => e
-              Rails.logger.error { "Failed to confirm withdraw #{withdraw.id}. See exception details below." }
+              Rails.logger.error { "Failed to update withdraw #{withdraw.id} status. See exception details below." }
               report_exception(e)
               raise e if is_db_connection_error?(e)
             end
@@ -91,8 +91,17 @@ module Jobs
           withdraw.dispatch!
         end
 
-        def confirm_withdraw(withdraw)
-          withdraw.success! if @service.adapter.withdraw_confirmed?(withdraw.remote_id)
+        def update_withdraw_status(withdraw)
+          tx = Peatio::Transaction.new
+          tx.status = @service.adapter.fetch_withdraw_status(withdraw.remote_id)
+
+          if tx.status.success?
+            withdraw.success!
+          elsif tx.status.failed?
+            withdraw.fail!
+          elsif tx.status.rejected?
+            withdraw.reject!
+          end
         end
 
         def is_db_connection_error?(exception)
