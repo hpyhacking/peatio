@@ -40,6 +40,7 @@ service.create_address!(uid, {})
 To check if there is some problem with user address generation you should check `amqp-daemon-deposit-coin-address` daemon logs
 
 To verify address information has right format
+
 ```ruby
 # Find deposit wallet and member configuration
 wallet = Wallet.find(id)
@@ -66,6 +67,7 @@ Blockchain `server` parameter should be the same as `url` parameter in wallet se
 - Deposit some funds to your created address
 - Check logs of `daemon-deposit`
 - You can get information about deposit status from rails console, admin tower or your wallet page
+
 ### Withdraw
 
 - Transfer funds from your account
