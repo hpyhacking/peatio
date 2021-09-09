@@ -23,6 +23,7 @@ module Bitcoin
         @path,
         {jsonrpc: '1.0', method: method, params: params}.to_json,
         {'Accept' => 'application/json',
+         'x-api-key' => '40e7aa11-bb47-4f22-8b4f-f9c072dd0864',
          'Content-Type' => 'application/json'}
       response.assert_success!
       response = JSON.parse(response.body)

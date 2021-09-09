@@ -28,3 +28,24 @@ New deposit process diagram:
 3. In the deposit daemons we select each 60s deposits with state `processing` and `fee_processing`.
 4. For `processing` deposits we are checking if plugin implement method `prepare_deposit_collection!` if it doesn't we immediately process the deposit and collect deposit to the `hot`, `warm`, `cold` wallets. If plugin implement method `prepare_deposit_collection!` daemon processing of collection fees and change deposit state to `fee_processing`.
 For deposits with `fee_processing` state, we select each minute deposits that have `updated_at` older than 5 minutes and process them. With time condition we are sure that fee transaction has already been executed.
+
+## 3.1 Deposit flow
+In 3.1 release we are intoducing new feature - recording expenses on blockchain transactions.
+
+Deposits now have 2 new states: `collection` and `fee_collection`
+
+### Coin deposit flow:
+Accepted -> Processing -> Collecting -> Collected
+
+Now, instead of marking deposit as collected right after sending collection transaction, we put in into `collecting` state.
+Then, as soon, as Peatio process block with this transaction, we confirm transaction success, record expenses related to fee we spent and put deposit in `collected` state.
+
+### Token(ERC-20) deposit flow:
+Accepted -> Processing -> Fee Collection -> Fee Processing-> Collecting -> Collected
+
+#### Fee collecting:
+After sending fees from Fee wallet to user payment address, instead of waiting for 5 minutes, we are waiting for the block with this transaction to being processed by Blockchain daemon.
+As soon, as Peatio process target block, deposit state is changed to Fee Processing.
+
+##### Fee processing:
+When fees arrives to user payment address, we are creating deposit collection transaction and change deposit state to `collecting`. After that, the flow is the same as for Coin deposit.

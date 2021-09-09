@@ -116,6 +116,8 @@ describe Jobs::Cron::WithdrawWatcher do
         .tap(&:dispatch!)
     end
 
+    let!(:tx) { Transaction.create(txid: btc_withdraw.txid, reference: btc_withdraw, kind: 'tx', from_address: 'fake_address', to_address: btc_withdraw.rid, blockchain_key: btc_withdraw.blockchain_key, status: :pending, currency_id: btc_withdraw.currency_id) }
+
     context :success do
       it 'successfully confirm' do
         expect(btc_withdraw.aasm_state).to eq 'confirming'

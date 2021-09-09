@@ -468,12 +468,14 @@ describe API::V2::Admin::Blockchains, type: :request do
                            aasm_state: :confirming)
         end
 
+        let!(:tx) { Transaction.create(txid: withdrawal.txid, reference: withdrawal, kind: 'tx', from_address: 'fake_address', to_address: withdrawal.rid, blockchain_key: withdrawal.blockchain_key, status: :pending, currency_id: withdrawal.currency_id) }
+
         let!(:transaction) do
-          Peatio::Transaction.new(hash: 'fake_hash', to_address: 'fake_address', amount: 1, block_number: block_number, currency_id: currency.id, txout: 10, status: 'pending')
+          Peatio::Transaction.new(hash: 'fake_hash', to_address: 'fake_address', amount: 1, block_number: block_number, fee: 0.1, fee_currency_id: currency.id, currency_id: currency.id, txout: 10, status: 'pending')
         end
 
         let!(:succeed_transaction) do
-          Peatio::Transaction.new(hash: 'fake_hash', to_address: 'fake_address', from_addresses: ['fake_address'], amount: 1, block_number: block_number, currency_id: currency.id, txout: 10, status: 'success')
+          Peatio::Transaction.new(hash: 'fake_hash', to_address: 'fake_address', from_addresses: ['fake_address'], amount: 1, block_number: block_number, fee: 0.01, fee_currency_id: currency.id, currency_id: currency.id, txout: 10, status: 'success')
         end
 
         let(:expected_block) { Peatio::Block.new(block_number, [transaction]) }
@@ -487,7 +489,6 @@ describe API::V2::Admin::Blockchains, type: :request do
           expect(Withdraws::Coin.find_by(currency: currency, txid: transaction.hash).succeed?).to be false
 
           api_post '/api/v2/admin/blockchains/process_block', token: token, params: { block_number: block_number, id: blockchain.id }
-          result = JSON.parse(response.body)
           expect(response).to be_successful
           expect(Withdraws::Coin.find_by(currency: currency, txid: transaction.hash).succeed?).to be true
         end

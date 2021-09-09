@@ -582,7 +582,10 @@ describe WalletService do
     end
 
     context 'there is no active wallets' do
-      before { Wallet.stubs(:active).returns(Wallet.none) }
+      before do
+        deposit
+        Wallet.stubs(:active).returns(Wallet.none)
+      end
 
       it 'raises an error' do
         expect{ subject }.to raise_error(StandardError)

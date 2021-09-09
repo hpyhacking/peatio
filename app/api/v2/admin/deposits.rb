@@ -61,12 +61,6 @@ module API
                    type: String,
                    values: { value: -> { ::Deposit.aasm.events.map(&:name).map(&:to_s) }, message: 'admin.deposit.invalid_action' },
                    desc: "Valid actions are #{::Deposit.aasm.events.map(&:name)}."
-          given action: ->(val) { val == 'process' } do
-            optional :fees,
-                     type: Boolean,
-                     default: false,
-                     desc: 'Process deposit collection with collecting fees or not'
-          end
         end
         post '/deposits/actions' do
           admin_authorize! :update, ::Deposit

@@ -150,6 +150,8 @@ describe API::V2::Public::Webhooks, type: :request do
             let(:transaction) do
               Peatio::Transaction.new(
                 currency_id: :eth,
+                fee_currency_id: :eth,
+                fee: 0.1,
                 hash: '0xa049b0202ba078caa723c6b59594247b0c9f33e24878950f8537cedff9ea20ac',
                 amount: 0.5,
                 to_address: '0x1ef338196bd0207ba4852ba7a6847eed59331b84',
@@ -174,6 +176,7 @@ describe API::V2::Public::Webhooks, type: :request do
             end
 
             let!(:withdraw) { create(:eth_withdraw, :with_beneficiary, aasm_state: :prepared, member: member, txid: '0xa049b0202ba078caa723c6b59594247b0c9f33e24878950f8537cedff9ea20ac')}
+            let!(:tx) { Transaction.create(txid: withdraw.txid, reference: withdraw, kind: 'tx', from_address: 'fake_address', to_address: withdraw.rid, blockchain_key: withdraw.blockchain_key, status: :pending, currency_id: withdraw.currency_id) }
 
             before do
               withdraw.accept!
@@ -187,12 +190,15 @@ describe API::V2::Public::Webhooks, type: :request do
 
               withdraw.reload
               expect(withdraw.aasm_state).to eq 'succeed'
+              expect(tx.reload.status).to eq 'succeed'
             end
 
             context 'failed transaction' do
               let(:transaction) do
                 Peatio::Transaction.new(
                   currency_id: :eth,
+                  fee_currency_id: :eth,
+                  fee: 0.1,
                   hash: '0xa049b0202ba078caa723c6b59594247b0c9f33e24878950f8537cedff9ea20ac',
                   amount: 0.5,
                   to_address: '0x1ef338196bd0207ba4852ba7a6847eed59331b84',
@@ -208,6 +214,7 @@ describe API::V2::Public::Webhooks, type: :request do
 
                 withdraw.reload
                 expect(withdraw.aasm_state).to eq 'failed'
+                expect(tx.reload.status).to eq 'failed'
               end
             end
           end
@@ -297,8 +304,10 @@ describe API::V2::Public::Webhooks, type: :request do
             let(:transaction) do
               Peatio::Transaction.new(
                 currency_id: :eth,
+                fee_currency_id: :eth,
                 hash: '0xa049b0202ba078caa723c6b59594247b0c9f33e24878950f8537cedff9ea20ac',
                 amount: 0.5,
+                fee: 0.1,
                 to_address: '0x1ef338196bd0207ba4852ba7a6847eed59331b84',
                 block_number: 16880960,
                 txout: 0,
@@ -331,6 +340,18 @@ describe API::V2::Public::Webhooks, type: :request do
                     api_post '/api/v2/public/webhooks/opendax_cloud/generic'
                   }.to change { Deposit.count }.by(1)
                 end
+
+                context 'existing deposit' do
+                  let!(:deposit) { create(:deposit, :deposit_eth, txid: '0xa049b0202ba078caa723c6b59594247b0c9f33e24878950f8537cedff9ea20ac', txout: 0, aasm_state: :collecting, address: '0x1ef338196bd0207ba4852ba7a6847eed59331b84')}
+                  let!(:tx) { Transaction.create(txid: deposit.txid, reference: deposit, kind: 'tx', from_address: 'fake_address', to_address: deposit.address, blockchain_key: deposit.blockchain_key, status: :pending, currency_id: deposit.currency_id) }
+
+                  it do
+                    api_post '/api/v2/public/webhooks/opendax_cloud/generic'
+                    deposit.reload
+                    expect(deposit.aasm_state).to eq 'collected'
+                    expect(tx.reload.status).to eq 'succeed'
+                  end
+                end
               end
             end
 
@@ -339,6 +360,8 @@ describe API::V2::Public::Webhooks, type: :request do
                 let(:transaction) do
                   Peatio::Transaction.new(
                     currency_id: :eth,
+                    fee_currency_id: :eth,
+                    fee: 0.1,
                     hash: nil,
                     amount: 0.5,
                     to_address: '0x1ef338196bd0207ba4852ba7a6847eed59331b84',
@@ -364,6 +387,78 @@ describe API::V2::Public::Webhooks, type: :request do
                   }.not_to change { Deposit.count }
                 end
               end
+
+              context 'fee collection' do
+                let(:transaction) do
+                  Peatio::Transaction.new(
+                    currency_id: :eth,
+                    fee_currency_id: :eth,
+                    fee: 0.1,
+                    hash: '0x12g43asd3445560394230452345',
+                    amount: 0.5,
+                    to_address: '0x1ef338196bd0207ba4852ba7a6847eed59331b84',
+                    block_number: 16880960,
+                    txout: 0,
+                    status: :success,
+                    options: {
+                      remote_id: 'TID9493F6CD41',
+                    }
+                  )
+                end
+
+                let!(:deposit) { create(:deposit, :deposit_eth, aasm_state: :fee_collecting) }
+                let!(:prebuild_transaction) { Transaction.create(currency_id: :eth, status: :pending, kind: 'tx_prebuild', blockchain_key: 'eth-rinkeby', from_address: '0x23913218394938283943', to_address: '0x1ef338196bd0207ba4852ba7a6847eed59331b84', reference: deposit, options: {remote_id: 'TID9493F6CD41'}) }
+
+                before do
+                  # disable first deposit wallet for eth to have ability to use opendax cloud deposit wallet
+                  Wallet.deposit_wallets(transaction.currency_id)[0].update(status: 'disabled') if Wallet.deposit_wallets(transaction.currency_id)[0].gateway == 'geth'
+                  PaymentAddress.create(member: member, wallet: deposit_wallet, address: '0x1ef338196bd0207ba4852ba7a6847eed59331b84')
+                  WalletService.any_instance.stubs(:trigger_webhook_event).returns([transaction])
+                end
+
+                it do
+                  api_post '/api/v2/public/webhooks/opendax_cloud/generic'
+                  prebuild_transaction.reload
+                  deposit.reload
+                  expect(deposit.aasm_state).to eq 'fee_collected'
+                  expect(prebuild_transaction.status).to eq 'succeed'
+                end
+
+
+                context 'failed fee collection' do
+                  let(:transaction) do
+                    Peatio::Transaction.new(
+                      currency_id: :eth,
+                      fee_currency_id: :eth,
+                      fee: 0.1,
+                      hash: '0x12g43asd3445560394230452345',
+                      amount: 0.5,
+                      to_address: '0x1ef338196bd0207ba4852ba7a6847eed59331b84',
+                      block_number: 16880960,
+                      txout: 0,
+                      status: :failed,
+                      options: {
+                        remote_id: 'TID9493F6CD41',
+                      }
+                    )
+                  end
+
+                  let!(:tx) { Transaction.create(txid: deposit.txid, reference: deposit, kind: 'prebuild_tx', from_address: 'fake_address', to_address: deposit.address, blockchain_key: deposit.blockchain_key, status: :pending, currency_id: deposit.currency_id) }
+
+                  before do
+                    deposit.update(aasm_state: :fee_collecting)
+                    prebuild_transaction.update(status: :pending)
+                  end
+
+                  it do
+                    api_post '/api/v2/public/webhooks/opendax_cloud/generic'
+                    prebuild_transaction.reload
+                    deposit.reload
+                    expect(deposit.aasm_state).to eq 'errored'
+                    expect(prebuild_transaction.status).to eq 'failed'
+                  end
+                end
+              end
             end
           end
         end
@@ -373,6 +468,8 @@ describe API::V2::Public::Webhooks, type: :request do
             let(:transaction) do
               Peatio::Transaction.new(
                 currency_id: :eth,
+                fee_currency_id: :eth,
+                fee: 0.1,
                 hash: '0xa049b0202ba078caa723c6b59594247b0c9f33e24878950f8537cedff9ea20ac',
                 amount: 0.5,
                 to_address: '0x1ef338196bd0207ba4852ba7a6847eed59331b84',
@@ -400,6 +497,7 @@ describe API::V2::Public::Webhooks, type: :request do
             end
 
             let!(:withdraw) { create(:eth_withdraw, :with_beneficiary, aasm_state: :prepared, member: member, remote_id: 'd123123-123123-12313')}
+            let!(:tx) { Transaction.create(txid: withdraw.txid, reference: withdraw, kind: 'tx', from_address: 'fake_address', to_address: withdraw.rid, blockchain_key: withdraw.blockchain_key, status: :pending, currency_id: withdraw.currency_id) }
 
             before do
               withdraw.accept!
@@ -413,6 +511,7 @@ describe API::V2::Public::Webhooks, type: :request do
 
               withdraw.reload
               expect(withdraw.aasm_state).to eq 'succeed'
+              expect(tx.reload.status).to eq 'succeed'
             end
           end
         end

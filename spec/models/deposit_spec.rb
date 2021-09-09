@@ -373,7 +373,9 @@ describe Deposit do
   end
 
   context :processing do
-    let(:crypto_deposit) { create(:deposit_btc, amount: 3.7) }
+    let(:crypto_deposit) { create(:deposit_btc, amount: 3.7, spread: [{ status: 'pending' }]) }
+
+    let!(:transaction) { Transaction.create(txid: crypto_deposit.txid, reference: crypto_deposit, kind: 'tx', from_address: 'fake_address', to_address: crypto_deposit.address, blockchain_key: crypto_deposit.blockchain_key, status: :pending, currency_id: crypto_deposit.currency_id) }
 
     before do
       Peatio::App.config.stubs(:deposit_funds_locked).returns(true)
@@ -384,6 +386,7 @@ describe Deposit do
     subject { crypto_deposit }
 
     it 'commit deposit to collected' do
+      subject.process_deposit_collection!
       # Minus locked and plus main accounts
       expect { subject.dispatch! }.to change { Operations::Liability.count }.by(2)
 
@@ -414,6 +417,7 @@ describe Deposit do
 
   context :dispatch do
     let(:crypto_deposit) { create(:deposit_btc, amount: 3.7) }
+    let!(:transaction) { Transaction.create(txid: crypto_deposit.txid, reference: crypto_deposit, kind: 'tx', from_address: 'fake_address', to_address: crypto_deposit.address, blockchain_key: crypto_deposit.blockchain_key, status: :pending, currency_id: crypto_deposit.currency_id) }
 
     subject { crypto_deposit }
 
@@ -422,6 +426,7 @@ describe Deposit do
         Peatio::App.config.stubs(:deposit_funds_locked).returns(true)
         crypto_deposit.accept!
         crypto_deposit.process!
+        crypto_deposit.process_deposit_collection!
       end
 
       it 'dispatches deposit' do
@@ -457,6 +462,7 @@ describe Deposit do
       before do
         crypto_deposit.accept!
         crypto_deposit.process!
+        crypto_deposit.process_deposit_collection!
       end
 
       it 'dispatches deposit' do

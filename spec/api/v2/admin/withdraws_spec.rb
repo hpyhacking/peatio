@@ -295,6 +295,7 @@ describe API::V2::Admin::Withdraws, type: :request do
 
     context 'updates withdraw' do
       before { [coin, fiat].map(&:accept!) }
+      let!(:tx) { Transaction.create(txid: coin.txid, reference: coin, kind: 'tx', from_address: 'fake_address', to_address: coin.rid, blockchain_key: coin.blockchain_key, status: :pending, currency_id: coin.currency_id) }
 
       it 'process coin' do
         api_post url, token: token, params: { action: 'process', id: coin.id }

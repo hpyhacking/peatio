@@ -42,21 +42,40 @@ module Bitcoin
         entry.fetch('value').to_d > 0 &&
         entry['scriptPubKey'].has_key?('addresses')
       end.each do |entry|
-        if transaction.to_address == entry['scriptPubKey']['addresses'][0] && entry.fetch('value').to_d == transaction.amount
-          tx = { hash: transaction_hash['txid'], txout: entry['n'],
-                 to_address: entry['scriptPubKey']['addresses'][0],
-                 amount: entry.fetch('value').to_d,
-                 status: 'success' }
-          break
-        else
-          next
-        end
+        fee = calculate_fee(transaction_hash)
+        tx = { hash: transaction_hash['txid'], txout: entry['n'],
+               to_address: entry['scriptPubKey']['address'],
+               amount: entry.fetch('value').to_d,
+               fee: fee,
+               fee_currency_id: transaction.currency_id,
+               status: 'success' }
       end
       if tx.present?
         Peatio::Transaction.new(tx)
       else
         Peatio::Transaction.new
       end
+    end
+
+    def calculate_fee(transaction_hash)
+      vins = 0
+      vouts = 0
+      transaction_hash.fetch('vin').each do |entry|
+        vin = entry['txid']
+        vin_id = entry['vout']
+        next if vin.blank?
+
+        tx_hash = client.json_rpc(:getrawtransaction, [vin, 1])
+        next if tx_hash['vout'].blank?
+
+        tx_hash.fetch('vout').each do |vout|
+          next if vout['n'] != vin_id
+          vins += vout.fetch('value').to_d
+        end
+      end
+
+      transaction_hash.fetch('vout').each { |vout| vouts += vout.fetch('value').to_d }
+      vins - vouts
     end
 
     def transaction_sources(transaction)

@@ -71,6 +71,7 @@ module API
             accepted_deposits = process_deposit(transactions, w.blockchain_key)
           end
           accepted_deposits.each(&:process!) if accepted_deposits.present?
+
         end
       end
 
@@ -92,7 +93,7 @@ module API
 
       def process_deposit(transactions, blockchain_key)
         accepted_deposits = find_or_create_deposit!(transactions, blockchain_key)
-
+        confirm_deposit_collection(transactions)
         accepted_deposits.compact if accepted_deposits.present?
       end
 
@@ -117,26 +118,77 @@ module API
             next
           end
 
-          deposit =
-            Deposits::Coin.find_or_create_by!(
-              currency_id: transaction.currency_id,
-              txid: transaction.hash,
-              txout: transaction.txout,
-              blockchain_key: payment_address.blockchain_key
-            ) do |d|
-              d.address = transaction.to_address
-              d.amount = transaction.amount
-              d.member = payment_address.member
-              d.block_number = transaction.block_number
-            end
-          # TODO: check if block number changed.
-
-          if transaction.status.success?
-            deposit.accept!
-          elsif transaction.status.rejected?
-            deposit.reject!
+          # Find transaction in DB (Find transaction which connected to fee transfer to user payment addresses)
+          # For erc20 transaction
+          if transaction.options.present? && transaction.options[:remote_id].present?
+            tx = Transaction.where(to_address: payment_address.address, blockchain_key: payment_address.blockchain_key, kind: 'tx_prebuild')
+                            .select { |t| t.options['remote_id'] == transaction.options[:remote_id]}.last
+          elsif transaction.hash.present?
+            tx = Transaction.find_by(txid: transaction.hash, kind: 'tx_prebuild')
           end
-          deposit
+
+          if tx.present?
+            tx.update!(fee: transaction.fee, block_number: transaction.block_number, fee_currency_id: transaction.fee_currency_id)
+
+            # Confirm fee collection in case of successful transaction
+            if transaction.status.success?
+              # Update erc20 transaction details, move deposit state to fee_collected
+              tx.update(txid: transaction.hash)
+              tx.reference.confirm_fee_collection!
+              tx.confirm!
+            elsif transaction.status.failed?
+              tx.reference.err! StandardError.new 'Fee collection transaction failed'
+              tx.fail!
+            end
+          else
+            # Create or update deposit
+            deposit =
+              Deposits::Coin.find_or_create_by!(
+                currency_id: transaction.currency_id,
+                txid: transaction.hash,
+                txout: transaction.txout,
+                blockchain_key: payment_address.blockchain_key
+              ) do |d|
+                d.address = transaction.to_address
+                d.amount = transaction.amount
+                d.member = payment_address.member
+                d.block_number = transaction.block_number
+              end
+            # TODO: check if block number changed.
+
+            if transaction.status.success?
+              deposit.accept!
+            elsif transaction.status.rejected?
+              deposit.reject!
+            end
+            deposit
+          end
+        end
+      end
+
+      def confirm_deposit_collection(transactions)
+        transactions.each do |transaction|
+          tx = if transaction.options.present? && transaction.options[:remote_id].present?
+                  Transaction.where(currency_id: transaction.currency_id, kind: 'tx', status: 'pending')
+                             .find { |t| t.options['remote_id'] == transaction.options[:remote_id] }
+               elsif transaction.hash.present?
+                  Transaction.find_by(txid: transaction.hash, kind: 'tx')
+               end
+
+          next if tx.blank?
+
+          deposit = tx.reference
+          if transaction.status.success? && deposit.collecting?
+            tx.update!(fee: transaction.fee, block_number: transaction.block_number, fee_currency_id: transaction.fee_currency_id)
+
+            updated_spread = deposit.spread.map do |spread_tx|
+              spread_tx[:status] = 'succeed' if spread_tx[:hash] == transaction.hash
+              spread_tx
+            end
+            deposit.update(spread: updated_spread)
+            deposit.dispatch! if deposit.spread.map { |t| t[:status].in?(%w[skipped succeed]) }.all?(true)
+            tx.confirm!
+          end
         end
       end
 
@@ -160,12 +212,19 @@ module API
           end
 
           Rails.logger.info { "Withdraw transaction detected: #{transaction.inspect}" }
+          # Select transaction to update txid, fee currency, fee, block number if needed
+          tx = Transaction.find_by(reference: withdrawal, status: :pending)
+          tx.update!(txid: transaction.hash, fee: transaction.fee, block_number: transaction.block_number, fee_currency_id: transaction.fee_currency_id)
+
           if transaction.status.failed?
             withdrawal.fail!
+            tx.fail!
           elsif transaction.status.success?
             withdrawal.success!
+            tx.confirm!
           elsif transaction.status.rejected?
             withdrawal.reject!
+            tx.reject!
           end
         end
       end
@@ -187,13 +246,20 @@ module API
             end
           end
 
+          # Select transaction to update txid, fee currency, fee, block number if needed
+          tx = Transaction.find_by(reference: withdraw, status: :pending)
+          tx.update!(txid: transaction.hash, fee: transaction.fee, block_number: transaction.block_number, fee_currency_id: transaction.fee_currency_id)
+
           Rails.logger.info { "Withdraw transaction detected: #{transaction.inspect}" }
           if transaction.status.failed?
             withdraw.fail!
+            tx.fail!
           elsif transaction.status.success?
             withdraw.success!
+            tx.confirm!
           elsif transaction.status.rejected?
             withdraw.reject!
+            tx.reject!
           end
         end
       end

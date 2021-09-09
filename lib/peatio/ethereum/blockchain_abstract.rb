@@ -72,6 +72,12 @@ module Ethereum
                 break
               end
 
+              # Check if the tx is from one of our payment_addresses (to confirm deposit collection)
+              if PaymentAddress.where(address: normalize_address(tx.fetch('from'))).present?
+                process_tx = true
+                break
+              end
+
               input = tx.fetch('input')
               # The usual case is a function call transfer(address,uint256) with footprint 'a9059cbb'
 
@@ -132,13 +138,17 @@ module Ethereum
       return if currency.blank?
 
       txn_receipt = client.json_rpc(:eth_getTransactionReceipt, [transaction.hash])
+      fee = txn_receipt.fetch('gasUsed').hex
+
       if currency[:id] == @eth[:id]
         txn_json = client.json_rpc(:eth_getTransactionByHash, [transaction.hash])
         attributes = {
           amount: convert_from_base_unit(txn_json.fetch('value').hex, currency),
           to_address: normalize_address(txn_json['to']),
           txout: txn_json.fetch('transactionIndex').to_i(16),
-          status: transaction_status(txn_receipt)
+          status: transaction_status(txn_receipt),
+          fee_currency_id: native_currency_id,
+          fee: convert_from_base_unit(fee, currency)
         }
       else
         if transaction.txout.present?
@@ -149,7 +159,9 @@ module Ethereum
         attributes = {
           amount: convert_from_base_unit(txn_json.fetch('data').hex, currency),
           to_address: normalize_address('0x' + txn_json.fetch('topics').last[-40..-1]),
-          status: transaction_status(txn_receipt)
+          status: transaction_status(txn_receipt),
+          fee_currency_id: native_currency_id,
+          fee: convert_from_base_unit(fee, currency)
         }
       end
       transaction.assign_attributes(attributes)
@@ -193,25 +205,31 @@ module Ethereum
     def build_eth_transactions(block_txn)
       return [] if @eth.blank?
 
+      fee = block_txn.fetch('gas').hex * block_txn.fetch('gasPrice').hex
+
       [
         {
-          hash:           normalize_txid(block_txn.fetch('hash')),
-          amount:         convert_from_base_unit(block_txn.fetch('value').hex, @eth),
-          from_addresses: [normalize_address(block_txn['from'])],
-          to_address:     normalize_address(block_txn['to']),
-          txout:          block_txn.fetch('transactionIndex').to_i(16),
-          block_number:   block_txn.fetch('blockNumber').to_i(16),
-          currency_id:    @eth.fetch(:id),
-          status:         transaction_status(block_txn)
+          hash:            normalize_txid(block_txn.fetch('hash')),
+          amount:          convert_from_base_unit(block_txn.fetch('value').hex, @eth),
+          fee:             convert_from_base_unit(fee, @eth),
+          from_addresses:  [normalize_address(block_txn['from'])],
+          to_address:      normalize_address(block_txn['to']),
+          txout:           block_txn.fetch('transactionIndex').to_i(16),
+          block_number:    block_txn.fetch('blockNumber').to_i(16),
+          currency_id:     @eth.fetch(:id),
+          fee_currency_id: @eth.fetch(:id),
+          status:          transaction_status(block_txn)
         }
       ]
     end
 
     def build_erc20_transactions(txn_receipt)
       # Build invalid transaction for failed withdrawals
-      if transaction_status(txn_receipt) == 'fail' && txn_receipt.fetch('logs').blank?
+      if transaction_status(txn_receipt) == 'failed' && txn_receipt.fetch('logs').blank?
         return build_invalid_erc20_transaction(txn_receipt)
       end
+
+      fee = txn_receipt.fetch('gasUsed').hex
 
       txn_receipt.fetch('logs').each_with_object([]) do |log, formatted_txs|
         next if log['blockHash'].blank? && log['blockNumber'].blank?
@@ -229,11 +247,13 @@ module Ethereum
         currencies.each do |currency|
           formatted_txs << { hash:            normalize_txid(txn_receipt.fetch('transactionHash')),
                              amount:          convert_from_base_unit(log.fetch('data').hex, currency),
+                             fee:             convert_from_base_unit(fee, currency),
                              from_addresses:  [normalize_address(txn_receipt['from'])],
                              to_address:      destination_address,
                              txout:           log['logIndex'].to_i(16),
                              block_number:    txn_receipt.fetch('blockNumber').to_i(16),
                              currency_id:     currency.fetch(:id),
+                             fee_currency_id: native_currency_id,
                              status:          transaction_status(txn_receipt) }
         end
       end
@@ -243,11 +263,15 @@ module Ethereum
       currencies = @erc20.select { |c| c.dig(:options, contract_address_option) == txn_receipt.fetch('to') }
       return if currencies.blank?
 
+      fee = txn_receipt.fetch('gasUsed').hex
+
       currencies.each_with_object([]) do |currency, invalid_txs|
-        invalid_txs << { hash:         normalize_txid(txn_receipt.fetch('transactionHash')),
-                         block_number: txn_receipt.fetch('blockNumber').to_i(16),
-                         currency_id:  currency.fetch(:id),
-                         status:       transaction_status(txn_receipt) }
+        invalid_txs << { hash:            normalize_txid(txn_receipt.fetch('transactionHash')),
+                         block_number:    txn_receipt.fetch('blockNumber').to_i(16),
+                         currency_id:     currency.fetch(:id),
+                         fee_currency_id: native_currency_id,
+                         fee:             fee,
+                         status:          transaction_status(txn_receipt) }
       end
     end
 

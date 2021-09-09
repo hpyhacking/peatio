@@ -203,7 +203,7 @@ class Beneficiary < ApplicationRecord
 end
 
 # == Schema Information
-# Schema version: 20210728190514
+# Schema version: 20210909120210
 #
 # Table name: beneficiaries
 #
@@ -216,7 +216,6 @@ end
 #  data_encrypted :string(1024)
 #  pin            :integer          unsigned, not null
 #  sent_at        :datetime
-#  expire_at      :datetime
 #  state          :integer          default("pending"), unsigned, not null
 #  created_at     :datetime         not null
 #  updated_at     :datetime         not null

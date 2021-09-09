@@ -22,7 +22,7 @@ module Workers
               # Process fee collection for tokens
               collect_fee(deposit)
               # Will be processed after fee collection
-              next if deposit.fee_processing?
+              next if deposit.fee_collecting? || deposit.fee_collected?
             rescue StandardError => e
               Rails.logger.error { "Failed to collect deposit fee #{deposit.id}. See exception details below." }
               report_exception(e)
@@ -37,8 +37,8 @@ module Workers
           process_deposit(deposit)
         end
 
-        # Process deposits in `fee_processing` state that already transfered fees for collection
-        ::Deposit.fee_processing.where('updated_at < ?', 5.minute.ago).each do |deposit|
+        # Process deposits in `fee_collected` state that already transfered fees for collection
+        ::Deposit.fee_collected.each do |deposit|
           Rails.logger.info { "Starting processing token deposit with id: #{deposit.id}." }
 
           process_deposit(deposit)
@@ -62,7 +62,7 @@ module Workers
 
           Rails.logger.warn { "The API accepted deposit collection and assigned transaction ID: #{transactions.map(&:as_json)}." }
 
-          deposit.dispatch!
+          deposit.process_deposit_collection!
         else
           deposit.skip!
           "Skipped deposit with txid: #{deposit.txid} with amount: #{deposit.amount}"\
@@ -88,7 +88,7 @@ module Workers
         end
 
         transactions = WalletService.new(fee_wallet).deposit_collection_fees!(deposit, deposit.spread_to_transactions)
-        deposit.fee_process! if transactions.present?
+        deposit.process_fee_collection! if transactions.present?
         Rails.logger.warn { "The API accepted token deposit collection fee and assigned transaction ID: #{transactions.map(&:as_json)}." }
       end
     end

@@ -47,6 +47,7 @@ describe Workers::AMQP::WithdrawCoin do
 
   context 'hot wallet does not exist' do
     before do
+      processing_withdrawal
       Wallet.expects(:active)
             .returns(Wallet.none)
     end

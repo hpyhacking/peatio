@@ -106,7 +106,8 @@ describe OpendaxCloud::Wallet do
 
       let(:uri_result) do
         {
-          options: { 'tid': 'TIDDAD0E517F2' }
+          'tid': 'TIDDAD0E517F2',
+          'fee': '0.1',
         }
       end
 
@@ -127,6 +128,8 @@ describe OpendaxCloud::Wallet do
         expect(result.as_json.symbolize_keys).to eq(amount: 1.1.to_s,
                                                     to_address: '0x6d6cabaa7232d7f45b143b445114f7e92350a2aa',
                                                     options: {"tid"=>"TIDDAD0E517F2"},
+                                                    fee: '0.1',
+                                                    fee_currency_id: 'eth',
                                                     status: 'pending')
       end
     end

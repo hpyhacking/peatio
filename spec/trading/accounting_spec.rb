@@ -55,6 +55,7 @@ describe 'Accounting' do
   let(:liability_balance) { Operations::Liability.balance }
   let(:revenue_balance) { Operations::Revenue.balance }
   let(:expense_balance) { Operations::Expense.balance }
+  let!(:tx) { Transaction.create(txid: deposit_btc.txid, reference: deposit_btc, kind: 'tx', from_address: 'fake_address', to_address: deposit_btc.address, blockchain_key: deposit_btc.blockchain_key, status: :pending, currency_id: deposit_btc.currency_id) }
 
   before do
     deposit_btc.accept!
@@ -88,6 +89,7 @@ describe 'Accounting' do
     end
 
     let(:btc_withdraw) { create(:btc_withdraw, sum: 1000.to_d, member: buyer ) }
+    let!(:withdraw_tx) { Transaction.create(txid: btc_withdraw.txid, reference: btc_withdraw, kind: 'tx', from_address: 'fake_address', to_address: btc_withdraw.rid, blockchain_key: btc_withdraw.blockchain_key, status: :pending, currency_id: btc_withdraw.currency_id) }
 
     before do
       btc_withdraw.accept!

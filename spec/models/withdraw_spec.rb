@@ -377,6 +377,7 @@ describe Withdraw do
 
     context :fail do
       subject { create(:btc_withdraw, :with_deposit_liability) }
+      let!(:transaction) { Transaction.create(txid: subject.txid, reference: subject, kind: 'tx', from_address: 'fake_address', to_address: subject.rid, blockchain_key: subject.blockchain_key, status: :pending, currency_id: subject.currency_id) }
 
       before { subject.accept! }
       before { subject.accept! }

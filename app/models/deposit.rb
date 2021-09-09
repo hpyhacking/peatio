@@ -50,12 +50,16 @@ class Deposit < ApplicationRecord
     state :aml_suspicious
     state :processing
     state :skipped
+    state :collecting
     state :collected
+    state :fee_collecting
     state :fee_processing
+    state :fee_collected
     state :errored
     state :refunding
     event(:cancel) { transitions from: :submitted, to: :canceled }
     event(:reject) { transitions from: :submitted, to: :rejected }
+
     event :accept do
       transitions from: :submitted, to: :accepted
 
@@ -90,14 +94,25 @@ class Deposit < ApplicationRecord
       end
     end
 
-    event :fee_process do
-      transitions from: %i[accepted processing skipped], to: :fee_processing do
+    event :process_deposit_collection do
+      transitions from: %i[processing fee_collected], to: :collecting
+      after_commit do
+        dispatch! if spread.map { |d| d[:status] == 'skipped' }.all?(true)
+      end
+    end
+
+    event :process_fee_collection do
+      transitions from: :processing, to: :fee_collecting
+    end
+
+    event :confirm_fee_collection do
+      transitions from: %i[accepted processing skipped fee_collecting], to: :fee_collected do
         guard { currency.coin? }
       end
     end
 
     event :err do
-      transitions from: %i[processing fee_processing], to: :errored, after: :add_error
+      transitions from: %i[processing collecting fee_collecting], to: :errored, after: :add_error
     end
 
     event :process_collect do
@@ -122,7 +137,7 @@ class Deposit < ApplicationRecord
     end
 
     event :dispatch do
-      transitions from: %i[processing fee_processing], to: :collected
+      transitions from: %i[collecting], to: :collected
       after do
         if Peatio::App.config.deposit_funds_locked
           account.unlock_funds(amount)
