@@ -65,7 +65,7 @@ module API
               .beneficiaries
               .available_to_member
               .find_by!(id: params[:id])
-              .yield_self { |b| present b, with: API::V2::Entities::Beneficiary }
+              .yield_self { |b| present b, with: API::V2::Entities::Beneficiary, current_user: current_user }
           end
 
           desc 'Create new beneficiary',
@@ -131,7 +131,7 @@ module API
             present current_user
                       .beneficiaries
                       .create!(declared_params.except(:otp)),
-                    with: API::V2::Entities::Beneficiary
+                    with: API::V2::Entities::Beneficiary, current_user: current_user
           rescue ActiveRecord::RecordInvalid => e
             report_exception(e)
             error!({ errors: ['account.beneficiary.failed_to_create'] }, 422)
@@ -187,6 +187,10 @@ module API
               error!({ errors: ['account.beneficiary.cant_activate'] }, 422)
             end
 
+            if beneficiary.pin != params[:pin]
+              error!({ errors: ['account.beneficiary.invalid_pin'] }, 422)
+            end
+
             if beneficiary.expire_at < Time.now
               error!({ errors: ['account.beneficiary.pin_expired'] }, 422)
             end
@@ -224,7 +228,7 @@ module API
             end
 
             if beneficiary.update(state: params[:state])
-              present beneficiary, with: API::V2::Entities::Beneficiary
+              present beneficiary, with: API::V2::Entities::Beneficiary, current_user: current_user
             else
               error!({ errors: ['account.beneficiary.cant_update'] }, 422)
             end
