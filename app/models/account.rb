@@ -4,7 +4,7 @@ class Account < ApplicationRecord
   AccountError = Class.new(StandardError)
   DEFAULT_TYPE = Peatio::App.config.default_account_type
 
-  self.primary_keys = :currency_id, :member_id
+  self.primary_keys = :currency_id, :member_id, :type
 
   TYPES = Peatio::App.config.account_types.split(',') << DEFAULT_TYPE
 

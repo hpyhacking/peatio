@@ -10,9 +10,9 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_08_25_190514) do
+ActiveRecord::Schema.define(version: 2021_09_24_093524) do
 
-  create_table "accounts", primary_key: ["currency_id", "member_id"], options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+  create_table "accounts", primary_key: ["currency_id", "member_id", "type"], options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.bigint "member_id", null: false
     t.string "currency_id", limit: 10, null: false
     t.string "type", default: "spot", null: false
