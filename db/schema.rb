@@ -145,7 +145,7 @@ ActiveRecord::Schema.define(version: 2021_09_24_093524) do
     t.string "blockchain_key"
     t.decimal "amount", precision: 32, scale: 16, null: false
     t.decimal "fee", precision: 32, scale: 16, null: false
-    t.string "address", limit: 95
+    t.string "address", limit: 105
     t.text "from_addresses"
     t.string "txid", limit: 128, collation: "utf8_bin"
     t.integer "txout"
@@ -321,7 +321,7 @@ ActiveRecord::Schema.define(version: 2021_09_24_093524) do
     t.bigint "member_id"
     t.bigint "wallet_id"
     t.string "blockchain_key"
-    t.string "address", limit: 95
+    t.string "address", limit: 105
     t.boolean "remote", default: false, null: false
     t.string "secret_encrypted"
     t.string "details_encrypted", limit: 1024
