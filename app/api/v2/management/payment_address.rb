@@ -18,9 +18,6 @@ module API
                     type: String,
                     values: { value: -> { Currency.codes(bothcase: true) }, message: 'management.payment_address.currency_doesnt_exist' },
                     desc: -> { API::V2::Management::Entities::Currency.documentation[:code][:desc] }
-          optional :blockchain_key,
-                   values: { value: -> { ::Blockchain.pluck(:key) }, message: 'management.payment_address.blockchain_key_doesnt_exist' },
-                   desc: 'Blockchain key of the requested deposit address'
           optional :remote,
                     type: { value: Boolean, message: 'management.payment_address.non_boolean_remote' },
                     desc: API::V2::Management::Entities::PaymentAddress.documentation[:remote][:desc]

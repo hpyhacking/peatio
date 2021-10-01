@@ -135,7 +135,7 @@ module API
                            end
 
           blockchain_currency = BlockchainCurrency.find_by(currency_id: params[:currency],
-                                                            blockchain_key: blockchain_key)
+                                                           blockchain_key: blockchain_key)
           error!({ errors: ['account.withdraws.network_not_found'] }, 422) unless blockchain_currency.present?
 
           unless blockchain_currency.withdrawal_enabled?

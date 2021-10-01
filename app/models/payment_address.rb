@@ -16,7 +16,7 @@ class PaymentAddress < ApplicationRecord
 
   belongs_to :wallet
   belongs_to :member
-  belongs_to :blockchain, foreign_key: :blockchain_key, primary_key: :key
+  belongs_to :blockchain, foreign_key: :blockchain_key, primary_key: :key, required: true
 
   before_validation do
     self.blockchain_key = wallet.blockchain_key
@@ -71,15 +71,15 @@ class PaymentAddress < ApplicationRecord
 end
 
 # == Schema Information
-# Schema version: 20210609094033
+# Schema version: 20211001083227
 #
 # Table name: payment_addresses
 #
 #  id                :bigint           not null, primary key
 #  member_id         :bigint
 #  wallet_id         :bigint
-#  blockchain_key    :string(255)
-#  address           :string(95)
+#  blockchain_key    :string(255)      not null
+#  address           :string(105)
 #  remote            :boolean          default(FALSE), not null
 #  secret_encrypted  :string(255)
 #  details_encrypted :string(1024)

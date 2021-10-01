@@ -91,7 +91,7 @@ module API
               values: { value: -> { ::Blockchain.clients.map(&:to_s)  }, message: 'admin.blockchain.blockchain_client_doesnt_exist' },
               desc: -> { API::V2::Admin::Entities::Blockchain.documentation[:client][:desc] }
             optional :status,
-              values: { value: -> { %w[active disabled] }, message: 'admin.blockchain.blockchain_status_doesnt_exist' },
+              values: { value: -> { ::Blockchain::STATES }, message: 'admin.blockchain.blockchain_status_doesnt_exist' },
               desc: -> { API::V2::Admin::Entities::Blockchain.documentation[:status][:desc] }
             optional :name,
               values: { value: -> { ::Blockchain.pluck(:name) }, message: 'admin.blockchain.blockchain_name_doesnt_exist' },
@@ -159,10 +159,12 @@ module API
             requires :client,
                      values: { value: -> { ::Blockchain.clients.map(&:to_s) }, message: 'admin.blockchain.invalid_client' },
                      desc: -> { API::V2::Admin::Entities::Blockchain.documentation[:client][:desc] }
-            requires :height,
+            given client: ->(val) { val != Peatio::Blockchain.registry.adapters.key(Fiat).to_s } do
+              requires :height,
                      type: { value: Integer, message: 'admin.blockchain.non_integer_height' },
                      values: { value: -> (p){ p.try(:positive?) }, message: 'admin.blockchain.non_positive_height' },
                      desc: -> { API::V2::Admin::Entities::Blockchain.documentation[:height][:desc] }
+            end
             requires :protocol,
                      desc: -> { API::V2::Admin::Entities::Blockchain.documentation[:protocol][:desc] }
           end

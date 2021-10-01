@@ -35,8 +35,7 @@ module API
           documentation:{
             type: String,
             desc: 'Unique key to identify blockchain.'
-          },
-          if: -> (withdraw){ withdraw.currency.coin? }
+          }
         )
 
         expose(

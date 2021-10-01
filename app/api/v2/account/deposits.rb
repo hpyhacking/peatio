@@ -88,7 +88,7 @@ module API
                    type: String,
                    values: { value: -> { Currency.coins.visible.codes(bothcase: true) }, message: 'account.currency.doesnt_exist'},
                    desc: 'The account you want to deposit to.'
-          optional :blockchain_key,
+          requires :blockchain_key,
                    type: String,
                    values: { value: -> { ::Blockchain.pluck(:key) }, message: 'account.deposit.blockchain_key_doesnt_exist' },
                    desc: 'Blockchain key of the requested deposit address'

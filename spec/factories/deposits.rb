@@ -17,6 +17,7 @@ FactoryBot.define do
 
     factory :deposit_usd, class: Deposits::Fiat do
       currency { Currency.find(:usd) }
+      blockchain_key { 'fiat' }
     end
 
     trait :deposit_btc do

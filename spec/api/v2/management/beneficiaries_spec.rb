@@ -350,6 +350,7 @@ describe API::V2::Management::Beneficiaries, type: :request do
               currency: :usd,
               uid: member.uid,
               name: Faker::Bank.name,
+              blockchain_key: 'fiat',
               description: Faker::Company.catch_phrase,
               data: generate(:fiat_beneficiary_data)
             }
@@ -360,7 +361,7 @@ describe API::V2::Management::Beneficiaries, type: :request do
               beneficiary_data[:data].except!(:address)
               request
               expect(response.status).to eq 201
-              expect(response_body['blockchain_key']).to eq nil
+              expect(response_body['blockchain_key']).to eq 'fiat'
               expect(response_body['data']).to eq beneficiary_data[:data].with_indifferent_access
             end
           end
@@ -379,6 +380,7 @@ describe API::V2::Management::Beneficiaries, type: :request do
               before do
                 create(:beneficiary,
                        member: member,
+                       blockchain_key: 'fiat',
                        currency_id: beneficiary_data[:currency],
                        data: beneficiary_data[:data])
               end

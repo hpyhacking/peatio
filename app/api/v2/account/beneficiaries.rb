@@ -76,7 +76,7 @@ module API
                      values: { value: -> { Currency.visible.codes(bothcase: true) }, message: 'account.currency.doesnt_exist' },
                      as: :currency_id,
                      desc: 'Beneficiary currency code.'
-            optional :blockchain_key,
+            requires :blockchain_key,
                      values: { value: -> { ::Blockchain.pluck(:key) }, message: 'account.beneficiary.blockchain_key_doesnt_exist' },
                      desc: 'Blockchain key of the requested beneficiary'
             requires :name,

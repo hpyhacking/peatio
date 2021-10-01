@@ -5,6 +5,7 @@ FactoryBot.define do
 		trait :usd_network do
 			currency_id          { 'usd' }
       withdraw_fee         { 0.1 }
+      blockchain_key       { 'fiat' }
 			status               { 'enabled' }
       options              { {} }
 		end
@@ -12,6 +13,7 @@ FactoryBot.define do
 		trait :eur_network do
 			currency_id          { 'eur' }
       withdraw_fee         { 0.1 }
+      blockchain_key       { 'fiat' }
       status               { 'disabled' }
       options              { {} }
     end

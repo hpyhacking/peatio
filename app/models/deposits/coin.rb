@@ -28,17 +28,17 @@ module Deposits
 end
 
 # == Schema Information
-# Schema version: 20210609094033
+# Schema version: 20211001083227
 #
 # Table name: deposits
 #
 #  id             :bigint           not null, primary key
 #  member_id      :bigint           not null
 #  currency_id    :string(10)       not null
-#  blockchain_key :string(255)
+#  blockchain_key :string(255)      not null
 #  amount         :decimal(32, 16)  not null
 #  fee            :decimal(32, 16)  not null
-#  address        :string(95)
+#  address        :string(105)
 #  from_addresses :text(65535)
 #  txid           :string(128)
 #  txout          :integer

@@ -264,7 +264,7 @@ describe API::V2::Management::Withdraws, type: :request do
 
     context 'fiat withdraw' do
       let(:currency) { Currency.find(:usd) }
-      let(:blockchain_key) { nil }
+      let(:blockchain_key) { 'fiat' }
       let(:amount) { 5 }
       let(:balance) { 20 }
 
@@ -328,12 +328,12 @@ describe API::V2::Management::Withdraws, type: :request do
     let(:signers) { %i[alex jeff] }
     let(:data) { { tid: record.tid } }
     let(:account) { member.get_account(currency) }
-    let(:record) { "Withdraws::#{currency.type.camelize}".constantize.create!(member: member, blockchain_key: 'btc-testnet', sum: amount, rid: Faker::Bank.iban, currency: currency) }
     let(:balance) { 800.77 }
     before { account.plus_funds(balance) }
 
     context 'crypto withdraws' do
       let(:currency) { Currency.find(:btc) }
+      let!(:record) { "Withdraws::Coin".constantize.create!(member: member, blockchain_key: 'btc-testnet', sum: amount, rid: Faker::Bank.iban, currency: currency) }
 
       context 'action: :process' do
         before { data[:action] = :process }
@@ -455,6 +455,8 @@ describe API::V2::Management::Withdraws, type: :request do
     end
 
     context 'fiat withdraws' do
+      let!(:record) { "Withdraws::Fiat".constantize.create!(member: member, blockchain_key: 'fiat', sum: amount, rid: Faker::Bank.iban, currency: currency) }
+
       context 'action: :process' do
         before { data[:action] = :process }
 

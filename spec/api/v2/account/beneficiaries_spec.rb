@@ -464,6 +464,7 @@ describe API::V2::Account::Beneficiaries, 'POST', type: :request do
       let(:fiat_beneficiary_data) do
         {
           currency: :usd,
+          blockchain_key: 'fiat',
           name: Faker::Bank.name,
           description: Faker::Company.catch_phrase,
           data: generate(:fiat_beneficiary_data),

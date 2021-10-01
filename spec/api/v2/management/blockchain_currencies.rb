@@ -122,7 +122,7 @@ describe API::V2::Management::BlockchainCurrencies, type: :request do
 
       expect(response.headers.fetch('Total')).to eq '6'
       expect(result.size).to eq 3
-      expect(result.first['currency_id']).to eq 'usd'
+      expect(result.first['currency_id']).to eq 'ring'
 
       blockchain_currency_data.merge!(limit: 3, page: 2)
       request
@@ -132,7 +132,7 @@ describe API::V2::Management::BlockchainCurrencies, type: :request do
 
       expect(response.headers.fetch('Total')).to eq '6'
       expect(result.size).to eq 3
-      expect(result.first['currency_id']).to eq 'eth'
+      expect(result.first['currency_id']).to eq 'btc'
     end
   end
 

@@ -30,9 +30,8 @@ class Withdraw < ApplicationRecord
 
   belongs_to :currency, required: true
   belongs_to :member, required: true
-  belongs_to :blockchain, foreign_key: :blockchain_key, primary_key: :key
-  belongs_to :blockchain_coin_currency, -> { where.not(blockchain_key: nil) }, class_name: 'BlockchainCurrency', foreign_key: %i[blockchain_key currency_id], primary_key: %i[blockchain_key currency_id]
-  belongs_to :blockchain_fiat_currency, -> { where(blockchain_key: nil) }, class_name: 'BlockchainCurrency', foreign_key: :currency_id, primary_key: :currency_id
+  belongs_to :blockchain, foreign_key: :blockchain_key, primary_key: :key, required: true
+  belongs_to :blockchain_currency, class_name: 'BlockchainCurrency', foreign_key: %i[blockchain_key currency_id], primary_key: %i[blockchain_key currency_id]
 
   # Optional beneficiary association gives ability to support both in-peatio
   # beneficiaries and managed by third party application.
@@ -54,8 +53,7 @@ class Withdraw < ApplicationRecord
             on: :create
 
   validates :blockchain_key,
-            inclusion: { in: ->(_) { Blockchain.pluck(:key).map(&:to_s) } },
-            if: -> { currency.coin? }
+            inclusion: { in: ->(_) { Blockchain.pluck(:key).map(&:to_s) } }
 
   validate do
     errors.add(:beneficiary, 'not active') if beneficiary.present? && !beneficiary.active? && !aasm_state.to_sym.in?(COMPLETED_STATES)
@@ -221,10 +219,6 @@ class Withdraw < ApplicationRecord
       sum_1_month + sum * currency.get_price <= limits.limit_1_month
   end
 
-  def blockchain_currency
-    currency.coin? ? blockchain_coin_currency : blockchain_fiat_currency
-  end
-
   def blockchain_api
     blockchain_currency.blockchain_api
   end
@@ -342,7 +336,7 @@ class Withdraw < ApplicationRecord
 end
 
 # == Schema Information
-# Schema version: 20210805134633
+# Schema version: 20211001083227
 #
 # Table name: withdraws
 #
@@ -350,7 +344,7 @@ end
 #  member_id      :bigint           not null
 #  beneficiary_id :bigint
 #  currency_id    :string(10)       not null
-#  blockchain_key :string(255)
+#  blockchain_key :string(255)      not null
 #  amount         :decimal(32, 16)  not null
 #  fee            :decimal(32, 16)  not null
 #  txid           :string(128)
@@ -360,7 +354,7 @@ end
 #  type           :string(30)       not null
 #  transfer_type  :integer
 #  tid            :string(64)       not null
-#  rid            :string(256)      not null
+#  rid            :string(105)      not null
 #  remote_id      :string(255)
 #  note           :string(256)
 #  metadata       :json

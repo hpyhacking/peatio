@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_09_30_120210) do
+ActiveRecord::Schema.define(version: 2021_10_01_083227) do
 
   create_table "accounts", primary_key: ["currency_id", "member_id", "type"], options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.bigint "member_id", null: false
@@ -57,7 +57,7 @@ ActiveRecord::Schema.define(version: 2021_09_30_120210) do
   create_table "beneficiaries", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.bigint "member_id", null: false
     t.string "currency_id", limit: 10, null: false
-    t.string "blockchain_key"
+    t.string "blockchain_key", null: false
     t.string "name", limit: 64, null: false
     t.string "description", default: ""
     t.string "data_encrypted", limit: 1024
@@ -73,7 +73,7 @@ ActiveRecord::Schema.define(version: 2021_09_30_120210) do
 
   create_table "blockchain_currencies", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "currency_id", null: false
-    t.string "blockchain_key"
+    t.string "blockchain_key", null: false
     t.string "parent_id"
     t.decimal "deposit_fee", precision: 32, scale: 16, default: "0.0", null: false
     t.decimal "min_deposit_amount", precision: 32, scale: 16, default: "0.0", null: false
@@ -142,7 +142,7 @@ ActiveRecord::Schema.define(version: 2021_09_30_120210) do
   create_table "deposits", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.bigint "member_id", null: false
     t.string "currency_id", limit: 10, null: false
-    t.string "blockchain_key"
+    t.string "blockchain_key", null: false
     t.decimal "amount", precision: 32, scale: 16, null: false
     t.decimal "fee", precision: 32, scale: 16, null: false
     t.string "address", limit: 105
@@ -320,7 +320,7 @@ ActiveRecord::Schema.define(version: 2021_09_30_120210) do
   create_table "payment_addresses", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.bigint "member_id"
     t.bigint "wallet_id"
-    t.string "blockchain_key"
+    t.string "blockchain_key", null: false
     t.string "address", limit: 105
     t.boolean "remote", default: false, null: false
     t.string "secret_encrypted"
@@ -496,7 +496,7 @@ ActiveRecord::Schema.define(version: 2021_09_30_120210) do
     t.bigint "member_id", null: false
     t.bigint "beneficiary_id"
     t.string "currency_id", limit: 10, null: false
-    t.string "blockchain_key"
+    t.string "blockchain_key", null: false
     t.decimal "amount", precision: 32, scale: 16, null: false
     t.decimal "fee", precision: 32, scale: 16, null: false
     t.string "txid", limit: 128, collation: "utf8_bin"

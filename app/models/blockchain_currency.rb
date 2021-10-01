@@ -38,8 +38,7 @@ class BlockchainCurrency < ApplicationRecord
   # == Validations ==========================================================
 
   validates :blockchain_key,
-            inclusion: { in: ->(_) { Blockchain.pluck(:key).map(&:to_s) } },
-            if: -> { currency.coin? }
+            inclusion: { in: ->(_) { Blockchain.pluck(:key).map(&:to_s) } }
 
   validates :parent_id, allow_blank: true,
             inclusion: { in: ->(_) { Currency.coins_without_tokens.pluck(:id).map(&:to_s) } },
@@ -168,13 +167,13 @@ class BlockchainCurrency < ApplicationRecord
 end
 
 # == Schema Information
-# Schema version: 20210611085637
+# Schema version: 20211001083227
 #
 # Table name: blockchain_currencies
 #
 #  id                       :bigint           not null, primary key
 #  currency_id              :string(255)      not null
-#  blockchain_key           :string(255)
+#  blockchain_key           :string(255)      not null
 #  parent_id                :string(255)
 #  deposit_fee              :decimal(32, 16)  default(0.0), not null
 #  min_deposit_amount       :decimal(32, 16)  default(0.0), not null

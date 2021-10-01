@@ -83,5 +83,6 @@ FactoryBot.define do
     rid { Faker::Bank.iban }
     sum { 1000.to_d }
     type { 'Withdraws::Fiat' }
+    blockchain_key { 'fiat' }
   end
 end

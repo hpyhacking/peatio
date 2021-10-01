@@ -94,6 +94,7 @@ describe API::V2::Management::Deposits, type: :request do
     let(:amount) { 750.77 }
     let :data do
       { uid:      member.uid,
+        blockchain_key: 'fiat',
         currency: currency.code,
         amount:   amount.to_s }
     end
@@ -111,7 +112,7 @@ describe API::V2::Management::Deposits, type: :request do
       expect(record.aasm_state).to eq 'submitted'
       expect(record.account).to eq member.get_account(currency)
       expect(response_body['transfer_type']).to eq 'fiat'
-      expect(response_body['blockchain_key']).to eq(nil)
+      expect(response_body['blockchain_key']).to eq('fiat')
     end
 
     it 'can create fiat deposit and immediately accept it' do
@@ -216,7 +217,7 @@ describe API::V2::Management::Deposits, type: :request do
     let(:signers) { %i[alex jeff] }
     let(:data) { { tid: record.tid } }
     let(:account) { member.get_account(currency) }
-    let(:record) { Deposits::Fiat.create!(member: member, amount: amount, currency: currency) }
+    let(:record) { Deposits::Fiat.create!(member: member, blockchain_key: 'fiat', amount: amount, currency: currency) }
 
     context 'coin deposit' do
       let(:record) { create(:deposit_btc) }

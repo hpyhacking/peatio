@@ -85,6 +85,9 @@ module API
           requires :currency,
                    values: { value: -> { Currency.fiats.codes(bothcase: true) }, message: 'admin.deposit.currency_doesnt_exist' },
                    desc: -> { API::V2::Admin::Entities::Deposit.documentation[:currency][:desc] }
+          requires :blockchain_key,
+                   values: { value: -> { ::Blockchain.pluck(:key) }, message: 'admin.beneficiary.blockchain_key_doesnt_exist' },
+                   desc: 'Blockchain key of the requested beneficiary'
           requires :amount,
                    type: { value: BigDecimal, message: 'admin.deposit.non_decimal_amount' },
                    desc: -> { API::V2::Admin::Entities::Deposit.documentation[:amount][:desc] }
@@ -97,7 +100,7 @@ module API
           declared_params = declared(params, include_missing: false)
           member   = Member.find_by(uid: declared_params[:uid])
           currency = Currency.find(declared_params[:currency])
-          data     = { member: member, currency: currency }.merge!(declared_params.slice(:amount, :tid))
+          data     = { member: member, currency: currency, blockchain_key: declared_params[:blockchain_key] }.merge!(declared_params.slice(:amount, :tid))
           deposit  = ::Deposits::Fiat.new(data)
 
           if deposit.save
@@ -143,7 +146,7 @@ module API
                    values: { value: -> { Currency.codes }, message: 'admin.deposit.currency_doesnt_exist' },
                    as: :currency_id,
                    desc: -> { API::V2::Admin::Entities::Deposit.documentation[:currency][:desc] }
-          optional :blockchain_key,
+          requires :blockchain_key,
                    values: { value: -> { ::Blockchain.pluck(:key) }, message: 'admin.beneficiary.blockchain_key_doesnt_exist' },
                    desc: 'Blockchain key of the requested beneficiary'
           given :currency_id do

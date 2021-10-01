@@ -40,6 +40,8 @@ FactoryBot.define do
     blockchain_key do
       if currency&.coin?
         'eth-rinkeby'
+      elsif currency&.fiat?
+        'fiat'
       end
     end
   end

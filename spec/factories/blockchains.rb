@@ -4,6 +4,14 @@
 FactoryBot.define do
   factory :blockchain do
 
+    trait 'fiat' do
+      key                     { 'fiat' }
+      name                    { 'Fiat Network' }
+      client                  { 'fiat' }
+      protocol                { 'Fiat Protocol' }
+      status                  { 'idle' }
+    end
+
     trait 'eth-rinkeby' do
       key                     { 'eth-rinkeby' }
       name                    { 'Ethereum Rinkeby' }

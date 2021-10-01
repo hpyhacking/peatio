@@ -18,9 +18,8 @@ class Deposit < ApplicationRecord
 
   belongs_to :currency, required: true
   belongs_to :member, required: true
-  belongs_to :blockchain, foreign_key: :blockchain_key, primary_key: :key
-  belongs_to :blockchain_coin_currency, -> { where.not(blockchain_key: nil) }, class_name: 'BlockchainCurrency', foreign_key: %i[blockchain_key currency_id], primary_key: %i[blockchain_key currency_id]
-  belongs_to :blockchain_fiat_currency, -> { where(blockchain_key: nil) }, class_name: 'BlockchainCurrency', foreign_key: :currency_id, primary_key: :currency_id
+  belongs_to :blockchain, foreign_key: :blockchain_key, primary_key: :key, required: true
+  belongs_to :blockchain_currency, class_name: 'BlockchainCurrency', foreign_key: %i[blockchain_key currency_id], primary_key: %i[blockchain_key currency_id]
 
   acts_as_eventable prefix: 'deposit', on: %i[create update]
 
@@ -31,9 +30,7 @@ class Deposit < ApplicationRecord
   validates :amount,
             numericality: {
               greater_than_or_equal_to:
-                -> (deposit) {
-                  deposit.currency.coin? ? deposit.blockchain_coin_currency.min_deposit_amount : deposit.blockchain_fiat_currency.min_deposit_amount
-                }
+                -> (deposit) { deposit.blockchain_currency.min_deposit_amount }
             }, on: :create
 
   scope :recent, -> { order(id: :desc) }
@@ -250,10 +247,6 @@ class Deposit < ApplicationRecord
     !submitted?
   end
 
-  def blockchain_currency
-    currency.coin? ? blockchain_coin_currency : blockchain_fiat_currency
-  end
-
   private
 
   # Creates dependant operations for deposit.
@@ -303,17 +296,17 @@ class Deposit < ApplicationRecord
 end
 
 # == Schema Information
-# Schema version: 20210609094033
+# Schema version: 20211001083227
 #
 # Table name: deposits
 #
 #  id             :bigint           not null, primary key
 #  member_id      :bigint           not null
 #  currency_id    :string(10)       not null
-#  blockchain_key :string(255)
+#  blockchain_key :string(255)      not null
 #  amount         :decimal(32, 16)  not null
 #  fee            :decimal(32, 16)  not null
-#  address        :string(95)
+#  address        :string(105)
 #  from_addresses :text(65535)
 #  txid           :string(128)
 #  txout          :integer

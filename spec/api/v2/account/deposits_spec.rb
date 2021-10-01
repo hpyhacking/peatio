@@ -242,7 +242,7 @@ describe API::V2::Account::Deposits, type: :request do
         end
 
         it 'renders unauthorized error' do
-          api_get '/api/v2/account/deposit_address/btc', token: token
+          api_get '/api/v2/account/deposit_address/btc', params: {blockchain_key: 'btc-testnet'}, token: token
           expect(response).to have_http_status 403
           expect(response).to include_api_error('user.ability.not_permitted')
         end

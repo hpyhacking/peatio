@@ -96,7 +96,7 @@ describe API::V2::Admin::Blockchains, type: :request do
       expect(response).to be_successful
 
       result = JSON.parse(response.body)
-      expect(result.size).to eq 3
+      expect(result.size).to eq 4
     end
 
     it 'returns blockchains by ascending order' do
@@ -113,7 +113,7 @@ describe API::V2::Admin::Blockchains, type: :request do
 
       expect(response).to be_successful
 
-      expect(response.headers.fetch('Total')).to eq '3'
+      expect(response.headers.fetch('Total')).to eq '4'
       expect(result.size).to eq 2
       expect(result.first['key']).to eq 'btc-testnet'
 
@@ -122,7 +122,7 @@ describe API::V2::Admin::Blockchains, type: :request do
 
       expect(response).to be_successful
 
-      expect(response.headers.fetch('Total')).to eq '3'
+      expect(response.headers.fetch('Total')).to eq '4'
       expect(result.size).to eq 1
       expect(result.first['key']).to eq 'eth-rinkeby'
     end

@@ -236,7 +236,7 @@ describe API::V2::Admin::Deposits, type: :request do
     end
 
     it 'creates fiat deposit' do
-      api_post url, token: token, params: { uid: admin.uid, currency: fiat.code, amount: '13.4' }
+      api_post url, token: token, params: { uid: admin.uid, blockchain_key: 'fiat', currency: fiat.code, amount: '13.4' }
       result = JSON.parse(response.body)
 
       expect(response.status).to eq 201
@@ -247,12 +247,12 @@ describe API::V2::Admin::Deposits, type: :request do
       expect(result['amount']).to eq '13.4'
       expect(result['type']).to eq 'fiat'
       expect(result['state']).to eq 'submitted'
-      expect(result['blockchain_key']).to eq(nil)
+      expect(result['blockchain_key']).to eq('fiat')
       expect(result['transfer_type']).to eq 'fiat'
     end
 
     it 'return error in case of not permitted ability' do
-      api_post url, token: level_3_member_token, params: { uid: admin.uid, currency: fiat.code, amount: 12.1 }
+      api_post url, token: level_3_member_token, params: { uid: admin.uid, blockchain_key: 'fiat', currency: fiat.code, amount: 12.1 }
 
       expect(response.code).to eq '403'
       expect(response).to include_api_error('admin.ability.not_permitted')

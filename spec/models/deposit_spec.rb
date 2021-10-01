@@ -132,7 +132,7 @@ describe Deposit do
 
       context 'greater than zero deposit fee' do
         before do
-          BlockchainCurrency.find_by(currency_id: :usd, blockchain_key: nil).update(deposit_fee: 0.01)
+          BlockchainCurrency.find_by(currency_id: :usd, blockchain_key: 'fiat').update(deposit_fee: 0.01)
         end
 
         let(:currency) do
