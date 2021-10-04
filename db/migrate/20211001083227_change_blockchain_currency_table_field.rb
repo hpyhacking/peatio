@@ -6,8 +6,16 @@ class ChangeBlockchainCurrencyTableField < ActiveRecord::Migration[5.2]
     change_column :payment_addresses, :blockchain_key, :string, null: false
     change_column :beneficiaries, :blockchain_key, :string, null: false
 
-    execute("INSERT INTO blockchains (client, name, protocol, status, `key`, height, min_deposit_amount, withdraw_fee, min_withdraw_amount, min_confirmations, created_at, updated_at)
-            VALUES ('fiat', 'Fiat Blockchain', 'Fiat', 'idle', 'fiat', 0, 0, 0, 0, 1, '#{Time.now}', '#{Time.now}')")
+    adapter_type = connection.adapter_name.downcase.to_sym
+    case adapter_type
+    when :mysql, :mysql2
+      execute("INSERT INTO blockchains (client, name, protocol, status, `key`, height, min_deposit_amount, withdraw_fee, min_withdraw_amount, min_confirmations, created_at, updated_at)
+               VALUES ('fiat', 'Fiat Blockchain', 'Fiat', 'idle', 'fiat', 0, 0, 0, 0, 1, '#{Time.now}', '#{Time.now}')")
+    when :postgresql
+      execute("INSERT INTO blockchains (client, name, protocol, status, key, height, min_deposit_amount, withdraw_fee, min_withdraw_amount, min_confirmations, created_at, updated_at)
+               VALUES ('fiat', 'Fiat Blockchain', 'Fiat', 'idle', 'fiat', 0, 0, 0, 0, 1, '#{Time.now}', '#{Time.now}')")
+    end
+
     fiat_blockchain = Blockchain.find_by(client: 'fiat')
 
     PaymentAddress.all.where(blockchain_key: nil).find_each(batch_size: 100) do |payment_address|
