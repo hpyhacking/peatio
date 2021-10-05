@@ -184,6 +184,7 @@ class WalletService
                else
                  @wallet.currencies.find { |e| e.parent_id.nil? }
                end
+    return if currency.blank?
 
     blockchain_currency = BlockchainCurrency.find_by(currency_id: currency.id,
                                                      blockchain_key: @wallet.blockchain_key)
