@@ -32,20 +32,20 @@ For deposits with `fee_processing` state, we select each minute deposits that ha
 ## 3.1 Deposit flow
 In 3.1 release we are intoducing new feature - recording expenses on blockchain transactions.
 
-Deposits now have 2 new states: `collection` and `fee_collection`
+Deposits now have 3 new states: `fee_collecting`, `fee_collected` and `collecting`
 
 ### Coin deposit flow:
 Accepted -> Processing -> Collecting -> Collected
 
-Now, instead of marking deposit as collected right after sending collection transaction, we put in into `collecting` state.
+Now, instead of marking deposit as collected right after sending collection transaction, we put it into `collecting` state.
 Then, as soon, as Peatio process block with this transaction, we confirm transaction success, record expenses related to fee we spent and put deposit in `collected` state.
 
 ### Token(ERC-20) deposit flow:
-Accepted -> Processing -> Fee Collection -> Fee Processing-> Collecting -> Collected
+Accepted -> Processing -> Fee_Collecting -> Fee_Collected-> Collecting -> Collected
 
 #### Fee collecting:
 After sending fees from Fee wallet to user payment address, instead of waiting for 5 minutes, we are waiting for the block with this transaction to being processed by Blockchain daemon.
-As soon, as Peatio process target block, deposit state is changed to Fee Processing.
+As soon, as Peatio process target block, deposit state is changed to Fee_Collected.
 
-##### Fee processing:
+##### Fee collected:
 When fees arrives to user payment address, we are creating deposit collection transaction and change deposit state to `collecting`. After that, the flow is the same as for Coin deposit.
