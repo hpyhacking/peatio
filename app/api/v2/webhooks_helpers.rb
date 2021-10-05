@@ -188,6 +188,9 @@ module API
             deposit.update(spread: updated_spread)
             deposit.dispatch! if deposit.spread.map { |t| t[:status].in?(%w[skipped succeed]) }.all?(true)
             tx.confirm!
+          elsif transaction.status.failed? && deposit.collecting?
+            deposit.err! StandardError.new 'Collection transaction failed'
+            tx.fail!
           end
         end
       end
