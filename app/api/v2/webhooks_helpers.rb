@@ -176,13 +176,17 @@ module API
                end
 
           next if tx.blank?
-
           deposit = tx.reference
           if transaction.status.success? && deposit.collecting?
             tx.update!(fee: transaction.fee, block_number: transaction.block_number, fee_currency_id: transaction.fee_currency_id)
 
             updated_spread = deposit.spread.map do |spread_tx|
-              spread_tx[:status] = 'succeed' if spread_tx[:hash] == transaction.hash
+              spread_tx.deep_symbolize_keys!
+              if spread_tx[:hash].present?
+                spread_tx[:status] = 'succeed' if spread_tx[:hash] == transaction.hash
+              elsif spread_tx[:options].present? && transaction.options.present? && spread_tx[:options][:remote_id].present?
+                spread_tx[:status] = 'succeed' if spread_tx[:options][:remote_id] == transaction.options[:remote_id]
+              end
               spread_tx
             end
             deposit.update(spread: updated_spread)
