@@ -7,6 +7,7 @@ module Ethereum
     ZERO_ADDRESS = '0x0000000000000000000000000000000000000000'
     SUCCESS = '0x1'
     FAILED = '0x0'
+    ETH_IN_GAS = 10**9
 
     DEFAULT_FEATURES = { case_sensitive: false, cash_addr_format: false }.freeze
 
@@ -138,7 +139,7 @@ module Ethereum
       return if currency.blank?
 
       txn_receipt = client.json_rpc(:eth_getTransactionReceipt, [transaction.hash])
-      fee = txn_receipt.fetch('gasUsed').hex
+      fee = txn_receipt.fetch('gasUsed').hex * ETH_IN_GAS
 
       if currency[:id] == @eth[:id]
         txn_json = client.json_rpc(:eth_getTransactionByHash, [transaction.hash])
@@ -148,7 +149,7 @@ module Ethereum
           txout: txn_json.fetch('transactionIndex').to_i(16),
           status: transaction_status(txn_receipt),
           fee_currency_id: native_currency_id,
-          fee: convert_from_base_unit(fee, currency)
+          fee: convert_from_base_unit(fee, @eth)
         }
       else
         if transaction.txout.present?
@@ -161,7 +162,7 @@ module Ethereum
           to_address: normalize_address('0x' + txn_json.fetch('topics').last[-40..-1]),
           status: transaction_status(txn_receipt),
           fee_currency_id: native_currency_id,
-          fee: convert_from_base_unit(fee, currency)
+          fee: convert_from_base_unit(fee, @eth)
         }
       end
       transaction.assign_attributes(attributes)
@@ -229,7 +230,7 @@ module Ethereum
         return build_invalid_erc20_transaction(txn_receipt)
       end
 
-      fee = txn_receipt.fetch('gasUsed').hex
+      fee = txn_receipt.fetch('gasUsed').hex * ETH_IN_GAS
 
       txn_receipt.fetch('logs').each_with_object([]) do |log, formatted_txs|
         next if log['blockHash'].blank? && log['blockNumber'].blank?
@@ -247,7 +248,7 @@ module Ethereum
         currencies.each do |currency|
           formatted_txs << { hash:            normalize_txid(txn_receipt.fetch('transactionHash')),
                              amount:          convert_from_base_unit(log.fetch('data').hex, currency),
-                             fee:             convert_from_base_unit(fee, currency),
+                             fee:             convert_from_base_unit(fee, @eth),
                              from_addresses:  [normalize_address(txn_receipt['from'])],
                              to_address:      destination_address,
                              txout:           log['logIndex'].to_i(16),
@@ -263,14 +264,14 @@ module Ethereum
       currencies = @erc20.select { |c| c.dig(:options, contract_address_option) == txn_receipt.fetch('to') }
       return if currencies.blank?
 
-      fee = txn_receipt.fetch('gasUsed').hex
+      fee = txn_receipt.fetch('gasUsed').hex * ETH_IN_GAS
 
       currencies.each_with_object([]) do |currency, invalid_txs|
         invalid_txs << { hash:            normalize_txid(txn_receipt.fetch('transactionHash')),
                          block_number:    txn_receipt.fetch('blockNumber').to_i(16),
                          currency_id:     currency.fetch(:id),
                          fee_currency_id: native_currency_id,
-                         fee:             fee,
+                         fee:             convert_from_base_unit(fee, @eth),
                          status:          transaction_status(txn_receipt) }
       end
     end
@@ -301,7 +302,12 @@ module Ethereum
     end
 
     def convert_from_base_unit(value, currency)
-      value.to_d / currency.fetch(:base_factor).to_d
+      if currency.present?
+        value.to_d / currency.fetch(:base_factor).to_d
+      else
+        # Be default we will use ETH base factor (in case if we have erc20 configured but we don't have configured ETH)
+        value.to_d / 10**18
+      end
     end
   end
 end
