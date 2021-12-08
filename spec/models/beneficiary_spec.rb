@@ -49,6 +49,21 @@ describe Beneficiary, 'Validations' do
     end
   end
 
+  context 'data regex' do
+    subject { build(:beneficiary) }
+
+    it { expect(subject.valid?).to be_truthy }
+
+    context 'invalid symbols' do
+      subject { build(:beneficiary, data: {bank_name: '<img>Name'}) }
+
+      it do
+        expect(subject.valid?).to be_falsey
+        expect(subject.errors.full_messages).to include "Data only letters, digits \"-\", \"–\", \"'\", \".\", \"~\" and space allowed"
+      end
+    end
+  end
+
   context 'state inclusion' do
     context 'wrong state' do
       subject { build(:beneficiary, state: :wrong) }

@@ -100,6 +100,8 @@ class Beneficiary < ApplicationRecord
     errors.add(:data, 'full_name can\'t be blank') if data.blank? || data.symbolize_keys[:full_name].blank?
   end
 
+  validate :validate_json_data
+
   # == Scopes ===============================================================
 
   scope :available_to_member, -> { with_state(:pending, :active, :disabled) }
@@ -132,6 +134,16 @@ class Beneficiary < ApplicationRecord
   end
 
   # == Instance Methods =====================================================
+
+  def validate_json_data
+    pattern = /\A[[:word:]\s\-\,\–\.~']+\z/
+
+    data.each do |k, v|
+      if !pattern.match?(v)
+        return errors.add(:data, 'only letters, digits "-", ",", "\'", ".", "~" and space allowed')
+      end
+    end
+  end
 
   def as_json_for_event_api
     { user:        { uid: member.uid, email: member.email },
