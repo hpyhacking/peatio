@@ -42,7 +42,9 @@ class MultiNetworkSupport < ActiveRecord::Migration[5.2]
     add_column :payment_addresses, :blockchain_key, :string, after: :wallet_id
     # Update all payment address with blockchain_key by wallet
     PaymentAddress.find_each(batch_size: 100) do |payment_address|
-      payment_address.update_columns(blockchain_key: payment_address.wallet.blockchain_key)
+      unless payment_address.wallet.nil?
+        payment_address.update_columns(blockchain_key: payment_address.wallet.blockchain_key)
+      end
     end
 
     # Add new fields to blockchain table
@@ -52,6 +54,9 @@ class MultiNetworkSupport < ActiveRecord::Migration[5.2]
     add_column :blockchains, :description, :text, after: :height
     add_column :blockchains, :warning, :text, after: :description
     add_column :blockchains, :protocol, :string, null: false, after: :warning
+
+    add_column :currencies, :status, :string, limit: 32, null: false, default: 'enabled', after: :type
+    add_column :currencies, :default_network_id, :bigint, null: true, after: :type
 
     # Move currencies configs to blockchain currency
     Currency.find_each(batch_size: 10) do |currency|
@@ -91,8 +96,6 @@ class MultiNetworkSupport < ActiveRecord::Migration[5.2]
       remove_column :currencies, :deposit_enabled, :boolean
       remove_column :currencies, :withdrawal_enabled, :boolean
     end
-    add_column :currencies, :status, :string, limit: 32, null: false, default: 'enabled', after: :type
-    add_column :currencies, :default_network_id , :bigint, null: true, after: :type
   end
 
   def down
