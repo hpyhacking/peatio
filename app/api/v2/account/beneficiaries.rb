@@ -76,7 +76,7 @@ module API
                      values: { value: -> { Currency.visible.codes(bothcase: true) }, message: 'account.currency.doesnt_exist' },
                      as: :currency_id,
                      desc: 'Beneficiary currency code.'
-            requires :blockchain_key,
+            optional :blockchain_key,
                      values: { value: -> { ::Blockchain.pluck(:key) }, message: 'account.beneficiary.blockchain_key_doesnt_exist' },
                      desc: 'Blockchain key of the requested beneficiary'
             requires :name,
@@ -130,7 +130,7 @@ module API
 
             present current_user
                       .beneficiaries
-                      .create!(declared_params.except(:otp)),
+                      .create!(declared_params.merge('blockchain_key': blockchain_currency.blockchain_key).except(:otp)),
                     with: API::V2::Entities::Beneficiary, current_user: current_user
           rescue ActiveRecord::RecordInvalid => e
             report_exception(e)
