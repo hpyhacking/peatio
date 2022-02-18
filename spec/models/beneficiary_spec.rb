@@ -51,16 +51,24 @@ describe Beneficiary, 'Validations' do
 
   context 'data regex' do
     subject { build(:beneficiary) }
+    let(:full_name) { Faker::Name.name_with_middle }
+    let(:fiat) { Currency.find(:usd)}
 
     it { expect(subject.valid?).to be_truthy }
 
     context 'invalid symbols' do
-      subject { build(:beneficiary, data: {bank_name: '<img>Name'}) }
+      subject { build(:beneficiary, currency: fiat, data: {bank_name: '<img>Name', full_name: full_name}) }
 
       it do
         expect(subject.valid?).to be_falsey
-        expect(subject.errors.full_messages).to include "Data only letters, digits \"-\", \"–\", \"'\", \".\", \"~\" and space allowed"
+        expect(subject.errors.full_messages).to include "Data only letters, digits \"(\", \")\", \"=\", \"?\", \"&\", \"-\", \",\", \"\'\", \"/\", \":\", \".\", \"~\" and space allowed"
       end
+    end
+
+    context 'url data' do
+      subject { build(:beneficiary, currency: fiat, data: {bank_logo: 'https://bank.gov.ua/logos/bank/nbu.png', full_name: full_name}) }
+
+      it { expect(subject.valid?).to be_truthy }
     end
   end
 
@@ -108,7 +116,13 @@ describe Beneficiary, 'Validations' do
   end
 
   context 'data full_name presence' do
-    # TODO: Write me.
+    let(:fiat) { Currency.find(:usd) }
+    subject { build(:beneficiary, currency: fiat, data:{}) }
+
+    it do
+      expect(subject.valid?).to be_falsey
+      expect(subject.errors.full_messages).to include "Data full_name can't be blank"
+    end
   end
 end
 

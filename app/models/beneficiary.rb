@@ -136,11 +136,11 @@ class Beneficiary < ApplicationRecord
   # == Instance Methods =====================================================
 
   def validate_json_data
-    pattern = /\A[[:word:]\s\-\,\(\)\=\?\&\–\.~']+\z/
+    pattern = /\A[[:word:]\s\-\,\(\)\=\:\/\?\&\–\.~']+\z/
 
     data.each do |k, v|
       if !pattern.match?(v)
-        return errors.add(:data, 'only letters, digits "-", ",", "\'", ".", "~" and space allowed')
+        return errors.add(:data, 'only letters, digits "(", ")", "=", "?", "&", "-", ",", "\'", "/", ":", ".", "~" and space allowed')
       end
     end
   end
