@@ -78,7 +78,30 @@ describe Jobs::Cron::WithdrawWatcher do
           expect(btc_withdraw.txid).to eq nil
         end
 
-        it 'does not change withdraw state if transaction ID is not available' do
+        it 'reject withdraw if status is rejected' do
+          AbstractWallet.any_instance.stubs(:fetch_withdraw_status).returns('rejected')
+          expect(btc_withdraw.aasm_state).to eq 'under_review'
+          expect(btc_withdraw.txid).to eq nil
+          subject.process_under_review_withdrawals
+
+          btc_withdraw.reload
+          expect(btc_withdraw.aasm_state).to eq 'rejected'
+          expect(btc_withdraw.txid).to eq nil
+        end
+
+        it 'fails withdraw if status is failed' do
+          AbstractWallet.any_instance.stubs(:fetch_withdraw_status).returns('failed')
+          expect(btc_withdraw.aasm_state).to eq 'under_review'
+          expect(btc_withdraw.txid).to eq nil
+          subject.process_under_review_withdrawals
+
+          btc_withdraw.reload
+          expect(btc_withdraw.aasm_state).to eq 'failed'
+          expect(btc_withdraw.txid).to eq nil
+        end
+
+        it 'does not change withdraw state if transaction status is success but transaction ID is not available' do
+          AbstractWallet.any_instance.stubs(:fetch_withdraw_status).returns('success')
           AbstractWallet.any_instance.stubs(:fetch_blockchain_transaction_id).returns(nil)
           expect(btc_withdraw.aasm_state).to eq 'under_review'
           expect(btc_withdraw.txid).to eq nil
