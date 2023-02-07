@@ -246,21 +246,6 @@ event: {
 | `record`   | The up-to-date account attributes.               |
 | `changes`  | The changed account attributes and their values. |
 
-## Format of `system.low_hot_wallet_balance` event
-
-```ruby
-event: {
-  name:     "system.system.low_hot_wallet_balance",
-  currency: "btc",
-  balance:  "2.82480099"
-}
-```
-
-| Field      | Description             |
-| ---------- | ----------------------- |
-| `currency` | The currency code.      |
-| `balance`  | The up-to-date balance. |
-
 ## Format of `market.btcusd.order_created` event
 
 Buy 14 BTC for 0.42 USD (0.03 USD per BTC).
