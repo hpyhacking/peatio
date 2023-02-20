@@ -1,0 +1,121 @@
+static_resources:
+  listeners:
+  - address:
+      socket_address:
+        address: 0.0.0.0
+        port_value: 10000
+    filter_chains:
+    - filters:
+      - name: envoy.http_connection_manager
+        config:
+          codec_type: auto
+          stat_prefix: ingress_http
+          route_config:
+            name: local_route
+            virtual_hosts:
+            - name: backend
+              domains:
+              - "*"
+              routes:
+              - match:
+                  prefix: "/api/v2/peatio"
+                route:
+                  cluster: peatio
+                  prefix_rewrite: "/api/v2/"
+              - match:
+                  prefix: "/api/v2/finex"
+                route:
+                  cluster: finex
+                  prefix_rewrite: "/api/v2/"
+              - match:
+                  prefix: "/api/v2/ranger/public"
+                route:
+                  cluster: rango
+                  prefix_rewrite: ""
+                  upgrade_configs:
+                    upgrade_type: "websocket"
+              - match:
+                  prefix: "/api/v2/ranger/private"
+                route:
+                  cluster: rango
+                  prefix_rewrite: ""
+                  upgrade_configs:
+                    upgrade_type: "websocket"
+          http_filters:
+          - name: envoy.ext_authz
+            config:
+              with_request_body:
+                max_request_bytes: 90000000
+                allow_partial_message: true
+              http_service:
+                authorization_request:
+                  allowed_headers:
+                    patterns:
+                    - exact: cookie
+                    - exact: x-auth-apikey
+                    - exact: x-auth-nonce
+                    - exact: x-auth-signature
+                    - exact: x-csrf-token
+                    - exact: user-agent
+                    - exact: x-forwarded-host
+                    - exact: x-forwarded-for
+                    - exact: from
+                    - exact: x-forwarded-proto
+                    - exact: proxy-authorization
+                authorization_response:
+                  allowed_upstream_headers:
+                    patterns:
+                    - exact: authorization
+                  allowed_client_headers:
+                    patterns:
+                    - exact: set-cookie
+                    - exact: proxy-authenticate
+                    - exact: www-authenticate
+                    - exact: location
+                path_prefix: "/auth"
+                server_uri:
+                  cluster: auth
+                  timeout: 1.000s
+                  uri: http://auth:8005
+          - name: envoy.router
+            config: {}
+    perConnectionBufferLimitBytes: 10000000
+  clusters:
+  - name: auth
+    connect_timeout: 0.25s
+    type: strict_dns
+    lb_policy: round_robin
+    hosts:
+    - socket_address:
+        address: auth
+        port_value: 8005
+  - name: peatio
+    connect_timeout: 0.25s
+    type: strict_dns
+    lb_policy: round_robin
+    hosts:
+    - socket_address:
+        address: host.docker.internal
+        port_value: 3000
+  - name: finex
+    connect_timeout: 0.25s
+    type: strict_dns
+    lb_policy: round_robin
+    hosts:
+    - socket_address:
+        address: finex-api
+        port_value: 8080
+  - name: rango
+    connect_timeout: 0.25s
+    type: strict_dns
+    lb_policy: round_robin
+    hosts:
+    - socket_address:
+        address: rango
+        port_value: 8080
+admin:
+  access_log_path: "/dev/null"
+  address:
+    socket_address:
+      address: 0.0.0.0
+      port_value: 9099

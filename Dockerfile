@@ -1,6 +1,4 @@
-FROM ruby:2.6.6 as base
-
-MAINTAINER lbellet@heliostech.fr
+FROM ruby:2.7.0 as base
 
 # By default image is built using RAILS_ENV=production.
 # You may want to customize it:

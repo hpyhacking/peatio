@@ -53,7 +53,7 @@ steps:
     path: /cache
 
 - name: run-rspec
-  image: ruby:2.6.5
+  image: ruby:2.7.0
   environment:
     DATABASE_HOST: database
     INFLUXDB_HOST: influxdb
@@ -161,8 +161,8 @@ steps:
   - name: bundle-cache
     path: /cache
 
-- name: Run RSpec
-  image: ruby:2.6.5
+- name: run-rspec
+  image: ruby:2.7.0
   environment:
     DATABASE_HOST: "mysql"
     INFLUXDB_HOST: influxdb

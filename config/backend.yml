@@ -55,23 +55,14 @@ services:
       - ./secrets:/secrets:ro
 
   gateway:
-    image: quay.io/datawire/ambassador:0.50.0-rc3
-    ports:
-      - "8080:80"
+    image: envoyproxy/envoy:v1.10.0
+    command: /usr/local/bin/envoy -l info -c /etc/envoy/envoy.yaml
     depends_on:
       - auth
     volumes:
-      - ./gateway:/ambassador/ambassador-config/:ro
-    entrypoint:
-      - sh
-      - -exc
-      - |
-        # Allow accessing host's 0.0.0.0 so we can connect to a local peatio
-        # from the gateway container
-        ip -4 route list match 0/0 | awk '{print $$3" peatio.local"}' >> /etc/hosts
-        ip -4 route list match 0/0 | awk '{print $$3" ws.local"}' >> /etc/hosts
-        # Continue with the default entrypoint
-        ./entrypoint.sh
+      - ./gateway:/etc/envoy/
+    ports:
+      - "10000:10000"
 
   vault:
     image: vault:1.0.1

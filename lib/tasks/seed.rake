@@ -60,7 +60,7 @@ namespace :seed do
       YAML.load_file(Rails.root.join('config/seed/markets.yml'))
         .map(&:symbolize_keys)
         .each do |hash|
-          next if Market.exists?(id: hash.fetch(:id))
+          next if Market.exists?(symbol: hash.fetch(:symbol))
           # For compatibility with old markets.yml
           # If state is not defined set it from enabled.
           enabled = hash.delete(:enabled)
