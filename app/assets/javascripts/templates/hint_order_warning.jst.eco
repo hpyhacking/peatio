@@ -1,3 +1,0 @@
-<i class="fa fa-times text-default">
-  <%= @msg %>
-</i>

@@ -1,1 +1,0 @@
-json.array! @price

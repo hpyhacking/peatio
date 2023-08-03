@@ -1,6 +1,0 @@
-.row: .col-xs-12.alert
-  #filter-accordion.panel-group
-    = render "admin/statistic/shared/filter", form_target: @orders_grid, url: admin_statistic_orders_path
-    = render "admin/statistic/shared/summary", groups: @groups
-.row: .col-xs-12
-  = datagrid_table(@orders_grid, @assets)
