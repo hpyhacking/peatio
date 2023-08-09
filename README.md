@@ -1,9 +1,8 @@
 An open-source exchange program that allows any individual or organization to create their own exchange, allowing their customers to trade blockchain assets.
 
-
-- peatio-wallet
+- peatio
 - peatio-spot
-- peatio-futures
+- peatio-wallet
 
 ### The origin of the name
 
