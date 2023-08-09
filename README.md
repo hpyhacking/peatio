@@ -1,6 +1,11 @@
-# An Open-Source Crypto Currency Exchange
+An open-source exchange program that allows any individual or organization to create their own exchange, allowing their customers to trade blockchain assets.
 
-### What is Peatio?
+
+- peatio-wallet
+- peatio-spot
+- peatio-futures
+
+### The origin of the name
 
 Peatio is the transliteration of Chinese "[貔貅](http://en.wikipedia.org/wiki/Pixiu)".
 
